@@ -7,131 +7,846 @@
 <meta name="description" content="RinSaathi Advisory Services — independent loan and debt advisory guidance.">
 <link rel="manifest" href="manifest.webmanifest">
 <title>RinSaathi Advisory Services</title>
+
 <style>
-:root{--green:#0d6f53;--green2:#124d3e;--gold:#caa23b;--ink:#173d32;--muted:#6d7e78;--cream:#f7f8f5;--line:#dce5e0;--white:#fff}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#f4f7f4,#eef3f0);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-.container{width:min(980px,calc(100% - 28px));margin:auto}.hero{padding:24px 0 12px;text-align:center}.logo{width:min(190px,48vw);height:auto;border-radius:50%;box-shadow:0 12px 30px #173d3218}.hero h1{font-size:clamp(28px,7vw,48px);margin:16px 0 6px;font-weight:850;letter-spacing:-1.5px}.hero p{margin:0 auto;color:var(--muted);font-size:17px;line-height:1.5;max-width:680px}.badge{display:inline-block;margin-top:14px;padding:8px 13px;border-radius:999px;background:#e2f0ea;color:var(--green);font-weight:750;font-size:13px}
-.card{background:var(--white);border:1px solid #edf1ef;border-radius:28px;padding:24px;margin:18px 0;box-shadow:0 10px 35px #173d3210}.section-title{font-size:30px;line-height:1.1;margin:0 0 8px;font-weight:850;letter-spacing:-.8px}.section-sub{margin:0 0 22px;color:var(--muted);font-size:16px;line-height:1.5}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tile{border:1px solid var(--line);border-radius:22px;padding:20px;background:linear-gradient(180deg,#fff,#fbfcfb);cursor:pointer;transition:.18s}.tile:active{transform:scale(.99)}.tile .icon{font-size:27px}.tile h3{font-size:21px;margin:10px 0 6px}.tile p{color:var(--muted);margin:0;line-height:1.4}
-.btn{border:0;border-radius:18px;padding:15px 20px;font-weight:800;font-size:16px;background:var(--green);color:white;cursor:pointer}.btn.secondary{background:#e8f1ed;color:var(--green)}.btn.gold{background:#caa23b;color:#173d32}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.service{padding:18px;border-radius:20px;background:#f7faf8;border:1px solid #e0ebe5}.service h3{margin:0 0 7px;font-size:18px}.service p{margin:0;color:var(--muted);line-height:1.45}
-.faq{border-top:1px solid var(--line)}details{border-bottom:1px solid var(--line);padding:2px 0}summary{list-style:none;cursor:pointer;padding:18px 0;font-size:18px;font-weight:800;display:flex;justify-content:space-between;gap:15px}summary::-webkit-details-marker{display:none}summary::after{content:"+";font-size:25px;line-height:1;color:var(--green)}details[open] summary::after{content:"−"}details p{margin:0 0 18px;color:var(--muted);line-height:1.55}
-.pricing{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.price{border:1px solid var(--line);border-radius:22px;padding:21px;position:relative;background:#fff}.price.featured{border:2px solid var(--gold)}.tag{position:absolute;right:14px;top:14px;background:#f7edce;color:#765b13;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:850}.price h3{margin:0 0 5px;font-size:19px}.amount{font-size:29px;font-weight:900;margin:8px 0 12px}.price ul{padding-left:20px;margin:0;color:var(--muted);line-height:1.6}
-.about{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}.notice{background:#fff8e6;border:1px solid #ead89e;border-radius:20px;padding:18px}.notice strong{color:#765b13}.contact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.contact a{text-decoration:none;color:inherit}.contactbox{border:1px solid var(--line);border-radius:18px;padding:17px;background:#fbfcfb}.contactbox b{display:block;margin-bottom:4px}.small{font-size:13px;color:var(--muted);line-height:1.45}
-form{display:grid;gap:12px}input,select,textarea{width:100%;padding:15px 16px;border:1px solid #d7e1dc;border-radius:16px;background:#fff;font:inherit;color:#173d32}textarea{min-height:120px;resize:vertical}.note{font-size:13px;color:var(--muted);line-height:1.45}.result{display:none;margin-top:14px;padding:15px;border-radius:16px;background:#e7f4ee;color:var(--green);font-weight:700}.footer{text-align:center;padding:22px 0 42px;color:#71817b;font-size:13px}.footer b{color:var(--green)}
-.service.clickable{cursor:pointer;transition:.18s}.service.clickable:active{transform:scale(.99)}
-.service-cta{display:inline-block;margin-top:10px;color:var(--green);font-weight:800;font-size:14px}
-.price .package-btn{margin-top:16px}
-.floating-wa{position:fixed;right:16px;bottom:18px;z-index:20;text-decoration:none;background:#0d6f53;color:#fff;border-radius:999px;padding:13px 17px;font-weight:850;font-size:14px;box-shadow:0 10px 28px #173d3230}
-@media(max-width:650px){.floating-wa{right:14px;bottom:14px}}
-@media(max-width:650px){.grid,.services,.pricing,.about,.contact{grid-template-columns:1fr}.card{padding:20px;border-radius:24px}.section-title{font-size:27px}.hero{padding-top:16px}}
+:root{
+  --green:#0d6f53;
+  --green2:#124d3e;
+  --green3:#087f68;
+  --teal:#0b8f83;
+  --gold:#caa23b;
+  --gold2:#e7c96f;
+  --blue:#277b91;
+  --ink:#173d32;
+  --muted:#6d7e78;
+  --cream:#f3f8f5;
+  --line:#d9e8e1;
+  --white:#fff;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top left,#dff3eb 0,#f4f8f6 30%,#eef5f2 70%,#e9f1ee 100%);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+.container{
+  width:min(980px,calc(100% - 28px));
+  margin:auto
+}
+
+.hero{
+  padding:24px 0 18px;
+  text-align:center
+}
+
+.logo{
+  width:min(190px,48vw);
+  height:auto;
+  border-radius:50%;
+  box-shadow:0 15px 38px #173d3230;
+  border:5px solid rgba(255,255,255,.75)
+}
+
+.hero h1{
+  font-size:clamp(28px,7vw,48px);
+  margin:16px 0 6px;
+  font-weight:850;
+  letter-spacing:-1.5px;
+  background:linear-gradient(90deg,#0d6f53,#087f68,#b58b24);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text
+}
+
+.hero p{
+  margin:0 auto;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.5;
+  max-width:680px
+}
+
+.badge{
+  display:inline-block;
+  margin-top:14px;
+  padding:9px 14px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#dff4ec,#fff4d2);
+  color:var(--green);
+  border:1px solid #d4e8df;
+  font-weight:750;
+  font-size:13px
+}
+
+.card{
+  background:rgba(255,255,255,.94);
+  border:1px solid #e0ebe6;
+  border-radius:28px;
+  padding:24px;
+  margin:18px 0;
+  box-shadow:0 12px 38px #173d3215
+}
+
+.card:nth-child(even){
+  background:linear-gradient(145deg,#ffffff,#f4faf7)
+}
+
+.section-title{
+  font-size:30px;
+  line-height:1.1;
+  margin:0 0 8px;
+  font-weight:850;
+  letter-spacing:-.8px
+}
+
+.section-sub{
+  margin:0 0 22px;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.5
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px
+}
+
+.tile{
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:20px;
+  background:linear-gradient(145deg,#ffffff,#f0faf6);
+  cursor:pointer;
+  transition:.18s;
+  box-shadow:0 7px 20px #0d6f5310
+}
+
+.tile:nth-child(2){
+  background:linear-gradient(145deg,#ffffff,#eef8fb)
+}
+
+.tile:nth-child(3){
+  background:linear-gradient(145deg,#ffffff,#f8f5e9)
+}
+
+.tile:nth-child(4){
+  background:linear-gradient(145deg,#ffffff,#edf7f4)
+}
+
+.tile:active{
+  transform:scale(.98)
+}
+
+.tile .icon{
+  font-size:29px
+}
+
+.tile h3{
+  font-size:21px;
+  margin:10px 0 6px
+}
+
+.tile p{
+  color:var(--muted);
+  margin:0;
+  line-height:1.4
+}
+
+.btn{
+  border:0;
+  border-radius:18px;
+  padding:15px 20px;
+  font-weight:800;
+  font-size:16px;
+  background:linear-gradient(135deg,#0d6f53,#087f68);
+  color:white;
+  cursor:pointer;
+  box-shadow:0 7px 18px #0d6f5330;
+  transition:.18s
+}
+
+.btn:active{
+  transform:scale(.97)
+}
+
+.btn.secondary{
+  background:linear-gradient(135deg,#e1f3ed,#cdebe2);
+  color:var(--green);
+  box-shadow:none;
+  border:1px solid #c9e3d9
+}
+
+.btn.gold{
+  background:linear-gradient(135deg,#caa23b,#e1c45f);
+  color:#173d32;
+  box-shadow:0 7px 18px #caa23b35
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px
+}
+
+.services{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px
+}
+
+.service{
+  padding:18px;
+  border-radius:20px;
+  background:linear-gradient(145deg,#f8fcfa,#eaf6f1);
+  border:1px solid #d8e9e1;
+  box-shadow:0 6px 18px #173d320b
+}
+
+.service:nth-child(2){
+  background:linear-gradient(145deg,#f8fcff,#eaf6f8)
+}
+
+.service:nth-child(3){
+  background:linear-gradient(145deg,#fffdf6,#f7f0dc)
+}
+
+.service:nth-child(4){
+  background:linear-gradient(145deg,#f9fffd,#e6f5f1)
+}
+
+.service:nth-child(5){
+  background:linear-gradient(145deg,#fffdf8,#f7efd7)
+}
+
+.service:nth-child(6){
+  background:linear-gradient(145deg,#f8fbff,#eaf2f8)
+}
+
+.service h3{
+  margin:0 0 7px;
+  font-size:18px
+}
+
+.service p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.45
+}
+
+.faq{
+  border-top:1px solid var(--line)
+}
+
+details{
+  border-bottom:1px solid var(--line);
+  padding:2px 0
+}
+
+summary{
+  list-style:none;
+  cursor:pointer;
+  padding:18px 0;
+  font-size:18px;
+  font-weight:800;
+  display:flex;
+  justify-content:space-between;
+  gap:15px
+}
+
+summary::-webkit-details-marker{
+  display:none
+}
+
+summary::after{
+  content:"+";
+  font-size:25px;
+  line-height:1;
+  color:var(--green)
+}
+
+details[open] summary::after{
+  content:"−"
+}
+
+details p{
+  margin:0 0 18px;
+  color:var(--muted);
+  line-height:1.55
+}
+
+.about{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:18px;
+  align-items:stretch
+}
+
+.notice{
+  background:linear-gradient(145deg,#fff9e8,#fff4d3);
+  border:1px solid #ead89e;
+  border-radius:20px;
+  padding:18px
+}
+
+.notice strong{
+  color:#765b13
+}
+
+.contact{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px
+}
+
+.contact a{
+  text-decoration:none;
+  color:inherit
+}
+
+.contactbox{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:17px;
+  background:linear-gradient(145deg,#ffffff,#edf8f4);
+  box-shadow:0 6px 18px #173d320d
+}
+
+.contactbox b{
+  display:block;
+  margin-bottom:4px
+}
+
+.small{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.45
+}
+
+form{
+  display:grid;
+  gap:12px
+}
+
+input,select,textarea{
+  width:100%;
+  padding:15px 16px;
+  border:1px solid #d2e2db;
+  border-radius:16px;
+  background:#fbfefd;
+  font:inherit;
+  color:#173d32;
+  outline:none
+}
+
+input:focus,select:focus,textarea:focus{
+  border-color:#0d8a70;
+  box-shadow:0 0 0 3px #0d8a7015
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical
+}
+
+.note{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.45
+}
+
+.result{
+  display:none;
+  margin-top:14px;
+  padding:15px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#e3f6ee,#d9f0e9);
+  color:var(--green);
+  font-weight:700
+}
+
+.footer{
+  text-align:center;
+  padding:22px 0 42px;
+  color:#71817b;
+  font-size:13px
+}
+
+.footer b{
+  color:var(--green)
+}
+
+.service.clickable{
+  cursor:pointer;
+  transition:.18s
+}
+
+.service.clickable:active{
+  transform:scale(.98)
+}
+
+.service-cta{
+  display:inline-block;
+  margin-top:10px;
+  color:var(--green);
+  font-weight:800;
+  font-size:14px
+}
+
+.floating-wa{
+  position:fixed;
+  right:16px;
+  bottom:18px;
+  z-index:20;
+  text-decoration:none;
+  background:linear-gradient(135deg,#0d6f53,#087f68);
+  color:#fff;
+  border-radius:999px;
+  padding:13px 17px;
+  font-weight:850;
+  font-size:14px;
+  box-shadow:0 10px 28px #173d3240
+}
+
+@media(max-width:650px){
+  .floating-wa{
+    right:14px;
+    bottom:14px
+  }
+}
+
+@media(max-width:650px){
+  .grid,.services,.about,.contact{
+    grid-template-columns:1fr
+  }
+
+  .card{
+    padding:20px;
+    border-radius:24px
+  }
+
+  .section-title{
+    font-size:27px
+  }
+
+  .hero{
+    padding-top:16px
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header class="hero container">
+
 <img class="logo" src="logo.png" alt="RinSaathi Advisory Services">
+
 <h1>Your Debt. Our Strategy.</h1>
-<p>Independent loan & debt advisory guidance to help you understand your situation, explore options and make informed decisions.</p>
-<span class="badge">Confidential Guidance • Independent Advisory • No False Promises</span>
+
+<p>
+Independent loan & debt advisory guidance to help you understand your situation,
+explore options and make informed decisions.
+</p>
+
+<span class="badge">
+Confidential Guidance • Independent Advisory • No False Promises
+</span>
+
 </header>
 
+
 <main class="container">
+
+
 <section class="card" id="guidance">
+
 <h2 class="section-title">How can we help?</h2>
-<p class="section-sub">Choose a topic to understand the right next step. No outcome is guaranteed.</p>
+
+<p class="section-sub">
+Choose a topic to understand the right next step. No outcome is guaranteed.
+</p>
+
 <div class="grid">
-<div class="tile" onclick="jump('enquiry','Loan / Debt')"><div class="icon">💳</div><h3>Loan & Debt Guidance</h3><p>Understand your loan, debt pressure and available options.</p></div>
-<div class="tile" onclick="jump('enquiry','CIBIL / Credit Report')"><div class="icon">📊</div><h3>CIBIL / Credit Report</h3><p>Get guidance on credit-report related concerns.</p></div>
-<div class="tile" onclick="jump('enquiry','Recovery Call Guidance')"><div class="icon">📞</div><h3>Recovery Call Guidance</h3><p>Know how to respond calmly and appropriately.</p></div>
-<div class="tile" onclick="jump('enquiry','EMI Payment Difficulty')"><div class="icon">₹</div><h3>EMI Payment Difficulty</h3><p>Plan practical next steps when EMI payment becomes difficult.</p></div>
+
+<div class="tile" onclick="jump('enquiry','Loan / Debt')">
+<div class="icon">💳</div>
+<h3>Loan & Debt Guidance</h3>
+<p>Understand your loan, debt pressure and available options.</p>
+</div>
+
+<div class="tile" onclick="jump('enquiry','CIBIL / Credit Report')">
+<div class="icon">📊</div>
+<h3>CIBIL / Credit Report</h3>
+<p>Get guidance on credit-report related concerns.</p>
+</div>
+
+<div class="tile" onclick="jump('enquiry','Recovery Call Guidance')">
+<div class="icon">📞</div>
+<h3>Recovery Call Guidance</h3>
+<p>Know how to respond calmly and appropriately.</p>
+</div>
+
+<div class="tile" onclick="jump('enquiry','EMI Payment Difficulty')">
+<div class="icon">₹</div>
+<h3>EMI Payment Difficulty</h3>
+<p>Plan practical next steps when EMI payment becomes difficult.</p>
+</div>
+
 </div>
 </section>
+
 
 <section class="card" id="services">
+
 <h2 class="section-title">Our Services</h2>
-<p class="section-sub">Practical advisory and educational guidance — tailored to your situation.</p>
+
+<p class="section-sub">
+Practical advisory and educational guidance — tailored to your situation.
+</p>
+
 <div class="services">
-<div class="service clickable" onclick="jump('enquiry','Loan / Debt')"><h3>Loan & Debt Assessment</h3><p>Understand outstanding obligations, EMI pressure and the key points you should consider.</p><span class="service-cta">Ask for guidance →</span></div>
-<div class="service clickable" onclick="jump('enquiry','CIBIL / Credit Report')"><h3>CIBIL & Credit Guidance</h3><p>Understand credit-report issues, account status and responsible next steps.</p><span class="service-cta">Ask for guidance →</span></div>
-<div class="service clickable" onclick="jump('enquiry','Recovery Call Guidance')"><h3>Recovery Communication Guidance</h3><p>Learn how to handle recovery calls and communication professionally and calmly.</p><span class="service-cta">Ask for guidance →</span></div>
-<div class="service clickable" onclick="jump('enquiry','EMI Payment Difficulty')"><h3>EMI Difficulty Planning</h3><p>Discuss practical options when regular EMI payment is becoming difficult.</p><span class="service-cta">Ask for guidance →</span></div>
-<div class="service clickable" onclick="jump('enquiry','Settlement Option Education')"><h3>Settlement Option Education</h3><p>Understand what settlement means, possible implications and questions to ask before deciding.</p><span class="service-cta">Ask for guidance →</span></div>
-<div class="service clickable" onclick="jump('enquiry','Personalised Guidance')"><h3>Personalised Financial Guidance</h3><p>Get situation-based guidance focused on clarity, documentation and informed decisions.</p><span class="service-cta">Ask for guidance →</span></div>
+
+<div class="service clickable" onclick="jump('enquiry','Loan / Debt')">
+<h3>Loan & Debt Assessment</h3>
+<p>
+Understand outstanding obligations, EMI pressure and the key points you should consider.
+</p>
+<span class="service-cta">Ask for guidance →</span>
+</div>
+
+<div class="service clickable" onclick="jump('enquiry','CIBIL / Credit Report')">
+<h3>CIBIL & Credit Guidance</h3>
+<p>
+Understand credit-report issues, account status and responsible next steps.
+</p>
+<span class="service-cta">Ask for guidance →</span>
+</div>
+
+<div class="service clickable" onclick="jump('enquiry','Recovery Call Guidance')">
+<h3>Recovery Communication Guidance</h3>
+<p>
+Learn how to handle recovery calls and communication professionally and calmly.
+</p>
+<span class="service-cta">Ask for guidance →</span>
+</div>
+
+<div class="service clickable" onclick="jump('enquiry','EMI Payment Difficulty')">
+<h3>EMI Difficulty Planning</h3>
+<p>
+Discuss practical options when regular EMI payment is becoming difficult.
+</p>
+<span class="service-cta">Ask for guidance →</span>
+</div>
+
+<div class="service clickable" onclick="jump('enquiry','Settlement Option Education')">
+<h3>Settlement Option Education</h3>
+<p>
+Understand what settlement means, possible implications and questions to ask before deciding.
+</p>
+<span class="service-cta">Ask for guidance →</span>
+</div>
+
+<div class="service clickable" onclick="jump('enquiry','Personalised Guidance')">
+<h3>Personalised Financial Guidance</h3>
+<p>
+Get situation-based guidance focused on clarity, documentation and informed decisions.
+</p>
+<span class="service-cta">Ask for guidance →</span>
+</div>
+
 </div>
 </section>
 
-<section class="card" id="packages">
-<h2 class="section-title">Consultation & Advisory Packages</h2>
-<p class="section-sub">Start with a consultation or choose longer-term advisory support.</p>
-<div class="pricing">
-<div class="price"><h3>Personal Consultation</h3><div class="amount">₹999</div><ul><li>Situation-focused consultation</li><li>Understand your key options</li><li>Action-oriented guidance</li></ul><button class="btn secondary package-btn" onclick="jump('enquiry','Personal Consultation')">Ask About This</button></div>
-<div class="price"><h3>1 Month Advisory</h3><div class="amount">₹2,499</div><ul><li>Ongoing advisory support</li><li>Case-related guidance</li><li>Structured next-step planning</li></ul><button class="btn secondary package-btn" onclick="jump('enquiry','1 Month Advisory')">Ask About This</button></div>
-<div class="price featured"><span class="tag">POPULAR</span><h3>3 Months Advisory</h3><div class="amount">₹5,999</div><ul><li>Longer-term guidance</li><li>Progress & situation reviews</li><li>Continued strategic support</li></ul><button class="btn gold package-btn" onclick="jump('enquiry','3 Months Advisory')">Ask About This</button></div>
-<div class="price"><h3>6 Months Advisory</h3><div class="amount">₹9,999</div><ul><li>Extended advisory support</li><li>Ongoing situation reviews</li><li>Long-term planning guidance</li></ul><button class="btn secondary package-btn" onclick="jump('enquiry','6 Months Advisory')">Ask About This</button></div>
-</div>
-<p class="note" style="margin-top:16px">Fees are for advisory/consultation services only. RinSaathi does not provide new loans and does not guarantee settlement, waiver, approval or any specific outcome.</p>
-<div class="actions"><button class="btn" onclick="jump('enquiry','Consultation & Packages')">Ask About a Package</button></div>
-</section>
 
 <section class="card">
+
 <h2 class="section-title">About RinSaathi</h2>
+
 <div class="about">
-<div><p class="section-sub">RinSaathi Advisory Services is an independent advisory platform focused on helping individuals understand loan, debt, EMI and credit-related situations. Our role is to provide clarity, education and practical guidance so you can make informed financial decisions.</p><div class="notice"><strong>Important:</strong><br>RinSaathi is not a loan settlement company. We do not arrange, guarantee or promise loan settlement. We provide advisory and educational guidance only.</div></div>
-<div><h3>Our approach</h3><p class="small">Understand the situation → Organise the information → Explore realistic options → Decide with clarity.</p><div class="actions"><button class="btn secondary" onclick="jump('enquiry','Personalised Guidance')">Request Guidance</button></div></div>
+
+<div>
+
+<p class="section-sub">
+RinSaathi Advisory Services is an independent advisory platform focused on helping individuals understand loan, debt, EMI and credit-related situations. Our role is to provide clarity, education and practical guidance so you can make informed financial decisions.
+</p>
+
+<div class="notice">
+
+<strong>Important:</strong><br>
+
+RinSaathi is not a loan settlement company. We do not arrange, guarantee or promise loan settlement. We provide advisory and educational guidance only.
+
 </div>
+
+</div>
+
+<div>
+
+<h3>Our approach</h3>
+
+<p class="small">
+Understand the situation → Organise the information → Explore realistic options → Decide with clarity.
+</p>
+
+<div class="actions">
+
+<button class="btn secondary" onclick="jump('enquiry','Personalised Guidance')">
+Request Guidance
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
+
 
 <section class="card" id="faq">
+
 <h2 class="section-title">Frequently Asked Questions</h2>
-<p class="section-sub">Tap a question to view the answer.</p>
+
+<p class="section-sub">
+Tap a question to view the answer.
+</p>
+
 <div class="faq">
-<details><summary>What is RinSaathi?</summary><p>RinSaathi is an independent loan and debt advisory service that provides guidance and education around loan, EMI, credit and debt-related situations.</p></details>
-<details><summary>Does RinSaathi provide new loans?</summary><p>No. RinSaathi is not a lender and does not provide new loans.</p></details>
-<details><summary>Does RinSaathi guarantee loan settlement?</summary><p>No. Settlement depends on the lender, the account and the circumstances. We do not guarantee or promise settlement.</p></details>
-<details><summary>Can RinSaathi help with CIBIL-related concerns?</summary><p>Yes. We can provide guidance on understanding credit reports, account status and responsible steps to address concerns.</p></details>
-<details><summary>Can I get guidance about recovery calls?</summary><p>Yes. We can help you understand how to communicate calmly and appropriately and what information to keep documented.</p></details>
-<details><summary>How do I contact RinSaathi?</summary><p>You can submit the enquiry form below and continue on WhatsApp, or contact us directly through the WhatsApp button.</p></details>
-<details><summary>Is my information confidential?</summary><p>We treat information shared for an enquiry as confidential and use it to understand and respond to the request. Please avoid sharing unnecessary sensitive information.</p></details>
+
+<details>
+<summary>What is RinSaathi?</summary>
+<p>
+RinSaathi is an independent loan and debt advisory service that provides guidance and education around loan, EMI, credit and debt-related situations.
+</p>
+</details>
+
+<details>
+<summary>Does RinSaathi provide new loans?</summary>
+<p>
+No. RinSaathi is not a lender and does not provide new loans.
+</p>
+</details>
+
+<details>
+<summary>Does RinSaathi guarantee loan settlement?</summary>
+<p>
+No. Settlement depends on the lender, the account and the circumstances. We do not guarantee or promise settlement.
+</p>
+</details>
+
+<details>
+<summary>Can RinSaathi help with CIBIL-related concerns?</summary>
+<p>
+Yes. We can provide guidance on understanding credit reports, account status and responsible steps to address concerns.
+</p>
+</details>
+
+<details>
+<summary>Can I get guidance about recovery calls?</summary>
+<p>
+Yes. We can help you understand how to communicate calmly and appropriately and what information to keep documented.
+</p>
+</details>
+
+<details>
+<summary>How do I contact RinSaathi?</summary>
+<p>
+You can submit the enquiry form below and continue on WhatsApp, or contact us directly through the WhatsApp button.
+</p>
+</details>
+
+<details>
+<summary>Is my information confidential?</summary>
+<p>
+We treat information shared for an enquiry as confidential and use it to understand and respond to the request. Please avoid sharing unnecessary sensitive information.
+</p>
+</details>
+
 </div>
-<div class="actions"><button class="btn" onclick="jump('enquiry','Personalised Guidance')">Ask About My Situation</button></div>
+
+<div class="actions">
+
+<button class="btn" onclick="jump('enquiry','Personalised Guidance')">
+Ask About My Situation
+</button>
+
+</div>
+
 </section>
+
 
 <section class="card" id="enquiry">
+
 <h2 class="section-title">Request Personalised Guidance</h2>
-<p class="section-sub">Submit the basic details below. This is an enquiry form; it does not guarantee any settlement, waiver or loan approval.</p>
+
+<p class="section-sub">
+Submit the basic details below. This is an enquiry form; it does not guarantee any settlement, waiver or loan approval.
+</p>
+
 <form onsubmit="prepare(event)">
+
 <input id="name" required placeholder="Full Name">
+
 <input id="phone" required inputmode="tel" placeholder="Mobile Number">
-<select id="topic"><option>Loan / Debt</option><option>CIBIL / Credit Report</option><option>Recovery Call Guidance</option><option>EMI Payment Difficulty</option><option>Consultation & Packages</option><option>Personalised Guidance</option></select>
+
+<select id="topic">
+
+<option>Loan / Debt</option>
+<option>CIBIL / Credit Report</option>
+<option>Recovery Call Guidance</option>
+<option>EMI Payment Difficulty</option>
+<option>Personalised Guidance</option>
+
+</select>
+
 <textarea id="message" required placeholder="Briefly tell us how we can help"></textarea>
-<button class="btn" type="submit">Prepare WhatsApp Enquiry</button>
+
+<button class="btn" type="submit">
+Prepare WhatsApp Enquiry
+</button>
+
 </form>
-<div id="result" class="result">Your enquiry is ready. Tap below to continue on WhatsApp.</div>
-<div class="actions"><a id="wa" class="btn" style="display:none;text-decoration:none" target="_blank" rel="noopener">Open WhatsApp</a></div>
-<p class="note">Your WhatsApp message will be prepared with the details you entered so you can review it before sending.</p>
+
+<div id="result" class="result">
+Your enquiry is ready. Tap below to continue on WhatsApp.
+</div>
+
+<div class="actions">
+
+<a id="wa"
+class="btn"
+style="display:none;text-decoration:none"
+target="_blank"
+rel="noopener">
+Open WhatsApp
+</a>
+
+</div>
+
+<p class="note">
+Your WhatsApp message will be prepared with the details you entered so you can review it before sending.
+</p>
+
 </section>
+
 
 <section class="card">
+
 <h2 class="section-title">Contact Us</h2>
+
 <div class="contact">
-<a href="https://wa.me/919319301096" target="_blank" rel="noopener"><div class="contactbox"><b>💬 WhatsApp</b><span class="small">+91 93193 01096</span></div></a>
-<div class="contactbox"><b>🔒 Confidential Guidance</b><span class="small">Independent advisory • No false promises</span></div>
+
+<a href="https://wa.me/919319301096" target="_blank" rel="noopener">
+
+<div class="contactbox">
+
+<b>💬 WhatsApp</b>
+
+<span class="small">
++91 93193 01096
+</span>
+
 </div>
+
+</a>
+
+<div class="contactbox">
+
+<b>🔒 Confidential Guidance</b>
+
+<span class="small">
+Independent advisory • No false promises
+</span>
+
+</div>
+
+</div>
+
 </section>
+
 </main>
 
-<a class="floating-wa" href="https://wa.me/919319301096" target="_blank" rel="noopener" aria-label="Open RinSaathi WhatsApp">💬 WhatsApp</a>
 
-<footer class="footer container"><b>RinSaathi Advisory Services</b><br>Your Debt. Our Strategy. Your Freedom. Our Mission.<br><br>Advisory and educational guidance only. Outcomes depend on the relevant lender and individual circumstances.</footer>
+<a
+class="floating-wa"
+href="https://wa.me/919319301096"
+target="_blank"
+rel="noopener"
+aria-label="Open RinSaathi WhatsApp">
+
+💬 WhatsApp
+
+</a>
+
+
+<footer class="footer container">
+
+<b>RinSaathi Advisory Services</b>
+<br>
+
+Your Debt. Our Strategy. Your Freedom. Our Mission.
+
+<br><br>
+
+Advisory and educational guidance only.
+Outcomes depend on the relevant lender and individual circumstances.
+
+</footer>
+
 
 <script>
-function jump(id,topic){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});if(topic){document.getElementById('topic').value=topic}}
-function prepare(e){
- e.preventDefault();
- const n=document.getElementById('name').value.trim(), p=document.getElementById('phone').value.trim(), t=document.getElementById('topic').value, m=document.getElementById('message').value.trim();
- const text=`Hello RinSaathi Advisory Services,%0A%0AI would like guidance regarding:%0A%0AName: ${encodeURIComponent(n)}%0AMobile: ${encodeURIComponent(p)}%0ATopic: ${encodeURIComponent(t)}%0AMessage: ${encodeURIComponent(m)}%0A%0AThis enquiry was submitted through the RinSaathi website.`;
- const a=document.getElementById('wa');a.href='https://wa.me/919319301096?text='+text;a.style.display='inline-block';document.getElementById('result').style.display='block';a.scrollIntoView({behavior:'smooth',block:'center'});
+
+function jump(id,topic){
+
+document.getElementById(id).scrollIntoView({
+behavior:'smooth',
+block:'start'
+});
+
+if(topic){
+document.getElementById('topic').value=topic
 }
+
+}
+
+
+function prepare(e){
+
+e.preventDefault();
+
+const n=document.getElementById('name').value.trim(),
+p=document.getElementById('phone').value.trim(),
+t=document.getElementById('topic').value,
+m=document.getElementById('message').value.trim();
+
+const text=
+`Hello RinSaathi Advisory Services,%0A%0AI would like guidance regarding:%0A%0AName: ${encodeURIComponent(n)}%0AMobile: ${encodeURIComponent(p)}%0ATopic: ${encodeURIComponent(t)}%0AMessage: ${encodeURIComponent(m)}%0A%0AThis enquiry was submitted through the RinSaathi website.`;
+
+const a=document.getElementById('wa');
+
+a.href='https://wa.me/919319301096?text='+text;
+
+a.style.display='inline-block';
+
+document.getElementById('result').style.display='block';
+
+a.scrollIntoView({
+behavior:'smooth',
+block:'center'
+});
+
+}
+
 </script>
+
 </body>
 </html>
