@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b2d26">
+<meta name="description" content="RinSaathi Advisory Services — debt and loan guidance.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>RinSaathi Advisory Services</title>
+<style>
+:root{--green:#0b2d26;--green2:#123e34;--gold:#c8a24a;--cream:#f7f3e9;--ink:#15231f}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--cream);color:var(--ink)}
+header{background:linear-gradient(145deg,#08251f,#123e34);color:#fff;padding:18px 18px 34px;border-radius:0 0 28px 28px}
+.top{display:flex;align-items:center;gap:12px}.logo{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#fff}
+.brand{font-weight:800;letter-spacing:.4px}.sub{font-size:11px;opacity:.8;letter-spacing:1.2px}
+.hero{padding:24px 4px 4px}.hero h1{font-family:Georgia,serif;font-size:34px;line-height:1.05;margin:0 0 10px}.hero h1 span{color:#e1bd63}.hero p{opacity:.9;line-height:1.5;margin:0 0 18px}
+.btn{display:inline-block;background:var(--gold);color:#15231f;text-decoration:none;font-weight:800;padding:13px 18px;border-radius:12px}
+main{max-width:720px;margin:auto;padding:20px 16px 40px}.section-title{font-family:Georgia,serif;font-size:23px;margin:8px 0 14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#fff;border:1px solid #e7dcc0;border-radius:16px;padding:17px;box-shadow:0 4px 16px #0000000b}.icon{font-size:25px}.card h3{font-size:15px;margin:9px 0 5px}.card p{font-size:12px;line-height:1.45;color:#65716d;margin:0}
+.form{background:#fff;border-radius:18px;padding:18px;border:1px solid #e7dcc0}.field{margin-bottom:12px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #d8ddd8;border-radius:10px;font:inherit;background:#fafcfa}.field textarea{min-height:90px;resize:vertical}.submit{width:100%;border:0;cursor:pointer}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.contact a{text-align:center;padding:13px;border-radius:12px;text-decoration:none;font-weight:800}.wa{background:#dff4e7;color:#146b3b}.book{background:#efe6cf;color:#72550e}
+.notice{font-size:11px;line-height:1.5;color:#68716d;margin-top:14px}.notice b{color:#283a34}
+footer{text-align:center;padding:20px;font-size:11px;color:#74807b}
+@media(max-width:430px){.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:31px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <img class="logo" src="logo.png" alt="RinSaathi logo">
+    <div><div class="brand">RINSAATHI</div><div class="sub">ADVISORY SERVICES</div></div>
+  </div>
+  <div class="hero">
+    <h1>Take Control of Your <span>Debt.</span></h1>
+    <p>Practical guidance for loan, EMI, debt and credit-related challenges — with clarity and confidentiality.</p>
+    <a class="btn" href="#guidance">Get Guidance</a>
+  </div>
+</header>
+
+<main>
+<section>
+  <h2 class="section-title">How We Can Help</h2>
+  <div class="grid">
+    <div class="card"><div class="icon">📋</div><h3>Loan & Debt Guidance</h3><p>Understand your options and plan your next step.</p></div>
+    <div class="card"><div class="icon">💳</div><h3>EMI Difficulty</h3><p>Guidance when EMIs become difficult to manage.</p></div>
+    <div class="card"><div class="icon">📊</div><h3>CIBIL Guidance</h3><p>Understand credit-report issues and responsible next steps.</p></div>
+    <div class="card"><div class="icon">📞</div><h3>Recovery Call Guidance</h3><p>Know how to respond calmly and appropriately.</p></div>
+  </div>
+</section>
+
+<section id="guidance" style="margin-top:26px">
+  <h2 class="section-title">Get Personalised Guidance</h2>
+  <form class="form" onsubmit="sendWhatsApp(event)">
+    <div class="field"><label>Name</label><input id="name" required placeholder="Your name"></div>
+    <div class="field"><label>Mobile Number</label><input id="mobile" required inputmode="tel" placeholder="Your mobile number"></div>
+    <div class="field"><label>Loan / Debt Type</label><select id="type"><option>Personal Loan</option><option>Credit Card</option><option>Business Loan</option><option>Other</option></select></div>
+    <div class="field"><label>Outstanding Amount (optional)</label><input id="amount" inputmode="numeric" placeholder="e.g. ₹3,00,000"></div>
+    <div class="field"><label>Tell us briefly about your situation</label><textarea id="problem" placeholder="What kind of guidance do you need?"></textarea></div>
+    <button class="btn submit" type="submit">Send Request on WhatsApp</button>
+    <div class="notice"><b>Important:</b> RinSaathi Advisory Services is an independent advisory and guidance service. We are not a loan provider and do not guarantee loan settlement, approval or conversion.</div>
+  </form>
+</section>
+
+<section style="margin-top:26px">
+  <h2 class="section-title">Connect With RinSaathi</h2>
+  <div class="contact">
+    <a class="wa" href="https://wa.me/" target="_blank">WhatsApp</a>
+    <a class="book" href="#guidance">Book Consultation</a>
+  </div>
+</section>
+</main>
+<footer>YOUR DEBT. OUR STRATEGY. YOUR FREEDOM. OUR MISSION.</footer>
+<script>
+function sendWhatsApp(e){
+  e.preventDefault();
+  const name=document.getElementById('name').value;
+  const mobile=document.getElementById('mobile').value;
+  const type=document.getElementById('type').value;
+  const amount=document.getElementById('amount').value||'Not provided';
+  const problem=document.getElementById('problem').value||'Not provided';
+  const msg=`Hello RinSaathi, I need guidance.%0A%0AName: ${encodeURIComponent(name)}%0AMobile: ${encodeURIComponent(mobile)}%0AType: ${encodeURIComponent(type)}%0AOutstanding: ${encodeURIComponent(amount)}%0AConcern: ${encodeURIComponent(problem)}`;
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+</script>
+</body></html>
