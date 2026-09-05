@@ -1,9 +1,1 @@
-{
-  "name":"RinSaathi Advisory Services",
-  "short_name":"RinSaathi",
-  "start_url":"./index.html",
-  "display":"standalone",
-  "background_color":"#f7f3e9",
-  "theme_color":"#0b2d26",
-  "icons":[]
-}
+{"name":"RinSaathi Advisory Services","short_name":"RinSaathi","start_url":"./","display":"standalone","background_color":"#f7f3e8","theme_color":"#0b2d26","icons":[{"src":"logo.png","sizes":"192x192","type":"image/png"}]}
