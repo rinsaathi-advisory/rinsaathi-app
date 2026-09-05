@@ -17,8 +17,16 @@ body{
   background:linear-gradient(145deg,#063f32,#0b5b48);
   color:#fff;padding:28px 22px 32px;border-radius:0 0 28px 28px;
 }
-.logoText{font-size:26px;font-weight:800;letter-spacing:.3px}
-.sub{font-size:12px;opacity:.85;margin-top:4px}
+
+.logoImage{
+  display:block;
+  width:190px;
+  max-width:78%;
+  height:auto;
+  margin:0 auto;
+  border-radius:50%;
+}
+
 .hero{margin-top:28px}
 .hero h1{font-size:29px;line-height:1.15}
 .hero p{margin-top:10px;font-size:15px;line-height:1.5;opacity:.9}
@@ -73,13 +81,17 @@ body{
 <div class="app">
 
 <header class="header">
-  <div class="logoText">Rin<span class="gold">Saathi</span></div>
-  <div class="sub">ADVISORY SERVICES</div>
+
+  <img
+    class="logoImage"
+    src="rinsaathi-logo.png"
+    alt="RinSaathi Advisory Services">
 
   <div class="hero">
     <h1>Your Debt.<br><span class="gold">Our Guidance.</span></h1>
     <p>Practical guidance for loan, EMI, debt and credit-related challenges.</p>
   </div>
+
 </header>
 
 <main class="content">
@@ -130,16 +142,22 @@ body{
     </div>
   </div>
 
+
   <div class="section">
     <div class="title">Consultation</div>
 
     <div class="package">
       <h3>Personalised Debt Advisory</h3>
       <p>One-to-one consultation to understand your financial situation and discuss possible next steps.</p>
+
       <div class="price">₹999</div>
-      <button class="btn btnGold" onclick="openForm()">Book Consultation</button>
+
+      <button class="btn btnGold" onclick="openForm()">
+        Book Consultation
+      </button>
     </div>
   </div>
+
 
   <div class="section">
     <div class="title">Advisory Plans</div>
@@ -147,21 +165,32 @@ body{
     <div class="package">
       <h3>1 Month Advisory</h3>
       <p>Guidance and support according to your situation.</p>
-      <button class="btn btnGold" onclick="openForm()">Enquire Now</button>
+
+      <button class="btn btnGold" onclick="openForm()">
+        Enquire Now
+      </button>
     </div>
 
     <div class="package">
       <h3>3 Month Advisory</h3>
       <p>Longer-term guidance for ongoing debt challenges.</p>
-      <button class="btn btnGold" onclick="openForm()">Enquire Now</button>
+
+      <button class="btn btnGold" onclick="openForm()">
+        Enquire Now
+      </button>
     </div>
 
     <div class="package">
       <h3>6 Month Advisory</h3>
       <p>Extended advisory support for structured debt planning.</p>
-      <button class="btn btnGold" onclick="openForm()">Enquire Now</button>
+
+      <button class="btn btnGold" onclick="openForm()">
+        Enquire Now
+      </button>
     </div>
+
   </div>
+
 
   <div class="notice">
     <b>Important:</b> RinSaathi Advisory Services is an independent advisory
@@ -184,14 +213,22 @@ body{
   </div>
 
   <div class="section">
+
     <div class="package">
+
       <h3>What you can do next</h3>
+
       <p>
         Share your basic situation with RinSaathi. We can help you understand
         the available options, important precautions and practical next steps.
       </p>
-      <button class="btn btnGold" onclick="openForm()">Share My Situation</button>
+
+      <button class="btn btnGold" onclick="openForm()">
+        Share My Situation
+      </button>
+
     </div>
+
   </div>
 
 </div>
@@ -205,33 +242,59 @@ body{
 
   <div class="form" style="display:block">
 
-    <input id="name" type="text" placeholder="Your Name">
+    <input
+      id="name"
+      type="text"
+      placeholder="Your Name">
 
-    <input id="phone" type="tel" placeholder="Mobile Number">
+    <input
+      id="phone"
+      type="tel"
+      placeholder="Mobile Number">
 
     <select id="problem">
-      <option value="">Select your concern</option>
+
+      <option value="">
+        Select your concern
+      </option>
+
       <option>Loan & EMI</option>
       <option>CIBIL / Credit</option>
       <option>Recovery Calls</option>
       <option>Multiple Debt</option>
       <option>Settlement Guidance</option>
       <option>Consultation</option>
+
     </select>
 
-    <input id="outstanding" type="text" placeholder="Approx. Outstanding Amount">
+    <input
+      id="outstanding"
+      type="text"
+      placeholder="Approx. Outstanding Amount">
 
-    <input id="emi" type="text" placeholder="Current EMI (if applicable)">
+    <input
+      id="emi"
+      type="text"
+      placeholder="Current EMI (if applicable)">
 
-    <textarea id="message" placeholder="Briefly tell us about your situation"></textarea>
+    <textarea
+      id="message"
+      placeholder="Briefly tell us about your situation">
+    </textarea>
 
-    <button class="btn btnGreen" onclick="sendWhatsApp()">
+    <button
+      class="btn btnGreen"
+      onclick="sendWhatsApp()">
+
       Continue on WhatsApp
+
     </button>
 
     <div class="notice">
+
       Please do not share passwords, OTPs, card PINs or other confidential
       banking credentials.
+
     </div>
 
   </div>
@@ -240,50 +303,92 @@ body{
 
 </main>
 
+
 <footer class="footer">
+
   © RinSaathi Advisory Services<br>
+
   Your Debt. Our Strategy. Your Freedom. Our Mission.
+
 </footer>
 
 </div>
 
+
 <script>
 
 function showGuidance(title){
+
   document.getElementById("home").classList.add("hidden");
+
   document.getElementById("formSection").classList.add("hidden");
+
   document.getElementById("guidance").classList.remove("hidden");
+
   document.getElementById("guidanceTitle").innerText = title;
+
   window.scrollTo(0,0);
+
 }
+
 
 function openForm(){
+
   document.getElementById("home").classList.add("hidden");
+
   document.getElementById("guidance").classList.add("hidden");
+
   document.getElementById("formSection").classList.remove("hidden");
+
   window.scrollTo(0,0);
+
 }
 
+
 function goHome(){
+
   document.getElementById("guidance").classList.add("hidden");
+
   document.getElementById("formSection").classList.add("hidden");
+
   document.getElementById("home").classList.remove("hidden");
+
   window.scrollTo(0,0);
+
 }
+
 
 function sendWhatsApp(){
 
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const problem = document.getElementById("problem").value;
-  const outstanding = document.getElementById("outstanding").value.trim();
-  const emi = document.getElementById("emi").value.trim();
-  const message = document.getElementById("message").value.trim();
+  const name =
+    document.getElementById("name").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const problem =
+    document.getElementById("problem").value;
+
+  const outstanding =
+    document.getElementById("outstanding").value.trim();
+
+  const emi =
+    document.getElementById("emi").value.trim();
+
+  const message =
+    document.getElementById("message").value.trim();
+
 
   if(!name || !phone || !problem){
-    alert("Please enter your name, mobile number and concern.");
+
+    alert(
+      "Please enter your name, mobile number and concern."
+    );
+
     return;
+
   }
+
 
   const text =
 `Hello RinSaathi,
@@ -301,16 +406,20 @@ ${message || "Not provided"}
 
 I understand that RinSaathi provides advisory and guidance services and does not guarantee any specific outcome.`;
 
-  /*
-   * IMPORTANT:
-   * Replace 91XXXXXXXXXX below with your actual RinSaathi WhatsApp number.
-   */
-  const whatsappNumber = "91XXXXXXXXXX";
+
+  /* RinSaathi WhatsApp Number */
+
+  const whatsappNumber = "919319301096";
+
 
   window.open(
-    "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(text),
+    "https://wa.me/" +
+    whatsappNumber +
+    "?text=" +
+    encodeURIComponent(text),
     "_blank"
   );
+
 }
 
 </script>
