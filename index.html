@@ -103,8 +103,9 @@ function submitForm(e){
  const issue=encodeURIComponent(document.getElementById('issue').value);
  const msg=encodeURIComponent(document.getElementById('message').value.trim());
  const text=`Hello RinSaathi,%0A%0AI want guidance.%0AName: ${name}%0AMobile: ${phone}%0AConcern: ${issue}%0ADetails: ${msg}`;
+ const waUrl=`https://wa.me/919319301096?text=${text}`;
  const result=document.getElementById('result');
- result.innerHTML='Your enquiry is ready. Tap below to continue on WhatsApp.<br><a class="btn" href="https://wa.me/919319301096" target="_blank" rel="noopener">Open WhatsApp</a>';
+ result.innerHTML=`Your enquiry is ready. Tap below to continue on WhatsApp.<br><a class="btn" href="${waUrl}" target="_blank" rel="noopener">Open WhatsApp & Send</a>`;
 
 }
 </script>
