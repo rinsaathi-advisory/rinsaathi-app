@@ -3,147 +3,127 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#063f2d">
+<meta name="theme-color" content="#0d6f53">
+<meta name="description" content="RinSaathi Advisory Services — independent loan and debt advisory guidance.">
 <link rel="manifest" href="manifest.webmanifest">
 <title>RinSaathi Advisory Services</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f7f6;color:#17352b}
-header{background:linear-gradient(145deg,#063f2d,#0b5940);color:#fff;padding:22px 18px 26px;text-align:center}
-.logo{width:92px;height:92px;object-fit:contain;border-radius:50%;background:#fff;padding:4px}
-h1{font-size:24px;margin:10px 0 4px}.tag{opacity:.9;font-size:13px}
-main{max-width:720px;margin:auto;padding:16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-button.card{border:0;border-radius:16px;background:#fff;padding:18px 12px;min-height:112px;text-align:left;box-shadow:0 4px 16px #00000012;color:#17352b;font-weight:700;font-size:15px;cursor:pointer}
-.card span{display:block;font-size:27px;margin-bottom:8px}.card small{display:block;font-weight:400;color:#6a7772;margin-top:5px}
-section.panel{display:none;background:#fff;border-radius:18px;padding:20px;margin-top:16px;box-shadow:0 4px 18px #00000012}
-section.panel.active{display:block}
-h2{font-size:21px;margin:0 0 8px}.muted{color:#687770;line-height:1.5}
-ul{padding-left:20px;line-height:1.7}
-.btn{display:inline-block;border:0;border-radius:12px;padding:12px 16px;background:#0b6b4b;color:#fff;font-weight:700;margin-top:8px;cursor:pointer;text-decoration:none}
-.btn.alt{background:#e8f0ed;color:#0b5940}
-form{display:grid;gap:10px;margin-top:14px}input,select,textarea{width:100%;padding:12px;border:1px solid #d7dfdc;border-radius:10px;font:inherit}textarea{min-height:90px}
-.note{font-size:12px;color:#738079;margin-top:12px}
-
-.service-item{padding:13px 0;border-bottom:1px solid #e6ece9}.service-item:last-of-type{border-bottom:0}.service-item h3{font-size:16px;margin:0 0 5px}
-details{border-bottom:1px solid #e6ece9;padding:14px 0}summary{cursor:pointer;font-weight:700;list-style:none;padding-right:20px;position:relative}summary::-webkit-details-marker{display:none}summary:after{content:"+";position:absolute;right:0;font-size:20px;top:-4px}details[open] summary:after{content:"−"}details p{margin:9px 0 0;line-height:1.55;color:#687770}
-footer{text-align:center;padding:24px 10px;color:#75827d;font-size:12px}
-@media(max-width:480px){.grid{gap:9px}.card{padding:14px 10px!important}}
+:root{--green:#0d6f53;--green2:#124d3e;--gold:#caa23b;--ink:#173d32;--muted:#6d7e78;--cream:#f7f8f5;--line:#dce5e0;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#f4f7f4,#eef3f0);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.container{width:min(980px,calc(100% - 28px));margin:auto}.hero{padding:24px 0 12px;text-align:center}.logo{width:min(190px,48vw);height:auto;border-radius:50%;box-shadow:0 12px 30px #173d3218}.hero h1{font-size:clamp(28px,7vw,48px);margin:16px 0 6px;font-weight:850;letter-spacing:-1.5px}.hero p{margin:0 auto;color:var(--muted);font-size:17px;line-height:1.5;max-width:680px}.badge{display:inline-block;margin-top:14px;padding:8px 13px;border-radius:999px;background:#e2f0ea;color:var(--green);font-weight:750;font-size:13px}
+.card{background:var(--white);border:1px solid #edf1ef;border-radius:28px;padding:24px;margin:18px 0;box-shadow:0 10px 35px #173d3210}.section-title{font-size:30px;line-height:1.1;margin:0 0 8px;font-weight:850;letter-spacing:-.8px}.section-sub{margin:0 0 22px;color:var(--muted);font-size:16px;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tile{border:1px solid var(--line);border-radius:22px;padding:20px;background:linear-gradient(180deg,#fff,#fbfcfb);cursor:pointer;transition:.18s}.tile:active{transform:scale(.99)}.tile .icon{font-size:27px}.tile h3{font-size:21px;margin:10px 0 6px}.tile p{color:var(--muted);margin:0;line-height:1.4}
+.btn{border:0;border-radius:18px;padding:15px 20px;font-weight:800;font-size:16px;background:var(--green);color:white;cursor:pointer}.btn.secondary{background:#e8f1ed;color:var(--green)}.btn.gold{background:#caa23b;color:#173d32}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.service{padding:18px;border-radius:20px;background:#f7faf8;border:1px solid #e0ebe5}.service h3{margin:0 0 7px;font-size:18px}.service p{margin:0;color:var(--muted);line-height:1.45}
+.faq{border-top:1px solid var(--line)}details{border-bottom:1px solid var(--line);padding:2px 0}summary{list-style:none;cursor:pointer;padding:18px 0;font-size:18px;font-weight:800;display:flex;justify-content:space-between;gap:15px}summary::-webkit-details-marker{display:none}summary::after{content:"+";font-size:25px;line-height:1;color:var(--green)}details[open] summary::after{content:"−"}details p{margin:0 0 18px;color:var(--muted);line-height:1.55}
+.pricing{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.price{border:1px solid var(--line);border-radius:22px;padding:21px;position:relative;background:#fff}.price.featured{border:2px solid var(--gold)}.tag{position:absolute;right:14px;top:14px;background:#f7edce;color:#765b13;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:850}.price h3{margin:0 0 5px;font-size:19px}.amount{font-size:29px;font-weight:900;margin:8px 0 12px}.price ul{padding-left:20px;margin:0;color:var(--muted);line-height:1.6}
+.about{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}.notice{background:#fff8e6;border:1px solid #ead89e;border-radius:20px;padding:18px}.notice strong{color:#765b13}.contact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.contact a{text-decoration:none;color:inherit}.contactbox{border:1px solid var(--line);border-radius:18px;padding:17px;background:#fbfcfb}.contactbox b{display:block;margin-bottom:4px}.small{font-size:13px;color:var(--muted);line-height:1.45}
+form{display:grid;gap:12px}input,select,textarea{width:100%;padding:15px 16px;border:1px solid #d7e1dc;border-radius:16px;background:#fff;font:inherit;color:#173d32}textarea{min-height:120px;resize:vertical}.note{font-size:13px;color:var(--muted);line-height:1.45}.result{display:none;margin-top:14px;padding:15px;border-radius:16px;background:#e7f4ee;color:var(--green);font-weight:700}.footer{text-align:center;padding:22px 0 42px;color:#71817b;font-size:13px}.footer b{color:var(--green)}
+@media(max-width:650px){.grid,.services,.pricing,.about,.contact{grid-template-columns:1fr}.card{padding:20px;border-radius:24px}.section-title{font-size:27px}.hero{padding-top:16px}}
 </style>
 </head>
 <body>
-<header>
+<header class="hero container">
 <img class="logo" src="logo.png" alt="RinSaathi Advisory Services">
-<h1>RinSaathi Advisory Services</h1>
-<div class="tag">Independent Loan, Debt & CIBIL Advisory</div>
+<h1>Your Debt. Our Strategy.</h1>
+<p>Independent loan & debt advisory guidance to help you understand your situation, explore options and make informed decisions.</p>
+<span class="badge">Confidential Guidance • Independent Advisory • No False Promises</span>
 </header>
 
-<main>
-<p class="muted">Get practical guidance for loan, EMI, debt, recovery-call and CIBIL-related concerns. RinSaathi is an advisory service and does not provide new loans or guarantee settlement outcomes.</p>
-
+<main class="container">
+<section class="card" id="guidance">
+<h2 class="section-title">How can we help?</h2>
+<p class="section-sub">Choose a topic to understand the right next step. No outcome is guaranteed.</p>
 <div class="grid">
-<button class="card" onclick="openPanel('services')"><span>✨</span>Our Services<small>Explore our advisory support</small></button>
-<button class="card" onclick="openPanel('faq')"><span>❓</span>FAQ<small>Common questions answered</small></button>
+<div class="tile" onclick="jump('enquiry','Loan / Debt')"><div class="icon">💳</div><h3>Loan & Debt Guidance</h3><p>Understand your loan, debt pressure and available options.</p></div>
+<div class="tile" onclick="jump('enquiry','CIBIL / Credit Report')"><div class="icon">📊</div><h3>CIBIL / Credit Report</h3><p>Get guidance on credit-report related concerns.</p></div>
+<div class="tile" onclick="jump('enquiry','Recovery Call Guidance')"><div class="icon">📞</div><h3>Recovery Call Guidance</h3><p>Know how to respond calmly and appropriately.</p></div>
+<div class="tile" onclick="jump('enquiry','EMI Payment Difficulty')"><div class="icon">₹</div><h3>EMI Payment Difficulty</h3><p>Plan practical next steps when EMI payment becomes difficult.</p></div>
 </div>
+</section>
 
-<div class="grid">
-<button class="card" onclick="openPanel('loan')"><span>💳</span>Loan & Debt Guidance<small>Understand your options</small></button>
-<button class="card" onclick="openPanel('cibil')"><span>📊</span>CIBIL / Credit Report<small>Understand your credit profile</small></button>
-<button class="card" onclick="openPanel('recovery')"><span>📞</span>Recovery Call Guidance<small>Know how to respond</small></button>
-<button class="card" onclick="openPanel('emi')"><span>₹</span>EMI Payment Difficulty<small>Plan your next steps</small></button>
+<section class="card" id="services">
+<h2 class="section-title">Our Services</h2>
+<p class="section-sub">Practical advisory and educational guidance — tailored to your situation.</p>
+<div class="services">
+<div class="service"><h3>Loan & Debt Assessment</h3><p>Understand outstanding obligations, EMI pressure and the key points you should consider.</p></div>
+<div class="service"><h3>CIBIL & Credit Guidance</h3><p>Understand credit-report issues, account status and responsible next steps.</p></div>
+<div class="service"><h3>Recovery Communication Guidance</h3><p>Learn how to handle recovery calls and communication professionally and calmly.</p></div>
+<div class="service"><h3>EMI Difficulty Planning</h3><p>Discuss practical options when regular EMI payment is becoming difficult.</p></div>
+<div class="service"><h3>Settlement Option Education</h3><p>Understand what settlement means, possible implications and questions to ask before deciding.</p></div>
+<div class="service"><h3>Personalised Financial Guidance</h3><p>Get situation-based guidance focused on clarity, documentation and informed decisions.</p></div>
 </div>
-
-<section id="loan" class="panel">
-<h2>Loan & Debt Guidance</h2><p class="muted">We help you understand your current debt position, available options, documents and practical next steps.</p>
-<ul><li>Review loan/EMI situation</li><li>Understand repayment and hardship options</li><li>Organise documents and communication</li><li>Guidance based on your individual situation</li></ul>
-<button class="btn" onclick="openPanel('enquiry')">Share Your Details</button>
 </section>
 
-<section id="cibil" class="panel">
-<h2>CIBIL / Credit Report</h2><p class="muted">Get guidance on understanding account status, overdue entries, settlements and credit-report related concerns.</p>
-<ul><li>Understand active/closed/settled status</li><li>Identify information that may need correction</li><li>Plan responsible next steps</li></ul>
-<button class="btn" onclick="openPanel('enquiry')">Share Your Details</button>
+<section class="card" id="packages">
+<h2 class="section-title">Consultation & Advisory Packages</h2>
+<p class="section-sub">Start with a consultation or choose longer-term advisory support.</p>
+<div class="pricing">
+<div class="price"><h3>Personal Consultation</h3><div class="amount">₹999</div><ul><li>Situation-focused consultation</li><li>Understand your key options</li><li>Action-oriented guidance</li></ul></div>
+<div class="price"><h3>1 Month Advisory</h3><div class="amount">₹2,499</div><ul><li>Ongoing advisory support</li><li>Case-related guidance</li><li>Structured next-step planning</li></ul></div>
+<div class="price featured"><span class="tag">POPULAR</span><h3>3 Months Advisory</h3><div class="amount">₹5,999</div><ul><li>Longer-term guidance</li><li>Progress & situation reviews</li><li>Continued strategic support</li></ul></div>
+<div class="price"><h3>6 Months Advisory</h3><div class="amount">₹9,999</div><ul><li>Extended advisory support</li><li>Ongoing situation reviews</li><li>Long-term planning guidance</li></ul></div>
+</div>
+<p class="note" style="margin-top:16px">Fees are for advisory/consultation services only. RinSaathi does not provide new loans and does not guarantee settlement, waiver, approval or any specific outcome.</p>
+<div class="actions"><button class="btn" onclick="jump('enquiry','Consultation & Packages')">Ask About a Package</button></div>
 </section>
 
-<section id="recovery" class="panel">
-<h2>Recovery Call Guidance</h2><p class="muted">Learn how to communicate clearly and keep records when receiving recovery calls or messages.</p>
-<ul><li>How to communicate calmly</li><li>What information to document</li><li>How to organise notices and messages</li></ul>
-<button class="btn" onclick="openPanel('enquiry')">Share Your Details</button>
+<section class="card">
+<h2 class="section-title">About RinSaathi</h2>
+<div class="about">
+<div><p class="section-sub">RinSaathi Advisory Services is an independent advisory platform focused on helping individuals understand loan, debt, EMI and credit-related situations. Our role is to provide clarity, education and practical guidance so you can make informed financial decisions.</p><div class="notice"><strong>Important:</strong><br>RinSaathi is not a loan settlement company. We do not arrange, guarantee or promise loan settlement. We provide advisory and educational guidance only.</div></div>
+<div><h3>Our approach</h3><p class="small">Understand the situation → Organise the information → Explore realistic options → Decide with clarity.</p><div class="actions"><button class="btn secondary" onclick="jump('enquiry','Personalised Guidance')">Request Guidance</button></div></div>
+</div>
 </section>
 
-<section id="emi" class="panel">
-<h2>EMI Payment Difficulty</h2><p class="muted">If an EMI has become difficult to manage, we can help you understand your situation and prepare a practical action plan.</p>
-<ul><li>Review income, EMI and outstanding obligations</li><li>Prioritise immediate actions</li><li>Prepare for communication with lenders</li></ul>
-<button class="btn" onclick="openPanel('enquiry')">Share Your Details</button>
+<section class="card" id="faq">
+<h2 class="section-title">Frequently Asked Questions</h2>
+<p class="section-sub">Tap a question to view the answer.</p>
+<div class="faq">
+<details><summary>What is RinSaathi?</summary><p>RinSaathi is an independent loan and debt advisory service that provides guidance and education around loan, EMI, credit and debt-related situations.</p></details>
+<details><summary>Does RinSaathi provide new loans?</summary><p>No. RinSaathi is not a lender and does not provide new loans.</p></details>
+<details><summary>Does RinSaathi guarantee loan settlement?</summary><p>No. Settlement depends on the lender, the account and the circumstances. We do not guarantee or promise settlement.</p></details>
+<details><summary>Can RinSaathi help with CIBIL-related concerns?</summary><p>Yes. We can provide guidance on understanding credit reports, account status and responsible steps to address concerns.</p></details>
+<details><summary>Can I get guidance about recovery calls?</summary><p>Yes. We can help you understand how to communicate calmly and appropriately and what information to keep documented.</p></details>
+<details><summary>How do I contact RinSaathi?</summary><p>You can submit the enquiry form below and continue on WhatsApp, or contact us directly through the WhatsApp button.</p></details>
+<details><summary>Is my information confidential?</summary><p>We treat information shared for an enquiry as confidential and use it to understand and respond to the request. Please avoid sharing unnecessary sensitive information.</p></details>
+</div>
+<div class="actions"><button class="btn" onclick="jump('enquiry','Personalised Guidance')">Ask About My Situation</button></div>
 </section>
 
-<section id="services" class="panel">
-<h2>Our Services</h2>
-<p class="muted">Practical, independent guidance designed to help you understand your financial situation and make informed decisions.</p>
-
-<div class="service-item"><h3>💳 Loan & Debt Advisory</h3><p class="muted">Understand your outstanding obligations, available options and practical next steps based on your situation.</p></div>
-<div class="service-item"><h3>📊 CIBIL / Credit Guidance</h3><p class="muted">Guidance on understanding credit-report entries, account status and responsible next steps.</p></div>
-<div class="service-item"><h3>📞 Recovery Call Guidance</h3><p class="muted">Learn how to communicate calmly, keep records and organise relevant notices or messages.</p></div>
-<div class="service-item"><h3>₹ EMI Difficulty Guidance</h3><p class="muted">If your EMI has become difficult to manage, understand your situation and prepare a practical action plan.</p></div>
-<div class="service-item"><h3>🧭 Debt Planning</h3><p class="muted">Create a clearer priority plan for managing multiple dues and deciding what to address first.</p></div>
-<div class="service-item"><h3>🤝 Personalised Consultation</h3><p class="muted">Discuss your specific situation and receive structured advisory guidance.</p></div>
-
-<button class="btn" onclick="openPanel('enquiry')">Request Guidance</button>
-</section>
-
-<section id="faq" class="panel">
-<h2>Frequently Asked Questions</h2>
-<p class="muted">Tap a question to view the answer.</p>
-
-<details><summary>What is RinSaathi?</summary><p>RinSaathi Advisory Services is an independent loan, debt and credit advisory service that provides guidance and education to help customers understand their options.</p></details>
-<details><summary>Does RinSaathi provide new loans?</summary><p>No. RinSaathi is not a loan provider and does not provide new loans.</p></details>
-<details><summary>Does RinSaathi guarantee loan settlement?</summary><p>No. We do not guarantee settlement, waiver, approval or any particular outcome. Guidance depends on the individual situation and the relevant lender's decisions.</p></details>
-<details><summary>Can RinSaathi help with CIBIL-related concerns?</summary><p>Yes. We can provide guidance on understanding credit-report information, account status and possible next steps.</p></details>
-<details><summary>Can I get guidance about recovery calls?</summary><p>Yes. We can guide you on documenting communications and responding in a calm, organised and informed manner.</p></details>
-<details><summary>How do I contact RinSaathi?</summary><p>You can submit the enquiry form and continue to WhatsApp using the existing WhatsApp flow.</p></details>
-<details><summary>Is my information confidential?</summary><p>Customer information should be handled responsibly and only used for providing the requested advisory support.</p></details>
-
-<button class="btn" onclick="openPanel('enquiry')">Ask About My Situation</button>
-</section>
-
-<section id="enquiry" class="panel">
-<h2>Request Personalised Guidance</h2>
-<p class="muted">Submit the basic details below. This is an enquiry form; it does not guarantee any settlement, waiver or loan approval.</p>
-<form onsubmit="submitForm(event)">
-<input id="name" required placeholder="Your name">
-<input id="phone" required inputmode="tel" placeholder="Mobile number">
-<select id="issue"><option>Loan / Debt</option><option>CIBIL / Credit Report</option><option>Recovery Calls</option><option>EMI Payment Difficulty</option><option>Other</option></select>
-<textarea id="message" placeholder="Briefly tell us about your concern"></textarea>
+<section class="card" id="enquiry">
+<h2 class="section-title">Request Personalised Guidance</h2>
+<p class="section-sub">Submit the basic details below. This is an enquiry form; it does not guarantee any settlement, waiver or loan approval.</p>
+<form onsubmit="prepare(event)">
+<input id="name" required placeholder="Full Name">
+<input id="phone" required inputmode="tel" placeholder="Mobile Number">
+<select id="topic"><option>Loan / Debt</option><option>CIBIL / Credit Report</option><option>Recovery Call Guidance</option><option>EMI Payment Difficulty</option><option>Consultation & Packages</option><option>Personalised Guidance</option></select>
+<textarea id="message" required placeholder="Briefly tell us how we can help"></textarea>
 <button class="btn" type="submit">Prepare WhatsApp Enquiry</button>
 </form>
-<div id="result" class="note"></div>
+<div id="result" class="result">Your enquiry is ready. Tap below to continue on WhatsApp.</div>
+<div class="actions"><a id="wa" class="btn" style="display:none;text-decoration:none" target="_blank" rel="noopener">Open WhatsApp</a></div>
+<p class="note">Your WhatsApp message will be prepared with the details you entered so you can review it before sending.</p>
 </section>
 
-<section class="panel active" id="consult">
-<h2>Book a Consultation</h2>
-<p class="muted">Want a more detailed discussion? Start an enquiry and we can guide you on the next step.</p>
-<button class="btn" onclick="openPanel('enquiry')">Book Consultation</button><a class="btn alt" href="https://wa.me/919319301096" target="_blank" rel="noopener">WhatsApp Us</a>
+<section class="card">
+<h2 class="section-title">Contact Us</h2>
+<div class="contact">
+<a href="https://wa.me/919319301096" target="_blank" rel="noopener"><div class="contactbox"><b>💬 WhatsApp</b><span class="small">+91 93193 01096</span></div></a>
+<div class="contactbox"><b>🔒 Confidential Guidance</b><span class="small">Independent advisory • No false promises</span></div>
+</div>
 </section>
-
-<footer>Confidential Guidance • Independent Advisory • No False Promises</footer>
 </main>
 
-<script>
-function openPanel(id){
- document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
- const el=document.getElementById(id);
- if(el){el.classList.add('active');el.scrollIntoView({behavior:'smooth',block:'start'});}
-}
-function submitForm(e){
- e.preventDefault();
- const name=encodeURIComponent(document.getElementById('name').value.trim());
- const phone=encodeURIComponent(document.getElementById('phone').value.trim());
- const issue=encodeURIComponent(document.getElementById('issue').value);
- const msg=encodeURIComponent(document.getElementById('message').value.trim());
- const text=`Hello RinSaathi,%0A%0AI want guidance.%0AName: ${name}%0AMobile: ${phone}%0AConcern: ${issue}%0ADetails: ${msg}`;
- const waUrl=`https://wa.me/919319301096?text=${text}`;
- const result=document.getElementById('result');
- result.innerHTML=`Your enquiry is ready. Tap below to continue on WhatsApp.<br><a class="btn" href="${waUrl}" target="_blank" rel="noopener">Open WhatsApp & Send</a>`;
+<footer class="footer container"><b>RinSaathi Advisory Services</b><br>Your Debt. Our Strategy. Your Freedom. Our Mission.<br><br>Advisory and educational guidance only. Outcomes depend on the relevant lender and individual circumstances.</footer>
 
+<script>
+function jump(id,topic){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});if(topic){document.getElementById('topic').value=topic}}
+function prepare(e){
+ e.preventDefault();
+ const n=document.getElementById('name').value.trim(), p=document.getElementById('phone').value.trim(), t=document.getElementById('topic').value, m=document.getElementById('message').value.trim();
+ const text=`Hello RinSaathi Advisory Services,%0A%0AI would like guidance regarding:%0A%0AName: ${encodeURIComponent(n)}%0AMobile: ${encodeURIComponent(p)}%0ATopic: ${encodeURIComponent(t)}%0AMessage: ${encodeURIComponent(m)}%0A%0AThis enquiry was submitted through the RinSaathi website.`;
+ const a=document.getElementById('wa');a.href='https://wa.me/919319301096?text='+text;a.style.display='inline-block';document.getElementById('result').style.display='block';a.scrollIntoView({behavior:'smooth',block:'center'});
 }
 </script>
 </body>
