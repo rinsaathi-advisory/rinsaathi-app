@@ -8,14 +8,132 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#f4f7f5;color:#17352d;
+  background:#f4f7f5;
+  color:#17352d;
 }
-.app{max-width:520px;margin:auto;min-height:100vh;background:#fff}
+
+.app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  background:#fff;
+}
+
+/* LOGIN */
+
+#loginScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  background:linear-gradient(145deg,#063f32,#0b5b48);
+}
+
+.loginBox{
+  width:100%;
+  background:#fff;
+  border-radius:25px;
+  padding:30px 22px;
+  box-shadow:0 15px 40px rgba(0,0,0,.18);
+  text-align:center;
+}
+
+.loginLogo{
+  width:150px;
+  max-width:65%;
+  height:auto;
+  border-radius:50%;
+  margin:0 auto 22px;
+}
+
+.loginTitle{
+  font-size:25px;
+  font-weight:800;
+  color:#063f32;
+}
+
+.loginSub{
+  margin-top:8px;
+  font-size:14px;
+  color:#6a7974;
+  line-height:1.5;
+}
+
+.loginInput{
+  width:100%;
+  padding:15px;
+  border:1px solid #dce5e1;
+  border-radius:13px;
+  margin-top:20px;
+  font-size:16px;
+  background:#fafcfb;
+}
+
+.otpInput{
+  letter-spacing:7px;
+  text-align:center;
+  font-size:21px;
+  font-weight:700;
+}
+
+.loginBtn{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:15px;
+  margin-top:14px;
+  background:#d8b45f;
+  color:#17352d;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.secondaryBtn{
+  background:#063f32;
+  color:white;
+}
+
+#otpSection{
+  display:none;
+}
+
+#recaptcha-container{
+  margin-top:15px;
+  display:flex;
+  justify-content:center;
+}
+
+.loginMessage{
+  margin-top:14px;
+  font-size:13px;
+  color:#6a7974;
+  line-height:1.4;
+}
+
+.error{
+  color:#b3261e;
+}
+
+.success{
+  color:#16704f;
+}
+
+/* MAIN APP */
+
+#mainApp{
+  display:none;
+}
+
 .header{
   background:linear-gradient(145deg,#063f32,#0b5b48);
-  color:#fff;padding:28px 22px 32px;border-radius:0 0 28px 28px;
+  color:#fff;
+  padding:28px 22px 32px;
+  border-radius:0 0 28px 28px;
 }
 
 .logoImage{
@@ -27,57 +145,281 @@ body{
   border-radius:50%;
 }
 
-.hero{margin-top:28px}
-.hero h1{font-size:29px;line-height:1.15}
-.hero p{margin-top:10px;font-size:15px;line-height:1.5;opacity:.9}
-.gold{color:#d6ae54}
-.content{padding:22px}
-.title{font-size:21px;font-weight:800;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.card{
-  border:1px solid #e3e9e6;border-radius:18px;padding:18px 14px;
-  background:#fff;box-shadow:0 5px 18px rgba(0,0,0,.05);
-  cursor:pointer;transition:.2s;
+.hero{
+  margin-top:28px;
 }
-.card:active{transform:scale(.97)}
-.icon{font-size:27px;margin-bottom:10px}
-.card h3{font-size:15px}
-.card p{font-size:12px;color:#6a7974;margin-top:5px;line-height:1.4}
-.section{margin-top:28px}
+
+.hero h1{
+  font-size:29px;
+  line-height:1.15;
+}
+
+.hero p{
+  margin-top:10px;
+  font-size:15px;
+  line-height:1.5;
+  opacity:.9;
+}
+
+.gold{
+  color:#d6ae54;
+}
+
+.content{
+  padding:22px;
+}
+
+.title{
+  font-size:21px;
+  font-weight:800;
+  margin-bottom:14px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.card{
+  border:1px solid #e3e9e6;
+  border-radius:18px;
+  padding:18px 14px;
+  background:#fff;
+  box-shadow:0 5px 18px rgba(0,0,0,.05);
+  cursor:pointer;
+  transition:.2s;
+}
+
+.card:active{
+  transform:scale(.97);
+}
+
+.icon{
+  font-size:27px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  font-size:15px;
+}
+
+.card p{
+  font-size:12px;
+  color:#6a7974;
+  margin-top:5px;
+  line-height:1.4;
+}
+
+.section{
+  margin-top:28px;
+}
+
 .package{
   background:linear-gradient(145deg,#073f32,#0d604c);
-  color:white;border-radius:20px;padding:20px;margin-bottom:12px;
+  color:white;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:12px;
 }
-.package h3{font-size:18px}
-.package p{font-size:13px;opacity:.88;margin-top:6px;line-height:1.45}
-.price{font-size:23px;font-weight:800;color:#e2bc65;margin-top:10px}
+
+.package h3{
+  font-size:18px;
+}
+
+.package p{
+  font-size:13px;
+  opacity:.88;
+  margin-top:6px;
+  line-height:1.45;
+}
+
+.price{
+  font-size:23px;
+  font-weight:800;
+  color:#e2bc65;
+  margin-top:10px;
+}
+
 .btn{
-  display:block;width:100%;border:0;border-radius:14px;padding:14px;
-  font-size:15px;font-weight:700;cursor:pointer;margin-top:13px;
+  display:block;
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:14px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:13px;
 }
-.btnGold{background:#d8b45f;color:#17352d}
-.btnGreen{background:#063f32;color:white}
-.form{display:none;margin-top:20px}
-.form input,.form textarea,.form select{
-  width:100%;padding:14px;border:1px solid #dce5e1;border-radius:12px;
-  margin-bottom:11px;font-size:14px;background:#fafcfb;
+
+.btnGold{
+  background:#d8b45f;
+  color:#17352d;
 }
-.form textarea{min-height:100px;resize:none}
+
+.btnGreen{
+  background:#063f32;
+  color:white;
+}
+
+.form{
+  display:none;
+  margin-top:20px;
+}
+
+.form input,
+.form textarea,
+.form select{
+  width:100%;
+  padding:14px;
+  border:1px solid #dce5e1;
+  border-radius:12px;
+  margin-bottom:11px;
+  font-size:14px;
+  background:#fafcfb;
+}
+
+.form textarea{
+  min-height:100px;
+  resize:none;
+}
+
 .notice{
-  background:#fff8e7;border-left:4px solid #d5ad51;
-  padding:13px;border-radius:10px;font-size:12px;line-height:1.5;
-  margin-top:18px;color:#5f5131;
+  background:#fff8e7;
+  border-left:4px solid #d5ad51;
+  padding:13px;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:18px;
+  color:#5f5131;
 }
+
 .footer{
-  text-align:center;padding:25px 20px 35px;font-size:11px;color:#77837f;
+  text-align:center;
+  padding:25px 20px 35px;
+  font-size:11px;
+  color:#77837f;
   line-height:1.5;
 }
-.hidden{display:none}
-.back{color:#063f32;font-weight:700;cursor:pointer;margin-bottom:18px}
+
+.hidden{
+  display:none;
+}
+
+.back{
+  color:#063f32;
+  font-weight:700;
+  cursor:pointer;
+  margin-bottom:18px;
+}
+
+.logoutBtn{
+  margin-top:20px;
+  width:100%;
+  padding:13px;
+  border:1px solid #dce5e1;
+  border-radius:12px;
+  background:white;
+  color:#063f32;
+  font-weight:700;
+}
 </style>
 </head>
 
 <body>
+
+<!-- ================= LOGIN ================= -->
+
+<div id="loginScreen">
+
+  <div class="loginBox">
+
+    <img
+      class="loginLogo"
+      src="./logo.png"
+      alt="RinSaathi Advisory Services">
+
+    <div class="loginTitle">
+      Welcome to RinSaathi
+    </div>
+
+    <div class="loginSub">
+      Secure mobile verification to continue
+    </div>
+
+    <!-- MOBILE NUMBER -->
+
+    <div id="phoneSection">
+
+      <input
+        id="loginPhone"
+        class="loginInput"
+        type="tel"
+        inputmode="numeric"
+        maxlength="10"
+        placeholder="Enter 10-digit mobile number">
+
+      <div id="recaptcha-container"></div>
+
+      <button
+        id="sendOtpBtn"
+        class="loginBtn"
+        onclick="sendOTP()">
+
+        Send OTP
+
+      </button>
+
+    </div>
+
+    <!-- OTP -->
+
+    <div id="otpSection">
+
+      <input
+        id="otpCode"
+        class="loginInput otpInput"
+        type="tel"
+        inputmode="numeric"
+        maxlength="6"
+        placeholder="Enter OTP">
+
+      <button
+        class="loginBtn"
+        onclick="verifyOTP()">
+
+        Verify OTP
+
+      </button>
+
+      <button
+        class="loginBtn secondaryBtn"
+        onclick="backToPhone()">
+
+        Change Mobile Number
+
+      </button>
+
+    </div>
+
+    <div id="loginMessage" class="loginMessage"></div>
+
+    <div class="notice">
+      Your mobile number is used only for secure verification.
+      Never share your OTP with anyone.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= MAIN APP ================= -->
+
+<div id="mainApp">
+
 <div class="app">
 
 <header class="header">
@@ -88,18 +430,30 @@ body{
     alt="RinSaathi Advisory Services">
 
   <div class="hero">
-    <h1>Your Debt.<br><span class="gold">Our Guidance.</span></h1>
-    <p>Practical guidance for loan, EMI, debt and credit-related challenges.</p>
+
+    <h1>
+      Your Debt.<br>
+      <span class="gold">Our Guidance.</span>
+    </h1>
+
+    <p>
+      Practical guidance for loan, EMI, debt and credit-related challenges.
+    </p>
+
   </div>
 
 </header>
+
 
 <main class="content">
 
 <div id="home">
 
   <div class="section">
-    <div class="title">How can we help you?</div>
+
+    <div class="title">
+      How can we help you?
+    </div>
 
     <div class="grid">
 
@@ -140,91 +494,172 @@ body{
       </div>
 
     </div>
+
   </div>
 
 
   <div class="section">
-    <div class="title">Consultation</div>
+
+    <div class="title">
+      Consultation
+    </div>
 
     <div class="package">
-      <h3>Personalised Debt Advisory</h3>
-      <p>One-to-one consultation to understand your financial situation and discuss possible next steps.</p>
 
-      <div class="price">₹999</div>
+      <h3>
+        Personalised Debt Advisory
+      </h3>
 
-      <button class="btn btnGold" onclick="openForm()">
+      <p>
+        One-to-one consultation to understand your financial situation
+        and discuss possible next steps.
+      </p>
+
+      <div class="price">
+        ₹999
+      </div>
+
+      <button
+        class="btn btnGold"
+        onclick="openForm()">
+
         Book Consultation
+
       </button>
+
     </div>
+
   </div>
 
 
   <div class="section">
-    <div class="title">Advisory Plans</div>
 
-    <div class="package">
-      <h3>1 Month Advisory</h3>
-      <p>Guidance and support according to your situation.</p>
-
-      <button class="btn btnGold" onclick="openForm()">
-        Enquire Now
-      </button>
+    <div class="title">
+      Advisory Plans
     </div>
 
     <div class="package">
-      <h3>3 Month Advisory</h3>
-      <p>Longer-term guidance for ongoing debt challenges.</p>
 
-      <button class="btn btnGold" onclick="openForm()">
+      <h3>
+        1 Month Advisory
+      </h3>
+
+      <p>
+        Guidance and support according to your situation.
+      </p>
+
+      <button
+        class="btn btnGold"
+        onclick="openForm()">
+
         Enquire Now
+
       </button>
+
     </div>
 
-    <div class="package">
-      <h3>6 Month Advisory</h3>
-      <p>Extended advisory support for structured debt planning.</p>
 
-      <button class="btn btnGold" onclick="openForm()">
+    <div class="package">
+
+      <h3>
+        3 Month Advisory
+      </h3>
+
+      <p>
+        Longer-term guidance for ongoing debt challenges.
+      </p>
+
+      <button
+        class="btn btnGold"
+        onclick="openForm()">
+
         Enquire Now
+
       </button>
+
+    </div>
+
+
+    <div class="package">
+
+      <h3>
+        6 Month Advisory
+      </h3>
+
+      <p>
+        Extended advisory support for structured debt planning.
+      </p>
+
+      <button
+        class="btn btnGold"
+        onclick="openForm()">
+
+        Enquire Now
+
+      </button>
+
     </div>
 
   </div>
 
 
   <div class="notice">
-    <b>Important:</b> RinSaathi Advisory Services is an independent advisory
+
+    <b>Important:</b>
+    RinSaathi Advisory Services is an independent advisory
     and guidance service. We are not a bank, lender or loan provider and
     do not guarantee loan approval, settlement or any specific outcome.
+
   </div>
+
+
+  <button
+    class="logoutBtn"
+    onclick="logoutUser()">
+
+    Logout
+
+  </button>
 
 </div>
 
 
+<!-- GUIDANCE -->
+
 <div id="guidance" class="hidden">
 
-  <div class="back" onclick="goHome()">← Back</div>
+  <div class="back" onclick="goHome()">
+    ← Back
+  </div>
 
   <div class="title" id="guidanceTitle"></div>
 
   <div class="notice">
+
     Every financial situation is different. The right approach depends on
     your loan details, repayment history and current circumstances.
+
   </div>
 
   <div class="section">
 
     <div class="package">
 
-      <h3>What you can do next</h3>
+      <h3>
+        What you can do next
+      </h3>
 
       <p>
         Share your basic situation with RinSaathi. We can help you understand
         the available options, important precautions and practical next steps.
       </p>
 
-      <button class="btn btnGold" onclick="openForm()">
+      <button
+        class="btn btnGold"
+        onclick="openForm()">
+
         Share My Situation
+
       </button>
 
     </div>
@@ -234,11 +669,17 @@ body{
 </div>
 
 
+<!-- FORM -->
+
 <div id="formSection" class="hidden">
 
-  <div class="back" onclick="goHome()">← Back</div>
+  <div class="back" onclick="goHome()">
+    ← Back
+  </div>
 
-  <div class="title">Share Your Situation</div>
+  <div class="title">
+    Share Your Situation
+  </div>
 
   <div class="form" style="display:block">
 
@@ -279,8 +720,7 @@ body{
 
     <textarea
       id="message"
-      placeholder="Briefly tell us about your situation">
-    </textarea>
+      placeholder="Briefly tell us about your situation"></textarea>
 
     <button
       class="btn btnGreen"
@@ -314,18 +754,332 @@ body{
 
 </div>
 
+</div>
+
+
+<!-- ================= FIREBASE OTP ================= -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  onAuthStateChanged,
+  signOut
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
+
+  authDomain: "rinsaathi-app.firebaseapp.com",
+
+  projectId: "rinsaathi-app",
+
+  storageBucket: "rinsaathi-app.firebasestorage.app",
+
+  messagingSenderId: "156758734237",
+
+  appId: "1:156758734237:web:b2daa2fb6e43a7bc192b74"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+let confirmationResult = null;
+
+
+/* MESSAGE */
+
+function setLoginMessage(message,type=""){
+
+  const box =
+    document.getElementById("loginMessage");
+
+  box.innerText = message;
+
+  box.className =
+    "loginMessage " + type;
+
+}
+
+
+/* SEND OTP */
+
+window.sendOTP = async function(){
+
+  const phoneInput =
+    document.getElementById("loginPhone");
+
+  const phone =
+    phoneInput.value.trim();
+
+  if(!/^[6-9]\d{9}$/.test(phone)){
+
+    setLoginMessage(
+      "Please enter a valid 10-digit Indian mobile number.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const fullPhone =
+    "+91" + phone;
+
+
+  try{
+
+    setLoginMessage(
+      "Sending OTP..."
+    );
+
+
+    const appVerifier =
+      window.recaptchaVerifier;
+
+
+    confirmationResult =
+      await signInWithPhoneNumber(
+        auth,
+        fullPhone,
+        appVerifier
+      );
+
+
+    document.getElementById("phoneSection")
+      .style.display = "none";
+
+
+    document.getElementById("otpSection")
+      .style.display = "block";
+
+
+    setLoginMessage(
+      "OTP sent successfully. Please check your SMS.",
+      "success"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    setLoginMessage(
+      error.message || "Unable to send OTP.",
+      "error"
+    );
+
+
+    try{
+
+      window.recaptchaVerifier.clear();
+
+      createRecaptcha();
+
+    }catch(e){}
+
+  }
+
+};
+
+
+/* VERIFY OTP */
+
+window.verifyOTP = async function(){
+
+  const otp =
+    document.getElementById("otpCode")
+      .value.trim();
+
+
+  if(!/^\d{6}$/.test(otp)){
+
+    setLoginMessage(
+      "Please enter the 6-digit OTP.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    setLoginMessage(
+      "Verifying OTP..."
+    );
+
+
+    await confirmationResult.confirm(otp);
+
+
+    setLoginMessage(
+      "Login successful!",
+      "success"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    setLoginMessage(
+      "Invalid OTP. Please try again.",
+      "error"
+    );
+
+  }
+
+};
+
+
+/* RECAPTCHA */
+
+function createRecaptcha(){
+
+  if(window.recaptchaVerifier){
+
+    try{
+
+      window.recaptchaVerifier.clear();
+
+    }catch(e){}
+
+  }
+
+
+  window.recaptchaVerifier =
+    new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        size:"normal",
+
+        callback:function(){
+
+          console.log("reCAPTCHA verified");
+
+        },
+
+        "expired-callback":function(){
+
+          setLoginMessage(
+            "reCAPTCHA expired. Please verify again.",
+            "error"
+          );
+
+        }
+
+      }
+    );
+
+}
+
+
+createRecaptcha();
+
+
+/* AUTH STATE */
+
+onAuthStateChanged(
+  auth,
+  function(user){
+
+    const loginScreen =
+      document.getElementById("loginScreen");
+
+    const mainApp =
+      document.getElementById("mainApp");
+
+
+    if(user){
+
+      loginScreen.style.display = "none";
+
+      mainApp.style.display = "block";
+
+      console.log(
+        "Logged in:",
+        user.phoneNumber
+      );
+
+    }else{
+
+      loginScreen.style.display = "flex";
+
+      mainApp.style.display = "none";
+
+    }
+
+  }
+);
+
+
+/* LOGOUT */
+
+window.logoutUser = async function(){
+
+  await signOut(auth);
+
+  location.reload();
+
+};
+
+
+/* CHANGE PHONE */
+
+window.backToPhone = function(){
+
+  document.getElementById("otpSection")
+    .style.display = "none";
+
+  document.getElementById("phoneSection")
+    .style.display = "block";
+
+  document.getElementById("otpCode")
+    .value = "";
+
+  setLoginMessage("");
+
+  createRecaptcha();
+
+};
+
+</script>
+
+
+<!-- ================= APP FUNCTIONS ================= -->
 
 <script>
 
 function showGuidance(title){
 
-  document.getElementById("home").classList.add("hidden");
+  document.getElementById("home")
+    .classList.add("hidden");
 
-  document.getElementById("formSection").classList.add("hidden");
+  document.getElementById("formSection")
+    .classList.add("hidden");
 
-  document.getElementById("guidance").classList.remove("hidden");
+  document.getElementById("guidance")
+    .classList.remove("hidden");
 
-  document.getElementById("guidanceTitle").innerText = title;
+  document.getElementById("guidanceTitle")
+    .innerText = title;
 
   window.scrollTo(0,0);
 
@@ -334,11 +1088,14 @@ function showGuidance(title){
 
 function openForm(){
 
-  document.getElementById("home").classList.add("hidden");
+  document.getElementById("home")
+    .classList.add("hidden");
 
-  document.getElementById("guidance").classList.add("hidden");
+  document.getElementById("guidance")
+    .classList.add("hidden");
 
-  document.getElementById("formSection").classList.remove("hidden");
+  document.getElementById("formSection")
+    .classList.remove("hidden");
 
   window.scrollTo(0,0);
 
@@ -347,11 +1104,14 @@ function openForm(){
 
 function goHome(){
 
-  document.getElementById("guidance").classList.add("hidden");
+  document.getElementById("guidance")
+    .classList.add("hidden");
 
-  document.getElementById("formSection").classList.add("hidden");
+  document.getElementById("formSection")
+    .classList.add("hidden");
 
-  document.getElementById("home").classList.remove("hidden");
+  document.getElementById("home")
+    .classList.remove("hidden");
 
   window.scrollTo(0,0);
 
@@ -361,22 +1121,28 @@ function goHome(){
 function sendWhatsApp(){
 
   const name =
-    document.getElementById("name").value.trim();
+    document.getElementById("name")
+      .value.trim();
 
   const phone =
-    document.getElementById("phone").value.trim();
+    document.getElementById("phone")
+      .value.trim();
 
   const problem =
-    document.getElementById("problem").value;
+    document.getElementById("problem")
+      .value;
 
   const outstanding =
-    document.getElementById("outstanding").value.trim();
+    document.getElementById("outstanding")
+      .value.trim();
 
   const emi =
-    document.getElementById("emi").value.trim();
+    document.getElementById("emi")
+      .value.trim();
 
   const message =
-    document.getElementById("message").value.trim();
+    document.getElementById("message")
+      .value.trim();
 
 
   if(!name || !phone || !problem){
@@ -407,9 +1173,8 @@ ${message || "Not provided"}
 I understand that RinSaathi provides advisory and guidance services and does not guarantee any specific outcome.`;
 
 
-  /* RinSaathi WhatsApp Number */
-
-  const whatsappNumber = "919319301096";
+  const whatsappNumber =
+    "919319301096";
 
 
   window.open(
