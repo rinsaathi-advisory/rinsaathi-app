@@ -19,6 +19,11 @@
 .pricing{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.price{border:1px solid var(--line);border-radius:22px;padding:21px;position:relative;background:#fff}.price.featured{border:2px solid var(--gold)}.tag{position:absolute;right:14px;top:14px;background:#f7edce;color:#765b13;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:850}.price h3{margin:0 0 5px;font-size:19px}.amount{font-size:29px;font-weight:900;margin:8px 0 12px}.price ul{padding-left:20px;margin:0;color:var(--muted);line-height:1.6}
 .about{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}.notice{background:#fff8e6;border:1px solid #ead89e;border-radius:20px;padding:18px}.notice strong{color:#765b13}.contact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.contact a{text-decoration:none;color:inherit}.contactbox{border:1px solid var(--line);border-radius:18px;padding:17px;background:#fbfcfb}.contactbox b{display:block;margin-bottom:4px}.small{font-size:13px;color:var(--muted);line-height:1.45}
 form{display:grid;gap:12px}input,select,textarea{width:100%;padding:15px 16px;border:1px solid #d7e1dc;border-radius:16px;background:#fff;font:inherit;color:#173d32}textarea{min-height:120px;resize:vertical}.note{font-size:13px;color:var(--muted);line-height:1.45}.result{display:none;margin-top:14px;padding:15px;border-radius:16px;background:#e7f4ee;color:var(--green);font-weight:700}.footer{text-align:center;padding:22px 0 42px;color:#71817b;font-size:13px}.footer b{color:var(--green)}
+.service.clickable{cursor:pointer;transition:.18s}.service.clickable:active{transform:scale(.99)}
+.service-cta{display:inline-block;margin-top:10px;color:var(--green);font-weight:800;font-size:14px}
+.price .package-btn{margin-top:16px}
+.floating-wa{position:fixed;right:16px;bottom:18px;z-index:20;text-decoration:none;background:#0d6f53;color:#fff;border-radius:999px;padding:13px 17px;font-weight:850;font-size:14px;box-shadow:0 10px 28px #173d3230}
+@media(max-width:650px){.floating-wa{right:14px;bottom:14px}}
 @media(max-width:650px){.grid,.services,.pricing,.about,.contact{grid-template-columns:1fr}.card{padding:20px;border-radius:24px}.section-title{font-size:27px}.hero{padding-top:16px}}
 </style>
 </head>
@@ -46,12 +51,12 @@ form{display:grid;gap:12px}input,select,textarea{width:100%;padding:15px 16px;bo
 <h2 class="section-title">Our Services</h2>
 <p class="section-sub">Practical advisory and educational guidance — tailored to your situation.</p>
 <div class="services">
-<div class="service"><h3>Loan & Debt Assessment</h3><p>Understand outstanding obligations, EMI pressure and the key points you should consider.</p></div>
-<div class="service"><h3>CIBIL & Credit Guidance</h3><p>Understand credit-report issues, account status and responsible next steps.</p></div>
-<div class="service"><h3>Recovery Communication Guidance</h3><p>Learn how to handle recovery calls and communication professionally and calmly.</p></div>
-<div class="service"><h3>EMI Difficulty Planning</h3><p>Discuss practical options when regular EMI payment is becoming difficult.</p></div>
-<div class="service"><h3>Settlement Option Education</h3><p>Understand what settlement means, possible implications and questions to ask before deciding.</p></div>
-<div class="service"><h3>Personalised Financial Guidance</h3><p>Get situation-based guidance focused on clarity, documentation and informed decisions.</p></div>
+<div class="service clickable" onclick="jump('enquiry','Loan / Debt')"><h3>Loan & Debt Assessment</h3><p>Understand outstanding obligations, EMI pressure and the key points you should consider.</p><span class="service-cta">Ask for guidance →</span></div>
+<div class="service clickable" onclick="jump('enquiry','CIBIL / Credit Report')"><h3>CIBIL & Credit Guidance</h3><p>Understand credit-report issues, account status and responsible next steps.</p><span class="service-cta">Ask for guidance →</span></div>
+<div class="service clickable" onclick="jump('enquiry','Recovery Call Guidance')"><h3>Recovery Communication Guidance</h3><p>Learn how to handle recovery calls and communication professionally and calmly.</p><span class="service-cta">Ask for guidance →</span></div>
+<div class="service clickable" onclick="jump('enquiry','EMI Payment Difficulty')"><h3>EMI Difficulty Planning</h3><p>Discuss practical options when regular EMI payment is becoming difficult.</p><span class="service-cta">Ask for guidance →</span></div>
+<div class="service clickable" onclick="jump('enquiry','Settlement Option Education')"><h3>Settlement Option Education</h3><p>Understand what settlement means, possible implications and questions to ask before deciding.</p><span class="service-cta">Ask for guidance →</span></div>
+<div class="service clickable" onclick="jump('enquiry','Personalised Guidance')"><h3>Personalised Financial Guidance</h3><p>Get situation-based guidance focused on clarity, documentation and informed decisions.</p><span class="service-cta">Ask for guidance →</span></div>
 </div>
 </section>
 
@@ -59,10 +64,10 @@ form{display:grid;gap:12px}input,select,textarea{width:100%;padding:15px 16px;bo
 <h2 class="section-title">Consultation & Advisory Packages</h2>
 <p class="section-sub">Start with a consultation or choose longer-term advisory support.</p>
 <div class="pricing">
-<div class="price"><h3>Personal Consultation</h3><div class="amount">₹999</div><ul><li>Situation-focused consultation</li><li>Understand your key options</li><li>Action-oriented guidance</li></ul></div>
-<div class="price"><h3>1 Month Advisory</h3><div class="amount">₹2,499</div><ul><li>Ongoing advisory support</li><li>Case-related guidance</li><li>Structured next-step planning</li></ul></div>
-<div class="price featured"><span class="tag">POPULAR</span><h3>3 Months Advisory</h3><div class="amount">₹5,999</div><ul><li>Longer-term guidance</li><li>Progress & situation reviews</li><li>Continued strategic support</li></ul></div>
-<div class="price"><h3>6 Months Advisory</h3><div class="amount">₹9,999</div><ul><li>Extended advisory support</li><li>Ongoing situation reviews</li><li>Long-term planning guidance</li></ul></div>
+<div class="price"><h3>Personal Consultation</h3><div class="amount">₹999</div><ul><li>Situation-focused consultation</li><li>Understand your key options</li><li>Action-oriented guidance</li></ul><button class="btn secondary package-btn" onclick="jump('enquiry','Personal Consultation')">Ask About This</button></div>
+<div class="price"><h3>1 Month Advisory</h3><div class="amount">₹2,499</div><ul><li>Ongoing advisory support</li><li>Case-related guidance</li><li>Structured next-step planning</li></ul><button class="btn secondary package-btn" onclick="jump('enquiry','1 Month Advisory')">Ask About This</button></div>
+<div class="price featured"><span class="tag">POPULAR</span><h3>3 Months Advisory</h3><div class="amount">₹5,999</div><ul><li>Longer-term guidance</li><li>Progress & situation reviews</li><li>Continued strategic support</li></ul><button class="btn gold package-btn" onclick="jump('enquiry','3 Months Advisory')">Ask About This</button></div>
+<div class="price"><h3>6 Months Advisory</h3><div class="amount">₹9,999</div><ul><li>Extended advisory support</li><li>Ongoing situation reviews</li><li>Long-term planning guidance</li></ul><button class="btn secondary package-btn" onclick="jump('enquiry','6 Months Advisory')">Ask About This</button></div>
 </div>
 <p class="note" style="margin-top:16px">Fees are for advisory/consultation services only. RinSaathi does not provide new loans and does not guarantee settlement, waiver, approval or any specific outcome.</p>
 <div class="actions"><button class="btn" onclick="jump('enquiry','Consultation & Packages')">Ask About a Package</button></div>
@@ -114,6 +119,8 @@ form{display:grid;gap:12px}input,select,textarea{width:100%;padding:15px 16px;bo
 </div>
 </section>
 </main>
+
+<a class="floating-wa" href="https://wa.me/919319301096" target="_blank" rel="noopener" aria-label="Open RinSaathi WhatsApp">💬 WhatsApp</a>
 
 <footer class="footer container"><b>RinSaathi Advisory Services</b><br>Your Debt. Our Strategy. Your Freedom. Our Mission.<br><br>Advisory and educational guidance only. Outcomes depend on the relevant lender and individual circumstances.</footer>
 
