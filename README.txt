@@ -1,1 +1,1 @@
-RinSaathi Advisory Services - V2. Premium mobile-first advisory landing app.
+RinSaathi Advisory Services V3 - clickable service sections and enquiry flow.
