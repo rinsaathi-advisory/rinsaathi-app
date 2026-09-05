@@ -23,6 +23,9 @@ ul{padding-left:20px;line-height:1.7}
 .btn.alt{background:#e8f0ed;color:#0b5940}
 form{display:grid;gap:10px;margin-top:14px}input,select,textarea{width:100%;padding:12px;border:1px solid #d7dfdc;border-radius:10px;font:inherit}textarea{min-height:90px}
 .note{font-size:12px;color:#738079;margin-top:12px}
+
+.service-item{padding:13px 0;border-bottom:1px solid #e6ece9}.service-item:last-of-type{border-bottom:0}.service-item h3{font-size:16px;margin:0 0 5px}
+details{border-bottom:1px solid #e6ece9;padding:14px 0}summary{cursor:pointer;font-weight:700;list-style:none;padding-right:20px;position:relative}summary::-webkit-details-marker{display:none}summary:after{content:"+";position:absolute;right:0;font-size:20px;top:-4px}details[open] summary:after{content:"−"}details p{margin:9px 0 0;line-height:1.55;color:#687770}
 footer{text-align:center;padding:24px 10px;color:#75827d;font-size:12px}
 @media(max-width:480px){.grid{gap:9px}.card{padding:14px 10px!important}}
 </style>
@@ -36,6 +39,11 @@ footer{text-align:center;padding:24px 10px;color:#75827d;font-size:12px}
 
 <main>
 <p class="muted">Get practical guidance for loan, EMI, debt, recovery-call and CIBIL-related concerns. RinSaathi is an advisory service and does not provide new loans or guarantee settlement outcomes.</p>
+
+<div class="grid">
+<button class="card" onclick="openPanel('services')"><span>✨</span>Our Services<small>Explore our advisory support</small></button>
+<button class="card" onclick="openPanel('faq')"><span>❓</span>FAQ<small>Common questions answered</small></button>
+</div>
 
 <div class="grid">
 <button class="card" onclick="openPanel('loan')"><span>💳</span>Loan & Debt Guidance<small>Understand your options</small></button>
@@ -66,6 +74,35 @@ footer{text-align:center;padding:24px 10px;color:#75827d;font-size:12px}
 <h2>EMI Payment Difficulty</h2><p class="muted">If an EMI has become difficult to manage, we can help you understand your situation and prepare a practical action plan.</p>
 <ul><li>Review income, EMI and outstanding obligations</li><li>Prioritise immediate actions</li><li>Prepare for communication with lenders</li></ul>
 <button class="btn" onclick="openPanel('enquiry')">Share Your Details</button>
+</section>
+
+<section id="services" class="panel">
+<h2>Our Services</h2>
+<p class="muted">Practical, independent guidance designed to help you understand your financial situation and make informed decisions.</p>
+
+<div class="service-item"><h3>💳 Loan & Debt Advisory</h3><p class="muted">Understand your outstanding obligations, available options and practical next steps based on your situation.</p></div>
+<div class="service-item"><h3>📊 CIBIL / Credit Guidance</h3><p class="muted">Guidance on understanding credit-report entries, account status and responsible next steps.</p></div>
+<div class="service-item"><h3>📞 Recovery Call Guidance</h3><p class="muted">Learn how to communicate calmly, keep records and organise relevant notices or messages.</p></div>
+<div class="service-item"><h3>₹ EMI Difficulty Guidance</h3><p class="muted">If your EMI has become difficult to manage, understand your situation and prepare a practical action plan.</p></div>
+<div class="service-item"><h3>🧭 Debt Planning</h3><p class="muted">Create a clearer priority plan for managing multiple dues and deciding what to address first.</p></div>
+<div class="service-item"><h3>🤝 Personalised Consultation</h3><p class="muted">Discuss your specific situation and receive structured advisory guidance.</p></div>
+
+<button class="btn" onclick="openPanel('enquiry')">Request Guidance</button>
+</section>
+
+<section id="faq" class="panel">
+<h2>Frequently Asked Questions</h2>
+<p class="muted">Tap a question to view the answer.</p>
+
+<details><summary>What is RinSaathi?</summary><p>RinSaathi Advisory Services is an independent loan, debt and credit advisory service that provides guidance and education to help customers understand their options.</p></details>
+<details><summary>Does RinSaathi provide new loans?</summary><p>No. RinSaathi is not a loan provider and does not provide new loans.</p></details>
+<details><summary>Does RinSaathi guarantee loan settlement?</summary><p>No. We do not guarantee settlement, waiver, approval or any particular outcome. Guidance depends on the individual situation and the relevant lender's decisions.</p></details>
+<details><summary>Can RinSaathi help with CIBIL-related concerns?</summary><p>Yes. We can provide guidance on understanding credit-report information, account status and possible next steps.</p></details>
+<details><summary>Can I get guidance about recovery calls?</summary><p>Yes. We can guide you on documenting communications and responding in a calm, organised and informed manner.</p></details>
+<details><summary>How do I contact RinSaathi?</summary><p>You can submit the enquiry form and continue to WhatsApp using the existing WhatsApp flow.</p></details>
+<details><summary>Is my information confidential?</summary><p>Customer information should be handled responsibly and only used for providing the requested advisory support.</p></details>
+
+<button class="btn" onclick="openPanel('enquiry')">Ask About My Situation</button>
 </section>
 
 <section id="enquiry" class="panel">
