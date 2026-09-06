@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#063f32">
+
 <title>RinSaathi Advisory Services</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
@@ -22,7 +29,7 @@ body{
   background:#fff;
 }
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 
 #loginScreen{
   min-height:100vh;
@@ -123,7 +130,7 @@ body{
   color:#16704f;
 }
 
-/* MAIN APP */
+/* ================= MAIN APP ================= */
 
 #mainApp{
   display:none;
@@ -211,34 +218,66 @@ body{
   line-height:1.4;
 }
 
+/* ================= SECTION ================= */
+
 .section{
   margin-top:28px;
 }
 
-.package{
-  background:linear-gradient(145deg,#073f32,#0d604c);
+/* ================= CONSULTATION OFFER ================= */
+
+.consultationOffer{
+  background:linear-gradient(145deg,#063f32,#0d604c);
   color:white;
+  border-radius:22px;
+  padding:22px;
+  margin-bottom:12px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+
+.offerBadge{
+  display:inline-block;
+  background:#d8b45f;
+  color:#17352d;
+  padding:6px 10px;
   border-radius:20px;
-  padding:20px;
+  font-size:11px;
+  font-weight:800;
   margin-bottom:12px;
 }
 
-.package h3{
-  font-size:18px;
+.consultationOffer h3{
+  font-size:20px;
 }
 
-.package p{
+.consultationOffer p{
   font-size:13px;
-  opacity:.88;
-  margin-top:6px;
-  line-height:1.45;
+  opacity:.9;
+  margin-top:7px;
+  line-height:1.5;
 }
 
-.price{
-  font-size:23px;
-  font-weight:800;
+.oldPrice{
+  font-size:14px;
+  text-decoration:line-through;
+  opacity:.7;
+  margin-top:14px;
+}
+
+.offerPrice{
+  font-size:30px;
+  font-weight:900;
   color:#e2bc65;
-  margin-top:10px;
+  margin-top:2px;
+}
+
+.saveText{
+  font-size:12px;
+  color:#fff;
+  margin-top:3px;
+  font-weight:700;
 }
 
 .btn{
@@ -262,6 +301,81 @@ body{
   background:#063f32;
   color:white;
 }
+
+/* ================= LOCKED AREA ================= */
+
+.lockedBox{
+  border:1px solid #e4e8e6;
+  background:#f8faf9;
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  margin-top:18px;
+}
+
+.lockIcon{
+  font-size:35px;
+  margin-bottom:10px;
+}
+
+.lockedBox h3{
+  font-size:17px;
+  color:#063f32;
+}
+
+.lockedBox p{
+  font-size:13px;
+  color:#6a7974;
+  line-height:1.5;
+  margin-top:7px;
+}
+
+/* ================= ADVISORY PLANS ================= */
+
+#paidContent{
+  display:none;
+}
+
+.package{
+  background:linear-gradient(145deg,#073f32,#0d604c);
+  color:white;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:12px;
+}
+
+.package h3{
+  font-size:18px;
+}
+
+.package p{
+  font-size:13px;
+  opacity:.88;
+  margin-top:6px;
+  line-height:1.45;
+}
+
+.price{
+  font-size:24px;
+  font-weight:800;
+  color:#e2bc65;
+  margin-top:10px;
+}
+
+.oldPlanPrice{
+  font-size:13px;
+  text-decoration:line-through;
+  opacity:.7;
+  margin-top:12px;
+}
+
+.savePlan{
+  font-size:12px;
+  font-weight:800;
+  margin-top:3px;
+}
+
+/* ================= FORM ================= */
 
 .form{
   display:none;
@@ -305,7 +419,7 @@ body{
 }
 
 .hidden{
-  display:none;
+  display:none !important;
 }
 
 .back{
@@ -347,12 +461,38 @@ body{
   margin-top:20px;
   margin-bottom:12px;
 }
+
+.unlockedTitle{
+  color:#16704f;
+  font-size:15px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+/* ================= PAYMENT STATUS ================= */
+
+.paymentStatus{
+  display:none;
+  margin-top:14px;
+  padding:13px;
+  border-radius:12px;
+  background:#edf8f2;
+  color:#16704f;
+  font-size:13px;
+  text-align:center;
+  font-weight:700;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+
+<!-- ========================================================= -->
+<!-- LOGIN -->
+<!-- ========================================================= -->
 
 <div id="loginScreen">
 
@@ -370,6 +510,7 @@ body{
     <div class="loginSub">
       Secure mobile verification to continue
     </div>
+
 
     <div id="phoneSection">
 
@@ -393,6 +534,7 @@ body{
       </button>
 
     </div>
+
 
     <div id="otpSection">
 
@@ -422,11 +564,15 @@ body{
 
     </div>
 
+
     <div id="loginMessage" class="loginMessage"></div>
 
+
     <div class="notice">
+
       Your mobile number is used only for secure verification.
       Never share your OTP with anyone.
+
     </div>
 
   </div>
@@ -434,11 +580,15 @@ body{
 </div>
 
 
-<!-- ================= MAIN APP ================= -->
+
+<!-- ========================================================= -->
+<!-- MAIN APP -->
+<!-- ========================================================= -->
 
 <div id="mainApp">
 
 <div class="app">
+
 
 <header class="header">
 
@@ -463,9 +613,18 @@ body{
 </header>
 
 
+
 <main class="content">
 
+
+<!-- ========================================================= -->
+<!-- HOME -->
+<!-- ========================================================= -->
+
 <div id="home">
+
+
+  <!-- SERVICES -->
 
   <div class="section">
 
@@ -473,88 +632,268 @@ body{
       How can we help you?
     </div>
 
+
     <div class="grid">
 
-      <div class="card" onclick="showGuidance('Loan & EMI Guidance')">
+
+      <div
+        class="card"
+        onclick="showGuidance('Loan & EMI Guidance')">
+
         <div class="icon">💳</div>
-        <h3>Loan & EMI</h3>
-        <p>Understand your loan and EMI situation.</p>
+
+        <h3>
+          Loan & EMI
+        </h3>
+
+        <p>
+          Understand your loan and EMI situation.
+        </p>
+
       </div>
 
-      <div class="card" onclick="showGuidance('CIBIL / Credit Guidance')">
+
+
+      <div
+        class="card"
+        onclick="showGuidance('CIBIL / Credit Guidance')">
+
         <div class="icon">📊</div>
-        <h3>CIBIL Guidance</h3>
-        <p>Understand credit-related concerns.</p>
+
+        <h3>
+          CIBIL Guidance
+        </h3>
+
+        <p>
+          Understand credit-related concerns.
+        </p>
+
       </div>
 
-      <div class="card" onclick="showGuidance('Recovery Call Guidance')">
+
+
+      <div
+        class="card"
+        onclick="showGuidance('Recovery Call Guidance')">
+
         <div class="icon">📞</div>
-        <h3>Recovery Calls</h3>
-        <p>Know how to handle recovery communication.</p>
+
+        <h3>
+          Recovery Calls
+        </h3>
+
+        <p>
+          Know how to handle recovery communication.
+        </p>
+
       </div>
 
-      <div class="card" onclick="showGuidance('Debt Management')">
+
+
+      <div
+        class="card"
+        onclick="showGuidance('Debt Management')">
+
         <div class="icon">🧾</div>
-        <h3>Debt Management</h3>
-        <p>Organise multiple debt obligations.</p>
+
+        <h3>
+          Debt Management
+        </h3>
+
+        <p>
+          Organise multiple debt obligations.
+        </p>
+
       </div>
 
-      <div class="card" onclick="showGuidance('Settlement Option Education')">
+
+
+      <div
+        class="card"
+        onclick="showGuidance('Settlement Option Education')">
+
         <div class="icon">🧠</div>
-        <h3>Settlement Education</h3>
-        <p>Understand settlement-related options.</p>
+
+        <h3>
+          Settlement Education
+        </h3>
+
+        <p>
+          Understand settlement-related options.
+        </p>
+
       </div>
 
-      <div class="card" onclick="showGuidance('Talk to RinSaathi')">
+
+
+      <div
+        class="card"
+        onclick="showGuidance('Talk to RinSaathi')">
+
         <div class="icon">💬</div>
-        <h3>Talk to RinSaathi</h3>
-        <p>Share your situation for guidance.</p>
+
+        <h3>
+          Talk to RinSaathi
+        </h3>
+
+        <p>
+          Share your situation for guidance.
+        </p>
+
       </div>
+
 
     </div>
 
   </div>
 
 
+
+  <!-- ===================================================== -->
+  <!-- CONSULTATION OFFER -->
+  <!-- ===================================================== -->
+
   <div class="section">
 
     <div class="title">
-      Consultation
+      Get Consultation
     </div>
 
-    <div class="package">
+
+    <div class="consultationOffer">
+
+      <div class="offerBadge">
+        🔥 LIMITED TIME OFFER • 50% OFF
+      </div>
+
 
       <h3>
         Personalised Debt Advisory
       </h3>
 
+
       <p>
-        One-to-one consultation to understand your financial situation
-        and discuss possible next steps.
+        One-to-one consultation to understand your financial
+        situation and discuss practical next steps.
       </p>
 
-      <div class="price">
-        ₹999
+
+      <div class="oldPrice">
+        Original Price: ₹999
       </div>
+
+
+      <div class="offerPrice">
+        ₹499
+      </div>
+
+
+      <div class="saveText">
+        You Save ₹500
+      </div>
+
+
+      <!-- PAYMENT BUTTON -->
+      <!-- Razorpay will be connected here later -->
 
       <button
         class="btn btnGold"
-        onclick="openForm('Consultation')">
+        onclick="startConsultationPayment()">
 
-        Book Consultation
+        Get Consultation for ₹499
 
       </button>
+
+
+      <div
+        id="paymentStatus"
+        class="paymentStatus">
+
+        Payment verification will be connected here.
+
+      </div>
+
+    </div>
+
+
+    <!-- LOCKED MESSAGE -->
+
+    <div
+      id="lockedMessage"
+      class="lockedBox">
+
+      <div class="lockIcon">
+        🔒
+      </div>
+
+      <h3>
+        Consultation & Advisory Plans Locked
+      </h3>
+
+      <p>
+        Complete the ₹499 consultation payment to unlock
+        personalised consultation access and Advisory Plans.
+      </p>
 
     </div>
 
   </div>
 
 
-  <div class="section">
+
+  <!-- ===================================================== -->
+  <!-- PAID CONTENT -->
+  <!-- ONLY SHOWN AFTER VERIFIED PAYMENT -->
+  <!-- ===================================================== -->
+
+  <div
+    id="paidContent"
+    class="section">
+
+
+    <div class="unlockedTitle">
+      ✓ Consultation Access Unlocked
+    </div>
+
+
+    <!-- CONSULTATION -->
+
+    <div class="package">
+
+      <h3>
+        Personalised Consultation
+      </h3>
+
+      <p>
+        Your consultation access is now available.
+        Share your situation and receive practical guidance
+        based on the information you provide.
+      </p>
+
+
+      <button
+        class="btn btnGold"
+        onclick="openForm('Consultation')">
+
+        Start My Consultation
+
+      </button>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- ADVISORY PLANS -->
+    <!-- ================================================= -->
 
     <div class="title">
       Advisory Plans
     </div>
+
+
+
+    <!-- 1 MONTH -->
 
     <div class="package">
 
@@ -566,16 +905,35 @@ body{
         Guidance and support according to your situation.
       </p>
 
+
+      <div class="oldPlanPrice">
+        ₹2,499
+      </div>
+
+
+      <div class="price">
+        ₹1,999
+      </div>
+
+
+      <div class="savePlan">
+        Save ₹500
+      </div>
+
+
       <button
         class="btn btnGold"
         onclick="openForm('1 Month Advisory')">
 
-        Enquire Now
+        Choose 1 Month
 
       </button>
 
     </div>
 
+
+
+    <!-- 3 MONTH -->
 
     <div class="package">
 
@@ -587,16 +945,35 @@ body{
         Longer-term guidance for ongoing debt challenges.
       </p>
 
+
+      <div class="oldPlanPrice">
+        ₹5,999
+      </div>
+
+
+      <div class="price">
+        ₹4,999
+      </div>
+
+
+      <div class="savePlan">
+        Save ₹1,000
+      </div>
+
+
       <button
         class="btn btnGold"
         onclick="openForm('3 Month Advisory')">
 
-        Enquire Now
+        Choose 3 Months
 
       </button>
 
     </div>
 
+
+
+    <!-- 6 MONTH -->
 
     <div class="package">
 
@@ -608,27 +985,49 @@ body{
         Extended advisory support for structured debt planning.
       </p>
 
+
+      <div class="oldPlanPrice">
+        ₹9,999
+      </div>
+
+
+      <div class="price">
+        ₹7,999
+      </div>
+
+
+      <div class="savePlan">
+        Save ₹2,000
+      </div>
+
+
       <button
         class="btn btnGold"
         onclick="openForm('6 Month Advisory')">
 
-        Enquire Now
+        Choose 6 Months
 
       </button>
 
     </div>
 
+
   </div>
 
+
+
+  <!-- NOTICE -->
 
   <div class="notice">
 
     <b>Important:</b>
+
     RinSaathi Advisory Services is an independent advisory
-    and guidance service. We are not a bank, lender or loan provider and
-    do not guarantee loan approval, settlement or any specific outcome.
+    and guidance service. We are not a bank, lender or loan provider
+    and do not guarantee loan approval, settlement or any specific outcome.
 
   </div>
+
 
 
   <button
@@ -639,39 +1038,80 @@ body{
 
   </button>
 
-</div>
-
-
-<!-- ================= GUIDANCE ================= -->
-
-<div id="guidance" class="hidden">
-
-  <div class="back" onclick="goHome()">
-    ← Back
-  </div>
-
-  <div class="title" id="guidanceTitle"></div>
-
-  <div id="guidanceContent"></div>
 
 </div>
 
 
-<!-- ================= FORM ================= -->
 
-<div id="formSection" class="hidden">
+<!-- ========================================================= -->
+<!-- GUIDANCE -->
+<!-- ========================================================= -->
 
-  <div class="back" onclick="goHome()">
+<div
+  id="guidance"
+  class="hidden">
+
+
+  <div
+    class="back"
+    onclick="goHome()">
+
     ← Back
+
   </div>
 
-  <div class="title" id="formTitle">
+
+  <div
+    class="title"
+    id="guidanceTitle">
+  </div>
+
+
+  <div
+    id="guidanceContent">
+  </div>
+
+
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- FORM -->
+<!-- ========================================================= -->
+
+<div
+  id="formSection"
+  class="hidden">
+
+
+  <div
+    class="back"
+    onclick="goHome()">
+
+    ← Back
+
+  </div>
+
+
+  <div
+    class="title"
+    id="formTitle">
+
     Share Your Situation
+
   </div>
 
-  <div class="form" style="display:block">
 
-    <div id="dynamicFormFields"></div>
+  <div
+    class="form"
+    style="display:block">
+
+
+    <div
+      id="dynamicFormFields">
+    </div>
+
 
     <button
       class="btn btnGreen"
@@ -681,18 +1121,22 @@ body{
 
     </button>
 
+
     <div class="notice">
 
-      Please do not share passwords, OTPs, card PINs or other confidential
-      banking credentials.
+      Please do not share passwords, OTPs, card PINs
+      or other confidential banking credentials.
 
     </div>
+
 
   </div>
 
 </div>
 
+
 </main>
+
 
 
 <footer class="footer">
@@ -703,12 +1147,16 @@ body{
 
 </footer>
 
-</div>
 
 </div>
 
+</div>
 
-<!-- ================= FIREBASE OTP ================= -->
+
+
+<!-- ========================================================= -->
+<!-- FIREBASE OTP -->
+<!-- ========================================================= -->
 
 <script type="module">
 
@@ -727,26 +1175,37 @@ from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
+  apiKey:
+    "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
-  authDomain: "rinsaathi-app.firebaseapp.com",
+  authDomain:
+    "rinsaathi-app.firebaseapp.com",
 
-  projectId: "rinsaathi-app",
+  projectId:
+    "rinsaathi-app",
 
-  storageBucket: "rinsaathi-app.firebasestorage.app",
+  storageBucket:
+    "rinsaathi-app.firebasestorage.app",
 
-  messagingSenderId: "156758734237",
+  messagingSenderId:
+    "156758734237",
 
-  appId: "1:156758734237:web:b2daa2fb6e43a7bc192b74"
+  appId:
+    "1:156758734237:web:b2daa2fb6e43a7bc192b74"
 
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app =
+  initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+
+const auth =
+  getAuth(app);
+
 
 let confirmationResult = null;
+
 
 
 function setLoginMessage(message,type=""){
@@ -754,7 +1213,8 @@ function setLoginMessage(message,type=""){
   const box =
     document.getElementById("loginMessage");
 
-  box.innerText = message;
+  box.innerText =
+    message;
 
   box.className =
     "loginMessage " + type;
@@ -762,13 +1222,17 @@ function setLoginMessage(message,type=""){
 }
 
 
-window.sendOTP = async function(){
+
+window.sendOTP =
+async function(){
 
   const phoneInput =
     document.getElementById("loginPhone");
 
+
   const phone =
     phoneInput.value.trim();
+
 
   if(!/^[6-9]\d{9}$/.test(phone)){
 
@@ -806,11 +1270,13 @@ window.sendOTP = async function(){
 
 
     document.getElementById("phoneSection")
-      .style.display = "none";
+      .style.display =
+      "none";
 
 
     document.getElementById("otpSection")
-      .style.display = "block";
+      .style.display =
+      "block";
 
 
     setLoginMessage(
@@ -823,8 +1289,10 @@ window.sendOTP = async function(){
 
     console.error(error);
 
+
     setLoginMessage(
-      error.message || "Unable to send OTP.",
+      error.message ||
+      "Unable to send OTP.",
       "error"
     );
 
@@ -842,7 +1310,9 @@ window.sendOTP = async function(){
 };
 
 
-window.verifyOTP = async function(){
+
+window.verifyOTP =
+async function(){
 
   const otp =
     document.getElementById("otpCode")
@@ -881,6 +1351,7 @@ window.verifyOTP = async function(){
 
     console.error(error);
 
+
     setLoginMessage(
       "Invalid OTP. Please try again.",
       "error"
@@ -889,6 +1360,7 @@ window.verifyOTP = async function(){
   }
 
 };
+
 
 
 function createRecaptcha(){
@@ -909,11 +1381,14 @@ function createRecaptcha(){
       auth,
       "recaptcha-container",
       {
+
         size:"normal",
 
         callback:function(){
 
-          console.log("reCAPTCHA verified");
+          console.log(
+            "reCAPTCHA verified"
+          );
 
         },
 
@@ -935,6 +1410,7 @@ function createRecaptcha(){
 createRecaptcha();
 
 
+
 onAuthStateChanged(
   auth,
   function(user){
@@ -942,26 +1418,35 @@ onAuthStateChanged(
     const loginScreen =
       document.getElementById("loginScreen");
 
+
     const mainApp =
       document.getElementById("mainApp");
 
 
     if(user){
 
-      loginScreen.style.display = "none";
+      loginScreen.style.display =
+        "none";
 
-      mainApp.style.display = "block";
+
+      mainApp.style.display =
+        "block";
+
 
       console.log(
         "Logged in:",
         user.phoneNumber
       );
 
+
     }else{
 
-      loginScreen.style.display = "flex";
+      loginScreen.style.display =
+        "flex";
 
-      mainApp.style.display = "none";
+
+      mainApp.style.display =
+        "none";
 
     }
 
@@ -969,7 +1454,9 @@ onAuthStateChanged(
 );
 
 
-window.logoutUser = async function(){
+
+window.logoutUser =
+async function(){
 
   await signOut(auth);
 
@@ -978,16 +1465,23 @@ window.logoutUser = async function(){
 };
 
 
-window.backToPhone = function(){
+
+window.backToPhone =
+function(){
 
   document.getElementById("otpSection")
-    .style.display = "none";
+    .style.display =
+    "none";
+
 
   document.getElementById("phoneSection")
-    .style.display = "block";
+    .style.display =
+    "block";
+
 
   document.getElementById("otpCode")
     .value = "";
+
 
   setLoginMessage("");
 
@@ -998,16 +1492,104 @@ window.backToPhone = function(){
 </script>
 
 
-<!-- ================= APP FUNCTIONS ================= -->
+
+<!-- ========================================================= -->
+<!-- APP FUNCTIONS -->
+<!-- ========================================================= -->
 
 <script>
 
 let currentService = "";
 
 
+/* ========================================================= */
+/* PAYMENT STATE */
+/* ========================================================= */
+
+/*
+   IMPORTANT:
+
+   This is intentionally FALSE.
+
+   It will NOT be changed by a button click.
+
+   Later, after Razorpay server-side payment verification,
+   the verified backend response will call unlockPaidContent().
+*/
+
+let consultationPaid = false;
+
+
+
+/* ========================================================= */
+/* CONSULTATION PAYMENT PLACEHOLDER */
+/* ========================================================= */
+
+function startConsultationPayment(){
+
+  const status =
+    document.getElementById("paymentStatus");
+
+
+  status.style.display =
+    "block";
+
+
+  status.innerText =
+    "Razorpay payment verification will be connected here. Consultation remains locked until payment is verified.";
+
+}
+
+
+
+/* ========================================================= */
+/* UNLOCK AFTER VERIFIED PAYMENT */
+/* ========================================================= */
+
+/*
+   DO NOT call this from a normal payment button.
+
+   Later Razorpay/backend verification will call this function
+   only after the payment has been genuinely verified.
+*/
+
+function unlockPaidContent(){
+
+  consultationPaid =
+    true;
+
+
+  document.getElementById("paidContent")
+    .style.display =
+    "block";
+
+
+  document.getElementById("lockedMessage")
+    .style.display =
+    "none";
+
+
+  const status =
+    document.getElementById("paymentStatus");
+
+
+  status.style.display =
+    "block";
+
+
+  status.innerText =
+    "✓ Payment verified. Consultation and Advisory Plans unlocked.";
+
+}
+
+
+
+/* ========================================================= */
 /* SERVICE INFORMATION */
+/* ========================================================= */
 
 const serviceData = {
+
 
   "Loan & EMI Guidance": {
 
@@ -1015,10 +1597,15 @@ const serviceData = {
       "Managing a loan can become difficult when EMIs, overdue payments or financial pressure start affecting your monthly budget. Understanding your loan position is an important first step toward making a practical decision.",
 
     points: [
+
       "Understand your current loan and EMI position.",
+
       "Review how overdue payments may affect your situation.",
+
       "Know which loan details and documents you should review.",
+
       "Understand practical options based on your circumstances."
+
     ],
 
     button:
@@ -1033,10 +1620,15 @@ const serviceData = {
       "Your credit profile can be affected by repayment history, outstanding obligations and other credit-related factors. Understanding your CIBIL report can help you identify the areas that need attention.",
 
     points: [
+
       "Understand your CIBIL / credit score.",
+
       "Review factors that may affect your credit profile.",
+
       "Identify possible overdue or reporting concerns.",
+
       "Understand practical steps for better credit management."
+
     ],
 
     button:
@@ -1051,10 +1643,15 @@ const serviceData = {
       "Recovery communication can be stressful. Understanding how to respond, what information to verify and how to keep proper records can help you handle the situation more carefully.",
 
     points: [
+
       "Understand how to handle recovery communication.",
+
       "Know what information you should verify.",
+
       "Keep records of important calls and messages.",
+
       "Understand practical precautions while communicating."
+
     ],
 
     button:
@@ -1069,10 +1666,15 @@ const serviceData = {
       "When multiple EMIs and debts become difficult to manage, getting a clear picture of your total obligations is an important starting point for better planning.",
 
     points: [
+
       "Organise your multiple loan and debt obligations.",
+
       "Understand your total monthly EMI burden.",
+
       "Identify which obligations need attention first.",
+
       "Discuss practical debt-planning approaches."
+
     ],
 
     button:
@@ -1087,10 +1689,15 @@ const serviceData = {
       "Loan settlement is a financial decision that should be understood carefully. Settlement and regular loan closure can have different implications, including possible effects on your credit profile.",
 
     points: [
+
       "Understand what loan settlement means.",
+
       "Understand the difference between settlement and regular closure.",
+
       "Learn about possible credit-profile implications.",
+
       "Review important points before considering an option."
+
     ],
 
     button:
@@ -1105,10 +1712,15 @@ const serviceData = {
       "Not sure which option is right for you? Share your overall financial situation with RinSaathi and we can help you understand which area may require attention and what practical next steps you can consider.",
 
     points: [
+
       "Share your overall financial situation.",
+
       "Tell us about your loans, EMIs or credit concerns.",
+
       "Explain the main difficulty you are facing.",
+
       "Receive guidance on the most relevant next step."
+
     ],
 
     button:
@@ -1119,102 +1731,166 @@ const serviceData = {
 };
 
 
+
+/* ========================================================= */
 /* SHOW GUIDANCE */
+/* ========================================================= */
 
 function showGuidance(title){
 
-  currentService = title;
+  currentService =
+    title;
+
 
   document.getElementById("home")
     .classList.add("hidden");
 
+
   document.getElementById("formSection")
     .classList.add("hidden");
+
 
   document.getElementById("guidance")
     .classList.remove("hidden");
 
+
   document.getElementById("guidanceTitle")
-    .innerText = title;
+    .innerText =
+    title;
+
 
   const data =
     serviceData[title];
 
-  document.getElementById("guidanceContent").innerHTML = `
 
-    <div class="guidanceText">
-      ${data.description}
-    </div>
+  document.getElementById("guidanceContent")
+    .innerHTML = `
 
-    <div class="formTitle">
-      What you can understand
-    </div>
+      <div class="guidanceText">
+        ${data.description}
+      </div>
 
-    <ul class="guidanceList">
-      ${data.points.map(point => `<li>${point}</li>`).join("")}
-    </ul>
+      <div class="formTitle">
+        What you can understand
+      </div>
 
-    <div class="package">
+      <ul class="guidanceList">
+        ${data.points
+          .map(point => `<li>${point}</li>`)
+          .join("")}
+      </ul>
 
-      <h3>
-        Practical Guidance
-      </h3>
+      <div class="package">
 
-      <p>
-        Every financial situation is different. The right approach depends
-        on your loan details, repayment history and current circumstances.
-      </p>
+        <h3>
+          Practical Guidance
+        </h3>
 
-      <button
-        class="btn btnGold"
-        onclick="openForm('${title}')">
+        <p>
+          Every financial situation is different.
+          The right approach depends on your loan details,
+          repayment history and current circumstances.
+        </p>
 
-        ${data.button}
+        <button
+          class="btn btnGold"
+          onclick="openForm('${title}')">
 
-      </button>
+          ${data.button}
 
-    </div>
+        </button>
 
-  `;
+      </div>
+
+    `;
+
 
   window.scrollTo(0,0);
 
 }
 
 
+
+/* ========================================================= */
 /* OPEN SERVICE FORM */
+/* ========================================================= */
 
 function openForm(service){
 
   currentService =
     service || "Talk to RinSaathi";
 
+
+  /*
+     Consultation and Advisory Plans require payment.
+     This prevents direct access if someone tries to
+     manually call openForm().
+  */
+
+  const paidServices = [
+
+    "Consultation",
+    "1 Month Advisory",
+    "3 Month Advisory",
+    "6 Month Advisory"
+
+  ];
+
+
+  if(
+    paidServices.includes(currentService) &&
+    consultationPaid !== true
+  ){
+
+    alert(
+      "Please complete and verify the ₹499 consultation payment first."
+    );
+
+    goHome();
+
+    return;
+
+  }
+
+
   document.getElementById("home")
     .classList.add("hidden");
+
 
   document.getElementById("guidance")
     .classList.add("hidden");
 
+
   document.getElementById("formSection")
     .classList.remove("hidden");
 
+
   document.getElementById("formTitle")
     .innerText =
-      currentService + " – Share Your Details";
+      currentService +
+      " – Share Your Details";
 
-  buildServiceForm(currentService);
+
+  buildServiceForm(
+    currentService
+  );
+
 
   window.scrollTo(0,0);
 
 }
 
 
-/* BUILD DIFFERENT FORM FOR EACH SERVICE */
+
+/* ========================================================= */
+/* BUILD SERVICE FORM */
+/* ========================================================= */
 
 function buildServiceForm(service){
 
   const container =
     document.getElementById("dynamicFormFields");
+
 
   let html = `
 
@@ -1234,14 +1910,23 @@ function buildServiceForm(service){
 
 
   if(
+
     service === "Loan & EMI Guidance" ||
+
     service === "Debt Management" ||
+
     service === "Settlement Option Education" ||
+
     service === "Consultation" ||
+
     service === "1 Month Advisory" ||
+
     service === "3 Month Advisory" ||
+
     service === "6 Month Advisory" ||
+
     service === "Talk to RinSaathi"
+
   ){
 
     html += `
@@ -1253,22 +1938,29 @@ function buildServiceForm(service){
         </option>
 
         <option>Personal Loan</option>
+
         <option>Business Loan</option>
+
         <option>Consumer Loan</option>
+
         <option>Credit Card</option>
+
         <option>Other</option>
 
       </select>
+
 
       <input
         id="lender"
         type="text"
         placeholder="Bank / NBFC / Lender Name">
 
+
       <input
         id="outstanding"
         type="text"
         placeholder="Approx. Outstanding Amount">
+
 
       <input
         id="emi"
@@ -1280,6 +1972,7 @@ function buildServiceForm(service){
   }
 
 
+
   if(service === "Loan & EMI Guidance"){
 
     html += `
@@ -1289,23 +1982,39 @@ function buildServiceForm(service){
         type="text"
         placeholder="Pending EMIs (if any)">
 
+
       <select id="mainConcern">
 
         <option value="">
           Select your main concern
         </option>
 
-        <option>EMI Payment Difficulty</option>
-        <option>Overdue / Bounce</option>
-        <option>High EMI Burden</option>
-        <option>Loan Understanding</option>
-        <option>Other</option>
+        <option>
+          EMI Payment Difficulty
+        </option>
+
+        <option>
+          Overdue / Bounce
+        </option>
+
+        <option>
+          High EMI Burden
+        </option>
+
+        <option>
+          Loan Understanding
+        </option>
+
+        <option>
+          Other
+        </option>
 
       </select>
 
     `;
 
   }
+
 
 
   if(service === "CIBIL / Credit Guidance"){
@@ -1317,10 +2026,12 @@ function buildServiceForm(service){
         type="text"
         placeholder="Approx. CIBIL Score (if known)">
 
+
       <input
         id="activeLoans"
         type="text"
         placeholder="Approx. Number of Active Loans / Cards">
+
 
       <select id="creditConcern">
 
@@ -1328,17 +2039,32 @@ function buildServiceForm(service){
           Select your credit concern
         </option>
 
-        <option>Low CIBIL Score</option>
-        <option>Overdue Account</option>
-        <option>Settlement / Written-off Account</option>
-        <option>Incorrect Credit Information</option>
-        <option>General Credit Guidance</option>
+        <option>
+          Low CIBIL Score
+        </option>
+
+        <option>
+          Overdue Account
+        </option>
+
+        <option>
+          Settlement / Written-off Account
+        </option>
+
+        <option>
+          Incorrect Credit Information
+        </option>
+
+        <option>
+          General Credit Guidance
+        </option>
 
       </select>
 
     `;
 
   }
+
 
 
   if(service === "Recovery Call Guidance"){
@@ -1350,18 +2076,31 @@ function buildServiceForm(service){
         type="text"
         placeholder="Lender / Bank / NBFC Name">
 
+
       <select id="recoveryMethod">
 
         <option value="">
           How are they contacting you?
         </option>
 
-        <option>Phone Calls</option>
-        <option>SMS / WhatsApp</option>
-        <option>Email</option>
-        <option>Multiple Methods</option>
+        <option>
+          Phone Calls
+        </option>
+
+        <option>
+          SMS / WhatsApp
+        </option>
+
+        <option>
+          Email
+        </option>
+
+        <option>
+          Multiple Methods
+        </option>
 
       </select>
+
 
       <input
         id="callFrequency"
@@ -1373,6 +2112,7 @@ function buildServiceForm(service){
   }
 
 
+
   if(service === "Debt Management"){
 
     html += `
@@ -1382,10 +2122,12 @@ function buildServiceForm(service){
         type="text"
         placeholder="Approx. Number of Loans / Debts">
 
+
       <input
         id="totalEmi"
         type="text"
         placeholder="Total Monthly EMI">
+
 
       <input
         id="incomeRange"
@@ -1395,6 +2137,7 @@ function buildServiceForm(service){
     `;
 
   }
+
 
 
   if(service === "Settlement Option Education"){
@@ -1407,17 +2150,32 @@ function buildServiceForm(service){
           Current Loan Status
         </option>
 
-        <option>Regular Payments</option>
-        <option>EMI Overdue</option>
-        <option>Multiple EMIs Overdue</option>
-        <option>Recovery Communication</option>
-        <option>Already Offered Settlement</option>
+        <option>
+          Regular Payments
+        </option>
+
+        <option>
+          EMI Overdue
+        </option>
+
+        <option>
+          Multiple EMIs Overdue
+        </option>
+
+        <option>
+          Recovery Communication
+        </option>
+
+        <option>
+          Already Offered Settlement
+        </option>
 
       </select>
 
     `;
 
   }
+
 
 
   html += `
@@ -1429,30 +2187,40 @@ function buildServiceForm(service){
   `;
 
 
-  container.innerHTML = html;
+  container.innerHTML =
+    html;
 
 }
 
 
+
+/* ========================================================= */
 /* HOME */
+/* ========================================================= */
 
 function goHome(){
 
   document.getElementById("guidance")
     .classList.add("hidden");
 
+
   document.getElementById("formSection")
     .classList.add("hidden");
 
+
   document.getElementById("home")
     .classList.remove("hidden");
+
 
   window.scrollTo(0,0);
 
 }
 
 
+
+/* ========================================================= */
 /* WHATSAPP */
+/* ========================================================= */
 
 function sendWhatsApp(){
 
@@ -1460,9 +2228,11 @@ function sendWhatsApp(){
     document.getElementById("name")
       ?.value.trim();
 
+
   const phone =
     document.getElementById("phone")
       ?.value.trim();
+
 
   const message =
     document.getElementById("message")
@@ -1480,7 +2250,19 @@ function sendWhatsApp(){
   }
 
 
+  if(!/^[6-9]\d{9}$/.test(phone)){
+
+    alert(
+      "Please enter a valid 10-digit Indian mobile number."
+    );
+
+    return;
+
+  }
+
+
   let text =
+
 `Hello RinSaathi,
 
 I would like guidance regarding:
@@ -1492,41 +2274,65 @@ Mobile: ${phone}
 `;
 
 
+
   const ids = [
 
     ["loanType","Loan Type"],
+
     ["lender","Bank / NBFC / Lender"],
+
     ["outstanding","Approx Outstanding"],
+
     ["emi","Current EMI"],
+
     ["pendingEmi","Pending EMIs"],
+
     ["mainConcern","Main Concern"],
+
     ["cibilScore","Approx CIBIL Score"],
+
     ["activeLoans","Active Loans / Cards"],
+
     ["creditConcern","Credit Concern"],
+
     ["recoveryLender","Recovery Lender"],
+
     ["recoveryMethod","Recovery Contact Method"],
+
     ["callFrequency","Call Frequency"],
+
     ["numberOfDebts","Number of Loans / Debts"],
+
     ["totalEmi","Total Monthly EMI"],
+
     ["incomeRange","Approx Monthly Income"],
+
     ["settlementStatus","Current Loan Status"]
 
   ];
 
 
-  ids.forEach(function(item){
 
-    const element =
-      document.getElementById(item[0]);
+  ids.forEach(
+    function(item){
 
-    if(element && element.value.trim()){
+      const element =
+        document.getElementById(item[0]);
 
-      text +=
-        `${item[1]}: ${element.value.trim()}\n`;
+
+      if(
+        element &&
+        element.value.trim()
+      ){
+
+        text +=
+          `${item[1]}: ${element.value.trim()}\n`;
+
+      }
 
     }
+  );
 
-  });
 
 
   text += `
@@ -1537,21 +2343,26 @@ ${message || "Not provided"}
 I understand that RinSaathi provides advisory and guidance services and does not guarantee any specific outcome.`;
 
 
+
   const whatsappNumber =
     "919319301096";
 
 
   window.open(
+
     "https://wa.me/" +
     whatsappNumber +
     "?text=" +
     encodeURIComponent(text),
+
     "_blank"
+
   );
 
 }
 
 </script>
+
 
 </body>
 </html>
