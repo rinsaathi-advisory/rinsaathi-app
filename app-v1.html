@@ -29,14 +29,16 @@ body{
   background:#fff;
 }
 
-/* ================= LOGIN ================= */
+/* =========================================================
+   LOGIN
+========================================================= */
 
 #loginScreen{
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:25px;
+  padding:20px;
   background:linear-gradient(145deg,#063f32,#0b5b48);
 }
 
@@ -54,11 +56,12 @@ body{
   max-width:65%;
   height:auto;
   border-radius:50%;
-  margin:0 auto 22px;
+  margin:0 auto 20px;
+  display:block;
 }
 
 .loginTitle{
-  font-size:25px;
+  font-size:26px;
   font-weight:800;
   color:#063f32;
 }
@@ -78,6 +81,11 @@ body{
   margin-top:20px;
   font-size:16px;
   background:#fafcfb;
+  outline:none;
+}
+
+.loginInput:focus{
+  border-color:#d8b45f;
 }
 
 .otpInput{
@@ -100,6 +108,10 @@ body{
   cursor:pointer;
 }
 
+.loginBtn:disabled{
+  opacity:.6;
+}
+
 .secondaryBtn{
   background:#063f32;
   color:white;
@@ -119,7 +131,7 @@ body{
   margin-top:14px;
   font-size:13px;
   color:#6a7974;
-  line-height:1.4;
+  line-height:1.5;
   white-space:pre-line;
 }
 
@@ -131,7 +143,9 @@ body{
   color:#16704f;
 }
 
-/* ================= MAIN APP ================= */
+/* =========================================================
+   MAIN APP
+========================================================= */
 
 #mainApp{
   display:none;
@@ -140,21 +154,21 @@ body{
 .header{
   background:linear-gradient(145deg,#063f32,#0b5b48);
   color:#fff;
-  padding:28px 22px 32px;
+  padding:25px 22px 30px;
   border-radius:0 0 28px 28px;
 }
 
 .logoImage{
   display:block;
-  width:190px;
-  max-width:78%;
+  width:185px;
+  max-width:75%;
   height:auto;
   margin:0 auto;
   border-radius:50%;
 }
 
 .hero{
-  margin-top:28px;
+  margin-top:25px;
 }
 
 .hero h1{
@@ -219,13 +233,13 @@ body{
   line-height:1.4;
 }
 
-/* ================= SECTION ================= */
-
 .section{
   margin-top:28px;
 }
 
-/* ================= CONSULTATION ================= */
+/* =========================================================
+   CONSULTATION OFFER
+========================================================= */
 
 .consultationOffer{
   background:linear-gradient(145deg,#063f32,#0d604c);
@@ -233,8 +247,6 @@ body{
   border-radius:22px;
   padding:22px;
   margin-bottom:12px;
-  position:relative;
-  overflow:hidden;
   box-shadow:0 8px 24px rgba(0,0,0,.12);
 }
 
@@ -303,7 +315,9 @@ body{
   color:white;
 }
 
-/* ================= LOCKED ================= */
+/* =========================================================
+   LOCKED
+========================================================= */
 
 .lockedBox{
   border:1px solid #e4e8e6;
@@ -331,7 +345,9 @@ body{
   margin-top:7px;
 }
 
-/* ================= PAID CONTENT ================= */
+/* =========================================================
+   PAID CONTENT
+========================================================= */
 
 #paidContent{
   display:none;
@@ -376,7 +392,9 @@ body{
   margin-top:3px;
 }
 
-/* ================= FORM ================= */
+/* =========================================================
+   FORM
+========================================================= */
 
 .form{
   display:none;
@@ -393,6 +411,7 @@ body{
   margin-bottom:11px;
   font-size:14px;
   background:#fafcfb;
+  outline:none;
 }
 
 .form textarea{
@@ -449,7 +468,7 @@ body{
 }
 
 .guidanceList{
-  margin:0 0 18px 20px;
+  margin:0 0 20px 20px;
   color:#53635e;
   font-size:13px;
   line-height:1.7;
@@ -482,32 +501,48 @@ body{
   font-weight:700;
 }
 
-/* ================= PAYMENT REQUIRED ================= */
+/* =========================================================
+   GUIDANCE CTA
+========================================================= */
 
-.paymentRequired{
-  border:1px solid #ead9a7;
-  background:#fffaf0;
-  border-radius:16px;
-  padding:16px;
-  margin-top:18px;
+.guidanceCTA{
+  margin-top:22px;
+  padding:18px;
+  background:#f8faf9;
+  border:1px solid #e2e9e5;
+  border-radius:18px;
   text-align:center;
 }
 
-.paymentRequired h4{
+.guidanceCTA h3{
+  font-size:16px;
   color:#063f32;
-  font-size:15px;
 }
 
-.paymentRequired p{
-  color:#6a7974;
+.guidanceCTA p{
   font-size:12px;
+  color:#6a7974;
   line-height:1.5;
   margin-top:6px;
 }
 
-</style>
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-<!-- ================= RAZORPAY ================= -->
+@media(max-width:380px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:26px;
+  }
+
+}
+
+</style>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -516,7 +551,9 @@ body{
 <body>
 
 
-<!-- ================= LOGIN ================= -->
+<!-- =========================================================
+     LOGIN SCREEN
+========================================================= -->
 
 <div id="loginScreen">
 
@@ -534,6 +571,7 @@ body{
     <div class="loginSub">
       Secure mobile verification to continue
     </div>
+
 
     <div id="phoneSection">
 
@@ -558,6 +596,7 @@ body{
 
     </div>
 
+
     <div id="otpSection">
 
       <input
@@ -569,6 +608,7 @@ body{
         placeholder="Enter OTP">
 
       <button
+        id="verifyOtpBtn"
         class="loginBtn"
         onclick="verifyOTP()">
 
@@ -586,7 +626,12 @@ body{
 
     </div>
 
-    <div id="loginMessage" class="loginMessage"></div>
+
+    <div
+      id="loginMessage"
+      class="loginMessage">
+    </div>
+
 
     <div class="notice">
 
@@ -600,7 +645,9 @@ body{
 </div>
 
 
-<!-- ================= MAIN APP ================= -->
+<!-- =========================================================
+     MAIN APP
+========================================================= -->
 
 <div id="mainApp">
 
@@ -632,7 +679,9 @@ body{
 <main class="content">
 
 
-<!-- ================= HOME ================= -->
+<!-- =========================================================
+     HOME
+========================================================= -->
 
 <div id="home">
 
@@ -641,6 +690,7 @@ body{
     <div class="title">
       How can we help you?
     </div>
+
 
     <div class="grid">
 
@@ -738,13 +788,16 @@ body{
   </div>
 
 
-<!-- ================= CONSULTATION ================= -->
+<!-- =========================================================
+     CONSULTATION
+========================================================= -->
 
   <div class="section">
 
     <div class="title">
       Get Consultation
     </div>
+
 
     <div class="consultationOffer">
 
@@ -781,6 +834,7 @@ body{
 
       </button>
 
+
       <div
         id="paymentStatus"
         class="paymentStatus">
@@ -802,8 +856,8 @@ body{
       </h3>
 
       <p>
-        Complete and verify your consultation payment
-        to unlock consultation access and Advisory Plans.
+        Complete your consultation payment to unlock
+        consultation access and Advisory Plans.
       </p>
 
     </div>
@@ -811,7 +865,9 @@ body{
   </div>
 
 
-<!-- ================= PAID CONTENT ================= -->
+<!-- =========================================================
+     PAID CONTENT
+========================================================= -->
 
 <div
   id="paidContent"
@@ -820,6 +876,7 @@ body{
   <div class="unlockedTitle">
     ✓ Consultation Access Unlocked
   </div>
+
 
   <div class="package">
 
@@ -971,7 +1028,9 @@ body{
 </div>
 
 
-<!-- ================= GUIDANCE ================= -->
+<!-- =========================================================
+     GUIDANCE
+========================================================= -->
 
 <div
   id="guidance"
@@ -985,10 +1044,12 @@ body{
 
   </div>
 
+
   <div
     class="title"
     id="guidanceTitle">
   </div>
+
 
   <div
     id="guidanceContent">
@@ -997,7 +1058,9 @@ body{
 </div>
 
 
-<!-- ================= FORM ================= -->
+<!-- =========================================================
+     FORM
+========================================================= -->
 
 <div
   id="formSection"
@@ -1011,6 +1074,7 @@ body{
 
   </div>
 
+
   <div
     class="title"
     id="formTitle">
@@ -1018,6 +1082,7 @@ body{
     Share Your Situation
 
   </div>
+
 
   <div
     class="form"
@@ -1027,6 +1092,7 @@ body{
       id="dynamicFormFields">
     </div>
 
+
     <button
       id="whatsappButton"
       class="btn btnGreen"
@@ -1035,6 +1101,7 @@ body{
       Continue on WhatsApp
 
     </button>
+
 
     <div class="notice">
 
@@ -1064,14 +1131,15 @@ body{
 </div>
 
 
-<!-- ========================================================= -->
-<!-- FIREBASE OTP -->
-<!-- ========================================================= -->
+<!-- =========================================================
+     FIREBASE OTP
+========================================================= -->
 
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
   getAuth,
@@ -1079,9 +1147,12 @@ import {
   signInWithPhoneNumber,
   onAuthStateChanged,
   signOut
-}
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
 
 const firebaseConfig = {
 
@@ -1106,19 +1177,25 @@ const firebaseConfig = {
 };
 
 
+/* =========================================================
+   INITIALIZE FIREBASE
+========================================================= */
+
 const app =
   initializeApp(firebaseConfig);
 
 const auth =
   getAuth(app);
 
+
 let confirmationResult = null;
 let recaptchaVerifier = null;
+let recaptchaWidgetId = null;
 
 
-/* ========================================================= */
-/* LOGIN MESSAGE */
-/* ========================================================= */
+/* =========================================================
+   MESSAGE
+========================================================= */
 
 function setLoginMessage(message,type=""){
 
@@ -1136,46 +1213,47 @@ function setLoginMessage(message,type=""){
 }
 
 
-/* ========================================================= */
-/* CREATE RECAPTCHA */
-/* ========================================================= */
+/* =========================================================
+   CREATE RECAPTCHA
+========================================================= */
 
-function createRecaptcha(){
+async function createRecaptcha(){
 
   const container =
     document.getElementById("recaptcha-container");
 
-  if(!container) return;
-
-
-  if(recaptchaVerifier){
-
-    try{
-      recaptchaVerifier.clear();
-    }catch(e){}
-
-    recaptchaVerifier = null;
-
-  }
-
-
-  container.innerHTML = "";
+  if(!container) return false;
 
 
   try{
+
+    if(recaptchaVerifier){
+
+      try{
+        recaptchaVerifier.clear();
+      }catch(e){}
+
+      recaptchaVerifier = null;
+      recaptchaWidgetId = null;
+
+    }
+
+
+    container.innerHTML = "";
+
 
     recaptchaVerifier =
       new RecaptchaVerifier(
         auth,
         "recaptcha-container",
         {
-
           size:"normal",
 
           callback:function(){
 
-            console.log(
-              "reCAPTCHA verified"
+            setLoginMessage(
+              "Security verification completed.",
+              "success"
             );
 
           },
@@ -1183,36 +1261,65 @@ function createRecaptcha(){
           "expired-callback":function(){
 
             setLoginMessage(
-              "reCAPTCHA expired. Please verify again.",
+              "Security verification expired. Please verify again.",
               "error"
             );
 
           }
-
         }
       );
 
 
-    recaptchaVerifier.render()
-      .then(function(widgetId){
+    recaptchaWidgetId =
+      await recaptchaVerifier.render();
 
-        window.recaptchaWidgetId =
-          widgetId;
 
-      })
-      .catch(function(error){
-
-        console.error(
-          "reCAPTCHA render error:",
-          error
-        );
-
-      });
+    return true;
 
   }catch(error){
 
     console.error(
-      "reCAPTCHA creation error:",
+      "RECAPTCHA ERROR:",
+      error
+    );
+
+    recaptchaVerifier = null;
+
+    setLoginMessage(
+      "Security verification could not load. Please refresh the page and try again.",
+      "error"
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   RESET RECAPTCHA
+========================================================= */
+
+function resetRecaptcha(){
+
+  try{
+
+    if(
+      window.grecaptcha &&
+      recaptchaWidgetId !== null
+    ){
+
+      window.grecaptcha.reset(
+        recaptchaWidgetId
+      );
+
+    }
+
+  }catch(error){
+
+    console.log(
+      "reCAPTCHA reset:",
       error
     );
 
@@ -1221,40 +1328,9 @@ function createRecaptcha(){
 }
 
 
-/* ========================================================= */
-/* RESET RECAPTCHA */
-/* ========================================================= */
-
-function resetRecaptcha(){
-
-  try{
-
-    if(
-      window.grecaptcha &&
-      window.recaptchaWidgetId !== undefined
-    ){
-
-      window.grecaptcha.reset(
-        window.recaptchaWidgetId
-      );
-
-    }
-
-  }catch(e){
-
-    console.log(
-      "reCAPTCHA reset error:",
-      e
-    );
-
-  }
-
-}
-
-
-/* ========================================================= */
-/* SEND OTP */
-/* ========================================================= */
+/* =========================================================
+   SEND OTP
+========================================================= */
 
 window.sendOTP =
 async function(){
@@ -1262,11 +1338,11 @@ async function(){
   const phoneInput =
     document.getElementById("loginPhone");
 
-  if(!phoneInput){
+  const sendButton =
+    document.getElementById("sendOtpBtn");
 
-    return;
 
-  }
+  if(!phoneInput) return;
 
 
   const phone =
@@ -1287,28 +1363,34 @@ async function(){
 
   try{
 
+    if(sendButton){
+
+      sendButton.disabled =
+        true;
+
+      sendButton.innerText =
+        "Please wait...";
+
+    }
+
+
     setLoginMessage(
-      "Please complete the security verification..."
+      "Checking security verification..."
     );
 
 
     if(!recaptchaVerifier){
 
-      createRecaptcha();
+      const ready =
+        await createRecaptcha();
 
-      await new Promise(
-        resolve =>
-          setTimeout(resolve,1000)
-      );
+      if(!ready){
 
-    }
+        throw new Error(
+          "reCAPTCHA could not be loaded."
+        );
 
-
-    if(!recaptchaVerifier){
-
-      throw new Error(
-        "Security verification is not ready."
-      );
+      }
 
     }
 
@@ -1359,11 +1441,55 @@ async function(){
       "Unable to send OTP. Please try again.";
 
 
-    if(error && error.code){
+    if(error?.code){
 
-      message +=
-        "\nFirebase: " +
-        error.code;
+      if(
+        error.code ===
+        "auth/network-request-failed"
+      ){
+
+        message =
+          "Network request failed. Please check your internet connection and refresh the page.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/invalid-phone-number"
+      ){
+
+        message =
+          "The mobile number is invalid.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/too-many-requests"
+      ){
+
+        message =
+          "Too many OTP attempts. Please try again later.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/quota-exceeded"
+      ){
+
+        message =
+          "OTP limit has been reached. Please try again later.";
+
+      }
+
+      else{
+
+        message +=
+          "\nFirebase: " +
+          error.code;
+
+      }
 
     }
 
@@ -1373,20 +1499,39 @@ async function(){
       "error"
     );
 
+
+  }finally{
+
+    if(sendButton){
+
+      sendButton.disabled =
+        false;
+
+      sendButton.innerText =
+        "Send OTP";
+
+    }
+
   }
 
 };
 
 
-/* ========================================================= */
-/* VERIFY OTP */
-/* ========================================================= */
+/* =========================================================
+   VERIFY OTP
+========================================================= */
 
 window.verifyOTP =
 async function(){
 
   const otpInput =
     document.getElementById("otpCode");
+
+  const verifyButton =
+    document.getElementById("verifyOtpBtn");
+
+
+  if(!otpInput) return;
 
 
   const otp =
@@ -1408,7 +1553,7 @@ async function(){
   if(!confirmationResult){
 
     setLoginMessage(
-      "This OTP session has expired. Please request a new OTP.",
+      "OTP session expired. Please request a new OTP.",
       "error"
     );
 
@@ -1418,6 +1563,17 @@ async function(){
 
 
   try{
+
+    if(verifyButton){
+
+      verifyButton.disabled =
+        true;
+
+      verifyButton.innerText =
+        "Verifying...";
+
+    }
+
 
     setLoginMessage(
       "Verifying OTP..."
@@ -1454,11 +1610,35 @@ async function(){
       "OTP verification failed.";
 
 
-    if(error && error.code){
+    if(error?.code){
 
-      message +=
-        "\nFirebase: " +
-        error.code;
+      if(
+        error.code ===
+        "auth/invalid-verification-code"
+      ){
+
+        message =
+          "Incorrect OTP. Please check the OTP and try again.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/code-expired"
+      ){
+
+        message =
+          "This OTP has expired. Please request a new OTP.";
+
+      }
+
+      else{
+
+        message +=
+          "\nFirebase: " +
+          error.code;
+
+      }
 
     }
 
@@ -1468,17 +1648,30 @@ async function(){
       "error"
     );
 
+
+  }finally{
+
+    if(verifyButton){
+
+      verifyButton.disabled =
+        false;
+
+      verifyButton.innerText =
+        "Verify OTP";
+
+    }
+
   }
 
 };
 
 
-/* ========================================================= */
-/* CHANGE MOBILE */
-/* ========================================================= */
+/* =========================================================
+   CHANGE MOBILE
+========================================================= */
 
 window.backToPhone =
-function(){
+async function(){
 
   document.getElementById(
     "otpSection"
@@ -1505,14 +1698,14 @@ function(){
   setLoginMessage("");
 
 
-  createRecaptcha();
+  await createRecaptcha();
 
 };
 
 
-/* ========================================================= */
-/* AUTH STATE */
-/* ========================================================= */
+/* =========================================================
+   AUTH STATE
+========================================================= */
 
 onAuthStateChanged(
   auth,
@@ -1558,9 +1751,9 @@ onAuthStateChanged(
 );
 
 
-/* ========================================================= */
-/* LOGOUT */
-/* ========================================================= */
+/* =========================================================
+   LOGOUT
+========================================================= */
 
 window.logoutUser =
 async function(){
@@ -1583,46 +1776,44 @@ async function(){
 };
 
 
-/* ========================================================= */
-/* START RECAPTCHA */
-/* ========================================================= */
+/* =========================================================
+   INITIAL RECAPTCHA
+========================================================= */
 
 createRecaptcha();
 
 </script>
 
 
-<!-- ========================================================= -->
-<!-- APP FUNCTIONS + RAZORPAY -->
-<!-- ========================================================= -->
+<!-- =========================================================
+     APP FUNCTIONS + RAZORPAY
+========================================================= -->
 
 <script>
 
 let currentService = "";
 
-
-/* ========================================================= */
-/* PAYMENT STATE */
-/* ========================================================= */
-
 let consultationPaid = false;
 
 
-/* ========================================================= */
-/* RAZORPAY KEY */
-/* ========================================================= */
+/* =========================================================
+   RAZORPAY KEY
+========================================================= */
 
 const RAZORPAY_KEY =
   "rzp_live_TYiZXJ0sZcSA5l";
 
 
-/* ========================================================= */
-/* START ₹499 RAZORPAY PAYMENT */
-/* ========================================================= */
+/* =========================================================
+   START PAYMENT
+========================================================= */
 
 function startConsultationPayment(){
 
-  if(typeof Razorpay === "undefined"){
+  if(
+    typeof Razorpay ===
+    "undefined"
+  ){
 
     alert(
       "Payment system is not loaded. Please refresh the page and try again."
@@ -1634,7 +1825,9 @@ function startConsultationPayment(){
 
 
   const status =
-    document.getElementById("paymentStatus");
+    document.getElementById(
+      "paymentStatus"
+    );
 
 
   if(status){
@@ -1642,10 +1835,22 @@ function startConsultationPayment(){
     status.style.display =
       "block";
 
+    status.style.background =
+      "#edf8f2";
+
+    status.style.color =
+      "#16704f";
+
     status.innerText =
       "Opening secure Razorpay payment...";
 
   }
+
+
+  const phone =
+    document.getElementById(
+      "loginPhone"
+    )?.value || "";
 
 
   const options = {
@@ -1668,27 +1873,18 @@ function startConsultationPayment(){
     image:
       "./logo.png",
 
-
     prefill:{
-
-      contact:
-        document.getElementById("loginPhone")?.value || ""
-
+      contact:phone
     },
-
 
     theme:{
-
-      color:
-        "#063f32"
-
+      color:"#063f32"
     },
-
 
     handler:function(response){
 
       console.log(
-        "RAZORPAY PAYMENT RESPONSE:",
+        "PAYMENT RESPONSE:",
         response
       );
 
@@ -1698,7 +1894,6 @@ function startConsultationPayment(){
       );
 
     },
-
 
     modal:{
 
@@ -1729,7 +1924,7 @@ function startConsultationPayment(){
       function(response){
 
         console.error(
-          "RAZORPAY PAYMENT FAILED:",
+          "PAYMENT FAILED:",
           response
         );
 
@@ -1739,14 +1934,14 @@ function startConsultationPayment(){
           status.style.display =
             "block";
 
-          status.innerText =
-            "Payment failed or was cancelled. Please try again.";
-
           status.style.background =
             "#fff0f0";
 
           status.style.color =
             "#b3261e";
+
+          status.innerText =
+            "Payment failed. Please try again.";
 
         }
 
@@ -1774,16 +1969,18 @@ function startConsultationPayment(){
 }
 
 
-/* ========================================================= */
-/* PAYMENT GATE */
-/* ========================================================= */
+/* =========================================================
+   PAYMENT GATE
+========================================================= */
 
 function requireConsultationPayment(){
 
-  if(consultationPaid !== true){
+  if(
+    consultationPaid !== true
+  ){
 
     alert(
-      "Please complete the consultation payment first."
+      "Please complete the ₹499 consultation payment first."
     );
 
     goHome();
@@ -1797,9 +1994,9 @@ function requireConsultationPayment(){
 }
 
 
-/* ========================================================= */
-/* UNLOCK AFTER PAYMENT */
-/* ========================================================= */
+/* =========================================================
+   UNLOCK
+========================================================= */
 
 function unlockPaidContent(response){
 
@@ -1808,11 +2005,15 @@ function unlockPaidContent(response){
 
 
   const paidContent =
-    document.getElementById("paidContent");
+    document.getElementById(
+      "paidContent"
+    );
 
 
   const lockedMessage =
-    document.getElementById("lockedMessage");
+    document.getElementById(
+      "lockedMessage"
+    );
 
 
   if(paidContent){
@@ -1832,7 +2033,9 @@ function unlockPaidContent(response){
 
 
   const status =
-    document.getElementById("paymentStatus");
+    document.getElementById(
+      "paymentStatus"
+    );
 
 
   if(status){
@@ -1865,13 +2068,13 @@ function unlockPaidContent(response){
 }
 
 
-/* ========================================================= */
-/* SERVICE DATA */
-/* ========================================================= */
+/* =========================================================
+   SERVICE DATA
+========================================================= */
 
 const serviceData = {
 
-  "Loan & EMI Guidance": {
+  "Loan & EMI Guidance":{
 
     description:
       "Managing a loan can become difficult when EMIs, overdue payments or financial pressure start affecting your monthly budget. Understanding your loan position is an important first step toward making a practical decision.",
@@ -1891,10 +2094,10 @@ const serviceData = {
   },
 
 
-  "CIBIL / Credit Guidance": {
+  "CIBIL / Credit Guidance":{
 
     description:
-      "Your credit profile can be affected by repayment history, outstanding obligations and other credit-related factors. Understanding your CIBIL report can help you identify the areas that need attention.",
+      "Your credit profile can be affected by repayment history, outstanding obligations and other credit-related factors. Understanding your CIBIL report can help you identify areas that need attention.",
 
     points:[
 
@@ -1911,7 +2114,7 @@ const serviceData = {
   },
 
 
-  "Recovery Call Guidance": {
+  "Recovery Call Guidance":{
 
     description:
       "Recovery communication can be stressful. Understanding how to respond, what information to verify and how to keep proper records can help you handle the situation more carefully.",
@@ -1931,7 +2134,7 @@ const serviceData = {
   },
 
 
-  "Debt Management": {
+  "Debt Management":{
 
     description:
       "When multiple EMIs and debts become difficult to manage, getting a clear picture of your total obligations is an important starting point for better planning.",
@@ -1951,7 +2154,7 @@ const serviceData = {
   },
 
 
-  "Settlement Option Education": {
+  "Settlement Option Education":{
 
     description:
       "Loan settlement is a financial decision that should be understood carefully. Settlement and regular loan closure can have different implications, including possible effects on your credit profile.",
@@ -1971,10 +2174,10 @@ const serviceData = {
   },
 
 
-  "Talk to RinSaathi": {
+  "Talk to RinSaathi":{
 
     description:
-      "Not sure which option is right for you? Share your overall financial situation with RinSaathi and we can help you understand which area may require attention and what practical next steps you can consider.",
+      "Not sure which option is right for you? Share your overall financial situation with RinSaathi and understand which area may require attention and what practical next steps you can consider.",
 
     points:[
 
@@ -1984,7 +2187,7 @@ const serviceData = {
 
       "Explain the main difficulty you are facing.",
 
-      "Receive guidance on the most relevant next step."
+      "Understand the most relevant next step."
 
     ]
 
@@ -1993,9 +2196,11 @@ const serviceData = {
 };
 
 
-/* ========================================================= */
-/* SHOW GUIDANCE */
-/* ========================================================= */
+/* =========================================================
+   SHOW GUIDANCE
+   IMPORTANT:
+   NO ₹499 PAYMENT BOX HERE
+========================================================= */
 
 function showGuidance(title){
 
@@ -2003,144 +2208,170 @@ function showGuidance(title){
     title;
 
 
-  document.getElementById("home")
-    .classList.add("hidden");
+  document.getElementById(
+    "home"
+  ).classList.add("hidden");
 
 
-  document.getElementById("formSection")
-    .classList.add("hidden");
+  document.getElementById(
+    "formSection"
+  ).classList.add("hidden");
 
 
-  document.getElementById("guidance")
-    .classList.remove("hidden");
+  document.getElementById(
+    "guidance"
+  ).classList.remove("hidden");
 
 
-  document.getElementById("guidanceTitle")
-    .innerText =
-      title;
+  document.getElementById(
+    "guidanceTitle"
+  ).innerText =
+    title;
 
 
   const data =
     serviceData[title];
 
 
-  document.getElementById("guidanceContent")
-    .innerHTML = `
+  document.getElementById(
+    "guidanceContent"
+  ).innerHTML = `
 
-      <div class="guidanceText">
-        ${data.description}
-      </div>
+    <div class="guidanceText">
+      ${data.description}
+    </div>
 
-      <div class="formTitle">
-        What you can understand
-      </div>
+    <div class="formTitle">
+      What you can understand
+    </div>
 
-      <ul class="guidanceList">
+    <ul class="guidanceList">
 
-        ${data.points
-          .map(point => `<li>${point}</li>`)
-          .join("")}
+      ${data.points
+        .map(
+          point =>
+            `<li>${point}</li>`
+        )
+        .join("")}
 
-      </ul>
-
-      <div class="paymentRequired">
-
-        <h4>
-          🔒 Consultation Required
-        </h4>
-
-        <p>
-          To continue with this guidance service
-          and send your details on WhatsApp,
-          please book your RinSaathi consultation.
-        </p>
-
-        <button
-          class="btn btnGold"
-          onclick="bookConsultationFromService()">
-
-          Book Consultation
-
-        </button>
-
-      </div>
-
-    `;
+    </ul>
 
 
-  window.scrollTo(0,0);
+    <div class="guidanceCTA">
+
+      <h3>
+        Need Personalised Guidance?
+      </h3>
+
+      <p>
+        Book a one-to-one RinSaathi consultation
+        to discuss your individual situation.
+      </p>
+
+      <button
+        class="btn btnGold"
+        onclick="goToConsultation()">
+
+        Get Personalised Consultation
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  window.scrollTo(
+    0,
+    0
+  );
 
 }
 
 
-/* ========================================================= */
-/* BOOK CONSULTATION FROM SERVICE */
-/* ========================================================= */
+/* =========================================================
+   GO TO CONSULTATION
+========================================================= */
 
-function bookConsultationFromService(){
+function goToConsultation(){
 
-  document.getElementById("guidance")
-    .classList.add("hidden");
-
-
-  document.getElementById("formSection")
-    .classList.add("hidden");
+  document.getElementById(
+    "guidance"
+  ).classList.add("hidden");
 
 
-  document.getElementById("home")
-    .classList.remove("hidden");
+  document.getElementById(
+    "formSection"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "home"
+  ).classList.remove("hidden");
 
 
   const consultationSection =
-    document.querySelector(".consultationOffer");
+    document.querySelector(
+      ".consultationOffer"
+    );
 
 
   if(consultationSection){
 
-    consultationSection.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
+    setTimeout(function(){
+
+      consultationSection.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+
+    },100);
 
   }
 
 }
 
 
-/* ========================================================= */
-/* OPEN SERVICE FORM */
-/* ========================================================= */
+/* =========================================================
+   OPEN FORM
+========================================================= */
 
 function openForm(service){
 
   currentService =
     service ||
-    "Talk to RinSaathi";
+    "Consultation";
 
 
-  if(!requireConsultationPayment()){
+  if(
+    !requireConsultationPayment()
+  ){
 
     return;
 
   }
 
 
-  document.getElementById("home")
-    .classList.add("hidden");
+  document.getElementById(
+    "home"
+  ).classList.add("hidden");
 
 
-  document.getElementById("guidance")
-    .classList.add("hidden");
+  document.getElementById(
+    "guidance"
+  ).classList.add("hidden");
 
 
-  document.getElementById("formSection")
-    .classList.remove("hidden");
+  document.getElementById(
+    "formSection"
+  ).classList.remove("hidden");
 
 
-  document.getElementById("formTitle")
-    .innerText =
-      currentService +
-      " – Share Your Details";
+  document.getElementById(
+    "formTitle"
+  ).innerText =
+    currentService +
+    " – Share Your Details";
 
 
   buildServiceForm(
@@ -2148,14 +2379,17 @@ function openForm(service){
   );
 
 
-  window.scrollTo(0,0);
+  window.scrollTo(
+    0,
+    0
+  );
 
 }
 
 
-/* ========================================================= */
-/* BUILD FORM */
-/* ========================================================= */
+/* =========================================================
+   BUILD FORM
+========================================================= */
 
 function buildServiceForm(service){
 
@@ -2184,14 +2418,29 @@ function buildServiceForm(service){
 
   if(
 
-    service === "Loan & EMI Guidance" ||
-    service === "Debt Management" ||
-    service === "Settlement Option Education" ||
-    service === "Consultation" ||
-    service === "1 Month Advisory" ||
-    service === "3 Month Advisory" ||
-    service === "6 Month Advisory" ||
-    service === "Talk to RinSaathi"
+    service ===
+      "Loan & EMI Guidance" ||
+
+    service ===
+      "Debt Management" ||
+
+    service ===
+      "Settlement Option Education" ||
+
+    service ===
+      "Consultation" ||
+
+    service ===
+      "1 Month Advisory" ||
+
+    service ===
+      "3 Month Advisory" ||
+
+    service ===
+      "6 Month Advisory" ||
+
+    service ===
+      "Talk to RinSaathi"
 
   ){
 
@@ -2211,15 +2460,18 @@ function buildServiceForm(service){
 
       </select>
 
+
       <input
         id="lender"
         type="text"
         placeholder="Bank / NBFC / Lender Name">
 
+
       <input
         id="outstanding"
         type="text"
         placeholder="Approx. Outstanding Amount">
+
 
       <input
         id="emi"
@@ -2231,7 +2483,10 @@ function buildServiceForm(service){
   }
 
 
-  if(service === "Loan & EMI Guidance"){
+  if(
+    service ===
+    "Loan & EMI Guidance"
+  ){
 
     html += `
 
@@ -2240,17 +2495,32 @@ function buildServiceForm(service){
         type="text"
         placeholder="Pending EMIs (if any)">
 
+
       <select id="mainConcern">
 
         <option value="">
           Select your main concern
         </option>
 
-        <option>EMI Payment Difficulty</option>
-        <option>Overdue / Bounce</option>
-        <option>High EMI Burden</option>
-        <option>Loan Understanding</option>
-        <option>Other</option>
+        <option>
+          EMI Payment Difficulty
+        </option>
+
+        <option>
+          Overdue / Bounce
+        </option>
+
+        <option>
+          High EMI Burden
+        </option>
+
+        <option>
+          Loan Understanding
+        </option>
+
+        <option>
+          Other
+        </option>
 
       </select>
 
@@ -2259,7 +2529,10 @@ function buildServiceForm(service){
   }
 
 
-  if(service === "CIBIL / Credit Guidance"){
+  if(
+    service ===
+    "CIBIL / Credit Guidance"
+  ){
 
     html += `
 
@@ -2268,10 +2541,12 @@ function buildServiceForm(service){
         type="text"
         placeholder="Approx. CIBIL Score (if known)">
 
+
       <input
         id="activeLoans"
         type="text"
         placeholder="Approx. Number of Active Loans / Cards">
+
 
       <select id="creditConcern">
 
@@ -2279,11 +2554,25 @@ function buildServiceForm(service){
           Select your credit concern
         </option>
 
-        <option>Low CIBIL Score</option>
-        <option>Overdue Account</option>
-        <option>Settlement / Written-off Account</option>
-        <option>Incorrect Credit Information</option>
-        <option>General Credit Guidance</option>
+        <option>
+          Low CIBIL Score
+        </option>
+
+        <option>
+          Overdue Account
+        </option>
+
+        <option>
+          Settlement / Written-off Account
+        </option>
+
+        <option>
+          Incorrect Credit Information
+        </option>
+
+        <option>
+          General Credit Guidance
+        </option>
 
       </select>
 
@@ -2292,7 +2581,10 @@ function buildServiceForm(service){
   }
 
 
-  if(service === "Recovery Call Guidance"){
+  if(
+    service ===
+    "Recovery Call Guidance"
+  ){
 
     html += `
 
@@ -2301,18 +2593,31 @@ function buildServiceForm(service){
         type="text"
         placeholder="Lender / Bank / NBFC Name">
 
+
       <select id="recoveryMethod">
 
         <option value="">
           How are they contacting you?
         </option>
 
-        <option>Phone Calls</option>
-        <option>SMS / WhatsApp</option>
-        <option>Email</option>
-        <option>Multiple Methods</option>
+        <option>
+          Phone Calls
+        </option>
+
+        <option>
+          SMS / WhatsApp
+        </option>
+
+        <option>
+          Email
+        </option>
+
+        <option>
+          Multiple Methods
+        </option>
 
       </select>
+
 
       <input
         id="callFrequency"
@@ -2324,7 +2629,10 @@ function buildServiceForm(service){
   }
 
 
-  if(service === "Debt Management"){
+  if(
+    service ===
+    "Debt Management"
+  ){
 
     html += `
 
@@ -2333,10 +2641,12 @@ function buildServiceForm(service){
         type="text"
         placeholder="Approx. Number of Loans / Debts">
 
+
       <input
         id="totalEmi"
         type="text"
         placeholder="Total Monthly EMI">
+
 
       <input
         id="incomeRange"
@@ -2348,7 +2658,10 @@ function buildServiceForm(service){
   }
 
 
-  if(service === "Settlement Option Education"){
+  if(
+    service ===
+    "Settlement Option Education"
+  ){
 
     html += `
 
@@ -2358,11 +2671,25 @@ function buildServiceForm(service){
           Current Loan Status
         </option>
 
-        <option>Regular Payments</option>
-        <option>EMI Overdue</option>
-        <option>Multiple EMIs Overdue</option>
-        <option>Recovery Communication</option>
-        <option>Already Offered Settlement</option>
+        <option>
+          Regular Payments
+        </option>
+
+        <option>
+          EMI Overdue
+        </option>
+
+        <option>
+          Multiple EMIs Overdue
+        </option>
+
+        <option>
+          Recovery Communication
+        </option>
+
+        <option>
+          Already Offered Settlement
+        </option>
 
       </select>
 
@@ -2386,36 +2713,44 @@ function buildServiceForm(service){
 }
 
 
-/* ========================================================= */
-/* HOME */
-/* ========================================================= */
+/* =========================================================
+   HOME
+========================================================= */
 
 function goHome(){
 
-  document.getElementById("guidance")
-    .classList.add("hidden");
+  document.getElementById(
+    "guidance"
+  ).classList.add("hidden");
 
 
-  document.getElementById("formSection")
-    .classList.add("hidden");
+  document.getElementById(
+    "formSection"
+  ).classList.add("hidden");
 
 
-  document.getElementById("home")
-    .classList.remove("hidden");
+  document.getElementById(
+    "home"
+  ).classList.remove("hidden");
 
 
-  window.scrollTo(0,0);
+  window.scrollTo(
+    0,
+    0
+  );
 
 }
 
 
-/* ========================================================= */
-/* WHATSAPP */
-/* ========================================================= */
+/* =========================================================
+   WHATSAPP
+========================================================= */
 
 function sendWhatsApp(){
 
-  if(!requireConsultationPayment()){
+  if(
+    !requireConsultationPayment()
+  ){
 
     return;
 
@@ -2423,21 +2758,27 @@ function sendWhatsApp(){
 
 
   const name =
-    document.getElementById("name")
-      ?.value.trim();
+    document.getElementById(
+      "name"
+    )?.value.trim();
 
 
   const phone =
-    document.getElementById("phone")
-      ?.value.trim();
+    document.getElementById(
+      "phone"
+    )?.value.trim();
 
 
   const message =
-    document.getElementById("message")
-      ?.value.trim();
+    document.getElementById(
+      "message"
+    )?.value.trim();
 
 
-  if(!name || !phone){
+  if(
+    !name ||
+    !phone
+  ){
 
     alert(
       "Please enter your name and mobile number."
@@ -2448,7 +2789,11 @@ function sendWhatsApp(){
   }
 
 
-  if(!/^[6-9]\d{9}$/.test(phone)){
+  if(
+    !/^[6-9]\d{9}$/.test(
+      phone
+    )
+  ){
 
     alert(
       "Please enter a valid 10-digit Indian mobile number."
@@ -2475,44 +2820,61 @@ Mobile: ${phone}
   const ids = [
 
     ["loanType","Loan Type"],
+
     ["lender","Bank / NBFC / Lender"],
+
     ["outstanding","Approx Outstanding"],
+
     ["emi","Current EMI"],
+
     ["pendingEmi","Pending EMIs"],
+
     ["mainConcern","Main Concern"],
+
     ["cibilScore","Approx CIBIL Score"],
+
     ["activeLoans","Active Loans / Cards"],
+
     ["creditConcern","Credit Concern"],
+
     ["recoveryLender","Recovery Lender"],
+
     ["recoveryMethod","Recovery Contact Method"],
+
     ["callFrequency","Call Frequency"],
+
     ["numberOfDebts","Number of Loans / Debts"],
+
     ["totalEmi","Total Monthly EMI"],
+
     ["incomeRange","Approx Monthly Income"],
+
     ["settlementStatus","Current Loan Status"]
 
   ];
 
 
-  ids.forEach(function(item){
+  ids.forEach(
+    function(item){
 
-    const element =
-      document.getElementById(
-        item[0]
-      );
+      const element =
+        document.getElementById(
+          item[0]
+        );
 
 
-    if(
-      element &&
-      element.value.trim()
-    ){
+      if(
+        element &&
+        element.value.trim()
+      ){
 
-      text +=
-        `${item[1]}: ${element.value.trim()}\n`;
+        text +=
+          `${item[1]}: ${element.value.trim()}\n`;
+
+      }
 
     }
-
-  });
+  );
 
 
   text += `
@@ -2527,15 +2889,18 @@ I understand that RinSaathi provides advisory and guidance services and does not
     "919319301096";
 
 
-  window.open(
-
+  const whatsappURL =
     "https://wa.me/" +
     whatsappNumber +
     "?text=" +
-    encodeURIComponent(text),
+    encodeURIComponent(
+      text
+    );
 
+
+  window.open(
+    whatsappURL,
     "_blank"
-
   );
 
 }
