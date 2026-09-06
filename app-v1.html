@@ -325,6 +325,28 @@ body{
   color:#063f32;
   font-weight:700;
 }
+
+.guidanceText{
+  font-size:14px;
+  color:#53635e;
+  line-height:1.6;
+  margin-bottom:18px;
+}
+
+.guidanceList{
+  margin:0 0 18px 20px;
+  color:#53635e;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.formTitle{
+  font-size:18px;
+  font-weight:800;
+  color:#063f32;
+  margin-top:20px;
+  margin-bottom:12px;
+}
 </style>
 </head>
 
@@ -349,8 +371,6 @@ body{
       Secure mobile verification to continue
     </div>
 
-    <!-- MOBILE NUMBER -->
-
     <div id="phoneSection">
 
       <input
@@ -373,8 +393,6 @@ body{
       </button>
 
     </div>
-
-    <!-- OTP -->
 
     <div id="otpSection">
 
@@ -487,7 +505,7 @@ body{
         <p>Understand settlement-related options.</p>
       </div>
 
-      <div class="card" onclick="openForm()">
+      <div class="card" onclick="showGuidance('Talk to RinSaathi')">
         <div class="icon">💬</div>
         <h3>Talk to RinSaathi</h3>
         <p>Share your situation for guidance.</p>
@@ -521,7 +539,7 @@ body{
 
       <button
         class="btn btnGold"
-        onclick="openForm()">
+        onclick="openForm('Consultation')">
 
         Book Consultation
 
@@ -550,7 +568,7 @@ body{
 
       <button
         class="btn btnGold"
-        onclick="openForm()">
+        onclick="openForm('1 Month Advisory')">
 
         Enquire Now
 
@@ -571,7 +589,7 @@ body{
 
       <button
         class="btn btnGold"
-        onclick="openForm()">
+        onclick="openForm('3 Month Advisory')">
 
         Enquire Now
 
@@ -592,7 +610,7 @@ body{
 
       <button
         class="btn btnGold"
-        onclick="openForm()">
+        onclick="openForm('6 Month Advisory')">
 
         Enquire Now
 
@@ -624,7 +642,7 @@ body{
 </div>
 
 
-<!-- GUIDANCE -->
+<!-- ================= GUIDANCE ================= -->
 
 <div id="guidance" class="hidden">
 
@@ -634,42 +652,12 @@ body{
 
   <div class="title" id="guidanceTitle"></div>
 
-  <div class="notice">
-
-    Every financial situation is different. The right approach depends on
-    your loan details, repayment history and current circumstances.
-
-  </div>
-
-  <div class="section">
-
-    <div class="package">
-
-      <h3>
-        What you can do next
-      </h3>
-
-      <p>
-        Share your basic situation with RinSaathi. We can help you understand
-        the available options, important precautions and practical next steps.
-      </p>
-
-      <button
-        class="btn btnGold"
-        onclick="openForm()">
-
-        Share My Situation
-
-      </button>
-
-    </div>
-
-  </div>
+  <div id="guidanceContent"></div>
 
 </div>
 
 
-<!-- FORM -->
+<!-- ================= FORM ================= -->
 
 <div id="formSection" class="hidden">
 
@@ -677,50 +665,13 @@ body{
     ← Back
   </div>
 
-  <div class="title">
+  <div class="title" id="formTitle">
     Share Your Situation
   </div>
 
   <div class="form" style="display:block">
 
-    <input
-      id="name"
-      type="text"
-      placeholder="Your Name">
-
-    <input
-      id="phone"
-      type="tel"
-      placeholder="Mobile Number">
-
-    <select id="problem">
-
-      <option value="">
-        Select your concern
-      </option>
-
-      <option>Loan & EMI</option>
-      <option>CIBIL / Credit</option>
-      <option>Recovery Calls</option>
-      <option>Multiple Debt</option>
-      <option>Settlement Guidance</option>
-      <option>Consultation</option>
-
-    </select>
-
-    <input
-      id="outstanding"
-      type="text"
-      placeholder="Approx. Outstanding Amount">
-
-    <input
-      id="emi"
-      type="text"
-      placeholder="Current EMI (if applicable)">
-
-    <textarea
-      id="message"
-      placeholder="Briefly tell us about your situation"></textarea>
+    <div id="dynamicFormFields"></div>
 
     <button
       class="btn btnGreen"
@@ -774,8 +725,6 @@ import {
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 
-/* FIREBASE CONFIG */
-
 const firebaseConfig = {
 
   apiKey: "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
@@ -800,8 +749,6 @@ const auth = getAuth(app);
 let confirmationResult = null;
 
 
-/* MESSAGE */
-
 function setLoginMessage(message,type=""){
 
   const box =
@@ -814,8 +761,6 @@ function setLoginMessage(message,type=""){
 
 }
 
-
-/* SEND OTP */
 
 window.sendOTP = async function(){
 
@@ -897,8 +842,6 @@ window.sendOTP = async function(){
 };
 
 
-/* VERIFY OTP */
-
 window.verifyOTP = async function(){
 
   const otp =
@@ -948,8 +891,6 @@ window.verifyOTP = async function(){
 };
 
 
-/* RECAPTCHA */
-
 function createRecaptcha(){
 
   if(window.recaptchaVerifier){
@@ -994,8 +935,6 @@ function createRecaptcha(){
 createRecaptcha();
 
 
-/* AUTH STATE */
-
 onAuthStateChanged(
   auth,
   function(user){
@@ -1030,8 +969,6 @@ onAuthStateChanged(
 );
 
 
-/* LOGOUT */
-
 window.logoutUser = async function(){
 
   await signOut(auth);
@@ -1040,8 +977,6 @@ window.logoutUser = async function(){
 
 };
 
-
-/* CHANGE PHONE */
 
 window.backToPhone = function(){
 
@@ -1067,7 +1002,128 @@ window.backToPhone = function(){
 
 <script>
 
+let currentService = "";
+
+
+/* SERVICE INFORMATION */
+
+const serviceData = {
+
+  "Loan & EMI Guidance": {
+
+    description:
+      "Managing a loan can become difficult when EMIs, overdue payments or financial pressure start affecting your monthly budget. Understanding your loan position is an important first step toward making a practical decision.",
+
+    points: [
+      "Understand your current loan and EMI position.",
+      "Review how overdue payments may affect your situation.",
+      "Know which loan details and documents you should review.",
+      "Understand practical options based on your circumstances."
+    ],
+
+    button:
+      "Get Loan & EMI Guidance"
+
+  },
+
+
+  "CIBIL / Credit Guidance": {
+
+    description:
+      "Your credit profile can be affected by repayment history, outstanding obligations and other credit-related factors. Understanding your CIBIL report can help you identify the areas that need attention.",
+
+    points: [
+      "Understand your CIBIL / credit score.",
+      "Review factors that may affect your credit profile.",
+      "Identify possible overdue or reporting concerns.",
+      "Understand practical steps for better credit management."
+    ],
+
+    button:
+      "Get CIBIL Guidance"
+
+  },
+
+
+  "Recovery Call Guidance": {
+
+    description:
+      "Recovery communication can be stressful. Understanding how to respond, what information to verify and how to keep proper records can help you handle the situation more carefully.",
+
+    points: [
+      "Understand how to handle recovery communication.",
+      "Know what information you should verify.",
+      "Keep records of important calls and messages.",
+      "Understand practical precautions while communicating."
+    ],
+
+    button:
+      "Get Recovery Call Guidance"
+
+  },
+
+
+  "Debt Management": {
+
+    description:
+      "When multiple EMIs and debts become difficult to manage, getting a clear picture of your total obligations is an important starting point for better planning.",
+
+    points: [
+      "Organise your multiple loan and debt obligations.",
+      "Understand your total monthly EMI burden.",
+      "Identify which obligations need attention first.",
+      "Discuss practical debt-planning approaches."
+    ],
+
+    button:
+      "Create My Debt Plan"
+
+  },
+
+
+  "Settlement Option Education": {
+
+    description:
+      "Loan settlement is a financial decision that should be understood carefully. Settlement and regular loan closure can have different implications, including possible effects on your credit profile.",
+
+    points: [
+      "Understand what loan settlement means.",
+      "Understand the difference between settlement and regular closure.",
+      "Learn about possible credit-profile implications.",
+      "Review important points before considering an option."
+    ],
+
+    button:
+      "Understand My Options"
+
+  },
+
+
+  "Talk to RinSaathi": {
+
+    description:
+      "Not sure which option is right for you? Share your overall financial situation with RinSaathi and we can help you understand which area may require attention and what practical next steps you can consider.",
+
+    points: [
+      "Share your overall financial situation.",
+      "Tell us about your loans, EMIs or credit concerns.",
+      "Explain the main difficulty you are facing.",
+      "Receive guidance on the most relevant next step."
+    ],
+
+    button:
+      "Share My Situation"
+
+  }
+
+};
+
+
+/* SHOW GUIDANCE */
+
 function showGuidance(title){
+
+  currentService = title;
 
   document.getElementById("home")
     .classList.add("hidden");
@@ -1081,12 +1137,57 @@ function showGuidance(title){
   document.getElementById("guidanceTitle")
     .innerText = title;
 
+  const data =
+    serviceData[title];
+
+  document.getElementById("guidanceContent").innerHTML = `
+
+    <div class="guidanceText">
+      ${data.description}
+    </div>
+
+    <div class="formTitle">
+      What you can understand
+    </div>
+
+    <ul class="guidanceList">
+      ${data.points.map(point => `<li>${point}</li>`).join("")}
+    </ul>
+
+    <div class="package">
+
+      <h3>
+        Practical Guidance
+      </h3>
+
+      <p>
+        Every financial situation is different. The right approach depends
+        on your loan details, repayment history and current circumstances.
+      </p>
+
+      <button
+        class="btn btnGold"
+        onclick="openForm('${title}')">
+
+        ${data.button}
+
+      </button>
+
+    </div>
+
+  `;
+
   window.scrollTo(0,0);
 
 }
 
 
-function openForm(){
+/* OPEN SERVICE FORM */
+
+function openForm(service){
+
+  currentService =
+    service || "Talk to RinSaathi";
 
   document.getElementById("home")
     .classList.add("hidden");
@@ -1097,10 +1198,243 @@ function openForm(){
   document.getElementById("formSection")
     .classList.remove("hidden");
 
+  document.getElementById("formTitle")
+    .innerText =
+      currentService + " – Share Your Details";
+
+  buildServiceForm(currentService);
+
   window.scrollTo(0,0);
 
 }
 
+
+/* BUILD DIFFERENT FORM FOR EACH SERVICE */
+
+function buildServiceForm(service){
+
+  const container =
+    document.getElementById("dynamicFormFields");
+
+  let html = `
+
+    <input
+      id="name"
+      type="text"
+      placeholder="Your Name">
+
+    <input
+      id="phone"
+      type="tel"
+      inputmode="numeric"
+      maxlength="10"
+      placeholder="Mobile Number">
+
+  `;
+
+
+  if(
+    service === "Loan & EMI Guidance" ||
+    service === "Debt Management" ||
+    service === "Settlement Option Education" ||
+    service === "Consultation" ||
+    service === "1 Month Advisory" ||
+    service === "3 Month Advisory" ||
+    service === "6 Month Advisory" ||
+    service === "Talk to RinSaathi"
+  ){
+
+    html += `
+
+      <select id="loanType">
+
+        <option value="">
+          Select Loan Type
+        </option>
+
+        <option>Personal Loan</option>
+        <option>Business Loan</option>
+        <option>Consumer Loan</option>
+        <option>Credit Card</option>
+        <option>Other</option>
+
+      </select>
+
+      <input
+        id="lender"
+        type="text"
+        placeholder="Bank / NBFC / Lender Name">
+
+      <input
+        id="outstanding"
+        type="text"
+        placeholder="Approx. Outstanding Amount">
+
+      <input
+        id="emi"
+        type="text"
+        placeholder="Current EMI (if applicable)">
+
+    `;
+
+  }
+
+
+  if(service === "Loan & EMI Guidance"){
+
+    html += `
+
+      <input
+        id="pendingEmi"
+        type="text"
+        placeholder="Pending EMIs (if any)">
+
+      <select id="mainConcern">
+
+        <option value="">
+          Select your main concern
+        </option>
+
+        <option>EMI Payment Difficulty</option>
+        <option>Overdue / Bounce</option>
+        <option>High EMI Burden</option>
+        <option>Loan Understanding</option>
+        <option>Other</option>
+
+      </select>
+
+    `;
+
+  }
+
+
+  if(service === "CIBIL / Credit Guidance"){
+
+    html += `
+
+      <input
+        id="cibilScore"
+        type="text"
+        placeholder="Approx. CIBIL Score (if known)">
+
+      <input
+        id="activeLoans"
+        type="text"
+        placeholder="Approx. Number of Active Loans / Cards">
+
+      <select id="creditConcern">
+
+        <option value="">
+          Select your credit concern
+        </option>
+
+        <option>Low CIBIL Score</option>
+        <option>Overdue Account</option>
+        <option>Settlement / Written-off Account</option>
+        <option>Incorrect Credit Information</option>
+        <option>General Credit Guidance</option>
+
+      </select>
+
+    `;
+
+  }
+
+
+  if(service === "Recovery Call Guidance"){
+
+    html += `
+
+      <input
+        id="recoveryLender"
+        type="text"
+        placeholder="Lender / Bank / NBFC Name">
+
+      <select id="recoveryMethod">
+
+        <option value="">
+          How are they contacting you?
+        </option>
+
+        <option>Phone Calls</option>
+        <option>SMS / WhatsApp</option>
+        <option>Email</option>
+        <option>Multiple Methods</option>
+
+      </select>
+
+      <input
+        id="callFrequency"
+        type="text"
+        placeholder="Approx. Call Frequency">
+
+    `;
+
+  }
+
+
+  if(service === "Debt Management"){
+
+    html += `
+
+      <input
+        id="numberOfDebts"
+        type="text"
+        placeholder="Approx. Number of Loans / Debts">
+
+      <input
+        id="totalEmi"
+        type="text"
+        placeholder="Total Monthly EMI">
+
+      <input
+        id="incomeRange"
+        type="text"
+        placeholder="Approx. Monthly Income">
+
+    `;
+
+  }
+
+
+  if(service === "Settlement Option Education"){
+
+    html += `
+
+      <select id="settlementStatus">
+
+        <option value="">
+          Current Loan Status
+        </option>
+
+        <option>Regular Payments</option>
+        <option>EMI Overdue</option>
+        <option>Multiple EMIs Overdue</option>
+        <option>Recovery Communication</option>
+        <option>Already Offered Settlement</option>
+
+      </select>
+
+    `;
+
+  }
+
+
+  html += `
+
+    <textarea
+      id="message"
+      placeholder="Briefly tell us about your situation"></textarea>
+
+  `;
+
+
+  container.innerHTML = html;
+
+}
+
+
+/* HOME */
 
 function goHome(){
 
@@ -1118,37 +1452,27 @@ function goHome(){
 }
 
 
+/* WHATSAPP */
+
 function sendWhatsApp(){
 
   const name =
     document.getElementById("name")
-      .value.trim();
+      ?.value.trim();
 
   const phone =
     document.getElementById("phone")
-      .value.trim();
-
-  const problem =
-    document.getElementById("problem")
-      .value;
-
-  const outstanding =
-    document.getElementById("outstanding")
-      .value.trim();
-
-  const emi =
-    document.getElementById("emi")
-      .value.trim();
+      ?.value.trim();
 
   const message =
     document.getElementById("message")
-      .value.trim();
+      ?.value.trim();
 
 
-  if(!name || !phone || !problem){
+  if(!name || !phone){
 
     alert(
-      "Please enter your name, mobile number and concern."
+      "Please enter your name and mobile number."
     );
 
     return;
@@ -1156,16 +1480,56 @@ function sendWhatsApp(){
   }
 
 
-  const text =
+  let text =
 `Hello RinSaathi,
 
-I would like guidance regarding my financial situation.
+I would like guidance regarding:
+
+Service: ${currentService}
 
 Name: ${name}
 Mobile: ${phone}
-Concern: ${problem}
-Approx Outstanding: ${outstanding || "Not provided"}
-Current EMI: ${emi || "Not provided"}
+`;
+
+
+  const ids = [
+
+    ["loanType","Loan Type"],
+    ["lender","Bank / NBFC / Lender"],
+    ["outstanding","Approx Outstanding"],
+    ["emi","Current EMI"],
+    ["pendingEmi","Pending EMIs"],
+    ["mainConcern","Main Concern"],
+    ["cibilScore","Approx CIBIL Score"],
+    ["activeLoans","Active Loans / Cards"],
+    ["creditConcern","Credit Concern"],
+    ["recoveryLender","Recovery Lender"],
+    ["recoveryMethod","Recovery Contact Method"],
+    ["callFrequency","Call Frequency"],
+    ["numberOfDebts","Number of Loans / Debts"],
+    ["totalEmi","Total Monthly EMI"],
+    ["incomeRange","Approx Monthly Income"],
+    ["settlementStatus","Current Loan Status"]
+
+  ];
+
+
+  ids.forEach(function(item){
+
+    const element =
+      document.getElementById(item[0]);
+
+    if(element && element.value.trim()){
+
+      text +=
+        `${item[1]}: ${element.value.trim()}\n`;
+
+    }
+
+  });
+
+
+  text += `
 
 My Situation:
 ${message || "Not provided"}
