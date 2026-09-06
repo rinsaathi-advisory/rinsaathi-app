@@ -505,13 +505,6 @@ body{
   margin-top:6px;
 }
 
-.paymentRequired .paymentAmount{
-  font-size:24px;
-  font-weight:900;
-  color:#b58a27;
-  margin-top:8px;
-}
-
 </style>
 
 <!-- ================= RAZORPAY ================= -->
@@ -809,7 +802,7 @@ body{
       </h3>
 
       <p>
-        Complete and verify the ₹499 consultation payment
+        Complete and verify your consultation payment
         to unlock consultation access and Advisory Plans.
       </p>
 
@@ -1089,10 +1082,6 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
-
-/* ========================================================= */
-/* UPDATED FIREBASE CONFIGURATION */
-/* ========================================================= */
 
 const firebaseConfig = {
 
@@ -1794,7 +1783,7 @@ function requireConsultationPayment(){
   if(consultationPaid !== true){
 
     alert(
-      "Please complete the ₹499 consultation payment first."
+      "Please complete the consultation payment first."
     );
 
     goHome();
@@ -2063,18 +2052,14 @@ function showGuidance(title){
         <p>
           To continue with this guidance service
           and send your details on WhatsApp,
-          please complete the RinSaathi consultation.
+          please book your RinSaathi consultation.
         </p>
-
-        <div class="paymentAmount">
-          ₹499
-        </div>
 
         <button
           class="btn btnGold"
-          onclick="startConsultationPayment()">
+          onclick="bookConsultationFromService()">
 
-          Pay ₹499 & Continue
+          Book Consultation
 
         </button>
 
@@ -2084,6 +2069,40 @@ function showGuidance(title){
 
 
   window.scrollTo(0,0);
+
+}
+
+
+/* ========================================================= */
+/* BOOK CONSULTATION FROM SERVICE */
+/* ========================================================= */
+
+function bookConsultationFromService(){
+
+  document.getElementById("guidance")
+    .classList.add("hidden");
+
+
+  document.getElementById("formSection")
+    .classList.add("hidden");
+
+
+  document.getElementById("home")
+    .classList.remove("hidden");
+
+
+  const consultationSection =
+    document.querySelector(".consultationOffer");
+
+
+  if(consultationSection){
+
+    consultationSection.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  }
 
 }
 
