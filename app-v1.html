@@ -224,7 +224,7 @@ body{
   margin-top:28px;
 }
 
-/* ================= CONSULTATION OFFER ================= */
+/* ================= CONSULTATION ================= */
 
 .consultationOffer{
   background:linear-gradient(145deg,#063f32,#0d604c);
@@ -302,7 +302,7 @@ body{
   color:white;
 }
 
-/* ================= LOCKED AREA ================= */
+/* ================= LOCKED ================= */
 
 .lockedBox{
   border:1px solid #e4e8e6;
@@ -330,7 +330,7 @@ body{
   margin-top:7px;
 }
 
-/* ================= ADVISORY PLANS ================= */
+/* ================= PAID CONTENT ================= */
 
 #paidContent{
   display:none;
@@ -469,18 +469,46 @@ body{
   margin-bottom:12px;
 }
 
-/* ================= PAYMENT STATUS ================= */
-
 .paymentStatus{
   display:none;
   margin-top:14px;
   padding:13px;
   border-radius:12px;
-  background:#fff8e7;
-  color:#6b5727;
+  background:#edf8f2;
+  color:#16704f;
   font-size:13px;
   text-align:center;
   font-weight:700;
+}
+
+/* ================= PAYMENT REQUIRED ================= */
+
+.paymentRequired{
+  border:1px solid #ead9a7;
+  background:#fffaf0;
+  border-radius:16px;
+  padding:16px;
+  margin-top:18px;
+  text-align:center;
+}
+
+.paymentRequired h4{
+  color:#063f32;
+  font-size:15px;
+}
+
+.paymentRequired p{
+  color:#6a7974;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:6px;
+}
+
+.paymentRequired .paymentAmount{
+  font-size:24px;
+  font-weight:900;
+  color:#b58a27;
+  margin-top:8px;
 }
 
 </style>
@@ -490,9 +518,7 @@ body{
 <body>
 
 
-<!-- ========================================================= -->
-<!-- LOGIN -->
-<!-- ========================================================= -->
+<!-- ================= LOGIN ================= -->
 
 <div id="loginScreen">
 
@@ -510,7 +536,6 @@ body{
     <div class="loginSub">
       Secure mobile verification to continue
     </div>
-
 
     <div id="phoneSection">
 
@@ -535,7 +560,6 @@ body{
 
     </div>
 
-
     <div id="otpSection">
 
       <input
@@ -547,7 +571,6 @@ body{
         placeholder="Enter OTP">
 
       <button
-        id="verifyOtpBtn"
         class="loginBtn"
         onclick="verifyOTP()">
 
@@ -565,9 +588,7 @@ body{
 
     </div>
 
-
     <div id="loginMessage" class="loginMessage"></div>
-
 
     <div class="notice">
 
@@ -581,15 +602,11 @@ body{
 </div>
 
 
-
-<!-- ========================================================= -->
-<!-- MAIN APP -->
-<!-- ========================================================= -->
+<!-- ================= MAIN APP ================= -->
 
 <div id="mainApp">
 
 <div class="app">
-
 
 <header class="header">
 
@@ -614,16 +631,12 @@ body{
 </header>
 
 
-
 <main class="content">
 
 
-<!-- ========================================================= -->
-<!-- HOME -->
-<!-- ========================================================= -->
+<!-- ================= HOME ================= -->
 
 <div id="home">
-
 
   <div class="section">
 
@@ -631,9 +644,7 @@ body{
       How can we help you?
     </div>
 
-
     <div class="grid">
-
 
       <div
         class="card"
@@ -648,7 +659,6 @@ body{
         </p>
 
       </div>
-
 
 
       <div
@@ -666,7 +676,6 @@ body{
       </div>
 
 
-
       <div
         class="card"
         onclick="showGuidance('Recovery Call Guidance')">
@@ -680,7 +689,6 @@ body{
         </p>
 
       </div>
-
 
 
       <div
@@ -698,7 +706,6 @@ body{
       </div>
 
 
-
       <div
         class="card"
         onclick="showGuidance('Settlement Option Education')">
@@ -712,7 +719,6 @@ body{
         </p>
 
       </div>
-
 
 
       <div
@@ -729,16 +735,12 @@ body{
 
       </div>
 
-
     </div>
 
   </div>
 
 
-
-<!-- ========================================================= -->
-<!-- CONSULTATION OFFER -->
-<!-- ========================================================= -->
+<!-- ================= CONSULTATION ================= -->
 
   <div class="section">
 
@@ -746,53 +748,44 @@ body{
       Get Consultation
     </div>
 
-
     <div class="consultationOffer">
 
       <div class="offerBadge">
         🔥 LIMITED TIME OFFER • 50% OFF
       </div>
 
-
       <h3>
         Personalised Debt Advisory
       </h3>
-
 
       <p>
         One-to-one consultation to understand your financial
         situation and discuss practical next steps.
       </p>
 
-
       <div class="oldPrice">
         Original Price: ₹999
       </div>
-
 
       <div class="offerPrice">
         ₹499
       </div>
 
-
       <div class="saveText">
         You Save ₹500
       </div>
-
 
       <button
         class="btn btnGold"
         onclick="startConsultationPayment()">
 
-        Get Consultation for ₹499
+        Pay ₹499 & Get Consultation
 
       </button>
-
 
       <div
         id="paymentStatus"
         class="paymentStatus">
-
       </div>
 
     </div>
@@ -812,8 +805,7 @@ body{
 
       <p>
         Complete and verify the ₹499 consultation payment
-        to unlock personalised consultation access and
-        Advisory Plans.
+        to unlock consultation access and Advisory Plans.
       </p>
 
     </div>
@@ -821,214 +813,171 @@ body{
   </div>
 
 
+<!-- ================= PAID CONTENT ================= -->
 
-<!-- ========================================================= -->
-<!-- PAID CONTENT -->
-<!-- ========================================================= -->
+<div
+  id="paidContent"
+  class="section">
 
-  <div
-    id="paidContent"
-    class="section">
+  <div class="unlockedTitle">
+    ✓ Consultation Access Unlocked
+  </div>
 
+  <div class="package">
 
-    <div class="unlockedTitle">
-      ✓ Consultation Access Unlocked
-    </div>
+    <h3>
+      Personalised Consultation
+    </h3>
 
+    <p>
+      Your consultation access is now available.
+      Share your situation and receive practical guidance.
+    </p>
 
-    <div class="package">
+    <button
+      class="btn btnGold"
+      onclick="openForm('Consultation')">
 
-      <h3>
-        Personalised Consultation
-      </h3>
+      Start My Consultation
 
-      <p>
-        Your consultation access is now available.
-        Share your situation and receive practical guidance
-        based on the information you provide.
-      </p>
-
-
-      <button
-        class="btn btnGold"
-        onclick="openForm('Consultation')">
-
-        Start My Consultation
-
-      </button>
-
-    </div>
-
-
-
-<!-- ========================================================= -->
-<!-- ADVISORY PLANS -->
-<!-- ========================================================= -->
-
-    <div class="title">
-      Advisory Plans
-    </div>
-
-
-
-<!-- 1 MONTH -->
-
-    <div class="package">
-
-      <h3>
-        1 Month Advisory
-      </h3>
-
-      <p>
-        Guidance and support according to your situation.
-      </p>
-
-
-      <div class="oldPlanPrice">
-        ₹2,499
-      </div>
-
-
-      <div class="price">
-        ₹1,999
-      </div>
-
-
-      <div class="savePlan">
-        Save ₹500
-      </div>
-
-
-      <button
-        class="btn btnGold"
-        onclick="openForm('1 Month Advisory')">
-
-        Choose 1 Month
-
-      </button>
-
-    </div>
-
-
-
-<!-- 3 MONTH -->
-
-    <div class="package">
-
-      <h3>
-        3 Month Advisory
-      </h3>
-
-      <p>
-        Longer-term guidance for ongoing debt challenges.
-      </p>
-
-
-      <div class="oldPlanPrice">
-        ₹5,999
-      </div>
-
-
-      <div class="price">
-        ₹4,499
-      </div>
-
-
-      <div class="savePlan">
-        Save ₹1,500
-      </div>
-
-
-      <button
-        class="btn btnGold"
-        onclick="openForm('3 Month Advisory')">
-
-        Choose 3 Months
-
-      </button>
-
-    </div>
-
-
-
-<!-- 6 MONTH -->
-
-    <div class="package">
-
-      <h3>
-        6 Month Advisory
-      </h3>
-
-      <p>
-        Extended advisory support for structured debt planning.
-      </p>
-
-
-      <div class="oldPlanPrice">
-        ₹9,999
-      </div>
-
-
-      <div class="price">
-        ₹6,999
-      </div>
-
-
-      <div class="savePlan">
-        Save ₹3,000
-      </div>
-
-
-      <button
-        class="btn btnGold"
-        onclick="openForm('6 Month Advisory')">
-
-        Choose 6 Months
-
-      </button>
-
-    </div>
-
+    </button>
 
   </div>
 
 
+  <div class="title">
+    Advisory Plans
+  </div>
 
-<!-- NOTICE -->
 
-  <div class="notice">
+  <div class="package">
 
-    <b>Important:</b>
+    <h3>
+      1 Month Advisory
+    </h3>
 
-    RinSaathi Advisory Services is an independent advisory
-    and guidance service. We are not a bank, lender or loan provider
-    and do not guarantee loan approval, settlement or any specific outcome.
+    <p>
+      Guidance and support according to your situation.
+    </p>
+
+    <div class="oldPlanPrice">
+      ₹2,499
+    </div>
+
+    <div class="price">
+      ₹1,999
+    </div>
+
+    <div class="savePlan">
+      Save ₹500
+    </div>
+
+    <button
+      class="btn btnGold"
+      onclick="openForm('1 Month Advisory')">
+
+      Choose 1 Month
+
+    </button>
 
   </div>
 
 
+  <div class="package">
 
-  <button
-    class="logoutBtn"
-    onclick="logoutUser()">
+    <h3>
+      3 Month Advisory
+    </h3>
 
-    Logout
+    <p>
+      Longer-term guidance for ongoing debt challenges.
+    </p>
 
-  </button>
+    <div class="oldPlanPrice">
+      ₹5,999
+    </div>
 
+    <div class="price">
+      ₹4,999
+    </div>
+
+    <div class="savePlan">
+      Save ₹1,000
+    </div>
+
+    <button
+      class="btn btnGold"
+      onclick="openForm('3 Month Advisory')">
+
+      Choose 3 Months
+
+    </button>
+
+  </div>
+
+
+  <div class="package">
+
+    <h3>
+      6 Month Advisory
+    </h3>
+
+    <p>
+      Extended advisory support for structured debt planning.
+    </p>
+
+    <div class="oldPlanPrice">
+      ₹9,999
+    </div>
+
+    <div class="price">
+      ₹7,999
+    </div>
+
+    <div class="savePlan">
+      Save ₹2,000
+    </div>
+
+    <button
+      class="btn btnGold"
+      onclick="openForm('6 Month Advisory')">
+
+      Choose 6 Months
+
+    </button>
+
+  </div>
 
 </div>
 
 
+<div class="notice">
 
-<!-- ========================================================= -->
-<!-- GUIDANCE -->
-<!-- ========================================================= -->
+  <b>Important:</b>
+
+  RinSaathi Advisory Services is an independent advisory
+  and guidance service. We are not a bank, lender or loan provider
+  and do not guarantee loan approval, settlement or any specific outcome.
+
+</div>
+
+
+<button
+  class="logoutBtn"
+  onclick="logoutUser()">
+
+  Logout
+
+</button>
+
+</div>
+
+
+<!-- ================= GUIDANCE ================= -->
 
 <div
   id="guidance"
   class="hidden">
-
 
   <div
     class="back"
@@ -1037,31 +986,24 @@ body{
     ← Back
 
   </div>
-
 
   <div
     class="title"
     id="guidanceTitle">
   </div>
 
-
   <div
     id="guidanceContent">
   </div>
 
-
 </div>
 
 
-
-<!-- ========================================================= -->
-<!-- FORM -->
-<!-- ========================================================= -->
+<!-- ================= FORM ================= -->
 
 <div
   id="formSection"
   class="hidden">
-
 
   <div
     class="back"
@@ -1070,7 +1012,6 @@ body{
     ← Back
 
   </div>
-
 
   <div
     class="title"
@@ -1080,25 +1021,22 @@ body{
 
   </div>
 
-
   <div
     class="form"
     style="display:block">
-
 
     <div
       id="dynamicFormFields">
     </div>
 
-
     <button
+      id="whatsappButton"
       class="btn btnGreen"
       onclick="sendWhatsApp()">
 
       Continue on WhatsApp
 
     </button>
-
 
     <div class="notice">
 
@@ -1107,14 +1045,12 @@ body{
 
     </div>
 
-
   </div>
 
 </div>
 
 
 </main>
-
 
 
 <footer class="footer">
@@ -1125,11 +1061,9 @@ body{
 
 </footer>
 
-
 </div>
 
 </div>
-
 
 
 <!-- ========================================================= -->
@@ -1177,22 +1111,11 @@ const firebaseConfig = {
 const app =
   initializeApp(firebaseConfig);
 
-
 const auth =
   getAuth(app);
 
-
 let confirmationResult = null;
 
-let otpSending = false;
-
-let otpVerifying = false;
-
-
-
-/* ========================================================= */
-/* LOGIN MESSAGE */
-/* ========================================================= */
 
 function setLoginMessage(message,type=""){
 
@@ -1208,121 +1131,12 @@ function setLoginMessage(message,type=""){
 }
 
 
-
-/* ========================================================= */
-/* CREATE RECAPTCHA */
-/* ========================================================= */
-
-function createRecaptcha(){
-
-  const container =
-    document.getElementById("recaptcha-container");
-
-
-  if(!container){
-    return;
-  }
-
-
-  if(window.recaptchaVerifier){
-
-    try{
-
-      window.recaptchaVerifier.clear();
-
-    }catch(e){}
-
-    window.recaptchaVerifier =
-      null;
-
-  }
-
-
-  container.innerHTML = "";
-
-
-  try{
-
-    window.recaptchaVerifier =
-      new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-
-          size:"normal",
-
-          callback:function(){
-
-            setLoginMessage(
-              "reCAPTCHA verified. You can send OTP.",
-              "success"
-            );
-
-          },
-
-          "expired-callback":function(){
-
-            setLoginMessage(
-              "reCAPTCHA expired. Please verify it again.",
-              "error"
-            );
-
-          },
-
-          "error-callback":function(){
-
-            setLoginMessage(
-              "reCAPTCHA could not be loaded. Please check your internet connection and try again.",
-              "error"
-            );
-
-          }
-
-        }
-      );
-
-
-  }catch(error){
-
-    console.error(
-      "reCAPTCHA creation error:",
-      error
-    );
-
-    setLoginMessage(
-      "Unable to load security verification. Please refresh the page.",
-      "error"
-    );
-
-  }
-
-}
-
-
-
-/* ========================================================= */
-/* SEND OTP */
-/* ========================================================= */
-
 window.sendOTP =
 async function(){
 
-  if(otpSending){
-    return;
-  }
-
-
-  const phoneInput =
-    document.getElementById("loginPhone");
-
-
-  const sendButton =
-    document.getElementById("sendOtpBtn");
-
-
   const phone =
-    phoneInput.value.trim();
-
+    document.getElementById("loginPhone")
+      .value.trim();
 
   if(!/^[6-9]\d{9}$/.test(phone)){
 
@@ -1332,179 +1146,66 @@ async function(){
     );
 
     return;
-
   }
-
-
-  if(!window.recaptchaVerifier){
-
-    createRecaptcha();
-
-    setLoginMessage(
-      "Please complete the reCAPTCHA and try again.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const fullPhone =
-    "+91" + phone;
-
-
-  otpSending = true;
-
-  sendButton.disabled = true;
-
-  sendButton.innerText =
-    "Sending OTP...";
-
 
   try{
 
-    setLoginMessage(
-      "Sending OTP..."
-    );
+    setLoginMessage("Sending OTP...");
 
+    if(!window.recaptchaVerifier){
+      createRecaptcha();
+    }
 
     confirmationResult =
       await signInWithPhoneNumber(
         auth,
-        fullPhone,
+        "+91" + phone,
         window.recaptchaVerifier
       );
 
-
     document.getElementById("phoneSection")
-      .style.display =
-      "none";
-
+      .style.display = "none";
 
     document.getElementById("otpSection")
-      .style.display =
-      "block";
-
+      .style.display = "block";
 
     setLoginMessage(
       "OTP sent successfully. Please check your SMS.",
       "success"
     );
 
-
-    document.getElementById("otpCode")
-      .focus();
-
-
   }catch(error){
 
-    console.error(
-      "OTP send error:",
-      error
-    );
-
-
-    confirmationResult =
-      null;
-
-
-    let message =
-      "Unable to send OTP. Please try again.";
-
-
-    if(error.code === "auth/invalid-phone-number"){
-
-      message =
-        "Invalid mobile number.";
-
-    }
-    else if(error.code === "auth/too-many-requests"){
-
-      message =
-        "Too many attempts. Please wait and try again later.";
-
-    }
-    else if(error.code === "auth/quota-exceeded"){
-
-      message =
-        "OTP limit reached. Please try again later.";
-
-    }
-    else if(error.code === "auth/network-request-failed"){
-
-      message =
-        "Network connection failed. Please check your internet connection and try again.";
-
-    }
-    else if(error.code === "auth/captcha-check-failed"){
-
-      message =
-        "Security verification failed. Please complete reCAPTCHA again.";
-
-    }
-    else if(error.message){
-
-      message =
-        error.message;
-
-    }
-
+    console.error(error);
 
     setLoginMessage(
-      message,
+      error.message || "Unable to send OTP.",
       "error"
     );
 
+    try{
 
-    createRecaptcha();
+      if(window.recaptchaVerifier){
+        window.recaptchaVerifier.clear();
+      }
 
+      window.recaptchaVerifier = null;
 
-  }finally{
+      createRecaptcha();
 
-    otpSending = false;
-
-    sendButton.disabled = false;
-
-    sendButton.innerText =
-      "Send OTP";
+    }catch(e){}
 
   }
 
 };
 
 
-
-/* ========================================================= */
-/* VERIFY OTP */
-/* ========================================================= */
-
 window.verifyOTP =
 async function(){
-
-  if(otpVerifying){
-    return;
-  }
-
-
-  if(!confirmationResult){
-
-    setLoginMessage(
-      "OTP session expired. Please request a new OTP.",
-      "error"
-    );
-
-    backToPhone();
-
-    return;
-
-  }
-
 
   const otp =
     document.getElementById("otpCode")
       .value.trim();
-
 
   if(!/^\d{6}$/.test(otp)){
 
@@ -1514,110 +1215,82 @@ async function(){
     );
 
     return;
-
   }
 
+  if(!confirmationResult){
 
-  const verifyButton =
-    document.getElementById("verifyOtpBtn");
+    setLoginMessage(
+      "Please request a new OTP first.",
+      "error"
+    );
 
-
-  otpVerifying = true;
-
-  verifyButton.disabled = true;
-
-  verifyButton.innerText =
-    "Verifying...";
-
+    return;
+  }
 
   try{
 
-    setLoginMessage(
-      "Verifying OTP..."
-    );
-
+    setLoginMessage("Verifying OTP...");
 
     await confirmationResult.confirm(otp);
-
 
     setLoginMessage(
       "Login successful!",
       "success"
     );
 
-
-    confirmationResult =
-      null;
-
-
   }catch(error){
 
-    console.error(
-      "OTP verification error:",
-      error
-    );
-
-
-    let message =
-      "Invalid OTP. Please check the OTP and try again.";
-
-
-    if(error.code === "auth/invalid-verification-code"){
-
-      message =
-        "Invalid OTP. Please enter the correct 6-digit OTP.";
-
-    }
-    else if(error.code === "auth/code-expired"){
-
-      message =
-        "This OTP has expired. Please request a new OTP.";
-
-      confirmationResult =
-        null;
-
-    }
-    else if(error.code === "auth/network-request-failed"){
-
-      message =
-        "Network connection failed while verifying OTP. Please check your internet connection and try again.";
-
-    }
-    else if(error.code === "auth/session-expired"){
-
-      message =
-        "OTP session expired. Please request a new OTP.";
-
-      confirmationResult =
-        null;
-
-    }
-
+    console.error(error);
 
     setLoginMessage(
-      message,
+      "Invalid or expired OTP. Please request a new OTP and try again.",
       "error"
     );
-
-
-  }finally{
-
-    otpVerifying = false;
-
-    verifyButton.disabled = false;
-
-    verifyButton.innerText =
-      "Verify OTP";
 
   }
 
 };
 
 
+function createRecaptcha(){
 
-/* ========================================================= */
-/* AUTH STATE */
-/* ========================================================= */
+  if(window.recaptchaVerifier){
+
+    try{
+      window.recaptchaVerifier.clear();
+    }catch(e){}
+
+  }
+
+  window.recaptchaVerifier =
+    new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+
+        size:"normal",
+
+        callback:function(){
+          console.log("reCAPTCHA verified");
+        },
+
+        "expired-callback":function(){
+
+          setLoginMessage(
+            "reCAPTCHA expired. Please verify again.",
+            "error"
+          );
+
+        }
+
+      }
+    );
+
+}
+
+
+createRecaptcha();
+
 
 onAuthStateChanged(
   auth,
@@ -1626,32 +1299,26 @@ onAuthStateChanged(
     const loginScreen =
       document.getElementById("loginScreen");
 
-
     const mainApp =
       document.getElementById("mainApp");
-
 
     if(user){
 
       loginScreen.style.display =
         "none";
 
-
       mainApp.style.display =
         "block";
-
 
       console.log(
         "Logged in:",
         user.phoneNumber
       );
 
-
     }else{
 
       loginScreen.style.display =
         "flex";
-
 
       mainApp.style.display =
         "none";
@@ -1662,82 +1329,37 @@ onAuthStateChanged(
 );
 
 
-
-/* ========================================================= */
-/* LOGOUT */
-/* ========================================================= */
-
 window.logoutUser =
 async function(){
 
-  try{
+  await signOut(auth);
 
-    await signOut(auth);
-
-    location.reload();
-
-  }catch(error){
-
-    console.error(error);
-
-  }
+  location.reload();
 
 };
 
 
-
-/* ========================================================= */
-/* BACK TO PHONE */
-/* ========================================================= */
-
 window.backToPhone =
 function(){
 
-  confirmationResult =
-    null;
-
-
   document.getElementById("otpSection")
-    .style.display =
-    "none";
-
+    .style.display = "none";
 
   document.getElementById("phoneSection")
-    .style.display =
-    "block";
-
+    .style.display = "block";
 
   document.getElementById("otpCode")
     .value = "";
 
+  confirmationResult = null;
 
   setLoginMessage("");
-
 
   createRecaptcha();
 
 };
 
-
-
-/* ========================================================= */
-/* INITIAL RECAPTCHA */
-/* ========================================================= */
-
-window.addEventListener(
-  "load",
-  function(){
-
-    setTimeout(
-      createRecaptcha,
-      300
-    );
-
-  }
-);
-
 </script>
-
 
 
 <!-- ========================================================= -->
@@ -1749,27 +1371,24 @@ window.addEventListener(
 let currentService = "";
 
 
-/* ========================================================= */
-/* PAYMENT STATE */
-/* ========================================================= */
-
 /*
-  IMPORTANT:
+=========================================================
+IMPORTANT PAYMENT RULE
+=========================================================
 
-  This remains FALSE.
+FALSE = user has NOT paid.
 
-  A normal button click cannot unlock the paid content.
+This must NEVER be changed by clicking a normal button.
 
-  Only a genuine verified Razorpay payment should eventually
-  call unlockPaidContent().
+For production, this value should come from your
+backend after Razorpay payment signature verification.
 */
 
 let consultationPaid = false;
 
 
-
 /* ========================================================= */
-/* CONSULTATION PAYMENT */
+/* START ₹499 PAYMENT */
 /* ========================================================= */
 
 function startConsultationPayment(){
@@ -1777,66 +1396,83 @@ function startConsultationPayment(){
   const status =
     document.getElementById("paymentStatus");
 
-
   status.style.display =
     "block";
 
-
   status.innerText =
-    "Secure payment gateway will open here. Consultation access will unlock only after Razorpay payment is verified.";
+    "Please complete the ₹499 consultation payment. Your consultation and all guidance services will remain locked until payment is verified.";
+
+  /*
+    RAZORPAY CHECKOUT WILL BE CONNECTED HERE.
+
+    IMPORTANT:
+    Do NOT unlock content merely because a user clicks
+    a button saying "I have completed payment".
+
+    Only verified Razorpay payment should unlock content.
+  */
 
 }
 
 
+/* ========================================================= */
+/* PAYMENT GATE */
+/* ========================================================= */
+
+function requireConsultationPayment(){
+
+  if(consultationPaid !== true){
+
+    alert(
+      "Please complete and verify the ₹499 consultation payment first."
+    );
+
+    goHome();
+
+    return false;
+  }
+
+  return true;
+}
+
 
 /* ========================================================= */
-/* UNLOCK AFTER VERIFIED PAYMENT */
+/* UNLOCK AFTER REAL PAYMENT VERIFICATION */
 /* ========================================================= */
 
 function unlockPaidContent(){
 
-  consultationPaid =
-    true;
-
+  consultationPaid = true;
 
   document.getElementById("paidContent")
-    .style.display =
-    "block";
-
+    .style.display = "block";
 
   document.getElementById("lockedMessage")
-    .style.display =
-    "none";
-
+    .style.display = "none";
 
   const status =
     document.getElementById("paymentStatus");
 
-
-  status.style.display =
-    "block";
-
+  status.style.display = "block";
 
   status.innerText =
-    "✓ Payment verified. Consultation and Advisory Plans unlocked.";
+    "✓ Payment verified successfully. Consultation and Advisory Plans unlocked.";
 
 }
 
 
-
 /* ========================================================= */
-/* SERVICE DATA */
+/* SERVICE INFORMATION */
 /* ========================================================= */
 
 const serviceData = {
-
 
   "Loan & EMI Guidance": {
 
     description:
       "Managing a loan can become difficult when EMIs, overdue payments or financial pressure start affecting your monthly budget. Understanding your loan position is an important first step toward making a practical decision.",
 
-    points: [
+    points:[
 
       "Understand your current loan and EMI position.",
 
@@ -1849,7 +1485,7 @@ const serviceData = {
     ],
 
     button:
-      "Get Loan & EMI Guidance"
+      "Continue After ₹499 Consultation"
 
   },
 
@@ -1859,7 +1495,7 @@ const serviceData = {
     description:
       "Your credit profile can be affected by repayment history, outstanding obligations and other credit-related factors. Understanding your CIBIL report can help you identify the areas that need attention.",
 
-    points: [
+    points:[
 
       "Understand your CIBIL / credit score.",
 
@@ -1872,7 +1508,7 @@ const serviceData = {
     ],
 
     button:
-      "Get CIBIL Guidance"
+      "Continue After ₹499 Consultation"
 
   },
 
@@ -1882,7 +1518,7 @@ const serviceData = {
     description:
       "Recovery communication can be stressful. Understanding how to respond, what information to verify and how to keep proper records can help you handle the situation more carefully.",
 
-    points: [
+    points:[
 
       "Understand how to handle recovery communication.",
 
@@ -1895,7 +1531,7 @@ const serviceData = {
     ],
 
     button:
-      "Get Recovery Call Guidance"
+      "Continue After ₹499 Consultation"
 
   },
 
@@ -1905,7 +1541,7 @@ const serviceData = {
     description:
       "When multiple EMIs and debts become difficult to manage, getting a clear picture of your total obligations is an important starting point for better planning.",
 
-    points: [
+    points:[
 
       "Organise your multiple loan and debt obligations.",
 
@@ -1918,7 +1554,7 @@ const serviceData = {
     ],
 
     button:
-      "Create My Debt Plan"
+      "Continue After ₹499 Consultation"
 
   },
 
@@ -1928,7 +1564,7 @@ const serviceData = {
     description:
       "Loan settlement is a financial decision that should be understood carefully. Settlement and regular loan closure can have different implications, including possible effects on your credit profile.",
 
-    points: [
+    points:[
 
       "Understand what loan settlement means.",
 
@@ -1941,7 +1577,7 @@ const serviceData = {
     ],
 
     button:
-      "Understand My Options"
+      "Continue After ₹499 Consultation"
 
   },
 
@@ -1951,7 +1587,7 @@ const serviceData = {
     description:
       "Not sure which option is right for you? Share your overall financial situation with RinSaathi and we can help you understand which area may require attention and what practical next steps you can consider.",
 
-    points: [
+    points:[
 
       "Share your overall financial situation.",
 
@@ -1964,12 +1600,11 @@ const serviceData = {
     ],
 
     button:
-      "Share My Situation"
+      "Continue After ₹499 Consultation"
 
   }
 
 };
-
 
 
 /* ========================================================= */
@@ -1978,30 +1613,22 @@ const serviceData = {
 
 function showGuidance(title){
 
-  currentService =
-    title;
-
+  currentService = title;
 
   document.getElementById("home")
     .classList.add("hidden");
 
-
   document.getElementById("formSection")
     .classList.add("hidden");
-
 
   document.getElementById("guidance")
     .classList.remove("hidden");
 
-
   document.getElementById("guidanceTitle")
-    .innerText =
-    title;
-
+    .innerText = title;
 
   const data =
     serviceData[title];
-
 
   document.getElementById("guidanceContent")
     .innerHTML = `
@@ -2015,28 +1642,34 @@ function showGuidance(title){
       </div>
 
       <ul class="guidanceList">
+
         ${data.points
           .map(point => `<li>${point}</li>`)
           .join("")}
+
       </ul>
 
-      <div class="package">
+      <div class="paymentRequired">
 
-        <h3>
-          Practical Guidance
-        </h3>
+        <h4>
+          🔒 Consultation Required
+        </h4>
 
         <p>
-          Every financial situation is different.
-          The right approach depends on your loan details,
-          repayment history and current circumstances.
+          To continue with this guidance service
+          and send your details on WhatsApp,
+          please complete the RinSaathi consultation.
         </p>
+
+        <div class="paymentAmount">
+          ₹499
+        </div>
 
         <button
           class="btn btnGold"
-          onclick="openForm('${title}')">
+          onclick="startConsultationPayment()">
 
-          ${data.button}
+          Pay ₹499 & Continue
 
         </button>
 
@@ -2044,15 +1677,13 @@ function showGuidance(title){
 
     `;
 
-
   window.scrollTo(0,0);
 
 }
 
 
-
 /* ========================================================= */
-/* OPEN FORM */
+/* OPEN SERVICE FORM */
 /* ========================================================= */
 
 function openForm(service){
@@ -2061,26 +1692,11 @@ function openForm(service){
     service || "Talk to RinSaathi";
 
 
-  const paidServices = [
+  /*
+  EVERY SERVICE REQUIRES VERIFIED ₹499 PAYMENT.
+  */
 
-    "Consultation",
-    "1 Month Advisory",
-    "3 Month Advisory",
-    "6 Month Advisory"
-
-  ];
-
-
-  if(
-    paidServices.includes(currentService) &&
-    consultationPaid !== true
-  ){
-
-    alert(
-      "Please complete and verify the ₹499 consultation payment first."
-    );
-
-    goHome();
+  if(!requireConsultationPayment()){
 
     return;
 
@@ -2090,30 +1706,22 @@ function openForm(service){
   document.getElementById("home")
     .classList.add("hidden");
 
-
   document.getElementById("guidance")
     .classList.add("hidden");
 
-
   document.getElementById("formSection")
     .classList.remove("hidden");
-
 
   document.getElementById("formTitle")
     .innerText =
       currentService +
       " – Share Your Details";
 
-
-  buildServiceForm(
-    currentService
-  );
-
+  buildServiceForm(currentService);
 
   window.scrollTo(0,0);
 
 }
-
 
 
 /* ========================================================= */
@@ -2124,7 +1732,6 @@ function buildServiceForm(service){
 
   const container =
     document.getElementById("dynamicFormFields");
-
 
   let html = `
 
@@ -2146,19 +1753,12 @@ function buildServiceForm(service){
   if(
 
     service === "Loan & EMI Guidance" ||
-
     service === "Debt Management" ||
-
     service === "Settlement Option Education" ||
-
     service === "Consultation" ||
-
     service === "1 Month Advisory" ||
-
     service === "3 Month Advisory" ||
-
     service === "6 Month Advisory" ||
-
     service === "Talk to RinSaathi"
 
   ){
@@ -2172,29 +1772,22 @@ function buildServiceForm(service){
         </option>
 
         <option>Personal Loan</option>
-
         <option>Business Loan</option>
-
         <option>Consumer Loan</option>
-
         <option>Credit Card</option>
-
         <option>Other</option>
 
       </select>
-
 
       <input
         id="lender"
         type="text"
         placeholder="Bank / NBFC / Lender Name">
 
-
       <input
         id="outstanding"
         type="text"
         placeholder="Approx. Outstanding Amount">
-
 
       <input
         id="emi"
@@ -2206,7 +1799,6 @@ function buildServiceForm(service){
   }
 
 
-
   if(service === "Loan & EMI Guidance"){
 
     html += `
@@ -2216,39 +1808,23 @@ function buildServiceForm(service){
         type="text"
         placeholder="Pending EMIs (if any)">
 
-
       <select id="mainConcern">
 
         <option value="">
           Select your main concern
         </option>
 
-        <option>
-          EMI Payment Difficulty
-        </option>
-
-        <option>
-          Overdue / Bounce
-        </option>
-
-        <option>
-          High EMI Burden
-        </option>
-
-        <option>
-          Loan Understanding
-        </option>
-
-        <option>
-          Other
-        </option>
+        <option>EMI Payment Difficulty</option>
+        <option>Overdue / Bounce</option>
+        <option>High EMI Burden</option>
+        <option>Loan Understanding</option>
+        <option>Other</option>
 
       </select>
 
     `;
 
   }
-
 
 
   if(service === "CIBIL / Credit Guidance"){
@@ -2260,12 +1836,10 @@ function buildServiceForm(service){
         type="text"
         placeholder="Approx. CIBIL Score (if known)">
 
-
       <input
         id="activeLoans"
         type="text"
         placeholder="Approx. Number of Active Loans / Cards">
-
 
       <select id="creditConcern">
 
@@ -2273,32 +1847,17 @@ function buildServiceForm(service){
           Select your credit concern
         </option>
 
-        <option>
-          Low CIBIL Score
-        </option>
-
-        <option>
-          Overdue Account
-        </option>
-
-        <option>
-          Settlement / Written-off Account
-        </option>
-
-        <option>
-          Incorrect Credit Information
-        </option>
-
-        <option>
-          General Credit Guidance
-        </option>
+        <option>Low CIBIL Score</option>
+        <option>Overdue Account</option>
+        <option>Settlement / Written-off Account</option>
+        <option>Incorrect Credit Information</option>
+        <option>General Credit Guidance</option>
 
       </select>
 
     `;
 
   }
-
 
 
   if(service === "Recovery Call Guidance"){
@@ -2310,31 +1869,18 @@ function buildServiceForm(service){
         type="text"
         placeholder="Lender / Bank / NBFC Name">
 
-
       <select id="recoveryMethod">
 
         <option value="">
           How are they contacting you?
         </option>
 
-        <option>
-          Phone Calls
-        </option>
-
-        <option>
-          SMS / WhatsApp
-        </option>
-
-        <option>
-          Email
-        </option>
-
-        <option>
-          Multiple Methods
-        </option>
+        <option>Phone Calls</option>
+        <option>SMS / WhatsApp</option>
+        <option>Email</option>
+        <option>Multiple Methods</option>
 
       </select>
-
 
       <input
         id="callFrequency"
@@ -2346,7 +1892,6 @@ function buildServiceForm(service){
   }
 
 
-
   if(service === "Debt Management"){
 
     html += `
@@ -2356,12 +1901,10 @@ function buildServiceForm(service){
         type="text"
         placeholder="Approx. Number of Loans / Debts">
 
-
       <input
         id="totalEmi"
         type="text"
         placeholder="Total Monthly EMI">
-
 
       <input
         id="incomeRange"
@@ -2371,7 +1914,6 @@ function buildServiceForm(service){
     `;
 
   }
-
 
 
   if(service === "Settlement Option Education"){
@@ -2384,32 +1926,17 @@ function buildServiceForm(service){
           Current Loan Status
         </option>
 
-        <option>
-          Regular Payments
-        </option>
-
-        <option>
-          EMI Overdue
-        </option>
-
-        <option>
-          Multiple EMIs Overdue
-        </option>
-
-        <option>
-          Recovery Communication
-        </option>
-
-        <option>
-          Already Offered Settlement
-        </option>
+        <option>Regular Payments</option>
+        <option>EMI Overdue</option>
+        <option>Multiple EMIs Overdue</option>
+        <option>Recovery Communication</option>
+        <option>Already Offered Settlement</option>
 
       </select>
 
     `;
 
   }
-
 
 
   html += `
@@ -2427,7 +1954,6 @@ function buildServiceForm(service){
 }
 
 
-
 /* ========================================================= */
 /* HOME */
 /* ========================================================= */
@@ -2437,19 +1963,15 @@ function goHome(){
   document.getElementById("guidance")
     .classList.add("hidden");
 
-
   document.getElementById("formSection")
     .classList.add("hidden");
-
 
   document.getElementById("home")
     .classList.remove("hidden");
 
-
   window.scrollTo(0,0);
 
 }
-
 
 
 /* ========================================================= */
@@ -2458,15 +1980,27 @@ function goHome(){
 
 function sendWhatsApp(){
 
+  /*
+  SECOND PAYMENT CHECK.
+
+  Even if somebody somehow reaches this function manually,
+  WhatsApp will NOT open without verified payment.
+  */
+
+  if(!requireConsultationPayment()){
+
+    return;
+
+  }
+
+
   const name =
     document.getElementById("name")
       ?.value.trim();
 
-
   const phone =
     document.getElementById("phone")
       ?.value.trim();
-
 
   const message =
     document.getElementById("message")
@@ -2508,65 +2042,44 @@ Mobile: ${phone}
 `;
 
 
-
   const ids = [
 
     ["loanType","Loan Type"],
-
     ["lender","Bank / NBFC / Lender"],
-
     ["outstanding","Approx Outstanding"],
-
     ["emi","Current EMI"],
-
     ["pendingEmi","Pending EMIs"],
-
     ["mainConcern","Main Concern"],
-
     ["cibilScore","Approx CIBIL Score"],
-
     ["activeLoans","Active Loans / Cards"],
-
     ["creditConcern","Credit Concern"],
-
     ["recoveryLender","Recovery Lender"],
-
     ["recoveryMethod","Recovery Contact Method"],
-
     ["callFrequency","Call Frequency"],
-
     ["numberOfDebts","Number of Loans / Debts"],
-
     ["totalEmi","Total Monthly EMI"],
-
     ["incomeRange","Approx Monthly Income"],
-
     ["settlementStatus","Current Loan Status"]
 
   ];
 
 
+  ids.forEach(function(item){
 
-  ids.forEach(
-    function(item){
+    const element =
+      document.getElementById(item[0]);
 
-      const element =
-        document.getElementById(item[0]);
+    if(
+      element &&
+      element.value.trim()
+    ){
 
-
-      if(
-        element &&
-        element.value.trim()
-      ){
-
-        text +=
-          `${item[1]}: ${element.value.trim()}\n`;
-
-      }
+      text +=
+        `${item[1]}: ${element.value.trim()}\n`;
 
     }
-  );
 
+  });
 
 
   text += `
@@ -2575,7 +2088,6 @@ My Situation:
 ${message || "Not provided"}
 
 I understand that RinSaathi provides advisory and guidance services and does not guarantee any specific outcome.`;
-
 
 
   const whatsappNumber =
@@ -2596,7 +2108,6 @@ I understand that RinSaathi provides advisory and guidance services and does not
 }
 
 </script>
-
 
 </body>
 </html>
