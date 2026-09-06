@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#063f32">
+
+<title>RinSaathi Owner Dashboard</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    background:#f3f6f4;
+    color:#17352e;
+}
+
+.header{
+    background:linear-gradient(135deg,#063f32,#0b5b49);
+    color:white;
+    padding:25px 18px 30px;
+    border-radius:0 0 28px 28px;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:800;
+}
+
+.subtitle{
+    font-size:12px;
+    opacity:.75;
+    margin-top:4px;
+    letter-spacing:.5px;
+}
+
+.welcome{
+    margin-top:24px;
+    font-size:27px;
+    font-weight:800;
+}
+
+.admin-number{
+    font-size:13px;
+    opacity:.8;
+    margin-top:5px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:-5px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 6px 20px rgba(0,0,0,.06);
+}
+
+.stat-icon{
+    font-size:24px;
+}
+
+.stat-number{
+    font-size:26px;
+    font-weight:800;
+    margin-top:8px;
+}
+
+.stat-title{
+    color:#71817c;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.section{
+    margin-top:25px;
+}
+
+.section-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.section-heading h2{
+    font-size:19px;
+}
+
+.badge{
+    background:#e6f4ed;
+    color:#08704d;
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.lead{
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr auto;
+    gap:15px;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.name{
+    font-weight:800;
+}
+
+.small{
+    font-size:12px;
+    color:#788681;
+    margin-top:4px;
+}
+
+.paid{
+    color:#08704d;
+    font-size:13px;
+    font-weight:800;
+}
+
+.status{
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:15px;
+    background:#fff4d7;
+    color:#8a6500;
+    font-size:12px;
+    font-weight:700;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:10px 14px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.primary{
+    background:#063f32;
+    color:white;
+}
+
+.secondary{
+    background:#edf3f0;
+    color:#063f32;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.payment-row{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #edf1ef;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:650px;
+    padding:22px;
+    border-radius:25px 25px 0 0;
+    max-height:85vh;
+    overflow:auto;
+}
+
+.close{
+    float:right;
+    background:#edf3f0;
+}
+
+.details{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:20px 0;
+}
+
+.detail{
+    background:#f5f8f6;
+    padding:13px;
+    border-radius:13px;
+}
+
+.detail label{
+    display:block;
+    color:#6d7c77;
+    font-size:11px;
+    margin-bottom:4px;
+}
+
+.detail strong{
+    font-size:14px;
+}
+
+@media(max-width:760px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .lead{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:450px){
+
+    .container{
+        padding:14px;
+    }
+
+    .lead{
+        grid-template-columns:1fr;
+    }
+
+    .details{
+        grid-template-columns:1fr;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        RinSaathi Advisory Services
+    </div>
+
+    <div class="subtitle">
+        OWNER / ADMIN DASHBOARD
+    </div>
+
+    <div class="welcome">
+        Welcome back, Admin 👋
+    </div>
+
+    <div class="admin-number">
+        Admin Mobile: 9319301096
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="card">
+            <div class="stat-icon">💰</div>
+            <div class="stat-number" id="revenue">₹0</div>
+            <div class="stat-title">Consultation Revenue</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-icon">🆕</div>
+            <div class="stat-number" id="newLeads">0</div>
+            <div class="stat-title">New Leads</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-number" id="pending">0</div>
+            <div class="stat-title">Pending Consultations</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-number" id="clients">0</div>
+            <div class="stat-title">Active Clients</div>
+        </div>
+
+    </div>
+
+
+    <!-- NEW LEADS -->
+
+    <section class="section">
+
+        <div class="section-heading">
+
+            <h2>🔥 New Leads</h2>
+
+            <span class="badge" id="leadCount">
+                0 New
+            </span>
+
+        </div>
+
+        <div id="leadContainer"></div>
+
+    </section>
+
+
+    <!-- PAYMENTS -->
+
+    <section class="section">
+
+        <div class="section-heading">
+
+            <h2>💳 Recent Payments</h2>
+
+        </div>
+
+        <div class="card" id="paymentContainer"></div>
+
+    </section>
+
+</main>
+
+
+<!-- CUSTOMER DETAILS MODAL -->
+
+<div class="modal" id="customerModal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeCustomer()">
+            ✕
+        </button>
+
+        <h2 id="customerName">
+            Customer
+        </h2>
+
+        <div class="small" id="customerService"></div>
+
+
+        <div class="details">
+
+            <div class="detail">
+                <label>Mobile</label>
+                <strong id="customerMobile"></strong>
+            </div>
+
+            <div class="detail">
+                <label>Payment</label>
+                <strong id="customerPayment"></strong>
+            </div>
+
+            <div class="detail">
+                <label>Problem</label>
+                <strong id="customerProblem"></strong>
+            </div>
+
+            <div class="detail">
+                <label>Booking Date</label>
+                <strong id="customerDate"></strong>
+            </div>
+
+            <div class="detail">
+                <label>Status</label>
+                <strong id="customerStatus"></strong>
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="primary"
+                id="callCustomer">
+                📞 Contact Customer
+            </button>
+
+            <button
+                class="secondary"
+                id="completeConsultation">
+                ✅ Mark Consultation Done
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+=================================================
+RINSAATHI ADMIN DASHBOARD
+ADMIN NUMBER: 9319301096
+
+IMPORTANT:
+
+These are DEMO leads.
+
+Later we will replace this demo data with:
+CUSTOMER APP
+      ↓
+DATABASE
+      ↓
+PAYMENT VERIFICATION
+      ↓
+ADMIN DASHBOARD
+=================================================
+*/
+
+
+let leads = [
+
+    {
+        id:1,
+
+        name:"Rahul Sharma",
+
+        mobile:"9876543210",
+
+        service:"Debt Consultation",
+
+        amount:999,
+
+        payment:"PAID",
+
+        problem:"EMI Difficulty",
+
+        date:"6 Sep 2026, 6:42 PM",
+
+        status:"New Lead"
+    },
+
+
+    {
+        id:2,
+
+        name:"Amit Verma",
+
+        mobile:"9812345678",
+
+        service:"CIBIL Guidance",
+
+        amount:999,
+
+        payment:"PAID",
+
+        problem:"Credit Report Guidance",
+
+        date:"6 Sep 2026, 5:18 PM",
+
+        status:"New Lead"
+    },
+
+
+    {
+        id:3,
+
+        name:"Neha Singh",
+
+        mobile:"9898765432",
+
+        service:"Debt Consultation",
+
+        amount:999,
+
+        payment:"PAID",
+
+        problem:"Recovery Call Guidance",
+
+        date:"6 Sep 2026, 3:05 PM",
+
+        status:"Consultation Scheduled"
+    }
+
+];
+
+
+
+function renderDashboard(){
+
+    let revenue = 0;
+
+    let newLeadCount = 0;
+
+    let pendingCount = 0;
+
+    let activeClients = 0;
+
+
+    leads.forEach(function(lead){
+
+        if(lead.payment === "PAID"){
+
+            revenue += lead.amount;
+
+        }
+
+
+        if(lead.status === "New Lead"){
+
+            newLeadCount++;
+
+        }
+
+
+        if(lead.status !== "Consultation Completed"){
+
+            pendingCount++;
+
+        }
+
+
+        if(lead.status === "Active Advisory Client"){
+
+            activeClients++;
+
+        }
+
+    });
+
+
+    document.getElementById("revenue").innerText =
+        "₹" + revenue.toLocaleString("en-IN");
+
+
+    document.getElementById("newLeads").innerText =
+        newLeadCount;
+
+
+    document.getElementById("pending").innerText =
+        pendingCount;
+
+
+    document.getElementById("clients").innerText =
+        activeClients;
+
+
+    document.getElementById("leadCount").innerText =
+        newLeadCount + " New";
+
+
+
+    let leadHTML = "";
+
+
+    leads.forEach(function(lead){
+
+        leadHTML += `
+
+        <div class="card lead">
+
+            <div>
+
+                <div class="name">
+                    ${lead.name}
+                </div>
+
+                <div class="small">
+                    ${lead.service}
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="paid">
+                    ₹${lead.amount.toLocaleString("en-IN")}
+                    • ${lead.payment} ✅
+                </div>
+
+                <div class="small">
+                    ${lead.date}
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <span class="status">
+                    ${lead.status}
+                </span>
+
+                <div class="small">
+                    ${lead.problem}
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <button
+                    class="primary"
+                    onclick="openCustomer(${lead.id})">
+
+                    View Details
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+
+    document.getElementById("leadContainer").innerHTML =
+        leadHTML;
+
+
+
+    let paymentHTML = "";
+
+
+    leads.forEach(function(lead){
+
+        paymentHTML += `
+
+        <div class="payment-row">
+
+            <div>
+
+                <strong>
+                    ${lead.name}
+                </strong>
+
+                <div class="small">
+                    ${lead.date}
+                </div>
+
+            </div>
+
+
+            <div class="paid">
+
+                ₹${lead.amount.toLocaleString("en-IN")}
+                ✅
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+
+    document.getElementById("paymentContainer").innerHTML =
+        paymentHTML;
+
+}
+
+
+
+function openCustomer(id){
+
+    let customer =
+        leads.find(function(item){
+
+            return item.id === id;
+
+        });
+
+
+    if(!customer) return;
+
+
+    document.getElementById("customerName").innerText =
+        customer.name;
+
+
+    document.getElementById("customerService").innerText =
+        customer.service;
+
+
+    document.getElementById("customerMobile").innerText =
+        customer.mobile;
+
+
+    document.getElementById("customerPayment").innerText =
+        "₹" + customer.amount + " — " + customer.payment;
+
+
+    document.getElementById("customerProblem").innerText =
+        customer.problem;
+
+
+    document.getElementById("customerDate").innerText =
+        customer.date;
+
+
+    document.getElementById("customerStatus").innerText =
+        customer.status;
+
+
+
+    document.getElementById("callCustomer").onclick =
+        function(){
+
+            window.location.href =
+                "tel:" + customer.mobile;
+
+        };
+
+
+
+    document.getElementById("completeConsultation").onclick =
+        function(){
+
+            customer.status =
+                "Consultation Completed";
+
+            renderDashboard();
+
+            closeCustomer();
+
+        };
+
+
+    document
+        .getElementById("customerModal")
+        .classList.add("active");
+
+}
+
+
+
+function closeCustomer(){
+
+    document
+        .getElementById("customerModal")
+        .classList.remove("active");
+
+}
+
+
+
+renderDashboard();
+
+</script>
+
+</body>
+</html>
