@@ -482,7 +482,7 @@ body{
   font-weight:700;
 }
 
-/* ================= CONSULTATION REQUIRED ================= */
+/* ================= PAYMENT REQUIRED ================= */
 
 .paymentRequired{
   border:1px solid #ead9a7;
@@ -503,6 +503,13 @@ body{
   font-size:12px;
   line-height:1.5;
   margin-top:6px;
+}
+
+.paymentRequired .paymentAmount{
+  font-size:24px;
+  font-weight:900;
+  color:#b58a27;
+  margin-top:8px;
 }
 
 </style>
@@ -802,7 +809,7 @@ body{
       </h3>
 
       <p>
-        Complete and verify the consultation payment
+        Complete and verify the ₹499 consultation payment
         to unlock consultation access and Advisory Plans.
       </p>
 
@@ -1083,10 +1090,14 @@ import {
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 
+/* ========================================================= */
+/* UPDATED FIREBASE CONFIGURATION */
+/* ========================================================= */
+
 const firebaseConfig = {
 
   apiKey:
-    "AIzaSyCP0TMQjJ4nlofmVkmISG9S5aAAkFafHMV4",
+    "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
   authDomain:
     "rinsaathi-app.firebaseapp.com",
@@ -1783,7 +1794,7 @@ function requireConsultationPayment(){
   if(consultationPaid !== true){
 
     alert(
-      "Please complete the consultation payment first."
+      "Please complete the ₹499 consultation payment first."
     );
 
     goHome();
@@ -2052,14 +2063,18 @@ function showGuidance(title){
         <p>
           To continue with this guidance service
           and send your details on WhatsApp,
-          please book your consultation first.
+          please complete the RinSaathi consultation.
         </p>
+
+        <div class="paymentAmount">
+          ₹499
+        </div>
 
         <button
           class="btn btnGold"
-          onclick="bookConsultation()">
+          onclick="startConsultationPayment()">
 
-          Book Consultation
+          Pay ₹499 & Continue
 
         </button>
 
@@ -2069,45 +2084,6 @@ function showGuidance(title){
 
 
   window.scrollTo(0,0);
-
-}
-
-
-/* ========================================================= */
-/* BOOK CONSULTATION */
-/* ========================================================= */
-
-function bookConsultation(){
-
-  document.getElementById("guidance")
-    .classList.add("hidden");
-
-
-  document.getElementById("formSection")
-    .classList.add("hidden");
-
-
-  document.getElementById("home")
-    .classList.remove("hidden");
-
-
-  setTimeout(function(){
-
-    const consultationTitle =
-      document.querySelector(
-        "#home .consultationOffer"
-      );
-
-    if(consultationTitle){
-
-      consultationTitle.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-      });
-
-    }
-
-  },100);
 
 }
 
