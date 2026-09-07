@@ -1,24 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-
 <meta charset="utf-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1,viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0d6f53">
-
-<meta name="description"
-content="RinSaathi Advisory Services — independent loan and debt advisory guidance.">
-
+<meta name="description" content="RinSaathi Advisory Services — independent loan and debt advisory guidance.">
 <link rel="manifest" href="manifest.webmanifest">
-
 <title>RinSaathi Advisory Services</title>
 
-
 <style>
-
 :root{
   --green:#0d6f53;
   --green2:#124d3e;
@@ -26,10 +16,8 @@ content="RinSaathi Advisory Services — independent loan and debt advisory guid
   --teal:#0b8f83;
   --gold:#caa23b;
   --gold2:#e7c96f;
-  --blue:#277b91;
   --ink:#173d32;
   --muted:#6d7e78;
-  --cream:#f3f8f5;
   --line:#d9e8e1;
   --white:#fff;
 }
@@ -41,7 +29,7 @@ html{scroll-behavior:smooth}
 body{
   margin:0;
   background:
-  radial-gradient(circle at top left,#dff3eb 0,#f4f8f6 30%,#eef5f2 70%,#e9f1ee 100%);
+    radial-gradient(circle at top left,#dff3eb 0,#f4f8f6 30%,#eef5f2 70%,#e9f1ee 100%);
   color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
@@ -198,6 +186,12 @@ body{
   border:1px solid #c9e3d9
 }
 
+.btn.gold{
+  background:linear-gradient(135deg,#caa23b,#e1c45f);
+  color:#173d32;
+  box-shadow:0 7px 18px #caa23b35
+}
+
 .actions{
   display:flex;
   gap:10px;
@@ -336,6 +330,18 @@ textarea{
   font-weight:700
 }
 
+.consultation{
+  background:linear-gradient(145deg,#fffdf4,#f7efd5);
+  border:1px solid #ead89e;
+}
+
+.price{
+  font-size:34px;
+  font-weight:900;
+  color:#765b13;
+  margin:10px 0;
+}
+
 .footer{
   text-align:center;
   padding:22px 0 42px;
@@ -363,7 +369,6 @@ textarea{
 }
 
 @media(max-width:650px){
-
   .services,.about,.contact{
     grid-template-columns:1fr
   }
@@ -381,21 +386,19 @@ textarea{
     padding-top:16px
   }
 
+  .floating-wa{
+    right:14px;
+    bottom:14px
+  }
 }
-
 </style>
 </head>
 
-
 <body>
-
 
 <header class="hero container">
 
-<img
-class="logo"
-src="logo.png"
-alt="RinSaathi Advisory Services">
+<img class="logo" src="logo.png" alt="RinSaathi Advisory Services">
 
 <h1>Your Debt. Our Strategy.</h1>
 
@@ -410,17 +413,11 @@ Confidential Guidance • Independent Advisory • No False Promises
 
 </header>
 
-
 <main class="container">
-
-
-<!-- SERVICES -->
 
 <section class="card" id="services">
 
-<h2 class="section-title">
-Our Services
-</h2>
+<h2 class="section-title">Our Services</h2>
 
 <p class="section-sub">
 Practical advisory and educational guidance — tailored to your situation.
@@ -428,124 +425,69 @@ Practical advisory and educational guidance — tailored to your situation.
 
 <div class="services">
 
-
-<div class="service clickable"
-onclick="jump('enquiry','Loan / Debt')">
-
+<div class="service clickable" onclick="jump('enquiry','Loan / Debt')">
 <h3>Loan & Debt Assessment</h3>
-
 <p>
 Understand outstanding obligations, EMI pressure and the key points you should consider.
 </p>
-
-<span class="service-cta">
-Ask for guidance →
-</span>
-
+<span class="service-cta">Ask for guidance →</span>
 </div>
 
-
-<div class="service clickable"
-onclick="jump('enquiry','CIBIL / Credit Report')">
-
+<div class="service clickable" onclick="jump('enquiry','CIBIL / Credit Report')">
 <h3>CIBIL & Credit Guidance</h3>
-
 <p>
 Understand credit-report issues, account status and responsible next steps.
 </p>
-
-<span class="service-cta">
-Ask for guidance →
-</span>
-
+<span class="service-cta">Ask for guidance →</span>
 </div>
 
-
-<div class="service clickable"
-onclick="jump('enquiry','Recovery Call Guidance')">
-
+<div class="service clickable" onclick="jump('enquiry','Recovery Call Guidance')">
 <h3>Recovery Communication Guidance</h3>
-
 <p>
 Learn how to handle recovery calls and communication professionally and calmly.
 </p>
-
-<span class="service-cta">
-Ask for guidance →
-</span>
-
+<span class="service-cta">Ask for guidance →</span>
 </div>
 
-
-<div class="service clickable"
-onclick="jump('enquiry','EMI Payment Difficulty')">
-
+<div class="service clickable" onclick="jump('enquiry','EMI Payment Difficulty')">
 <h3>EMI Difficulty Planning</h3>
-
 <p>
 Discuss practical options when regular EMI payment is becoming difficult.
 </p>
-
-<span class="service-cta">
-Ask for guidance →
-</span>
-
+<span class="service-cta">Ask for guidance →</span>
 </div>
 
-
-<div class="service clickable"
-onclick="jump('enquiry','Settlement Option Education')">
-
+<div class="service clickable" onclick="jump('enquiry','Settlement Option Education')">
 <h3>Settlement Option Education</h3>
-
 <p>
 Understand what settlement means, possible implications and questions to ask before deciding.
 </p>
-
-<span class="service-cta">
-Ask for guidance →
-</span>
-
+<span class="service-cta">Ask for guidance →</span>
 </div>
 
-
-<div class="service clickable"
-onclick="jump('enquiry','Personalised Guidance')">
-
+<div class="service clickable" onclick="jump('enquiry','Personalised Guidance')">
 <h3>Personalised Financial Guidance</h3>
-
 <p>
 Get situation-based guidance focused on clarity, documentation and informed decisions.
 </p>
-
-<span class="service-cta">
-Ask for guidance →
-</span>
-
+<span class="service-cta">Ask for guidance →</span>
 </div>
-
 
 </div>
 
 </section>
 
 
-<!-- ABOUT -->
-
 <section class="card">
 
-<h2 class="section-title">
-About RinSaathi
-</h2>
+<h2 class="section-title">About RinSaathi</h2>
 
 <div class="about">
 
 <div>
 
 <p class="section-sub">
-
 RinSaathi Advisory Services is an independent advisory platform focused on helping individuals understand loan, debt, EMI and credit-related situations. Our role is to provide clarity, education and practical guidance so you can make informed financial decisions.
-
 </p>
 
 <div class="notice">
@@ -560,25 +502,19 @@ We provide advisory and educational guidance only.
 
 </div>
 
-
 <div>
 
 <h3>Our approach</h3>
 
 <p class="small">
-
 Understand the situation → Organise the information → Explore realistic options → Decide with clarity.
-
 </p>
 
 <div class="actions">
 
-<button
-class="btn secondary"
+<button class="btn secondary"
 onclick="jump('enquiry','Personalised Guidance')">
-
 Request Guidance
-
 </button>
 
 </div>
@@ -590,13 +526,38 @@ Request Guidance
 </section>
 
 
-<!-- FAQ -->
+<section class="card consultation" id="consultation">
+
+<h2 class="section-title">Book Consultation</h2>
+
+<p class="section-sub">
+Get a personalised consultation with RinSaathi Advisory Services.
+</p>
+
+<div class="price">₹999</div>
+
+<p class="small">
+One-time consultation fee. Consultation is advisory and educational in nature.
+No settlement, waiver, loan approval or specific outcome is guaranteed.
+</p>
+
+<div class="actions">
+
+<button class="btn gold"
+onclick="startConsultation()">
+Book ₹999 Consultation
+</button>
+
+</div>
+
+<div id="consultationResult" class="result"></div>
+
+</section>
+
 
 <section class="card" id="faq">
 
-<h2 class="section-title">
-Frequently Asked Questions
-</h2>
+<h2 class="section-title">Frequently Asked Questions</h2>
 
 <p class="section-sub">
 Tap a question to view the answer.
@@ -604,98 +565,69 @@ Tap a question to view the answer.
 
 <div class="faq">
 
-
 <details>
 <summary>What is RinSaathi?</summary>
-
 <p>
 RinSaathi is an independent loan and debt advisory service that provides guidance and education around loan, EMI, credit and debt-related situations.
 </p>
-
 </details>
-
 
 <details>
 <summary>Does RinSaathi provide new loans?</summary>
-
 <p>
 No. RinSaathi is not a lender, loan provider or financial institution and does not provide any new loans.
 </p>
-
 </details>
-
 
 <details>
 <summary>Is RinSaathi a settlement company?</summary>
-
 <p>
 No. RinSaathi is not a loan settlement company. We provide advisory and educational guidance only. We do not arrange, guarantee or promise loan settlement.
 </p>
-
 </details>
-
 
 <details>
 <summary>Does RinSaathi guarantee loan settlement?</summary>
-
 <p>
 No. Settlement depends on the lender, the account and the individual circumstances. We do not guarantee or promise settlement, waiver or any specific outcome.
 </p>
-
 </details>
-
 
 <details>
 <summary>Can RinSaathi help with CIBIL-related concerns?</summary>
-
 <p>
 Yes. We can provide guidance on understanding credit reports, account status and responsible steps to address concerns.
 </p>
-
 </details>
-
 
 <details>
 <summary>Can I get guidance about recovery calls?</summary>
-
 <p>
 Yes. We can help you understand how to communicate calmly and appropriately and what information to keep documented.
 </p>
-
 </details>
-
 
 <details>
 <summary>How do I contact RinSaathi?</summary>
-
 <p>
 You can submit the enquiry form below and continue on WhatsApp, or contact us directly through the WhatsApp button.
 </p>
-
 </details>
-
 
 <details>
 <summary>Is my information confidential?</summary>
-
 <p>
 We treat information shared for an enquiry as confidential and use it to understand and respond to the request. Please avoid sharing unnecessary sensitive information.
 </p>
-
 </details>
-
 
 </div>
 
-
 <div class="actions">
 
-<button
-class="btn"
+<button class="btn"
 onclick="jump('enquiry','Personalised Guidance')">
-
 Ask About My Situation
-
 </button>
 
 </div>
@@ -703,29 +635,20 @@ Ask About My Situation
 </section>
 
 
-<!-- ENQUIRY -->
-
 <section class="card" id="enquiry">
 
-<h2 class="section-title">
-Request Personalised Guidance
-</h2>
+<h2 class="section-title">Request Personalised Guidance</h2>
 
 <p class="section-sub">
-
-Submit the basic details below. This is an enquiry form; it does not guarantee any settlement, waiver or loan approval.
-
+Submit the basic details below. Your enquiry will also be securely saved in the RinSaathi system so our team can follow up.
 </p>
 
-
 <form onsubmit="prepare(event)">
-
 
 <input
 id="name"
 required
 placeholder="Full Name">
-
 
 <input
 id="phone"
@@ -733,25 +656,18 @@ required
 inputmode="tel"
 pattern="[0-9]{10}"
 maxlength="10"
-placeholder="Mobile Number">
-
+placeholder="10 Digit Mobile Number">
 
 <select id="topic">
 
 <option>Loan / Debt</option>
-
 <option>CIBIL / Credit Report</option>
-
 <option>Recovery Call Guidance</option>
-
 <option>EMI Payment Difficulty</option>
-
 <option>Settlement Option Education</option>
-
 <option>Personalised Guidance</option>
 
 </select>
-
 
 <textarea
 id="message"
@@ -759,27 +675,13 @@ required
 placeholder="Briefly tell us how we can help">
 </textarea>
 
-
-<button
-id="submitButton"
-class="btn"
-type="submit">
-
-Prepare WhatsApp Enquiry
-
+<button class="btn" type="submit">
+Submit Enquiry & Continue on WhatsApp
 </button>
 
 </form>
 
-
-<div
-id="result"
-class="result">
-
-Your enquiry has been saved. Your WhatsApp message is ready below.
-
-</div>
-
+<div id="result" class="result"></div>
 
 <div class="actions">
 
@@ -789,33 +691,24 @@ class="btn"
 style="display:none;text-decoration:none"
 target="_blank"
 rel="noopener">
-
 Open WhatsApp
-
 </a>
 
 </div>
 
-
 <p class="note">
-
-Your enquiry is saved securely for RinSaathi's follow-up. Your WhatsApp message will be prepared with the details you entered so you can review it before sending.
-
+Your details are used to understand your enquiry and respond to your request.
+Please do not share passwords, OTPs, PINs or unnecessary sensitive information.
 </p>
 
 </section>
 
 
-<!-- CONTACT -->
-
 <section class="card">
 
-<h2 class="section-title">
-Contact Us
-</h2>
+<h2 class="section-title">Contact Us</h2>
 
 <div class="contact">
-
 
 <a
 href="https://wa.me/919319301096"
@@ -834,7 +727,6 @@ rel="noopener">
 
 </a>
 
-
 <div class="contactbox">
 
 <b>🔒 Confidential Guidance</b>
@@ -845,11 +737,9 @@ Independent advisory • No false promises
 
 </div>
 
-
 </div>
 
 </section>
-
 
 </main>
 
@@ -858,7 +748,8 @@ Independent advisory • No false promises
 class="floating-wa"
 href="https://wa.me/919319301096"
 target="_blank"
-rel="noopener">
+rel="noopener"
+aria-label="Open RinSaathi WhatsApp">
 
 💬 WhatsApp
 
@@ -881,169 +772,231 @@ Outcomes depend on the relevant lender and individual circumstances.
 </footer>
 
 
-
 <!-- FIREBASE -->
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script type="module">
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-<script>
-
-/* ==========================================
-   RINSAATHI FIREBASE
-========================================== */
 
 const firebaseConfig = {
 
-  apiKey:"AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
+  apiKey: "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
-  authDomain:"rinsaathi-app.firebaseapp.com",
+  authDomain: "rinsaathi-app.firebaseapp.com",
 
-  projectId:"rinsaathi-app",
+  projectId: "rinsaathi-app",
 
-  storageBucket:"rinsaathi-app.firebasestorage.app",
+  storageBucket: "rinsaathi-app.firebasestorage.app",
 
-  messagingSenderId:"156758734237",
+  messagingSenderId: "156758734237",
 
-  appId:"1:156758734237:web:b2daa2fb6e43a7bc192b74"
+  appId: "1:156758734237:web:b2daa2fb6e43a7bc192b74"
 
 };
 
 
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
+const db = getFirestore(app);
 
 
-/* ==========================================
-   JUMP TO ENQUIRY
-========================================== */
+/*
+=========================================
+SAVE CUSTOMER LEAD
+=========================================
+*/
+
+window.saveLead = async function(data){
+
+  try{
+
+    const leadRef = await addDoc(
+      collection(db,"leads"),
+      {
+
+        name:data.name,
+
+        phone:data.phone,
+
+        service:data.service,
+
+        message:data.message,
+
+        amount:data.amount || 0,
+
+        paymentStatus:data.paymentStatus || "NOT PAID",
+
+        status:data.status || "New Lead",
+
+        source:"RinSaathi Customer App",
+
+        createdAt:serverTimestamp()
+
+      }
+    );
+
+    console.log("Lead saved:",leadRef.id);
+
+    return true;
+
+  }catch(error){
+
+    console.error("Firebase error:",error);
+
+    return false;
+
+  }
+
+};
+
+
+/*
+=========================================
+CUSTOMER ENQUIRY
+=========================================
+*/
+
+window.submitRinSaathiLead = async function(){
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const service =
+    document.getElementById("topic").value;
+
+  const message =
+    document.getElementById("message").value.trim();
+
+
+  return await window.saveLead({
+
+    name:name,
+
+    phone:phone,
+
+    service:service,
+
+    message:message,
+
+    amount:0,
+
+    paymentStatus:"NOT PAID",
+
+    status:"New Lead"
+
+  });
+
+};
+
+</script>
+
+
+<script>
 
 function jump(id,topic){
 
   document
-  .getElementById(id)
-  .scrollIntoView({
-    behavior:'smooth',
-    block:'start'
-  });
-
+    .getElementById(id)
+    .scrollIntoView({
+      behavior:'smooth',
+      block:'start'
+    });
 
   if(topic){
 
     document
-    .getElementById('topic')
-    .value=topic;
+      .getElementById('topic')
+      .value=topic;
 
   }
 
 }
 
 
-/* ==========================================
-   SAVE LEAD + PREPARE WHATSAPP
-========================================== */
-
 async function prepare(e){
 
   e.preventDefault();
 
 
-  const name =
-  document.getElementById('name')
-  .value
-  .trim();
+  const n =
+    document
+      .getElementById('name')
+      .value
+      .trim();
 
 
-  const phone =
-  document.getElementById('phone')
-  .value
-  .trim();
+  const p =
+    document
+      .getElementById('phone')
+      .value
+      .trim();
 
 
-  const topic =
-  document.getElementById('topic')
-  .value;
+  const t =
+    document
+      .getElementById('topic')
+      .value;
 
 
-  const message =
-  document.getElementById('message')
-  .value
-  .trim();
+  const m =
+    document
+      .getElementById('message')
+      .value
+      .trim();
 
 
-  if(!/^[0-9]{10}$/.test(phone)){
+  if(!/^[0-9]{10}$/.test(p)){
 
-    alert("Please enter a valid 10-digit mobile number.");
+    alert("Please enter a valid 10 digit mobile number.");
 
     return;
 
   }
 
 
-  const button =
-  document.getElementById('submitButton');
+  const success =
+    await window.submitRinSaathiLead();
 
 
-  button.disabled=true;
-
-  button.innerText="Saving Enquiry...";
-
-
-  try{
-
-
-    await db
-    .collection("leads")
-    .add({
-
-      name:name,
-
-      mobile:phone,
-
-      topic:topic,
-
-      problem:topic,
-
-      message:message,
-
-      amount:999,
-
-      paymentStatus:"PENDING",
-
-      consultationStatus:"NEW",
-
-      source:"RinSaathi Customer App",
-
-      createdAt:
-      firebase.firestore.FieldValue.serverTimestamp()
-
-    });
-
+  if(success){
 
     const text =
-    `Hello RinSaathi Advisory Services,%0A%0AI would like guidance regarding:%0A%0AName: ${encodeURIComponent(name)}%0AMobile: ${encodeURIComponent(phone)}%0ATopic: ${encodeURIComponent(topic)}%0AMessage: ${encodeURIComponent(message)}%0A%0AThis enquiry was submitted through the RinSaathi website.`;
+      `Hello RinSaathi Advisory Services,%0A%0AI would like guidance regarding:%0A%0AName: ${encodeURIComponent(n)}%0AMobile: ${encodeURIComponent(p)}%0ATopic: ${encodeURIComponent(t)}%0AMessage: ${encodeURIComponent(m)}%0A%0AThis enquiry was submitted through the RinSaathi website.`;
 
 
     const a =
-    document.getElementById('wa');
+      document.getElementById('wa');
 
 
     a.href =
-    'https://wa.me/919319301096?text=' + text;
+      'https://wa.me/919319301096?text='+text;
 
 
     a.style.display='inline-block';
 
 
-    document
-    .getElementById('result')
-    .style.display='block';
+    const result =
+      document.getElementById('result');
 
 
-    button.innerText="Enquiry Saved ✓";
+    result.innerText =
+      "✅ Your enquiry has been received. Your details are saved. Tap below to continue on WhatsApp.";
+
+
+    result.style.display='block';
 
 
     a.scrollIntoView({
@@ -1051,22 +1004,90 @@ async function prepare(e){
       block:'center'
     });
 
+  }else{
+
+    alert(
+      "We could not save your enquiry right now. Please try again or contact us on WhatsApp."
+    );
 
   }
 
-  catch(error){
-
-    console.error(error);
-
-    alert(
-      "Unable to save enquiry. Please try again."
-    );
+}
 
 
-    button.disabled=false;
+/*
+=========================================
+₹999 CONSULTATION
+=========================================
 
-    button.innerText=
-    "Prepare WhatsApp Enquiry";
+For now this creates a consultation lead
+with paymentStatus = PAYMENT_PENDING.
+
+Actual payment gateway will be connected
+in the next step.
+=========================================
+*/
+
+async function startConsultation(){
+
+  const name =
+    prompt("Please enter your full name:");
+
+  if(!name) return;
+
+
+  const phone =
+    prompt("Please enter your 10 digit mobile number:");
+
+  if(!phone) return;
+
+
+  if(!/^[0-9]{10}$/.test(phone)){
+
+    alert("Please enter a valid 10 digit mobile number.");
+
+    return;
+
+  }
+
+
+  const success =
+    await window.saveLead({
+
+      name:name,
+
+      phone:phone,
+
+      service:"₹999 Consultation",
+
+      message:"Customer selected Book ₹999 Consultation.",
+
+      amount:999,
+
+      paymentStatus:"PAYMENT_PENDING",
+
+      status:"Payment Pending"
+
+    });
+
+
+  const box =
+    document.getElementById("consultationResult");
+
+
+  if(success){
+
+    box.innerText =
+      "Your consultation request has been created. Payment gateway will be connected next.";
+
+    box.style.display="block";
+
+  }else{
+
+    box.innerText =
+      "Something went wrong. Please contact us on WhatsApp.";
+
+    box.style.display="block";
 
   }
 
