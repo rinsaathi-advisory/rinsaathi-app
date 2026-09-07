@@ -1,15 +1,30 @@
-<!-- ADMIN CODE: rinsaathi-admin-auth-fixed.html -->
+<!-- ADMIN CODE: rinsaathi-admin-auth-fixed-v2.html -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#063f32">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<meta
+name="theme-color"
+content="#063f32"
+>
+
 <title>RinSaathi Owner Dashboard</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
 body{
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
@@ -24,7 +39,10 @@ padding:25px 18px 30px;
 border-radius:0 0 28px 28px;
 }
 
-.logo{font-size:22px;font-weight:800}
+.logo{
+font-size:22px;
+font-weight:800;
+}
 
 .subtitle{
 font-size:12px;
@@ -170,6 +188,12 @@ border-radius:12px;
 padding:10px 14px;
 font-weight:700;
 cursor:pointer;
+font:inherit;
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
 }
 
 .primary{
@@ -212,6 +236,7 @@ background:#fff0f0;
 padding:12px;
 border-radius:12px;
 margin-top:10px;
+line-height:1.5;
 }
 
 .success{
@@ -220,6 +245,7 @@ background:#e6f4ed;
 padding:12px;
 border-radius:12px;
 margin-top:10px;
+line-height:1.5;
 }
 
 .modal{
@@ -413,7 +439,6 @@ display:block;
 font-size:11px;
 font-weight:800;
 color:#71817c;
-text-transform:none;
 margin-bottom:7px;
 }
 
@@ -431,24 +456,15 @@ color:#9aa6a1;
 font-weight:600;
 }
 
-@media(max-width:450px){
-
-.details,
-.fieldGrid,
-.completeGrid{
-grid-template-columns:1fr;
-}
-
-.completeField.full{
-grid-column:auto;
-}
-
-}
-
 .pendingEmpty{
 text-align:center;
 padding:20px;
 color:#71817c;
+}
+
+#recaptcha-container{
+margin:8px 0;
+min-height:0;
 }
 
 @media(max-width:760px){
@@ -474,12 +490,19 @@ grid-template-columns:1fr;
 }
 
 .details,
-.fieldGrid{
+.fieldGrid,
+.completeGrid{
 grid-template-columns:1fr;
 }
 
+.completeField.full{
+grid-column:auto;
 }
+
+}
+
 </style>
+
 </head>
 
 <body>
@@ -504,9 +527,14 @@ Admin Mobile: 9319301096
 
 </header>
 
+
 <main class="container">
 
-<section id="loginBox" class="card login">
+
+<section
+id="loginBox"
+class="card login"
+>
 
 <h2>🔐 Admin Login</h2>
 
@@ -514,59 +542,113 @@ Admin Mobile: 9319301096
 Login with the registered RinSaathi admin mobile number.
 </p>
 
+
 <input
 id="phone"
 type="tel"
 value="+919319301096"
 placeholder="+91XXXXXXXXXX"
+autocomplete="tel"
 >
+
 
 <div id="recaptcha-container"></div>
 
-<button class="primary" id="sendOtp">
+
+<button
+class="primary"
+id="sendOtp"
+type="button"
+>
+
 Send OTP
+
 </button>
 
-<div id="otpArea" class="hidden">
+
+<div
+id="otpArea"
+class="hidden"
+>
 
 <input
 id="otp"
 inputmode="numeric"
 maxlength="6"
-placeholder="Enter OTP"
+placeholder="Enter 6-digit OTP"
+autocomplete="one-time-code"
 >
 
-<button class="primary" id="verifyOtp">
+
+<button
+class="primary"
+id="verifyOtp"
+type="button"
+>
+
 Verify OTP
+
 </button>
 
 </div>
+
 
 <div id="loginMsg"></div>
 
 </section>
 
-<section id="dashboard" class="hidden">
 
-<div class="actions" style="margin:0 0 15px">
 
-<button class="secondary" id="refresh">
+<section
+id="dashboard"
+class="hidden"
+>
+
+
+<div
+class="actions"
+style="margin:0 0 15px"
+>
+
+<button
+class="secondary"
+id="refresh"
+type="button"
+>
+
 ↻ Refresh
+
 </button>
 
-<button class="secondary" id="logout">
+
+<button
+class="secondary"
+id="logout"
+type="button"
+>
+
 Logout
+
 </button>
 
 </div>
 
+
+
 <div class="stats">
 
-<div class="statCard" onclick="showStatusStage('New Lead')">
+
+<div
+class="statCard"
+onclick="showStatusStage('New Lead')"
+>
 
 <div class="statIcon">🆕</div>
 
-<div class="statNumber" id="newLeads">
+<div
+class="statNumber"
+id="newLeads"
+>
 0
 </div>
 
@@ -576,11 +658,19 @@ New Leads
 
 </div>
 
-<div class="statCard" onclick="showStatusStage('Pending Consultation')">
+
+
+<div
+class="statCard"
+onclick="showStatusStage('Pending Consultation')"
+>
 
 <div class="statIcon">📅</div>
 
-<div class="statNumber" id="pending">
+<div
+class="statNumber"
+id="pending"
+>
 0
 </div>
 
@@ -590,11 +680,19 @@ Pending Consultation
 
 </div>
 
-<div class="statCard" onclick="showStatusStage('Final Consultation')">
+
+
+<div
+class="statCard"
+onclick="showStatusStage('Final Consultation')"
+>
 
 <div class="statIcon">📝</div>
 
-<div class="statNumber" id="finalConsultation">
+<div
+class="statNumber"
+id="finalConsultation"
+>
 0
 </div>
 
@@ -604,11 +702,19 @@ Final Consultation
 
 </div>
 
-<div class="statCard" onclick="showStatusStage('Consultation Approved')">
+
+
+<div
+class="statCard"
+onclick="showStatusStage('Consultation Approved')"
+>
 
 <div class="statIcon">✅</div>
 
-<div class="statNumber" id="consultationApproved">
+<div
+class="statNumber"
+id="consultationApproved"
+>
 0
 </div>
 
@@ -618,11 +724,19 @@ Consultation Approved
 
 </div>
 
-<div class="statCard" onclick="showStatusStage('Active Advisory Client')">
+
+
+<div
+class="statCard"
+onclick="showStatusStage('Active Advisory Client')"
+>
 
 <div class="statIcon">👥</div>
 
-<div class="statNumber" id="clients">
+<div
+class="statNumber"
+id="clients"
+>
 0
 </div>
 
@@ -632,11 +746,19 @@ Active Clients
 
 </div>
 
-<div class="statCard" onclick="showStatusStage('Closed Lead')">
+
+
+<div
+class="statCard"
+onclick="showStatusStage('Closed Lead')"
+>
 
 <div class="statIcon">🔒</div>
 
-<div class="statNumber" id="closedLeads">
+<div
+class="statNumber"
+id="closedLeads"
+>
 0
 </div>
 
@@ -648,21 +770,32 @@ Closed Leads
 
 </div>
 
-<section class="section" id="newLeadsSection">
+
+
+<section
+class="section"
+id="newLeadsSection"
+>
 
 <div class="sectionHeading">
 
 <h2>🔥 New Leads</h2>
 
-<span class="badge" id="leadCount">
+<span
+class="badge"
+id="leadCount"
+>
 0 New
 </span>
 
 </div>
 
+
 <div id="leadContainer"></div>
 
 </section>
+
+
 
 <section class="section">
 
@@ -676,9 +809,12 @@ Controlled Flow
 
 </div>
 
+
 <div class="card">
 
-<div style="font-size:13px;line-height:1.8;color:#52635d">
+<div
+style="font-size:13px;line-height:1.8;color:#52635d"
+>
 
 <b>New Lead</b> →
 <b>Pending Consultation</b> →
@@ -689,7 +825,9 @@ Controlled Flow
 
 <br>
 
-<span style="color:#08704d;font-weight:700">
+<span
+style="color:#08704d;font-weight:700"
+>
 
 Only Active Client ↔ Closed Lead movement is allowed.
 
@@ -701,6 +839,8 @@ Only Active Client ↔ Closed Lead movement is allowed.
 
 </section>
 
+
+
 <section class="section">
 
 <div class="sectionHeading">
@@ -709,83 +849,136 @@ Only Active Client ↔ Closed Lead movement is allowed.
 
 </div>
 
-<div class="card" id="paymentContainer"></div>
+
+<div
+class="card"
+id="paymentContainer"
+>
+</div>
 
 </section>
+
 
 </section>
 
 </main>
 
-<div class="modal" id="statusModal">
+
+
+<div
+class="modal"
+id="statusModal"
+>
 
 <div class="modalBox">
 
-<button class="close" onclick="closeStatusModal()">
+<button
+class="close"
+onclick="closeStatusModal()"
+type="button"
+>
 ✕
 </button>
+
 
 <h2 id="statusModalTitle">
 Customers
 </h2>
 
+
 <p
 class="small"
 id="statusModalSubtitle"
 style="margin-top:5px"
-></p>
+>
+</p>
+
 
 <div
 id="statusList"
 style="margin-top:18px"
-></div>
-
+>
 </div>
 
 </div>
 
-<div class="modal" id="pendingModal">
+</div>
+
+
+
+<div
+class="modal"
+id="pendingModal"
+>
 
 <div class="modalBox">
 
-<button class="close" onclick="closePending()">
+<button
+class="close"
+onclick="closePending()"
+type="button"
+>
 ✕
 </button>
+
 
 <h2>
 📅 Pending Consultations
 </h2>
 
-<p class="small" style="margin-top:5px">
+
+<p
+class="small"
+style="margin-top:5px"
+>
 
 Tap a customer to see all of their pending consultation details.
 
 </p>
 
+
 <div
 id="pendingCustomerList"
 style="margin-top:18px"
-></div>
-
+>
 </div>
 
 </div>
 
-<div class="modal" id="customerModal">
+</div>
+
+
+
+<div
+class="modal"
+id="customerModal"
+>
 
 <div class="modalBox">
 
-<button class="close" onclick="closeCustomer()">
+<button
+class="close"
+onclick="closeCustomer()"
+type="button"
+>
 ✕
 </button>
+
 
 <h2 id="customerName">
 Customer
 </h2>
 
-<div class="small" id="customerService"></div>
+
+<div
+class="small"
+id="customerService"
+>
+</div>
+
 
 <div class="details">
+
 
 <div class="detail">
 
@@ -797,6 +990,7 @@ Mobile
 
 </div>
 
+
 <div class="detail">
 
 <label>
@@ -806,6 +1000,7 @@ Payment
 <strong id="customerPayment"></strong>
 
 </div>
+
 
 <div class="detail">
 
@@ -817,6 +1012,7 @@ Problem / Concern
 
 </div>
 
+
 <div class="detail">
 
 <label>
@@ -826,6 +1022,7 @@ Booking Date
 <strong id="customerDate"></strong>
 
 </div>
+
 
 <div class="detail">
 
@@ -839,6 +1036,8 @@ Status
 
 </div>
 
+
+
 <div class="message">
 
 <b>
@@ -850,6 +1049,8 @@ Customer Message
 <span id="customerMessage"></span>
 
 </div>
+
+
 
 <div class="completeSection">
 
@@ -867,35 +1068,47 @@ Everything saved from the customer's submitted form is shown below.
 
 </div>
 
-<div class="actions" style="margin-top:16px">
+
+
+<div
+class="actions"
+style="margin-top:16px"
+>
 
 <button
 class="primary"
 id="callCustomer"
+type="button"
 >
 📞 Contact Customer
 </button>
+
 
 <button
 class="goldBtn"
 id="moveToActiveClient"
 style="display:none"
+type="button"
 >
 👤 Move to Active Clients
 </button>
+
 
 <button
 class="secondary"
 id="moveToClosed"
 style="display:none"
+type="button"
 >
 🔒 Move to Closed Lead
 </button>
+
 
 <button
 class="goldBtn"
 id="completeConsultation"
 style="display:none"
+type="button"
 >
 ✅ Mark Consultation Done
 </button>
@@ -906,6 +1119,8 @@ style="display:none"
 
 </div>
 
+
+
 <script type="module">
 
 import {
@@ -914,109 +1129,166 @@ initializeApp
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 
-import {
 
+import {
 getAuth,
 onAuthStateChanged,
 RecaptchaVerifier,
 signInWithPhoneNumber,
 signOut
-
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-import {
 
+import {
 getFirestore,
 collection,
 getDocs,
 doc,
 updateDoc
-
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 
-const firebaseConfig={
 
-apiKey:"AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
+/* =========================
+   FIREBASE CONFIG
+========================= */
 
-authDomain:"rinsaathi-app.firebaseapp.com",
+const firebaseConfig = {
 
-projectId:"rinsaathi-app",
+apiKey:
+"AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
-storageBucket:"rinsaathi-app.firebasestorage.app",
+authDomain:
+"rinsaathi-app.firebaseapp.com",
 
-messagingSenderId:"156758734237",
+projectId:
+"rinsaathi-app",
 
-appId:"1:156758734237:web:b2daa2fb6e43a7bc192b74"
+storageBucket:
+"rinsaathi-app.firebasestorage.app",
+
+messagingSenderId:
+"156758734237",
+
+appId:
+"1:156758734237:web:b2daa2fb6e43a7bc192b74"
 
 };
 
 
-const app=
+
+const app =
 initializeApp(firebaseConfig);
 
-const auth=
+
+const auth =
 getAuth(app);
 
-const db=
+
+const db =
 getFirestore(app);
 
 
-let confirmationResult=null;
 
-let recaptcha=null;
+/* =========================
+   GLOBAL VARIABLES
+========================= */
 
-let leads=[];
+let confirmationResult = null;
+
+let recaptcha = null;
+
+let recaptchaRendering = false;
+
+let leads = [];
 
 
-const $=
-id=>document.getElementById(id);
 
+const $ =
+id => document.getElementById(id);
+
+
+
+/* =========================
+   LOGIN MESSAGE
+========================= */
 
 function msg(
 text,
 type="success"
 ){
 
-$("loginMsg").className=type;
+const box =
+$("loginMsg");
 
-$("loginMsg").textContent=text;
+if(!box)
+return;
+
+box.className =
+type;
+
+box.textContent =
+text;
 
 }
 
 
+
+/* =========================
+   FIREBASE AUTH ERROR
+========================= */
+
 function authErrorText(error){
 
-const code=
-error?.code||
+const code =
+error?.code ||
 "";
 
+console.error(
+"Firebase Auth Error:",
+error
+);
+
+
 if(
-code===
+code ===
 "auth/network-request-failed"
 ){
 
 return
-"Firebase network error. Check internet/VPN/content blockers and make sure rinsaathi-advisory.github.io is authorized in Firebase Authentication.";
+"Firebase network error. Please check your internet connection, VPN/content blockers, and Firebase authorized domains.";
 
 }
 
+
 if(
-code===
+code ===
+"auth/invalid-phone-number"
+){
+
+return
+"Invalid mobile number. Please enter a valid Indian 10-digit mobile number.";
+
+}
+
+
+if(
+code ===
 "auth/invalid-verification-code"
 ){
 
 return
-"Invalid OTP. Please request the latest OTP and try again.";
+"Invalid OTP. Please enter the latest OTP.";
 
 }
 
+
 if(
-code===
+code ===
 "auth/code-expired"
 ){
 
@@ -1025,24 +1297,107 @@ return
 
 }
 
+
 if(
-code===
+code ===
 "auth/too-many-requests"
 ){
 
 return
-"Too many attempts. Please wait and try again.";
+"Too many attempts. Please wait for some time and try again.";
 
 }
+
+
+if(
+code ===
+"auth/quota-exceeded"
+){
 
 return
-error?.message||
-"Authentication failed.";
+"Firebase SMS quota has been exceeded. Please try again later.";
 
 }
 
 
+if(
+code ===
+"auth/captcha-check-failed"
+){
+
+return
+"reCAPTCHA verification failed. Please refresh the page and try again.";
+
+}
+
+
+if(
+code ===
+"auth/operation-not-allowed"
+){
+
+return
+"Phone login is not enabled in Firebase Authentication.";
+
+}
+
+
+if(
+code ===
+"auth/app-not-authorized"
+){
+
+return
+"This website is not authorized in Firebase Authentication. Add rinsaathi-advisory.github.io to Firebase Authorized Domains.";
+
+}
+
+
+if(
+code ===
+"auth/missing-phone-number"
+){
+
+return
+"Mobile number is missing.";
+
+}
+
+
+if(
+code ===
+"auth/session-expired"
+){
+
+return
+"Your verification session expired. Please request a new OTP.";
+
+}
+
+
+return
+error?.message ||
+"Authentication failed. Please try again.";
+
+}
+
+
+
+/* =========================
+   RECAPTCHA SETUP
+========================= */
+
 async function setupRecaptcha(){
+
+if(
+recaptchaRendering
+)
+return recaptcha;
+
+
+recaptchaRendering =
+true;
+
 
 try{
 
@@ -1054,11 +1409,36 @@ recaptcha.clear();
 
 }catch(_){}
 
-recaptcha=null;
+recaptcha =
+null;
 
 }
 
-recaptcha=
+
+const container =
+$("recaptcha-container");
+
+
+if(!container){
+
+throw new Error(
+"reCAPTCHA container not found."
+);
+
+}
+
+
+container.innerHTML = "";
+
+
+/*
+IMPORTANT:
+Keep this visible.
+Firebase Phone Authentication needs
+a valid reCAPTCHA verifier.
+*/
+
+recaptcha =
 new RecaptchaVerifier(
 
 auth,
@@ -1072,7 +1452,7 @@ size:"normal",
 callback:()=>{
 
 msg(
-"Verification complete. Send the OTP.",
+"Verification complete. Now tap Send OTP.",
 "success"
 );
 
@@ -1081,7 +1461,7 @@ msg(
 "expired-callback":()=>{
 
 msg(
-"Verification expired. Please verify again.",
+"reCAPTCHA expired. Please verify again.",
 "error"
 );
 
@@ -1091,7 +1471,12 @@ msg(
 
 );
 
+
 await recaptcha.render();
+
+
+return recaptcha;
+
 
 }catch(e){
 
@@ -1100,40 +1485,71 @@ console.error(
 e
 );
 
-recaptcha=null;
+
+recaptcha =
+null;
+
 
 msg(
-"Secure verification could not load. Refresh the page and try again.",
+"Secure verification could not load. Please refresh the page and try again.",
 "error"
 );
 
-}
+
+return null;
+
+
+}finally{
+
+recaptchaRendering =
+false;
 
 }
 
+}
 
-setupRecaptcha();
 
 
-$("sendOtp").onclick=
+/* =========================
+   SEND OTP
+========================= */
+
+$("sendOtp").onclick =
 async()=>{
 
 try{
 
-const rawPhone=
+const rawPhone =
 $("phone")
 .value
 .trim();
 
-const digits=
+
+/*
+FIXED REGEX.
+DO NOT PUT LINE BREAKS INSIDE THIS REGEX.
+*/
+
+const digits =
 rawPhone
 .replace(/\D/g,"");
+
 
 if(
 !/
 ^[6-9]\d{9}$
 /
 .test(digits)
+){
+
+/*
+Fallback check using normal string logic.
+This also keeps the validation safe.
+*/
+
+if(
+digits.length !== 10 ||
+!["6","7","8","9"].includes(digits.charAt(0))
 ){
 
 msg(
@@ -1145,31 +1561,58 @@ return;
 
 }
 
-$("sendOtp").disabled=true;
+}
 
-$("sendOtp").textContent=
+
+$("sendOtp").disabled =
+true;
+
+$("sendOtp").textContent =
 "Sending OTP...";
 
 
-if(!recaptcha)
+msg(
+"Preparing secure verification...",
+"success"
+);
+
+
+if(!recaptcha){
+
 await setupRecaptcha();
 
+}
 
-if(!recaptcha)
+
+if(!recaptcha){
+
 throw new Error(
 "Secure verification could not be initialized."
 );
 
-
-const phone=
-"+91"+digits;
+}
 
 
-confirmationResult=
+const phone =
+"+91" +
+digits;
+
+
+console.log(
+"Sending OTP to:",
+phone
+);
+
+
+confirmationResult =
 await signInWithPhoneNumber(
+
 auth,
+
 phone,
+
 recaptcha
+
 );
 
 
@@ -1178,7 +1621,9 @@ $("otpArea")
 .remove("hidden");
 
 
-$("otp").value="";
+$("otp").value =
+"";
+
 
 $("otp").focus();
 
@@ -1196,33 +1641,51 @@ console.error(
 e
 );
 
+
 msg(
 authErrorText(e),
 "error"
 );
 
 
+/*
+After an error, reset reCAPTCHA
+so next attempt gets a fresh verifier.
+*/
+
 try{
 
-recaptcha?.clear();
+if(recaptcha){
+
+recaptcha.clear();
+
+}
 
 }catch(_){}
 
 
-recaptcha=null;
+recaptcha =
+null;
+
+
+confirmationResult =
+null;
 
 
 setTimeout(
-setupRecaptcha,
+()=>{
+setupRecaptcha();
+},
 300
 );
 
 
 }finally{
 
-$("sendOtp").disabled=false;
+$("sendOtp").disabled =
+false;
 
-$("sendOtp").textContent=
+$("sendOtp").textContent =
 "Send OTP";
 
 }
@@ -1230,23 +1693,29 @@ $("sendOtp").textContent=
 };
 
 
-$("verifyOtp").onclick=
+
+/* =========================
+   VERIFY OTP
+========================= */
+
+$("verifyOtp").onclick =
 async()=>{
 
 try{
 
-const otp=
+const otp =
 $("otp")
 .value
 .trim()
 .replace(/\s/g,"");
 
 
+/*
+FIXED OTP REGEX.
+*/
+
 if(
-!/
-^\d{6}$
-/
-.test(otp)
+!/^\d{6}$/.test(otp)
 ){
 
 msg(
@@ -1271,9 +1740,10 @@ return;
 }
 
 
-$("verifyOtp").disabled=true;
+$("verifyOtp").disabled =
+true;
 
-$("verifyOtp").textContent=
+$("verifyOtp").textContent =
 "Verifying...";
 
 
@@ -1283,13 +1753,19 @@ msg(
 );
 
 
-await confirmationResult.confirm(otp);
+await confirmationResult.confirm(
+otp
+);
 
 
 msg(
-"Login successful!",
+"Login successful! Loading dashboard...",
 "success"
 );
+
+
+confirmationResult =
+null;
 
 
 }catch(e){
@@ -1299,6 +1775,7 @@ console.error(
 e
 );
 
+
 msg(
 authErrorText(e),
 "error"
@@ -1306,19 +1783,21 @@ authErrorText(e),
 
 
 if(
-e?.code!==
+e?.code !==
 "auth/network-request-failed"
 ){
 
-confirmationResult=null;
+confirmationResult =
+null;
 
 }
 
 }finally{
 
-$("verifyOtp").disabled=false;
+$("verifyOtp").disabled =
+false;
 
-$("verifyOtp").textContent=
+$("verifyOtp").textContent =
 "Verify OTP";
 
 }
@@ -1326,13 +1805,46 @@ $("verifyOtp").textContent=
 };
 
 
-$("logout").onclick=
-()=>signOut(auth);
+
+/* =========================
+   LOGOUT
+========================= */
+
+$("logout").onclick =
+async()=>{
+
+try{
+
+await signOut(auth);
+
+confirmationResult =
+null;
+
+}catch(e){
+
+console.error(
+"Logout error:",
+e
+);
+
+}
+
+};
 
 
-$("refresh").onclick=
-loadLeads;
 
+/* =========================
+   REFRESH
+========================= */
+
+$("refresh").onclick =
+()=>loadLeads();
+
+
+
+/* =========================
+   AUTH STATE
+========================= */
 
 onAuthStateChanged(
 
@@ -1340,37 +1852,53 @@ auth,
 
 async(user)=>{
 
+console.log(
+"Auth state changed:",
+user?.phoneNumber ||
+"Not logged in"
+);
+
+
 if(!user){
 
 $("loginBox")
 .classList
 .remove("hidden");
 
+
 $("dashboard")
 .classList
 .add("hidden");
+
 
 return;
 
 }
 
 
-const phone=
-user.phoneNumber||
+const phone =
+user.phoneNumber ||
 "";
 
 
+/*
+Only registered admin number
+is allowed.
+*/
+
 if(
-phone!==
+phone !==
 "+919319301096"
 ){
 
 await signOut(auth);
 
+
 msg(
 "This number is not authorized as the RinSaathi Admin.",
 "error"
 );
+
 
 return;
 
@@ -1380,6 +1908,7 @@ return;
 $("loginBox")
 .classList
 .add("hidden");
+
 
 $("dashboard")
 .classList
@@ -1393,16 +1922,26 @@ await loadLeads();
 );
 
 
+
+/* =========================
+   LOAD LEADS
+========================= */
+
 async function loadLeads(){
 
 let snap;
 
+
 try{
 
-snap=
+snap =
 await getDocs(
-collection(db,"leads")
+collection(
+db,
+"leads"
+)
 );
+
 
 }catch(e){
 
@@ -1411,22 +1950,15 @@ console.error(
 e
 );
 
-const code=
-e?.code||
-"unknown";
-
-const detail=
-e?.message||
-String(e);
-
 
 alert(
-"Could not load leads.\n\n"+
-"Firestore error: "+
-code+
-"\n"+
-detail
+"Could not load leads.\n\n" +
+"Firestore error: " +
+(e?.code || "unknown") +
+"\n\n" +
+(e?.message || String(e))
 );
+
 
 return;
 
@@ -1435,11 +1967,12 @@ return;
 
 try{
 
-leads=
+leads =
 snap.docs.map(
 d=>({
 
 id:d.id,
+
 ...d.data()
 
 })
@@ -1449,7 +1982,7 @@ id:d.id,
 leads.sort(
 (a,b)=>{
 
-const ta=
+const ta =
 a.createdAt?.toDate
 ?
 a.createdAt
@@ -1466,7 +1999,7 @@ new Date(a.createdAt)
 );
 
 
-const tb=
+const tb =
 b.createdAt?.toDate
 ?
 b.createdAt
@@ -1483,7 +2016,7 @@ new Date(b.createdAt)
 );
 
 
-return tb-ta;
+return tb - ta;
 
 }
 );
@@ -1499,10 +2032,11 @@ console.error(
 e
 );
 
+
 alert(
-"Leads were loaded from Firestore, but the dashboard could not display them.\n\n"+
-"Dashboard error:\n"+
-(e?.message||String(e))
+"Leads were loaded from Firestore, but the dashboard could not display them.\n\n" +
+"Dashboard error:\n" +
+(e?.message || String(e))
 );
 
 }
@@ -1510,15 +2044,21 @@ alert(
 }
 
 
+
+/* =========================
+   STATUS
+========================= */
+
 function statusValue(l){
 
-return l.status||
+return l.status ||
 "New Lead";
 
 }
 
 
-const PIPELINE=[
+
+const PIPELINE = [
 
 "New Lead",
 
@@ -1535,10 +2075,11 @@ const PIPELINE=[
 ];
 
 
+
 function stageLabel(status){
 
 return
-status===
+status ===
 "Active Advisory Client"
 ?
 "Active Client"
@@ -1548,27 +2089,34 @@ status;
 }
 
 
+
+/* =========================
+   STATUS MOVEMENT
+========================= */
+
 function canMove(from,to){
 
 if(
-from===
+from ===
 "Active Advisory Client"
 )
+
 return
-to===
+to ===
 "Closed Lead";
 
 
 if(
-from===
+from ===
 "Closed Lead"
 )
+
 return
-to===
+to ===
 "Active Advisory Client";
 
 
-const allowed={
+const allowed = {
 
 "New Lead":[
 "Pending Consultation"
@@ -1595,53 +2143,61 @@ const allowed={
 
 
 return
-(allowed[from]||[])
+(allowed[from] || [])
 .includes(to);
 
 }
 
+
+
+/* =========================
+   CHANGE STATUS
+========================= */
 
 async function changeStatus(
 id,
 to
 ){
 
-const l=
+const l =
 leads.find(
-x=>x.id===id
+x=>x.id === id
 );
 
-if(!l)return;
+
+if(!l)
+return;
 
 
-const from=
+const from =
 statusValue(l);
 
 
-const allowed=
+const allowed =
 (
-from===
+from ===
 "Active Advisory Client"
 &&
-to===
+to ===
 "Closed Lead"
 )
 ||
 (
 (
-from===
+from ===
 "Closed Lead"
 ||
-from===
+from ===
 "Consultation Completed"
 )
 &&
-to===
+to ===
 "Active Advisory Client"
 );
 
 
-if(!allowed)return;
+if(!allowed)
+return;
 
 
 try{
@@ -1673,15 +2229,18 @@ openCustomer(id);
 
 }catch(e){
 
-console.error(e);
+console.error(
+"Status update error:",
+e
+);
 
 
 alert(
-"Could not update customer status.\n\n"+
-"Firestore error: "+
-(e?.code||"unknown")+
-"\n"+
-(e?.message||String(e))
+"Could not update customer status.\n\n" +
+"Firestore error: " +
+(e?.code || "unknown") +
+"\n\n" +
+(e?.message || String(e))
 );
 
 }
@@ -1689,37 +2248,45 @@ alert(
 }
 
 
+
+/* =========================
+   RENDER DASHBOARD
+========================= */
+
 function render(){
 
-let revenue=0;
+let revenue = 0;
 
-const counts={};
+
+const counts = {};
 
 
 PIPELINE.forEach(
-s=>counts[s]=0
+s=>counts[s] = 0
 );
 
 
 leads.forEach(l=>{
 
 if(
-l.payment===
+l.payment ===
 "PAID"
 ){
 
-revenue+=
-Number(l.amount||0);
+revenue +=
+Number(
+l.amount || 0
+);
 
 }
 
 
-const st=
+const st =
 statusValue(l);
 
 
 if(
-counts[st]!==undefined
+counts[st] !== undefined
 ){
 
 counts[st]++;
@@ -1729,26 +2296,14 @@ counts[st]++;
 });
 
 
-/*
-IMPORTANT FIX:
-
-There is no #revenue element in this Admin HTML.
-The old code tried to write into $("revenue"),
-which returned null and crashed render().
-That made loaded leads appear to disappear.
-
-Revenue is therefore calculated but only displayed
-if a revenue element actually exists.
-*/
-
-const revenueEl=
+const revenueEl =
 $("revenue");
 
 
 if(revenueEl){
 
-revenueEl.textContent=
-"₹"+
+revenueEl.textContent =
+"₹" +
 revenue.toLocaleString(
 "en-IN"
 );
@@ -1756,40 +2311,43 @@ revenue.toLocaleString(
 }
 
 
-$("newLeads").textContent=
+$("newLeads").textContent =
 counts["New Lead"];
 
 
-$("pending").textContent=
+$("pending").textContent =
 counts["Pending Consultation"];
 
 
-$("finalConsultation").textContent=
+$("finalConsultation").textContent =
 counts["Final Consultation"];
 
 
-$("consultationApproved").textContent=
+$("consultationApproved").textContent =
 counts["Consultation Approved"];
 
 
-$("clients").textContent=
+$("clients").textContent =
 counts["Active Advisory Client"];
 
 
-$("closedLeads").textContent=
+$("closedLeads").textContent =
 counts["Closed Lead"];
 
 
-$("leadCount").textContent=
-counts["New Lead"]+
+$("leadCount").textContent =
+counts["New Lead"] +
 " New";
 
 
-$("leadContainer").innerHTML=
+
+$("leadContainer").innerHTML =
 leads.length
+
 ?
 
-leads.map(l=>`
+leads.map(
+l=>`
 
 <div class="card lead">
 
@@ -1798,7 +2356,7 @@ leads.map(l=>`
 <div class="name">
 
 ${esc(
-l.name||
+l.name ||
 "Customer"
 )}
 
@@ -1807,16 +2365,16 @@ l.name||
 <div class="small">
 
 ${esc(
-l.service||
+l.service ||
 ""
 )}
 
 •
 
 ${esc(
-l.mobile||
-l.phone||
-l.authPhone||
+l.mobile ||
+l.phone ||
+l.authPhone ||
 ""
 )}
 
@@ -1825,10 +2383,12 @@ l.authPhone||
 </div>
 
 
+
 <div>
 
 <div class="${
-l.payment==="PAID"
+l.payment ===
+"PAID"
 ?
 "paid"
 :
@@ -1836,18 +2396,17 @@ l.payment==="PAID"
 }">
 
 ₹${Number(
-l.amount||0
-)
-.toLocaleString("en-IN")}
+l.amount || 0
+).toLocaleString("en-IN")}
 
 •
 
 ${esc(
-l.payment||
+l.payment ||
 "PENDING"
 )}
 
-${l.payment==="PAID"?"✅":""}
+${l.payment === "PAID" ? "✅" : ""}
 
 </div>
 
@@ -1861,6 +2420,7 @@ l.createdAt
 </div>
 
 </div>
+
 
 
 <div>
@@ -1879,8 +2439,8 @@ statusValue(l)
 <div class="small">
 
 ${esc(
-l.problem||
-l.message||
+l.problem ||
+l.message ||
 ""
 )}
 
@@ -1889,11 +2449,13 @@ l.message||
 </div>
 
 
+
 <div>
 
 <button
 class="primary"
 onclick="openCustomer('${l.id}')"
+type="button"
 >
 
 View Details
@@ -1904,7 +2466,8 @@ View Details
 
 </div>
 
-`).join("")
+`
+).join("")
 
 :
 
@@ -1919,11 +2482,14 @@ No leads yet. A customer enquiry will appear here automatically.
 `;
 
 
-$("paymentContainer").innerHTML=
+
+$("paymentContainer").innerHTML =
 leads.length
+
 ?
 
-leads.map(l=>`
+leads.map(
+l=>`
 
 <div style="
 display:flex;
@@ -1938,7 +2504,7 @@ border-bottom:1px solid #edf1ef
 <strong>
 
 ${esc(
-l.name||
+l.name ||
 "Customer"
 )}
 
@@ -1965,7 +2531,8 @@ l.createdAt
 
 
 <div class="${
-l.payment==="PAID"
+l.payment ===
+"PAID"
 ?
 "paid"
 :
@@ -1973,17 +2540,17 @@ l.payment==="PAID"
 }">
 
 ₹${Number(
-l.amount||0
-)
-.toLocaleString("en-IN")}
+l.amount || 0
+).toLocaleString("en-IN")}
 
-${l.payment==="PAID"?"✅":"⏳"}
-
-</div>
+${l.payment === "PAID" ? "✅" : "⏳"}
 
 </div>
 
-`).join("")
+</div>
+
+`
+).join("")
 
 :
 
@@ -2000,31 +2567,38 @@ No payments recorded yet.
 }
 
 
-window.showStatusStage=
+
+/* =========================
+   STATUS MODAL
+========================= */
+
+window.showStatusStage =
 function(status){
 
-const list=
+const list =
 leads.filter(
-l=>statusValue(l)===status
+l=>statusValue(l) === status
 );
 
 
-$("statusModalTitle").textContent=
+$("statusModalTitle").textContent =
 stageLabel(status);
 
 
-$("statusModalSubtitle").textContent=
+$("statusModalSubtitle").textContent =
 
-status===
+status ===
 "Closed Lead"
+
 ?
 
 "Closed leads can only return to Active Clients."
 
 :
 
-status===
+status ===
 "Active Advisory Client"
+
 ?
 
 "Active clients can only move to Closed Lead."
@@ -2034,11 +2608,13 @@ status===
 "Open a customer to see the complete form they submitted.";
 
 
-$("statusList").innerHTML=
+$("statusList").innerHTML =
 list.length
+
 ?
 
-list.map(l=>`
+list.map(
+l=>`
 
 <div class="pendingCustomer">
 
@@ -2049,7 +2625,7 @@ list.map(l=>`
 <div class="pendingCustomerName">
 
 ${esc(
-l.name||
+l.name ||
 "Customer"
 )}
 
@@ -2059,9 +2635,9 @@ l.name||
 <div class="pendingCustomerPhone">
 
 ${esc(
-l.mobile||
-l.phone||
-l.authPhone||
+l.mobile ||
+l.phone ||
+l.authPhone ||
 "Mobile not available"
 )}
 
@@ -2089,26 +2665,31 @@ statusValue(l)
 </div>
 
 
-<div style="
+<div
+style="
 margin-top:10px;
 color:#52635d;
 font-size:13px
-">
+"
+>
 
 ${esc(
-l.problem||
-l.message||
+l.problem ||
+l.message ||
 "No concern provided."
 )}
 
 </div>
 
 
-<div style="margin-top:12px">
+<div
+style="margin-top:12px"
+>
 
 <button
 class="primary"
 onclick="openCustomer('${l.id}')"
+type="button"
 >
 
 View Complete Form
@@ -2119,7 +2700,8 @@ View Complete Form
 
 </div>
 
-`).join("")
+`
+).join("")
 
 :
 
@@ -2142,25 +2724,27 @@ $("statusModal")
 };
 
 
-window.openNewLeads=
+
+window.openNewLeads =
 ()=>showStatusStage(
 "New Lead"
 );
 
 
-window.openPendingConsultations=
+window.openPendingConsultations =
 ()=>showStatusStage(
 "Pending Consultation"
 );
 
 
-window.openCompletedConsultations=
+window.openCompletedConsultations =
 ()=>showStatusStage(
 "Consultation Approved"
 );
 
 
-window.closeStatusModal=
+
+window.closeStatusModal =
 function(){
 
 $("statusModal")
@@ -2170,76 +2754,85 @@ $("statusModal")
 };
 
 
-window.openCustomer=
+
+/* =========================
+   CUSTOMER DETAILS
+========================= */
+
+window.openCustomer =
 function(id){
 
-const l=
+const l =
 leads.find(
-x=>x.id===id
+x=>x.id === id
 );
 
 
-if(!l)return;
+if(!l)
+return;
 
 
-$("customerName").textContent=
-l.name||
+$("customerName").textContent =
+l.name ||
 "Customer";
 
 
-$("customerService").textContent=
-l.service||
+$("customerService").textContent =
+l.service ||
 "";
 
 
-const mobile=
-l.mobile||
-l.phone||
-l.authPhone||
+const mobile =
+l.mobile ||
+l.phone ||
+l.authPhone ||
 "Not provided";
 
 
-$("customerMobile").textContent=
+$("customerMobile").textContent =
 mobile;
 
 
-$("customerPayment").textContent=
-"₹"+
+$("customerPayment").textContent =
+"₹" +
 Number(
-l.amount||0
-)
-.toLocaleString("en-IN")
-+
-" — "+
+l.amount || 0
+).toLocaleString("en-IN") +
+" — " +
 (
-l.payment||
+l.payment ||
 "PENDING"
 );
 
 
-$("customerProblem").textContent=
-l.problem||
-l.mainConcern||
-l.creditConcern||
+$("customerProblem").textContent =
+l.problem ||
+l.mainConcern ||
+l.creditConcern ||
 "Not provided";
 
 
-$("customerDate").textContent=
+$("customerDate").textContent =
 formatDate(
 l.createdAt
 );
 
 
-$("customerStatus").textContent=
+$("customerStatus").textContent =
 statusValue(l);
 
 
-$("customerMessage").textContent=
-l.message||
+$("customerMessage").textContent =
+l.message ||
 "Not provided";
 
 
-const common=[
+
+/* =========================
+   COMPLETE FORM FIELDS
+========================= */
+
+const common = [
 
 [
 "name",
@@ -2264,7 +2857,8 @@ const common=[
 ];
 
 
-const serviceFields={
+
+const serviceFields = {
 
 "Loan & EMI Guidance":[
 
@@ -2588,18 +3182,20 @@ const serviceFields={
 };
 
 
-const service=
-l.service||
+
+const service =
+l.service ||
 "";
 
 
-const rows=[];
+const rows = [];
 
-const used=
+const used =
 new Set();
 
 
-const addRow=
+
+const addRow =
 (
 key,
 label
@@ -2607,20 +3203,22 @@ label
 
 if(
 used.has(key)
-)return;
+)
+return;
 
 
 used.add(key);
 
 
-let value=
+let value =
 l[key];
 
 
 if(
-key==="mobile"
+key ===
+"mobile"
 )
-value=
+value =
 mobile;
 
 
@@ -2628,9 +3226,10 @@ rows.push([
 
 label,
 
-value===undefined||
-value===null||
-String(value).trim()===""
+value === undefined ||
+value === null ||
+String(value).trim() === ""
+
 ?
 
 "Not provided"
@@ -2639,8 +3238,9 @@ String(value).trim()===""
 
 formatValue(value),
 
-key==="message"||
-key==="problem"
+key === "message" ||
+key === "problem"
+
 ?
 
 "full"
@@ -2654,14 +3254,16 @@ key==="problem"
 };
 
 
+
 common.forEach(
 ([k,label])=>
 addRow(k,label)
 );
 
 
+
 (
-serviceFields[service]||
+serviceFields[service] ||
 []
 ).forEach(
 ([k,label])=>
@@ -2669,9 +3271,10 @@ addRow(k,label)
 );
 
 
+
 if(
 
-l.problem!==undefined&&
+l.problem !== undefined &&
 !used.has("problem")
 
 ){
@@ -2684,7 +3287,8 @@ addRow(
 }
 
 
-const ignored=[
+
+const ignored = [
 
 "id",
 
@@ -2703,10 +3307,11 @@ const ignored=[
 ];
 
 
+
 Object.keys(l).forEach(k=>{
 
 if(
-ignored.includes(k)||
+ignored.includes(k) ||
 used.has(k)
 )
 return;
@@ -2720,7 +3325,8 @@ prettyLabel(k)
 });
 
 
-$("completeFormDetails").innerHTML=
+
+$("completeFormDetails").innerHTML =
 
 `
 
@@ -2730,7 +3336,9 @@ ${
 rows.map(
 ([label,value,klass])=>`
 
-<div class="completeField ${klass}">
+<div
+class="completeField ${klass}"
+>
 
 <label>
 
@@ -2738,10 +3346,12 @@ ${esc(label)}
 
 </label>
 
-<div class="
+<div
+class="
 completeValue
-${value==="Not provided"?"notProvided":""}
-">
+${value === "Not provided" ? "notProvided" : ""}
+"
+>
 
 ${esc(value)}
 
@@ -2758,17 +3368,22 @@ ${esc(value)}
 `;
 
 
-$("callCustomer").onclick=
+
+/* =========================
+   CONTACT CUSTOMER
+========================= */
+
+$("callCustomer").onclick =
 ()=>{
 
 if(
-mobile&&
-mobile!==
+mobile &&
+mobile !==
 "Not provided"
 ){
 
-location.href=
-"tel:"+
+location.href =
+"tel:" +
 String(mobile)
 .replace(/\s/g,"");
 
@@ -2777,71 +3392,91 @@ String(mobile)
 };
 
 
+
+/* =========================
+   STATUS BUTTONS
+========================= */
+
 $("moveToActiveClient")
 .style
-.display=
+.display =
 "none";
 
 
 $("moveToClosed")
 .style
-.display=
+.display =
 "none";
 
 
-$("moveToActiveClient")
-.onclick=null;
+$("completeConsultation")
+.style
+.display =
+"none";
 
 
-$("moveToClosed")
-.onclick=null;
+$("moveToActiveClient").onclick =
+null;
 
 
-const currentStatus=
+$("moveToClosed").onclick =
+null;
+
+
+$("completeConsultation").onclick =
+null;
+
+
+
+const currentStatus =
 statusValue(l);
 
 
+
 if(
-currentStatus===
+currentStatus ===
 "Active Advisory Client"
 ){
 
 $("moveToClosed")
 .style
-.display=
+.display =
 "inline-block";
 
 
-$("moveToClosed").onclick=
+$("moveToClosed").onclick =
 ()=>changeStatus(
 l.id,
 "Closed Lead"
 );
 
+}
 
-}else if(
 
-currentStatus===
+else if(
+
+currentStatus ===
 "Closed Lead"
 ||
-currentStatus===
+currentStatus ===
 "Consultation Completed"
 
 ){
 
 $("moveToActiveClient")
 .style
-.display=
+.display =
 "inline-block";
 
 
-$("moveToActiveClient").onclick=
+$("moveToActiveClient").onclick =
 ()=>changeStatus(
 l.id,
 "Active Advisory Client"
 );
 
 }
+
 
 
 $("customerModal")
@@ -2851,7 +3486,12 @@ $("customerModal")
 };
 
 
-window.closeCustomer=
+
+/* =========================
+   CLOSE CUSTOMER
+========================= */
+
+window.closeCustomer =
 function(){
 
 $("customerModal")
@@ -2861,11 +3501,19 @@ $("customerModal")
 };
 
 
+
+/* =========================
+   DATE FORMAT
+========================= */
+
 function formatDate(ts){
 
-if(ts?.toDate){
+if(
+ts?.toDate
+){
 
-return ts.toDate()
+return ts
+.toDate()
 .toLocaleString(
 "en-IN",
 {
@@ -2879,11 +3527,15 @@ timeStyle:"short"
 
 if(ts){
 
-const d=
+const d =
 new Date(ts);
 
 
-if(!isNaN(d.getTime()))
+if(
+!isNaN(
+d.getTime()
+)
+)
 
 return d.toLocaleString(
 "en-IN",
@@ -2896,10 +3548,16 @@ timeStyle:"short"
 }
 
 
-return "Just now";
+return
+"Just now";
 
 }
 
+
+
+/* =========================
+   PRETTY LABEL
+========================= */
 
 function prettyLabel(key){
 
@@ -2930,13 +3588,19 @@ c=>c.toUpperCase()
 }
 
 
+
+/* =========================
+   FORMAT VALUE
+========================= */
+
 function formatValue(value){
 
 if(
 value?.toDate
 ){
 
-return value.toDate()
+return value
+.toDate()
 .toLocaleString("en-IN");
 
 }
@@ -2949,7 +3613,8 @@ return value.join(", ");
 
 
 if(
-typeof value==="object"
+typeof value ===
+"object"
 ){
 
 try{
@@ -2970,9 +3635,14 @@ return String(value);
 }
 
 
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
 function esc(v){
 
-return String(v??"")
+return String(v ?? "")
 
 .replace(
 /[&<>"']/g,
@@ -2996,11 +3666,18 @@ c=>({
 }
 
 
-window.scrollToLeads=
+
+/* =========================
+   SCROLL / HELPERS
+========================= */
+
+window.scrollToLeads =
 function(){
 
 document
-.getElementById("newLeadsSection")
+.getElementById(
+"newLeadsSection"
+)
 ?.scrollIntoView({
 
 behavior:"smooth",
@@ -3012,7 +3689,8 @@ block:"start"
 };
 
 
-window.showAllLeads=
+
+window.showAllLeads =
 function(){
 
 scrollToLeads();
@@ -3020,7 +3698,8 @@ scrollToLeads();
 };
 
 
-window.showActiveClients=
+
+window.showActiveClients =
 function(){
 
 showStatusStage(
@@ -3030,7 +3709,8 @@ showStatusStage(
 };
 
 
-window.openPendingConsultations=
+
+window.openPendingConsultations =
 function(){
 
 showStatusStage(
@@ -3040,15 +3720,39 @@ showStatusStage(
 };
 
 
-window.closePending=
+
+window.closePending =
 function(){
 
 document
-.getElementById("pendingModal")
+.getElementById(
+"pendingModal"
+)
 .classList
 .remove("active");
 
 };
+
+
+
+/* =========================
+   INITIAL RECAPTCHA
+========================= */
+
+setTimeout(
+()=>{
+
+if(
+!auth.currentUser
+){
+
+setupRecaptcha();
+
+}
+
+},
+500
+);
 
 </script>
 
