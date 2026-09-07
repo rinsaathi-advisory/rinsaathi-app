@@ -1,8 +1,7 @@
-<!-- APP CODE: rinsaathi-app-login-fixed.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#063f32">
@@ -151,9 +150,10 @@ display:none;
 margin-top:15px;
 display:flex;
 justify-content:center;
+min-height:78px;
 }
 
-/* ================= MAIN HEADER ================= */
+/* ================= MAIN ================= */
 
 #mainApp{
 display:none;
@@ -186,8 +186,6 @@ opacity:.9;
 color:#d6ae54;
 }
 
-/* ================= CONTENT ================= */
-
 .content{
 padding:22px;
 }
@@ -206,7 +204,7 @@ font-weight:800;
 margin-bottom:14px;
 }
 
-/* ================= SIX SERVICES ================= */
+/* ================= SERVICES ================= */
 
 .grid{
 display:grid;
@@ -244,7 +242,7 @@ margin-top:5px;
 line-height:1.4;
 }
 
-/* ================= FREE CONSULTATION ================= */
+/* ================= FREE ================= */
 
 .freeBox{
 border:1px solid #d6e8df;
@@ -276,7 +274,7 @@ background:linear-gradient(145deg,#f4faf7,#eaf5f0);
 color:#16704f;
 }
 
-/* ================= CONSULTATION OFFER ================= */
+/* ================= OFFER ================= */
 
 .consultationOffer{
 background:linear-gradient(145deg,#063f32,#0d604c);
@@ -389,7 +387,7 @@ line-height:1.5;
 margin-top:7px;
 }
 
-/* ================= PAID CONTENT ================= */
+/* ================= PAID ================= */
 
 #paidContent{
 display:none;
@@ -573,7 +571,7 @@ font-size:13px;
 <body>
 
 <!-- =========================================================
-     LOGIN SCREEN
+LOGIN
 ========================================================= -->
 
 <div id="loginScreen">
@@ -638,6 +636,7 @@ placeholder="Enter OTP"
 >
 
 <button
+id="verifyOtpBtn"
 class="loginBtn"
 onclick="verifyOTP()"
 >
@@ -662,8 +661,9 @@ Never share your OTP with anyone.
 
 <br><br>
 
-If verification shows a network error, make sure this website
-domain is authorized in Firebase Authentication.
+If verification shows a network error, please check your
+internet connection and make sure this website domain is
+authorized in Firebase Authentication.
 
 </div>
 
@@ -673,7 +673,7 @@ domain is authorized in Firebase Authentication.
 
 
 <!-- =========================================================
-     MAIN APP
+MAIN APP
 ========================================================= -->
 
 <div id="mainApp">
@@ -707,14 +707,9 @@ Practical guidance for loan, EMI, debt and credit-related challenges.
 <main class="content">
 
 
-<!-- =========================================================
-     HOME
-========================================================= -->
+<!-- HOME -->
 
 <div id="home">
-
-
-<!-- FREE STATUS -->
 
 <div id="freeStatusArea" class="section">
 
@@ -724,8 +719,6 @@ Checking consultation eligibility...
 
 </div>
 
-
-<!-- SIX SERVICES -->
 
 <div class="section">
 
@@ -741,22 +734,13 @@ Your first consultation is free.
 
 <div class="grid">
 
-
 <div
 class="card"
 onclick="handleServiceClick('Loan & EMI Guidance')"
 >
-
 <div class="icon">💳</div>
-
-<h3>
-Loan & EMI
-</h3>
-
-<p>
-Understand your loan and EMI situation.
-</p>
-
+<h3>Loan & EMI</h3>
+<p>Understand your loan and EMI situation.</p>
 </div>
 
 
@@ -764,17 +748,9 @@ Understand your loan and EMI situation.
 class="card"
 onclick="handleServiceClick('CIBIL / Credit Guidance')"
 >
-
 <div class="icon">📊</div>
-
-<h3>
-CIBIL Guidance
-</h3>
-
-<p>
-Understand credit-related concerns.
-</p>
-
+<h3>CIBIL Guidance</h3>
+<p>Understand credit-related concerns.</p>
 </div>
 
 
@@ -782,17 +758,9 @@ Understand credit-related concerns.
 class="card"
 onclick="handleServiceClick('Recovery Call Guidance')"
 >
-
 <div class="icon">📞</div>
-
-<h3>
-Recovery Calls
-</h3>
-
-<p>
-Know how to handle recovery communication.
-</p>
-
+<h3>Recovery Calls</h3>
+<p>Know how to handle recovery communication.</p>
 </div>
 
 
@@ -800,17 +768,9 @@ Know how to handle recovery communication.
 class="card"
 onclick="handleServiceClick('Debt Management')"
 >
-
 <div class="icon">🧾</div>
-
-<h3>
-Debt Management
-</h3>
-
-<p>
-Organise multiple debt obligations.
-</p>
-
+<h3>Debt Management</h3>
+<p>Organise multiple debt obligations.</p>
 </div>
 
 
@@ -818,17 +778,9 @@ Organise multiple debt obligations.
 class="card"
 onclick="handleServiceClick('Settlement Option Education')"
 >
-
 <div class="icon">🧠</div>
-
-<h3>
-Settlement Education
-</h3>
-
-<p>
-Understand settlement-related options.
-</p>
-
+<h3>Settlement Education</h3>
+<p>Understand settlement-related options.</p>
 </div>
 
 
@@ -836,28 +788,16 @@ Understand settlement-related options.
 class="card"
 onclick="handleServiceClick('Talk to RinSaathi')"
 >
-
 <div class="icon">💬</div>
-
-<h3>
-Talk to RinSaathi
-</h3>
-
-<p>
-Share your situation for guidance.
-</p>
-
-</div>
-
-
+<h3>Talk to RinSaathi</h3>
+<p>Share your situation for guidance.</p>
 </div>
 
 </div>
+</div>
 
 
-<!-- =========================================================
-     PAID CONSULTATION
-========================================================= -->
+<!-- PAID CONSULTATION -->
 
 <div
 class="section"
@@ -867,7 +807,6 @@ id="paidConsultationSection"
 <div class="title">
 Get Consultation
 </div>
-
 
 <div class="consultationOffer">
 
@@ -934,9 +873,7 @@ to unlock consultation access and all Advisory Plans.
 </div>
 
 
-<!-- =========================================================
-     PAID CONTENT
-========================================================= -->
+<!-- PAID CONTENT -->
 
 <div
 id="paidContent"
@@ -1072,8 +1009,6 @@ Choose 6 Months
 </div>
 
 
-<!-- IMPORTANT NOTICE -->
-
 <div class="notice">
 
 <b>Important:</b>
@@ -1097,9 +1032,7 @@ Logout
 </div>
 
 
-<!-- =========================================================
-     GUIDANCE
-========================================================= -->
+<!-- GUIDANCE -->
 
 <div
 id="guidance"
@@ -1123,9 +1056,7 @@ id="guidanceTitle"
 </div>
 
 
-<!-- =========================================================
-     FORM
-========================================================= -->
+<!-- FORM -->
 
 <div
 id="formSection"
@@ -1151,6 +1082,7 @@ Share Your Situation
 <div id="dynamicFormFields"></div>
 
 <button
+id="formSubmitBtn"
 class="btn btnGreen"
 onclick="submitEnquiry()"
 >
@@ -1182,14 +1114,12 @@ Your Debt. Our Strategy. Your Freedom. Our Mission.
 
 </footer>
 
-
 </div>
-
 </div>
 
 
 <!-- =========================================================
-     FIREBASE
+FIREBASE + COMPLETE APP LOGIC
 ========================================================= -->
 
 <script type="module">
@@ -1199,7 +1129,6 @@ initializeApp
 }
 from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-
 
 import {
 getAuth,
@@ -1211,7 +1140,6 @@ signOut
 from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
-
 import {
 getFirestore,
 doc,
@@ -1221,9 +1149,13 @@ from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
+/* =========================================================
+FIREBASE CONFIG
+========================================================= */
+
 const firebaseConfig={
 
-apiKey:"AIzaSyCP0TMQjJ4nlofmVkmISG9aAAkFafHMV4",
+apiKey:"AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
 authDomain:"rinsaathi-app.firebaseapp.com",
 
@@ -1238,6 +1170,10 @@ appId:"1:156758734237:web:b2daa2fb6e43a7bc192b74"
 };
 
 
+/* =========================================================
+FIREBASE INIT
+========================================================= */
+
 const app=initializeApp(firebaseConfig);
 
 const auth=getAuth(app);
@@ -1245,84 +1181,78 @@ const auth=getAuth(app);
 const db=getFirestore(app);
 
 
+/* =========================================================
+GLOBAL STATE
+========================================================= */
+
 let confirmationResult=null;
 
 let currentUser=null;
 
+let currentService="";
 
-/*
-=========================================================
-IMPORTANT FREE CONSULTATION STATE
-
-This is NOT localStorage.
-
-The state is checked from:
-
-leads/{firebaseUID}_free
-
-Because Firebase Phone Authentication gives the same
-UID to the same verified phone number across devices,
-the free consultation stays consumed even after:
-
-• Logout
-• Login again
-• Different phone
-• Different browser
-• Different device
-=========================================================
-*/
+let consultationPaid=false;
 
 let freeConsultationUsed=false;
 
 let freeStateLoaded=false;
 
+let recaptchaReady=false;
 
-/* ================= LOGIN MESSAGE ================= */
+
+/* =========================================================
+HELPERS
+========================================================= */
+
+function el(id){
+
+return document.getElementById(id);
+
+}
+
 
 function setLoginMessage(message,type=""){
 
-const box=
-document.getElementById("loginMessage");
+const box=el("loginMessage");
+
+if(!box) return;
 
 box.innerText=message;
 
-box.className=
-"loginMessage "+type;
+box.className="loginMessage "+type;
 
 }
 
 
 function showRetry(show){
 
-const b=
-document.getElementById("retryAuthBtn");
+const button=el("retryAuthBtn");
 
-if(b)
-b.style.display=
+if(button){
+
+button.style.display=
 show?"block":"none";
+
+}
 
 }
 
 
 function authErrorText(error){
 
-const code=
-error?.code||"";
-
+const code=error?.code||"";
 
 if(code==="auth/network-request-failed"){
 
-return "Firebase could not reach its authentication server. Check your internet/VPN/content blockers and try again. If it continues, the website domain must be authorized in Firebase Authentication.";
+return "Firebase could not reach its authentication server. Check your internet connection, VPN or content blockers. If it continues, check Firebase Authentication authorized domains.";
 
 }
-
 
 if(code==="auth/invalid-verification-code"){
 
-return "The OTP is incorrect. Please request a new OTP and enter the latest code.";
+return "The OTP is incorrect. Please enter the latest OTP.";
 
 }
-
 
 if(code==="auth/code-expired"){
 
@@ -1330,13 +1260,17 @@ return "This OTP has expired. Please request a new OTP.";
 
 }
 
-
 if(code==="auth/too-many-requests"){
 
-return "Too many attempts. Please wait a while before requesting another OTP.";
+return "Too many attempts. Please wait a while and try again.";
 
 }
 
+if(code==="auth/invalid-phone-number"){
+
+return "Please enter a valid Indian mobile number.";
+
+}
 
 return error?.message||
 "Unable to complete verification.";
@@ -1344,7 +1278,9 @@ return error?.message||
 }
 
 
-/* ================= RECAPTCHA ================= */
+/* =========================================================
+RECAPTCHA
+========================================================= */
 
 async function createRecaptcha(){
 
@@ -1358,21 +1294,32 @@ window.recaptchaVerifier.clear();
 
 }catch(_){}
 
+window.recaptchaVerifier=null;
+
 }
 
+recaptchaReady=false;
+
+const container=el("recaptcha-container");
+
+if(!container){
+
+throw new Error("reCAPTCHA container not found.");
+
+}
+
+container.innerHTML="";
 
 window.recaptchaVerifier=
 new RecaptchaVerifier(
-
 auth,
-
 "recaptcha-container",
-
 {
-
 size:"normal",
 
 callback:()=>{
+
+recaptchaReady=true;
 
 setLoginMessage(
 "Verification complete. You can request the OTP.",
@@ -1383,20 +1330,22 @@ setLoginMessage(
 
 "expired-callback":()=>{
 
+recaptchaReady=false;
+
 setLoginMessage(
 "Verification expired. Please verify again.",
 "error"
 );
 
 }
-
 }
-
 );
-
 
 await window.recaptchaVerifier.render();
 
+recaptchaReady=true;
+
+return true;
 
 }catch(error){
 
@@ -1405,6 +1354,8 @@ console.error(
 error
 );
 
+recaptchaReady=false;
+
 window.recaptchaVerifier=null;
 
 setLoginMessage(
@@ -1412,19 +1363,22 @@ setLoginMessage(
 "error"
 );
 
-}
+return false;
 
 }
 
+}
 
-/* ================= SEND OTP ================= */
+
+/* =========================================================
+SEND OTP
+========================================================= */
 
 window.sendOTP=async function(){
 
 const phone=
-document
-.getElementById("loginPhone")
-.value
+el("loginPhone")
+?.value
 .trim();
 
 
@@ -1440,32 +1394,28 @@ return;
 }
 
 
-const btn=
-document.getElementById("sendOtpBtn");
+const button=el("sendOtpBtn");
 
 
 try{
 
+if(button){
+
+button.disabled=true;
+
+button.innerText="Sending OTP...";
+
+}
+
 showRetry(false);
 
 
-if(btn){
-
-btn.disabled=true;
-
-btn.innerText="Sending OTP...";
-
-}
-
-
 if(!window.recaptchaVerifier){
 
+const ready=
 await createRecaptcha();
 
-}
-
-
-if(!window.recaptchaVerifier){
+if(!ready){
 
 throw new Error(
 "Secure verification could not be initialized."
@@ -1473,28 +1423,20 @@ throw new Error(
 
 }
 
+}
+
 
 confirmationResult=
 await signInWithPhoneNumber(
-
 auth,
-
 "+91"+phone,
-
 window.recaptchaVerifier
-
 );
 
 
-document
-.getElementById("phoneSection")
-.style.display="none";
+el("phoneSection").style.display="none";
 
-
-document
-.getElementById("otpSection")
-.style.display="block";
-
+el("otpSection").style.display="block";
 
 setLoginMessage(
 "OTP sent successfully. Enter the latest 6-digit OTP.",
@@ -1523,18 +1465,18 @@ window.recaptchaVerifier?.clear();
 
 }catch(_){}
 
-
 window.recaptchaVerifier=null;
+
+recaptchaReady=false;
 
 
 }finally{
 
+if(button){
 
-if(btn){
+button.disabled=false;
 
-btn.disabled=false;
-
-btn.innerText="Send OTP";
+button.innerText="Send OTP";
 
 }
 
@@ -1543,14 +1485,15 @@ btn.innerText="Send OTP";
 };
 
 
-/* ================= VERIFY OTP ================= */
+/* =========================================================
+VERIFY OTP
+========================================================= */
 
 window.verifyOTP=async function(){
 
 const otp=
-document
-.getElementById("otpCode")
-.value
+el("otpCode")
+?.value
 .trim()
 .replace(/\s/g,"");
 
@@ -1579,22 +1522,18 @@ return;
 }
 
 
-const verifyBtn=
-document.querySelector(
-"#otpSection .loginBtn"
-);
+const button=el("verifyOtpBtn");
 
 
 try{
 
-if(verifyBtn){
+if(button){
 
-verifyBtn.disabled=true;
+button.disabled=true;
 
-verifyBtn.innerText="Verifying...";
+button.innerText="Verifying...";
 
 }
-
 
 setLoginMessage(
 "Verifying OTP...",
@@ -1604,12 +1543,7 @@ setLoginMessage(
 
 await confirmationResult.confirm(otp);
 
-
-setLoginMessage(
-"Login successful!",
-"success"
-);
-
+confirmationResult=null;
 
 showRetry(false);
 
@@ -1635,14 +1569,13 @@ confirmationResult=null;
 
 }
 
-
 }finally{
 
-if(verifyBtn){
+if(button){
 
-verifyBtn.disabled=false;
+button.disabled=false;
 
-verifyBtn.innerText="Verify OTP";
+button.innerText="Verify OTP";
 
 }
 
@@ -1651,31 +1584,27 @@ verifyBtn.innerText="Verify OTP";
 };
 
 
-/* ================= RESET LOGIN ================= */
+/* =========================================================
+RESET LOGIN
+========================================================= */
 
 window.resetLogin=async function(){
 
 confirmationResult=null;
 
-document
-.getElementById("otpCode")
-.value="";
+if(el("otpCode")){
 
+el("otpCode").value="";
 
-document
-.getElementById("otpSection")
-.style.display="none";
+}
 
+el("otpSection").style.display="none";
 
-document
-.getElementById("phoneSection")
-.style.display="block";
-
+el("phoneSection").style.display="block";
 
 showRetry(false);
 
 setLoginMessage("");
-
 
 try{
 
@@ -1683,8 +1612,9 @@ window.recaptchaVerifier?.clear();
 
 }catch(_){}
 
-
 window.recaptchaVerifier=null;
+
+recaptchaReady=false;
 
 await createRecaptcha();
 
@@ -1693,22 +1623,14 @@ await createRecaptcha();
 
 window.backToPhone=async function(){
 
-await resetLogin();
+await window.resetLogin();
 
 };
 
 
-/* ================= FREE STATE ================= */
-
-/*
-Checks Firestore document:
-
-leads/{UID}_free
-
-If it exists = free consultation already used.
-
-If it does not exist = first consultation still available.
-*/
+/* =========================================================
+FREE CONSULTATION STATE
+========================================================= */
 
 async function loadFreeState(){
 
@@ -1746,7 +1668,6 @@ snap.exists();
 
 freeStateLoaded=true;
 
-
 renderFreeState();
 
 
@@ -1757,22 +1678,11 @@ console.error(
 error
 );
 
-
-/*
-We do NOT automatically consume the free consultation
-if Firestore reading fails.
-
-This prevents a Firestore/network problem from wrongly
-telling the customer that their free consultation is used.
-*/
-
 freeStateLoaded=false;
 
-const area=
-document.getElementById(
-"freeStatusArea"
-);
+const area=el("freeStatusArea");
 
+if(area){
 
 area.innerHTML=`
 
@@ -1793,6 +1703,8 @@ Please refresh the page and try again.
 
 }
 
+}
+
 
 function hasFreeUsed(){
 
@@ -1801,18 +1713,15 @@ return freeConsultationUsed===true;
 }
 
 
-/* ================= FREE STATUS UI ================= */
+/* =========================================================
+FREE STATE UI
+========================================================= */
 
 function renderFreeState(){
 
-const area=
-document.getElementById(
-"freeStatusArea"
-);
+const area=el("freeStatusArea");
 
-
-if(!area)
-return;
+if(!area) return;
 
 
 if(!freeStateLoaded){
@@ -1883,10 +1792,104 @@ This free consultation is available only once per mobile number.
 }
 
 
-/* ================= SERVICE CLICK ================= */
+/* =========================================================
+SERVICE DATA
+========================================================= */
 
-window.handleServiceClick=
-function(title){
+const serviceData={
+
+"Loan & EMI Guidance":{
+
+description:
+"Managing a loan can become difficult when EMIs, overdue payments or financial pressure start affecting your monthly budget. Understanding your loan position is an important first step toward making a practical decision.",
+
+points:[
+"Understand your current loan and EMI position.",
+"Review how overdue payments may affect your situation.",
+"Know which loan details and documents you should review.",
+"Understand practical options based on your circumstances."
+]
+
+},
+
+"CIBIL / Credit Guidance":{
+
+description:
+"Your credit profile can be affected by repayment history, outstanding obligations and other credit-related factors. Understanding your CIBIL report can help you identify the areas that need attention.",
+
+points:[
+"Understand your CIBIL / credit score.",
+"Review factors that may affect your credit profile.",
+"Identify possible overdue or reporting concerns.",
+"Understand practical steps for better credit management."
+]
+
+},
+
+"Recovery Call Guidance":{
+
+description:
+"Recovery communication can be stressful. Understanding how to respond, what information to verify and how to keep proper records can help you handle the situation more carefully.",
+
+points:[
+"Understand how to handle recovery communication.",
+"Know what information you should verify.",
+"Keep records of important calls and messages.",
+"Understand practical precautions while communicating."
+]
+
+},
+
+"Debt Management":{
+
+description:
+"When multiple EMIs and debts become difficult to manage, getting a clear picture of your total obligations is an important starting point for better planning.",
+
+points:[
+"Organise your multiple loan and debt obligations.",
+"Understand your total monthly EMI burden.",
+"Identify which obligations need attention first.",
+"Discuss practical debt-planning approaches."
+]
+
+},
+
+"Settlement Option Education":{
+
+description:
+"Loan settlement is a financial decision that should be understood carefully. Settlement and regular loan closure can have different implications, including possible effects on your credit profile.",
+
+points:[
+"Understand what loan settlement means.",
+"Understand the difference between settlement and regular closure.",
+"Learn about possible credit-profile implications.",
+"Review important points before considering an option."
+]
+
+},
+
+"Talk to RinSaathi":{
+
+description:
+"Not sure which option is right for you? Share your overall financial situation with RinSaathi and we can help you understand which area may require attention and what practical next steps you can consider.",
+
+points:[
+"Share your overall financial situation.",
+"Tell us about your loans, EMIs or credit concerns.",
+"Explain the main difficulty you are facing.",
+"Receive guidance on the most relevant next step."
+]
+
+}
+
+};
+
+
+/* =========================================================
+SERVICE CLICK
+========================================================= */
+
+window.handleServiceClick=function(title){
 
 if(!freeStateLoaded){
 
@@ -1899,13 +1902,6 @@ return;
 }
 
 
-/*
-FIRST TIME USER
-
-Any of the six options can use the
-one-time free consultation.
-*/
-
 if(!hasFreeUsed()){
 
 openFreeForm(title);
@@ -1915,23 +1911,16 @@ return;
 }
 
 
-/*
-RETURNING USER
-
-Same number has already used free consultation.
-
-Therefore the service becomes paid.
-*/
-
 showGuidance(title);
 
 };
 
 
-/* ================= FREE FORM ================= */
+/* =========================================================
+FREE FORM
+========================================================= */
 
-window.openFreeForm=
-function(service){
+window.openFreeForm=function(service){
 
 if(hasFreeUsed()){
 
@@ -1946,24 +1935,13 @@ currentService=
 service||"Free Consultation";
 
 
-document
-.getElementById("home")
-.classList.add("hidden");
+el("home").classList.add("hidden");
 
+el("guidance").classList.add("hidden");
 
-document
-.getElementById("guidance")
-.classList.add("hidden");
+el("formSection").classList.remove("hidden");
 
-
-document
-.getElementById("formSection")
-.classList.remove("hidden");
-
-
-document
-.getElementById("formTitle")
-.innerText=
+el("formTitle").innerText=
 "Free Consultation – "+currentService;
 
 
@@ -1978,322 +1956,268 @@ window.scrollTo(0,0);
 };
 
 
-/* ================= FIRESTORE FREE LEAD ================= */
+/* =========================================================
+FORM BUILDER
+========================================================= */
 
-async function createFreeLeadOnce(data){
+function buildServiceForm(service,isFree=false){
 
-if(!currentUser){
+const container=
+el("dynamicFormFields");
 
-throw new Error(
-"NOT_LOGGED_IN"
-);
+let html=`
 
-}
+<input
+id="name"
+type="text"
+placeholder="Your Name"
+>
 
+<input
+id="phone"
+type="tel"
+inputmode="numeric"
+maxlength="10"
+placeholder="Mobile Number"
+>
 
-const uid=
-currentUser.uid;
-
-
-const token=
-await currentUser.getIdToken();
-
-
-const documentId=
-uid+"_free";
-
-
-const fields={
-
-...data,
-
-uid,
-
-authPhone:
-currentUser.phoneNumber||"",
-
-freeConsultation:true,
-
-amount:0,
-
-payment:"FREE",
-
-status:"New Lead",
-
-source:"RinSaathi Customer App",
-
-createdAt:new Date()
-
-};
+`;
 
 
-const firestoreFields={};
+if([
 
+"Loan & EMI Guidance",
+"Debt Management",
+"Settlement Option Education",
+"Consultation",
+"1 Month Advisory",
+"3 Month Advisory",
+"6 Month Advisory",
+"Talk to RinSaathi"
 
-Object.entries(fields)
-.forEach(
-([key,value])=>{
+].includes(service)){
 
-firestoreFields[key]=
-toFirestoreValue(value);
+html+=`
 
-}
-);
+<select id="loanType">
 
+<option value="">
+Select Loan Type
+</option>
 
-const url=
-"https://firestore.googleapis.com/v1/projects/rinsaathi-app/databases/(default)/documents:commit";
+<option>Personal Loan</option>
+<option>Business Loan</option>
+<option>Consumer Loan</option>
+<option>Credit Card</option>
+<option>Other</option>
 
+</select>
 
-const response=
-await fetch(
-url,
-{
+<input
+id="lender"
+type="text"
+placeholder="Bank / NBFC / Lender Name"
+>
 
-method:"POST",
+<input
+id="loanAmount"
+type="text"
+placeholder="Original / Loan Amount"
+>
 
-headers:{
+<input
+id="outstanding"
+type="text"
+placeholder="Approx. Outstanding Amount"
+>
 
-"Content-Type":
-"application/json",
+<input
+id="emi"
+type="text"
+placeholder="Current EMI (if applicable)"
+>
 
-"Authorization":
-"Bearer "+token
-
-},
-
-body:
-JSON.stringify({
-
-writes:[
-
-{
-
-update:{
-
-name:
-`projects/rinsaathi-app/databases/(default)/documents/leads/${documentId}`,
-
-fields:
-firestoreFields
-
-},
-
-/*
-VERY IMPORTANT
-
-This prevents the same UID from creating
-another free consultation document.
-*/
-
-currentDocument:{
-exists:false
-}
-
-}
-
-]
-
-})
-
-}
-);
-
-
-if(response.ok){
-
-return;
+`;
 
 }
 
 
-let details={};
+if(
+service==="Loan & EMI Guidance"||
+isFree
+){
 
+html+=`
 
-try{
+<input
+id="pendingEmi"
+type="text"
+placeholder="Pending EMIs (if any)"
+>
 
-details=
-await response.json();
+<select id="mainConcern">
 
-}catch(e){}
+<option value="">
+Select your main concern
+</option>
 
+<option>EMI Payment Difficulty</option>
+<option>Overdue / Bounce</option>
+<option>High EMI Burden</option>
+<option>Loan Understanding</option>
+<option>Other</option>
 
-const err=
-new Error(
-details?.error?.message||
-"FREE_LEAD_CREATE_FAILED"
-);
+</select>
 
-
-err.code=
-response.status===409||
-details?.error?.status==="ALREADY_EXISTS"||
-/already exists/i.test(
-details?.error?.message||""
-)
-?"already-exists"
-
-:response.status===403
-?"permission-denied"
-
-:"free-lead-create-failed";
-
-
-throw err;
+`;
 
 }
 
 
-window.saveFreeLead=
-async function(data){
+if(service==="CIBIL / Credit Guidance"){
 
-await createFreeLeadOnce(data);
+html+=`
 
-};
+<input
+id="cibilScore"
+type="text"
+placeholder="Approx. CIBIL Score (if known)"
+>
 
+<input
+id="activeLoans"
+type="text"
+placeholder="Approx. Number of Active Loans / Cards"
+>
 
-/* ================= SUBMIT FREE ================= */
+<select id="creditConcern">
 
-window.submitFreeConsultation=
-async function(){
+<option value="">
+Select your credit concern
+</option>
 
-if(hasFreeUsed()){
+<option>Low CIBIL Score</option>
+<option>Overdue Account</option>
+<option>Settlement / Written-off Account</option>
+<option>Incorrect Credit Information</option>
+<option>General Credit Guidance</option>
 
-goToPaidConsultation();
+</select>
 
-return;
-
-}
-
-
-const data=
-collectFormData();
-
-
-if(!validateForm(data))
-return;
-
-
-const btn=
-document.querySelector(
-"#formSection .btnGreen"
-);
-
-
-if(btn){
-
-btn.disabled=true;
-
-btn.innerText=
-"Saving enquiry...";
+`;
 
 }
 
 
-try{
+if(service==="Recovery Call Guidance"){
 
-await saveFreeLead(data);
+html+=`
 
+<input
+id="recoveryLender"
+type="text"
+placeholder="Lender / Bank / NBFC Name"
+>
 
-/*
-ONLY AFTER SERVER SUCCESS:
+<select id="recoveryMethod">
 
-mark this phone as used.
-*/
+<option value="">
+How are they contacting you?
+</option>
 
-freeConsultationUsed=true;
+<option>Phone Calls</option>
+<option>SMS / WhatsApp</option>
+<option>Email</option>
+<option>Multiple Methods</option>
 
-freeStateLoaded=true;
+</select>
 
-renderFreeState();
+<input
+id="callFrequency"
+type="text"
+placeholder="Approx. Call Frequency"
+>
 
-
-showSuccessAndWhatsApp(data);
-
-
-}catch(error){
-
-console.error(error);
-
-
-if(error?.code==="already-exists"){
-
-/*
-Server says this UID already has a free lead.
-Therefore free is already consumed.
-*/
-
-freeConsultationUsed=true;
-
-freeStateLoaded=true;
-
-renderFreeState();
-
-
-alert(
-"This mobile number has already used its one-time free consultation. Paid consultation is now available."
-);
-
-
-goHome();
-
-
-}else if(error?.code==="permission-denied"){
-
-alert(
-"We could not save your free consultation because Firestore rejected the request. Your free consultation has NOT been consumed."
-);
-
-
-}else{
-
-alert(
-"We could not save your free consultation. Please try again. Your free consultation has NOT been consumed."
-);
+`;
 
 }
 
 
-}finally{
+if(service==="Debt Management"){
 
-if(btn){
+html+=`
 
-btn.disabled=false;
+<input
+id="numberOfDebts"
+type="text"
+placeholder="Approx. Number of Loans / Debts"
+>
 
-btn.innerText=
-"Continue on WhatsApp";
+<input
+id="totalEmi"
+type="text"
+placeholder="Total Monthly EMI"
+>
 
-}
+<input
+id="incomeRange"
+type="text"
+placeholder="Approx. Monthly Income"
+>
 
-}
-
-};
-
-
-/* ================= WHATSAPP ================= */
-
-function showSuccessAndWhatsApp(data){
-
-const text=
-buildWhatsAppText(data);
-
-
-window.open(
-
-"https://wa.me/919319301096?text="+
-encodeURIComponent(text),
-
-"_blank"
-
-);
-
-
-goHome();
+`;
 
 }
 
 
-/* ================= FORM DATA ================= */
+if(service==="Settlement Option Education"){
+
+html+=`
+
+<select id="settlementStatus">
+
+<option value="">
+Current Loan Status
+</option>
+
+<option>Regular Payments</option>
+<option>EMI Overdue</option>
+<option>Multiple EMIs Overdue</option>
+<option>Recovery Communication</option>
+<option>Already Offered Settlement</option>
+
+</select>
+
+`;
+
+}
+
+
+html+=`
+
+<textarea
+id="message"
+placeholder="Briefly tell us about your situation"
+></textarea>
+
+`;
+
+
+container.innerHTML=html;
+
+}
+
+
+/* =========================================================
+COLLECT FORM DATA
+========================================================= */
+
+function val(id){
+
+return el(id)?.value?.trim()||"";
+
+}
+
 
 function collectFormData(){
 
@@ -2311,86 +2235,49 @@ message:val("message")
 const ids=[
 
 ["loanType","loanType"],
-
 ["lender","lender"],
-
 ["loanAmount","loanAmount"],
-
 ["outstanding","outstanding"],
-
 ["emi","emi"],
-
 ["pendingEmi","pendingEmi"],
-
 ["mainConcern","mainConcern"],
-
 ["cibilScore","cibilScore"],
-
 ["activeLoans","activeLoans"],
-
 ["creditConcern","creditConcern"],
-
 ["recoveryLender","recoveryLender"],
-
 ["recoveryMethod","recoveryMethod"],
-
 ["callFrequency","callFrequency"],
-
 ["numberOfDebts","numberOfDebts"],
-
 ["totalEmi","totalEmi"],
-
 ["incomeRange","incomeRange"],
-
 ["settlementStatus","settlementStatus"]
 
 ];
 
 
-ids.forEach(
-([id,key])=>{
+ids.forEach(([id,key])=>{
 
-const el=
-document.getElementById(id);
+const field=el(id);
 
+if(field && field.value.trim()){
 
-if(
-el &&
-el.value.trim()
-){
-
-data[key]=
-el.value.trim();
+data[key]=field.value.trim();
 
 }
 
-}
-);
+});
 
 
-data.service=
-currentService;
-
+data.service=currentService;
 
 return data;
 
 }
 
 
-function val(id){
-
-return document
-.getElementById(id)
-?.value
-.trim()||"";
-
-}
-
-
 function validateForm(data){
 
-if(!data.name||
-!data.mobile){
+if(!data.name||!data.mobile){
 
 alert(
 "Please enter your name and mobile number."
@@ -2417,33 +2304,35 @@ return true;
 }
 
 
-/* ================= FIRESTORE VALUE ================= */
+/* =========================================================
+FIRESTORE VALUE
+========================================================= */
 
 function toFirestoreValue(value){
 
-if(
-value===null||
-value===undefined
-)
+if(value===null||value===undefined){
 
 return {
 nullValue:null
 };
 
+}
 
-if(typeof value==="string")
+if(typeof value==="string"){
 
 return {
 stringValue:value
 };
 
+}
 
-if(typeof value==="boolean")
+if(typeof value==="boolean"){
 
 return {
 booleanValue:value
 };
 
+}
 
 if(typeof value==="number"){
 
@@ -2459,14 +2348,13 @@ doubleValue:value
 
 }
 
-
-if(value instanceof Date)
+if(value instanceof Date){
 
 return {
-timestampValue:
-value.toISOString()
+timestampValue:value.toISOString()
 };
 
+}
 
 return {
 stringValue:String(value)
@@ -2475,7 +2363,277 @@ stringValue:String(value)
 }
 
 
-/* ================= WHATSAPP TEXT ================= */
+/* =========================================================
+CREATE FREE LEAD
+========================================================= */
+
+async function createFreeLeadOnce(data){
+
+if(!currentUser){
+
+throw new Error("NOT_LOGGED_IN");
+
+}
+
+
+const uid=currentUser.uid;
+
+const token=
+await currentUser.getIdToken();
+
+
+const documentId=
+uid+"_free";
+
+
+const fields={
+
+...data,
+
+uid:uid,
+
+authPhone:
+currentUser.phoneNumber||"",
+
+freeConsultation:true,
+
+amount:0,
+
+payment:"FREE",
+
+status:"New Lead",
+
+source:"RinSaathi Customer App",
+
+createdAt:new Date()
+
+};
+
+
+const firestoreFields={};
+
+
+Object.entries(fields).forEach(
+([key,value])=>{
+
+firestoreFields[key]=
+toFirestoreValue(value);
+
+}
+);
+
+
+const url=
+"https://firestore.googleapis.com/v1/projects/rinsaathi-app/databases/(default)/documents:commit";
+
+
+const response=
+await fetch(
+url,
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json",
+
+"Authorization":
+"Bearer "+token
+
+},
+
+body:JSON.stringify({
+
+writes:[
+
+{
+
+update:{
+
+name:
+`projects/rinsaathi-app/databases/(default)/documents/leads/${documentId}`,
+
+fields:
+firestoreFields
+
+},
+
+currentDocument:{
+exists:false
+}
+
+}
+
+]
+
+})
+
+}
+);
+
+
+if(response.ok){
+
+return true;
+
+}
+
+
+let details={};
+
+try{
+
+details=await response.json();
+
+}catch(_){}
+
+
+const message=
+details?.error?.message||
+"FREE_LEAD_CREATE_FAILED";
+
+
+const error=
+new Error(message);
+
+
+if(
+response.status===409||
+details?.error?.status==="ALREADY_EXISTS"||
+/already exists/i.test(message)
+){
+
+error.code="already-exists";
+
+}else if(response.status===403){
+
+error.code="permission-denied";
+
+}else{
+
+error.code="free-lead-create-failed";
+
+}
+
+
+throw error;
+
+}
+
+
+/* =========================================================
+SUBMIT FREE CONSULTATION
+========================================================= */
+
+async function submitFreeConsultation(){
+
+if(hasFreeUsed()){
+
+goToPaidConsultation();
+
+return;
+
+}
+
+
+const data=
+collectFormData();
+
+
+if(!validateForm(data)){
+
+return;
+
+}
+
+
+const button=el("formSubmitBtn");
+
+
+if(button){
+
+button.disabled=true;
+
+button.innerText="Saving enquiry...";
+
+}
+
+
+try{
+
+await createFreeLeadOnce(data);
+
+
+freeConsultationUsed=true;
+
+freeStateLoaded=true;
+
+renderFreeState();
+
+
+showSuccessAndWhatsApp(data);
+
+
+}catch(error){
+
+console.error(
+"Free lead error:",
+error
+);
+
+
+if(error?.code==="already-exists"){
+
+freeConsultationUsed=true;
+
+freeStateLoaded=true;
+
+renderFreeState();
+
+
+alert(
+"This mobile number has already used its one-time free consultation. Paid consultation is now available."
+);
+
+
+goHome();
+
+
+}else if(error?.code==="permission-denied"){
+
+alert(
+"Firestore rejected the request. Your free consultation has NOT been consumed. Please check Firestore rules."
+);
+
+
+}else{
+
+alert(
+"We could not save your free consultation. Please try again. Your free consultation has NOT been consumed."
+);
+
+}
+
+
+}finally{
+
+if(button){
+
+button.disabled=false;
+
+button.innerText="Continue on WhatsApp";
+
+}
+
+}
+
+}
+
+
+/* =========================================================
+WHATSAPP
+========================================================= */
 
 function buildWhatsAppText(data){
 
@@ -2493,49 +2651,34 @@ Mobile: ${data.mobile}
 const labels={
 
 loanType:"Loan Type",
-
 lender:"Bank / NBFC / Lender",
-
 loanAmount:"Original / Loan Amount",
-
 outstanding:"Approx Outstanding",
-
 emi:"Current EMI",
-
 pendingEmi:"Pending EMIs",
-
 mainConcern:"Main Concern",
-
 cibilScore:"Approx CIBIL Score",
-
 activeLoans:"Active Loans / Cards",
-
 creditConcern:"Credit Concern",
-
 recoveryLender:"Recovery Lender",
-
 recoveryMethod:"Recovery Contact Method",
-
 callFrequency:"Call Frequency",
-
 numberOfDebts:"Number of Loans / Debts",
-
 totalEmi:"Total Monthly EMI",
-
 incomeRange:"Approx Monthly Income",
-
 settlementStatus:"Current Loan Status"
 
 };
 
 
-Object.keys(labels)
-.forEach(k=>{
+Object.keys(labels).forEach(k=>{
 
-if(data[k])
+if(data[k]){
 
 text+=
 `${labels[k]}: ${data[k]}\n`;
+
+}
 
 });
 
@@ -2547,23 +2690,34 @@ ${data.message||"Not provided"}
 
 I understand that RinSaathi provides advisory and guidance services and does not guarantee any specific outcome.`;
 
-
 return text;
 
 }
 
 
-/* ================= ENQUIRY ================= */
+function showSuccessAndWhatsApp(data){
 
-window.submitEnquiry=
-async function(){
+const text=
+buildWhatsAppText(data);
 
-if(currentService){
 
-/*
-If this is the first consultation,
-the enquiry remains free.
-*/
+window.open(
+"https://wa.me/919319301096?text="+
+encodeURIComponent(text),
+"_blank"
+);
+
+
+goHome();
+
+}
+
+
+/* =========================================================
+SUBMIT ENQUIRY
+========================================================= */
+
+window.submitEnquiry=async function(){
 
 if(
 !hasFreeUsed() &&
@@ -2579,246 +2733,78 @@ return;
 
 }
 
-}
 
+if(
+currentService==="Consultation"||
+currentService==="1 Month Advisory"||
+currentService==="3 Month Advisory"||
+currentService==="6 Month Advisory"
+){
+
+if(!consultationPaid){
 
 alert(
 "Please complete and verify the ₹499 consultation payment first."
 );
 
-};
-
-
-/* ================= AUTH STATE ================= */
-
-onAuthStateChanged(
-auth,
-async user=>{
-
-currentUser=
-user||null;
-
-
-document
-.getElementById("loginScreen")
-.style.display=
-user?"none":"flex";
-
-
-document
-.getElementById("mainApp")
-.style.display=
-user?"block":"none";
-
-
-if(user){
-
-await loadFreeState();
-
-}else{
-
-freeConsultationUsed=false;
-
-freeStateLoaded=false;
+return;
 
 }
 
-});
+const data=
+collectFormData();
 
+if(!validateForm(data)){
 
-/* ================= LOGOUT ================= */
-
-window.logoutUser=
-async function(){
-
-await signOut(auth);
-
-location.reload();
-
-};
-
-
-/* ================= START RECAPTCHA ================= */
-
-createRecaptcha();
-
-</script>
-
-
-<!-- =========================================================
-     APP LOGIC
-========================================================= -->
-
-<script>
-
-let currentService="";
-
-let consultationPaid=false;
-
-
-/* ================= SERVICE DATA ================= */
-
-const serviceData={
-
-
-"Loan & EMI Guidance":{
-
-description:
-"Managing a loan can become difficult when EMIs, overdue payments or financial pressure start affecting your monthly budget. Understanding your loan position is an important first step toward making a practical decision.",
-
-points:[
-
-"Understand your current loan and EMI position.",
-
-"Review how overdue payments may affect your situation.",
-
-"Know which loan details and documents you should review.",
-
-"Understand practical options based on your circumstances."
-
-]
-
-},
-
-
-"CIBIL / Credit Guidance":{
-
-description:
-"Your credit profile can be affected by repayment history, outstanding obligations and other credit-related factors. Understanding your CIBIL report can help you identify the areas that need attention.",
-
-points:[
-
-"Understand your CIBIL / credit score.",
-
-"Review factors that may affect your credit profile.",
-
-"Identify possible overdue or reporting concerns.",
-
-"Understand practical steps for better credit management."
-
-]
-
-},
-
-
-"Recovery Call Guidance":{
-
-description:
-"Recovery communication can be stressful. Understanding how to respond, what information to verify and how to keep proper records can help you handle the situation more carefully.",
-
-points:[
-
-"Understand how to handle recovery communication.",
-
-"Know what information you should verify.",
-
-"Keep records of important calls and messages.",
-
-"Understand practical precautions while communicating."
-
-]
-
-},
-
-
-"Debt Management":{
-
-description:
-"When multiple EMIs and debts become difficult to manage, getting a clear picture of your total obligations is an important starting point for better planning.",
-
-points:[
-
-"Organise your multiple loan and debt obligations.",
-
-"Understand your total monthly EMI burden.",
-
-"Identify which obligations need attention first.",
-
-"Discuss practical debt-planning approaches."
-
-]
-
-},
-
-
-"Settlement Option Education":{
-
-description:
-"Loan settlement is a financial decision that should be understood carefully. Settlement and regular loan closure can have different implications, including possible effects on your credit profile.",
-
-points:[
-
-"Understand what loan settlement means.",
-
-"Understand the difference between settlement and regular closure.",
-
-"Learn about possible credit-profile implications.",
-
-"Review important points before considering an option."
-
-]
-
-},
-
-
-"Talk to RinSaathi":{
-
-description:
-"Not sure which option is right for you? Share your overall financial situation with RinSaathi and we can help you understand which area may require attention and what practical next steps you can consider.",
-
-points:[
-
-"Share your overall financial situation.",
-
-"Tell us about your loans, EMIs or credit concerns.",
-
-"Explain the main difficulty you are facing.",
-
-"Receive guidance on the most relevant next step."
-
-]
+return;
 
 }
 
+showSuccessAndWhatsApp(data);
+
+return;
+
+}
+
+
+alert(
+"Please complete the required consultation step."
+);
+
 };
 
 
-/* ================= GUIDANCE ================= */
+/* =========================================================
+GUIDANCE
+========================================================= */
 
-function showGuidance(title){
+window.showGuidance=function(title){
 
 currentService=title;
 
 
-document
-.getElementById("home")
-.classList.add("hidden");
+el("home").classList.add("hidden");
+
+el("formSection").classList.add("hidden");
+
+el("guidance").classList.remove("hidden");
+
+el("guidanceTitle").innerText=title;
 
 
-document
-.getElementById("formSection")
-.classList.add("hidden");
+const data=serviceData[title];
 
 
-document
-.getElementById("guidance")
-.classList.remove("hidden");
+if(!data){
+
+goHome();
+
+return;
+
+}
 
 
-document
-.getElementById("guidanceTitle")
-.innerText=title;
-
-
-const data=
-serviceData[title];
-
-
-document
-.getElementById("guidanceContent")
-.innerHTML=
-
-`
+el("guidanceContent").innerHTML=`
 
 <div class="guidanceText">
 ${data.description}
@@ -2852,7 +2838,7 @@ please complete and verify the ₹499 consultation payment.
 
 <button
 class="btn btnGold"
-onclick="goToConsultationPayment()"
+onclick="goToPaidConsultation()"
 >
 Book Consultation • ₹499
 </button>
@@ -2863,21 +2849,26 @@ Book Consultation • ₹499
 
 window.scrollTo(0,0);
 
-}
+};
 
 
-/* ================= GO TO PAYMENT ================= */
+/* =========================================================
+GO TO PAID CONSULTATION
+========================================================= */
 
-function goToConsultationPayment(){
+window.goToPaidConsultation=function(){
 
 goHome();
 
 
 setTimeout(()=>{
 
-document
-.getElementById("paidConsultationSection")
-?.scrollIntoView({
+const section=
+el("paidConsultationSection");
+
+if(section){
+
+section.scrollIntoView({
 
 behavior:"smooth",
 
@@ -2885,14 +2876,24 @@ block:"center"
 
 });
 
-},50);
-
 }
 
+},100);
 
-/* ================= OPEN FORM ================= */
+};
 
-function openForm(service){
+
+/* Keep old function name working too */
+
+window.goToConsultationPayment=
+window.goToPaidConsultation;
+
+
+/* =========================================================
+OPEN FORM
+========================================================= */
+
+window.openForm=function(service){
 
 currentService=
 service||
@@ -2902,30 +2903,21 @@ service||
 const paidServices=[
 
 "Consultation",
-
 "1 Month Advisory",
-
 "3 Month Advisory",
-
 "6 Month Advisory"
 
 ];
 
 
 if(
-
-paidServices.includes(
-currentService
-)&&
-
+paidServices.includes(currentService)&&
 consultationPaid!==true
-
 ){
 
 alert(
 "Please complete and verify the ₹499 consultation payment first."
 );
-
 
 goHome();
 
@@ -2934,24 +2926,13 @@ return;
 }
 
 
-document
-.getElementById("home")
-.classList.add("hidden");
+el("home").classList.add("hidden");
 
+el("guidance").classList.add("hidden");
 
-document
-.getElementById("guidance")
-.classList.add("hidden");
+el("formSection").classList.remove("hidden");
 
-
-document
-.getElementById("formSection")
-.classList.remove("hidden");
-
-
-document
-.getElementById("formTitle")
-.innerText=
+el("formTitle").innerText=
 currentService+
 " – Share Your Details";
 
@@ -2964,567 +2945,134 @@ false
 
 window.scrollTo(0,0);
 
-}
+};
 
 
-/* ================= FORM BUILDER ================= */
+/* =========================================================
+HOME
+========================================================= */
 
-function buildServiceForm(
-service,
-isFree=false
-){
+window.goHome=function(){
 
-const container=
-document
-.getElementById(
-"dynamicFormFields"
-);
+el("guidance").classList.add("hidden");
 
+el("formSection").classList.add("hidden");
 
-let html=
+el("home").classList.remove("hidden");
 
-`
-
-<input
-id="name"
-type="text"
-placeholder="Your Name"
->
-
-<input
-id="phone"
-type="tel"
-inputmode="numeric"
-maxlength="10"
-placeholder="Mobile Number"
->
-
-`;
-
-
-if([
-
-"Loan & EMI Guidance",
-
-"Debt Management",
-
-"Settlement Option Education",
-
-"Consultation",
-
-"1 Month Advisory",
-
-"3 Month Advisory",
-
-"6 Month Advisory",
-
-"Talk to RinSaathi"
-
-].includes(service)){
-
-
-html+=`
-
-<select id="loanType">
-
-<option value="">
-Select Loan Type
-</option>
-
-<option>
-Personal Loan
-</option>
-
-<option>
-Business Loan
-</option>
-
-<option>
-Consumer Loan
-</option>
-
-<option>
-Credit Card
-</option>
-
-<option>
-Other
-</option>
-
-</select>
-
-
-<input
-id="lender"
-type="text"
-placeholder="Bank / NBFC / Lender Name"
->
-
-
-<input
-id="loanAmount"
-type="text"
-placeholder="Original / Loan Amount"
->
-
-
-<input
-id="outstanding"
-type="text"
-placeholder="Approx. Outstanding Amount"
->
-
-
-<input
-id="emi"
-type="text"
-placeholder="Current EMI (if applicable)"
->
-
-`;
-
-}
-
-
-if(
-
-service==="Loan & EMI Guidance"||
-
-isFree
-
-){
-
-html+=`
-
-<input
-id="pendingEmi"
-type="text"
-placeholder="Pending EMIs (if any)"
->
-
-
-<select id="mainConcern">
-
-<option value="">
-Select your main concern
-</option>
-
-<option>
-EMI Payment Difficulty
-</option>
-
-<option>
-Overdue / Bounce
-</option>
-
-<option>
-High EMI Burden
-</option>
-
-<option>
-Loan Understanding
-</option>
-
-<option>
-Other
-</option>
-
-</select>
-
-`;
-
-}
-
-
-if(
-service==="CIBIL / Credit Guidance"
-){
-
-html+=`
-
-<input
-id="cibilScore"
-type="text"
-placeholder="Approx. CIBIL Score (if known)"
->
-
-
-<input
-id="activeLoans"
-type="text"
-placeholder="Approx. Number of Active Loans / Cards"
->
-
-
-<select id="creditConcern">
-
-<option value="">
-Select your credit concern
-</option>
-
-<option>
-Low CIBIL Score
-</option>
-
-<option>
-Overdue Account
-</option>
-
-<option>
-Settlement / Written-off Account
-</option>
-
-<option>
-Incorrect Credit Information
-</option>
-
-<option>
-General Credit Guidance
-</option>
-
-</select>
-
-`;
-
-}
-
-
-if(
-service==="Recovery Call Guidance"
-){
-
-html+=`
-
-<input
-id="recoveryLender"
-type="text"
-placeholder="Lender / Bank / NBFC Name"
->
-
-
-<select id="recoveryMethod">
-
-<option value="">
-How are they contacting you?
-</option>
-
-<option>
-Phone Calls
-</option>
-
-<option>
-SMS / WhatsApp
-</option>
-
-<option>
-Email
-</option>
-
-<option>
-Multiple Methods
-</option>
-
-</select>
-
-
-<input
-id="callFrequency"
-type="text"
-placeholder="Approx. Call Frequency"
->
-
-`;
-
-}
-
-
-if(
-service==="Debt Management"
-){
-
-html+=`
-
-<input
-id="numberOfDebts"
-type="text"
-placeholder="Approx. Number of Loans / Debts"
->
-
-
-<input
-id="totalEmi"
-type="text"
-placeholder="Total Monthly EMI"
->
-
-
-<input
-id="incomeRange"
-type="text"
-placeholder="Approx. Monthly Income"
->
-
-`;
-
-}
-
-
-if(
-service==="Settlement Option Education"
-){
-
-html+=`
-
-<select id="settlementStatus">
-
-<option value="">
-Current Loan Status
-</option>
-
-<option>
-Regular Payments
-</option>
-
-<option>
-EMI Overdue
-</option>
-
-<option>
-Multiple EMIs Overdue
-</option>
-
-<option>
-Recovery Communication
-</option>
-
-<option>
-Already Offered Settlement
-</option>
-
-</select>
-
-`;
-
-}
-
-
-html+=`
-
-<textarea
-id="message"
-placeholder="Briefly tell us about your situation"
-></textarea>
-
-`;
-
-
-container.innerHTML=html;
-
-}
-
-
-/* ================= HOME ================= */
-
-function goHome(){
-
-document
-.getElementById("guidance")
-.classList.add("hidden");
-
-
-document
-.getElementById("formSection")
-.classList.add("hidden");
-
-
-document
-.getElementById("home")
-.classList.remove("hidden");
-
-
-if(window.renderFreeState)
-window.renderFreeState();
-
+renderFreeState();
 
 window.scrollTo(0,0);
-
-}
-
-
-/*
-Make the free-state renderer available
-to this normal script as well.
-*/
-
-window.renderFreeState=
-function(){
-
-const area=
-document.getElementById(
-"freeStatusArea"
-);
-
-
-if(!area)
-return;
-
-
-if(!freeStateLoaded){
-
-area.innerHTML=`
-
-<div class="statusLoading">
-Checking consultation eligibility...
-</div>
-
-`;
-
-return;
-
-}
-
-
-if(freeConsultationUsed){
-
-area.innerHTML=`
-
-<div class="freeBox freeUsed">
-
-<h3>
-✓ FREE CONSULTATION ALREADY USED
-</h3>
-
-<p>
-Your one-time free consultation has already been used
-for this mobile number.
-
-Further consultations require the ₹499 paid consultation.
-</p>
-
-<button
-class="btn btnGold"
-onclick="goToPaidConsultation()"
->
-Book Consultation • ₹499
-</button>
-
-</div>
-
-`;
-
-}else{
-
-area.innerHTML=`
-
-<div class="freeBox">
-
-<h3>
-🎁 First Consultation FREE
-</h3>
-
-<p>
-Your first consultation is free.
-Choose any one of the six options above.
-This offer is available only once per mobile number.
-</p>
-
-</div>
-
-`;
-
-}
 
 };
 
 
-/*
-These variables/functions are exposed here so the
-second script can use the Firebase state safely.
-*/
+/* =========================================================
+PAYMENT
+========================================================= */
 
-Object.defineProperty(
-window,
-"freeConsultationUsed",
-{
-get:function(){
-return freeConsultationUsed;
-}
-}
-);
+window.startConsultationPayment=function(){
 
-Object.defineProperty(
-window,
-"freeStateLoaded",
-{
-get:function(){
-return freeStateLoaded;
-}
-}
-);
-
-
-/* ================= PAYMENT ================= */
-
-/*
-IMPORTANT:
-
-Your old code only displayed a Razorpay-ready message.
-It did NOT actually open Razorpay.
-
-Do not put a fake Razorpay Key ID here.
-
-Once your real Razorpay integration/key + server verification
-are connected, this function should call Razorpay Checkout
-and only unlock after server-side payment verification.
-*/
-
-function startConsultationPayment(){
-
-const status=
-document.getElementById(
-"paymentStatus"
-);
+const status=el("paymentStatus");
 
 
 status.style.display="block";
 
-
 status.innerText=
-"₹499 consultation payment is required. Razorpay payment will unlock the consultation only after the payment is genuinely verified by the server.";
+"₹499 consultation payment is required. Razorpay payment will unlock consultation only after genuine payment verification by the server.";
 
-}
+};
 
 
-/* ================= PAID UNLOCK ================= */
+/* =========================================================
+PAID UNLOCK
+========================================================= */
 
-function unlockPaidContent(){
+window.unlockPaidContent=function(){
 
 consultationPaid=true;
 
 
-document
-.getElementById("paidContent")
-.style.display="block";
+el("paidContent").style.display="block";
+
+el("lockedMessage").style.display="none";
 
 
-document
-.getElementById("lockedMessage")
-.style.display="none";
-
-
-const status=
-document.getElementById(
-"paymentStatus"
-);
+const status=el("paymentStatus");
 
 
 status.style.display="block";
 
-
 status.innerText=
 "✓ ₹499 payment verified successfully. Consultation and Advisory Plans are unlocked.";
 
+};
+
+
+/* =========================================================
+AUTH STATE
+========================================================= */
+
+onAuthStateChanged(
+auth,
+async user=>{
+
+currentUser=user||null;
+
+
+el("loginScreen").style.display=
+user?"none":"flex";
+
+el("mainApp").style.display=
+user?"block":"none";
+
+
+if(user){
+
+await loadFreeState();
+
+}else{
+
+freeConsultationUsed=false;
+
+freeStateLoaded=false;
+
+consultationPaid=false;
+
 }
+
+});
+
+
+/* =========================================================
+LOGOUT
+========================================================= */
+
+window.logoutUser=async function(){
+
+try{
+
+await signOut(auth);
+
+}catch(error){
+
+console.error(
+"Logout error:",
+error
+);
+
+}
+
+location.reload();
+
+};
+
+
+/* =========================================================
+INITIAL RECAPTCHA
+========================================================= */
+
+createRecaptcha();
 
 </script>
 
