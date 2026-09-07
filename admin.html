@@ -326,6 +326,11 @@ button:disabled{
   color:#08704d;
 }
 
+.pendingBadge{
+  background:#fff4d7;
+  color:#8a6500;
+}
+
 .doneBadge{
   background:#e5f0ff;
   color:#315f9b;
@@ -407,6 +412,40 @@ button:disabled{
 .emptyIcon{
   font-size:42px;
   margin-bottom:10px;
+}
+
+.stageBox{
+  background:#eef7f3;
+  border-radius:16px;
+  padding:14px;
+  margin-top:18px;
+}
+
+.stageTitle{
+  color:#08704d;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.stageFlow{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+  font-size:12px;
+  font-weight:800;
+}
+
+.stageCurrent{
+  background:#063f32;
+  color:white;
+  padding:7px 10px;
+  border-radius:12px;
+}
+
+.stageArrow{
+  color:#71817c;
 }
 
 @media(max-width:900px){
@@ -736,6 +775,59 @@ button:disabled{
 
 
   </div>
+
+
+
+  <!-- ================= PIPELINE INFO ================= -->
+
+  <section class="section">
+
+    <div class="card">
+
+      <div
+        style="font-size:17px;font-weight:800"
+      >
+        🔄 Lead Pipeline
+      </div>
+
+      <div class="stageBox">
+
+        <div class="stageFlow">
+
+          <span class="stageCurrent">
+            🆕 New Lead
+          </span>
+
+          <span class="stageArrow">
+            →
+          </span>
+
+          <span>
+            📅 Pending Consultation
+          </span>
+
+          <span class="stageArrow">
+            →
+          </span>
+
+          <span>
+            ✅ Consultation Completed
+          </span>
+
+        </div>
+
+        <div
+          class="small"
+          style="margin-top:9px"
+        >
+          You can move a customer forward or back between stages if a mistake is made.
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
 
@@ -1124,8 +1216,6 @@ function createRecaptcha(){
 
 
 
-/* Create it once when page loads */
-
 createRecaptcha();
 
 
@@ -1178,6 +1268,13 @@ async function sendOTP(){
 
       createRecaptcha();
 
+      await new Promise(
+        resolve=>setTimeout(
+          resolve,
+          500
+        )
+      );
+
     }
 
 
@@ -1219,8 +1316,7 @@ async function sendOTP(){
 
 
     loginMessage(
-      error?.message ||
-      "Unable to send OTP. Please try again.",
+      getFirebaseErrorMessage(error),
       "error"
     );
 
@@ -1311,9 +1407,31 @@ async function verifyOTP(){
     );
 
 
-    await confirmationResult.confirm(
-      otp
-    );
+    const result=
+      await confirmationResult.confirm(
+        otp
+      );
+
+
+    const user=
+      result.user;
+
+
+    if(
+      user.phoneNumber !==
+      "+919319301096"
+    ){
+
+      await signOut(auth);
+
+      loginMessage(
+        "This number is not authorized as the RinSaathi Admin.",
+        "error"
+      );
+
+      return;
+
+    }
 
 
     loginMessage(
@@ -1331,7 +1449,7 @@ async function verifyOTP(){
 
 
     loginMessage(
-      "Invalid or expired OTP. Please request a new OTP and try again.",
+      getFirebaseErrorMessage(error),
       "error"
     );
 
@@ -1375,6 +1493,14 @@ $("resendOtp")
         createRecaptcha();
 
 
+        await new Promise(
+          resolve=>setTimeout(
+            resolve,
+            500
+          )
+        );
+
+
         await sendOTP();
 
 
@@ -1386,6 +1512,91 @@ $("resendOtp")
 
     }
   );
+
+
+
+/* =====================================================
+   FIREBASE ERROR MESSAGE
+===================================================== */
+
+function getFirebaseErrorMessage(error){
+
+  const code=
+    error?.code ||
+    "";
+
+
+  if(
+    code.includes(
+      "invalid-verification-code"
+    )
+  ){
+
+    return(
+      "Incorrect OTP. Please enter the latest OTP received on your phone."
+    );
+
+  }
+
+
+  if(
+    code.includes(
+      "code-expired"
+    )
+  ){
+
+    return(
+      "OTP expired. Please tap Resend OTP and use the new OTP."
+    );
+
+  }
+
+
+  if(
+    code.includes(
+      "too-many-requests"
+    )
+  ){
+
+    return(
+      "Too many attempts. Please wait a little and try again."
+    );
+
+  }
+
+
+  if(
+    code.includes(
+      "invalid-phone-number"
+    )
+  ){
+
+    return(
+      "Invalid mobile number."
+    );
+
+  }
+
+
+  if(
+    code.includes(
+      "quota-exceeded"
+    )
+  ){
+
+    return(
+      "OTP limit reached. Please try again later."
+    );
+
+  }
+
+
+  return(
+    error?.message ||
+    "Something went wrong. Please try again."
+  );
+
+}
 
 
 
@@ -1420,9 +1631,8 @@ onAuthStateChanged(
       "";
 
 
-
     if(
-      phone!==
+      phone !==
       "+919319301096"
     ){
 
@@ -1768,7 +1978,7 @@ function renderPayments(){
 
 
 /* =====================================================
-   OPEN NEW LEADS
+   NEW LEADS
 ===================================================== */
 
 window.openNewLeads=
@@ -1785,7 +1995,7 @@ function(){
 
 
 /* =====================================================
-   OPEN PENDING
+   PENDING
 ===================================================== */
 
 window.openPendingConsultations=
@@ -1802,7 +2012,7 @@ function(){
 
 
 /* =====================================================
-   OPEN COMPLETED
+   COMPLETED
 ===================================================== */
 
 window.openCompletedConsultations=
@@ -1819,7 +2029,7 @@ function(){
 
 
 /* =====================================================
-   STATUS LIST
+   GET STATUS LEADS
 ===================================================== */
 
 function getLeadsForStatus(
@@ -1853,6 +2063,10 @@ function getLeadsForStatus(
 }
 
 
+
+/* =====================================================
+   STATUS MODAL
+===================================================== */
 
 function openStatusModal(
   status,
@@ -1921,11 +2135,11 @@ function openStatusModal(
             ${heading}
           </h3>
 
-          <p class="small"
-             style="margin-top:5px">
-
+          <p
+            class="small"
+            style="margin-top:5px"
+          >
             Nothing in this stage right now.
-
           </p>
 
         </div>
@@ -1955,7 +2169,7 @@ function openStatusModal(
 
 
         let badgeClass=
-          "";
+          "pendingBadge";
 
 
         if(
@@ -1981,6 +2195,11 @@ function openStatusModal(
         let action="";
 
 
+
+        /* ============================================
+           NEW LEAD
+        ============================================ */
+
         if(
           s==="New Lead"
         ){
@@ -1997,11 +2216,26 @@ function openStatusModal(
           `;
 
         }
+
+
+
+        /* ============================================
+           PENDING
+        ============================================ */
+
         else if(
           isPending(lead)
         ){
 
           action=`
+
+            <button
+              class="secondary"
+              onclick="moveToNewLead('${lead.id}')"
+            >
+              ↩ Move to New Lead
+            </button>
+
 
             <button
               class="goldBtn"
@@ -2013,13 +2247,25 @@ function openStatusModal(
           `;
 
         }
-        else{
+
+
+
+        /* ============================================
+           COMPLETED
+        ============================================ */
+
+        else if(
+          s==="Consultation Completed"
+        ){
 
           action=`
 
-            <span class="statusBadge doneBadge">
-              Consultation Completed
-            </span>
+            <button
+              class="goldBtn"
+              onclick="moveCompletedToPending('${lead.id}')"
+            >
+              ↩ Move to Pending Consultation
+            </button>
 
           `;
 
@@ -2123,7 +2369,7 @@ function(){
 
 
 /* =====================================================
-   MOVE NEW LEAD -> PENDING
+   NEW -> PENDING
 ===================================================== */
 
 window.moveToPending=
@@ -2169,7 +2415,7 @@ async function(id){
     await loadLeads();
 
 
-    openNewLeads();
+    openPendingConsultations();
 
 
   }catch(error){
@@ -2179,6 +2425,71 @@ async function(id){
 
     alert(
       "Could not move this lead to Pending Consultation."
+    );
+
+  }
+
+};
+
+
+
+/* =====================================================
+   PENDING -> NEW LEAD
+===================================================== */
+
+window.moveToNewLead=
+async function(id){
+
+  const lead=
+    leads.find(
+      x=>x.id===id
+    );
+
+
+  if(!lead)return;
+
+
+  const ok=
+    confirm(
+      "Move this customer back to New Lead?"
+    );
+
+
+  if(!ok)return;
+
+
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "leads",
+        id
+      ),
+      {
+        status:
+          "New Lead",
+
+        updatedAt:
+          serverTimestamp()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    openNewLeads();
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    alert(
+      "Could not move this customer back to New Lead."
     );
 
   }
@@ -2234,7 +2545,7 @@ async function(id){
     await loadLeads();
 
 
-    openPendingConsultations();
+    openCompletedConsultations();
 
 
   }catch(error){
@@ -2244,6 +2555,71 @@ async function(id){
 
     alert(
       "Could not mark the consultation as completed."
+    );
+
+  }
+
+};
+
+
+
+/* =====================================================
+   COMPLETED -> PENDING
+===================================================== */
+
+window.moveCompletedToPending=
+async function(id){
+
+  const lead=
+    leads.find(
+      x=>x.id===id
+    );
+
+
+  if(!lead)return;
+
+
+  const ok=
+    confirm(
+      "Move this completed consultation back to Pending Consultation?"
+    );
+
+
+  if(!ok)return;
+
+
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "leads",
+        id
+      ),
+      {
+        status:
+          "Pending Consultation",
+
+        updatedAt:
+          serverTimestamp()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    openPendingConsultations();
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    alert(
+      "Could not move the consultation back to Pending Consultation."
     );
 
   }
@@ -2331,7 +2707,9 @@ function(id){
 
 
 
-  /* All saved form fields */
+  /* ================================================
+     COMPLETE SAVED DETAILS
+  ================================================ */
 
   const ignored=[
 
@@ -2406,11 +2784,11 @@ function(id){
     $("completeFormDetails")
       .innerHTML=`
 
-        <div class="small"
-             style="margin-top:10px">
-
+        <div
+          class="small"
+          style="margin-top:10px"
+        >
           No additional enquiry fields were saved.
-
         </div>
 
       `;
@@ -2419,7 +2797,9 @@ function(id){
 
 
 
-  /* Call customer */
+  /* ================================================
+     CALL CUSTOMER
+  ================================================ */
 
   $("callCustomer").onclick=
   function(){
@@ -2443,7 +2823,9 @@ function(id){
 
 
 
-  /* Stage action */
+  /* ================================================
+     STAGE ACTION
+  ================================================ */
 
   const stageButton=
     $("stageAction");
@@ -2455,6 +2837,7 @@ function(id){
 
   stageButton.style.opacity=
     "1";
+
 
 
   if(
@@ -2477,6 +2860,9 @@ function(id){
     };
 
   }
+
+
+
   else if(
     isPending(lead)
   ){
@@ -2496,19 +2882,94 @@ function(id){
 
     };
 
+
+
+    /* Add separate Back button */
+
+    const existingBack=
+      document.getElementById(
+        "detailsBackButton"
+      );
+
+
+    if(existingBack){
+
+      existingBack.remove();
+
+    }
+
+
+    const backButton=
+      document.createElement(
+        "button"
+      );
+
+
+    backButton.id=
+      "detailsBackButton";
+
+
+    backButton.className=
+      "secondary";
+
+
+    backButton.textContent=
+      "↩ Move to New Lead";
+
+
+    backButton.onclick=
+    async function(){
+
+      closeCustomer();
+
+      await moveToNewLead(
+        lead.id
+      );
+
+    };
+
+
+    stageButton
+      .parentNode
+      .insertBefore(
+        backButton,
+        stageButton
+      );
+
   }
+
+
+
+  else if(
+    status==="Consultation Completed"
+  ){
+
+    stageButton.textContent=
+      "↩ Move to Pending Consultation";
+
+
+    stageButton.onclick=
+    async function(){
+
+      closeCustomer();
+
+      await moveCompletedToPending(
+        lead.id
+      );
+
+    };
+
+  }
+
+
+
   else{
 
     stageButton.textContent=
-      "✅ Consultation Completed";
-
+      "Stage Action";
 
     stageButton.disabled=
       true;
-
-
-    stageButton.style.opacity=
-      ".7";
 
   }
 
