@@ -3,6 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
 
@@ -33,8 +34,7 @@ body{
     align-items:center;
     justify-content:center;
     padding:20px;
-    background:
-    linear-gradient(145deg,#063f32,#0b5b49);
+    background:linear-gradient(145deg,#063f32,#0b5b49);
 }
 
 .login-box{
@@ -94,10 +94,6 @@ body{
     cursor:pointer;
 }
 
-.login-btn:active{
-    transform:scale(.98);
-}
-
 #recaptcha-container{
     margin:10px 0;
 }
@@ -136,8 +132,6 @@ body{
     font-weight:800;
 }
 
-/* ================= CONTAINER ================= */
-
 .container{
     max-width:1100px;
     margin:auto;
@@ -158,6 +152,19 @@ body{
     border-radius:18px;
     padding:18px;
     box-shadow:0 6px 20px rgba(0,0,0,.06);
+}
+
+.stat-card{
+    cursor:pointer;
+    transition:.18s;
+}
+
+.stat-card:active{
+    transform:scale(.98);
+}
+
+.stat-card:hover{
+    box-shadow:0 8px 24px rgba(0,0,0,.10);
 }
 
 .stat-icon{
@@ -238,6 +245,15 @@ body{
     font-weight:700;
 }
 
+.pending-lead{
+    border-left:4px solid #08704d;
+}
+
+.completed-lead{
+    border-left:4px solid #b7c4bf;
+    opacity:.85;
+}
+
 /* ================= BUTTONS ================= */
 
 button{
@@ -265,6 +281,12 @@ button{
     border:1px solid rgba(255,255,255,.3);
 }
 
+.back-btn{
+    margin-bottom:15px;
+    background:#edf3f0;
+    color:#063f32;
+}
+
 /* ================= ACTIONS ================= */
 
 .actions{
@@ -280,6 +302,23 @@ button{
     justify-content:space-between;
     padding:13px 0;
     border-bottom:1px solid #edf1ef;
+}
+
+.payment-row:last-child{
+    border-bottom:0;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    text-align:center;
+    padding:30px 15px;
+    color:#71817c;
+}
+
+.empty-icon{
+    font-size:35px;
+    margin-bottom:10px;
 }
 
 /* ================= MODAL ================= */
@@ -301,10 +340,10 @@ button{
 .modal-box{
     background:white;
     width:100%;
-    max-width:650px;
+    max-width:700px;
     padding:22px;
     border-radius:25px 25px 0 0;
-    max-height:85vh;
+    max-height:88vh;
     overflow:auto;
 }
 
@@ -324,6 +363,11 @@ button{
     background:#f5f8f6;
     padding:13px;
     border-radius:13px;
+    word-break:break-word;
+}
+
+.detail.full{
+    grid-column:1 / -1;
 }
 
 .detail label{
@@ -331,10 +375,37 @@ button{
     color:#6d7c77;
     font-size:11px;
     margin-bottom:4px;
+    text-transform:uppercase;
 }
 
 .detail strong{
     font-size:14px;
+}
+
+/* ================= PENDING PANEL ================= */
+
+#pendingSection{
+    display:none;
+}
+
+.pending-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.pending-header h2{
+    font-size:20px;
+}
+
+.pending-info{
+    background:#e6f4ed;
+    color:#08704d;
+    padding:12px 15px;
+    border-radius:14px;
+    font-size:13px;
+    margin-bottom:15px;
 }
 
 /* ================= RESPONSIVE ================= */
@@ -363,6 +434,10 @@ button{
 
     .details{
         grid-template-columns:1fr;
+    }
+
+    .detail.full{
+        grid-column:auto;
     }
 
 }
@@ -410,7 +485,9 @@ button{
 
         </button>
 
-        <div id="otpArea" style="display:none;margin-top:15px;">
+        <div
+            id="otpArea"
+            style="display:none;margin-top:15px;">
 
             <input
                 id="otp"
@@ -440,7 +517,7 @@ button{
 
 
 <!-- =====================================================
-     ADMIN DASHBOARD
+     ADMIN APP
 ===================================================== -->
 
 <div id="adminApp" style="display:none;">
@@ -474,18 +551,25 @@ button{
 <main class="container">
 
 
-<!-- ================= STATISTICS ================= -->
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
 
 <div class="stats">
 
+
     <div class="card">
 
-        <div class="stat-icon">💰</div>
+        <div class="stat-icon">
+            💰
+        </div>
 
         <div
             class="stat-number"
             id="revenue">
+
             ₹0
+
         </div>
 
         <div class="stat-title">
@@ -497,12 +581,16 @@ button{
 
     <div class="card">
 
-        <div class="stat-icon">🆕</div>
+        <div class="stat-icon">
+            🆕
+        </div>
 
         <div
             class="stat-number"
             id="newLeads">
+
             0
+
         </div>
 
         <div class="stat-title">
@@ -512,18 +600,34 @@ button{
     </div>
 
 
-    <div class="card">
+    <!-- CLICKABLE PENDING CONSULTATIONS -->
 
-        <div class="stat-icon">📅</div>
+    <div
+        class="card stat-card"
+        onclick="showPendingConsultations()">
+
+        <div class="stat-icon">
+            📅
+        </div>
 
         <div
             class="stat-number"
             id="pending">
+
             0
+
         </div>
 
         <div class="stat-title">
             Pending Consultations
+        </div>
+
+        <div
+            class="small"
+            style="color:#08704d;font-weight:700;margin-top:8px;">
+
+            Tap to view →
+
         </div>
 
     </div>
@@ -531,12 +635,16 @@ button{
 
     <div class="card">
 
-        <div class="stat-icon">👥</div>
+        <div class="stat-icon">
+            👥
+        </div>
 
         <div
             class="stat-number"
             id="clients">
+
             0
+
         </div>
 
         <div class="stat-title">
@@ -548,7 +656,47 @@ button{
 </div>
 
 
-<!-- ================= NEW LEADS ================= -->
+<!-- =====================================================
+     PENDING CONSULTATIONS
+===================================================== -->
+
+<section
+    class="section"
+    id="pendingSection">
+
+    <div class="pending-header">
+
+        <h2>
+            📅 Pending Consultations
+        </h2>
+
+        <button
+            class="secondary"
+            onclick="hidePendingConsultations()">
+
+            Close
+
+        </button>
+
+    </div>
+
+
+    <div class="pending-info">
+
+        Click <strong>View Full Details</strong> to see the
+        customer's complete saved enquiry information.
+
+    </div>
+
+
+    <div id="pendingContainer"></div>
+
+</section>
+
+
+<!-- =====================================================
+     NEW LEADS
+===================================================== -->
 
 <section class="section">
 
@@ -573,7 +721,9 @@ button{
 </section>
 
 
-<!-- ================= PAYMENTS ================= -->
+<!-- =====================================================
+     PAYMENTS
+===================================================== -->
 
 <section class="section">
 
@@ -599,7 +749,9 @@ button{
 </main>
 
 
-<!-- ================= CUSTOMER DETAILS ================= -->
+<!-- =====================================================
+     CUSTOMER DETAILS MODAL
+===================================================== -->
 
 <div
     class="modal"
@@ -625,71 +777,11 @@ button{
         </div>
 
 
-        <div class="details">
+        <!-- ALL CUSTOMER DETAILS GENERATED HERE -->
 
-            <div class="detail">
-
-                <label>
-                    Mobile
-                </label>
-
-                <strong
-                    id="customerMobile">
-                </strong>
-
-            </div>
-
-
-            <div class="detail">
-
-                <label>
-                    Payment
-                </label>
-
-                <strong
-                    id="customerPayment">
-                </strong>
-
-            </div>
-
-
-            <div class="detail">
-
-                <label>
-                    Problem
-                </label>
-
-                <strong
-                    id="customerProblem">
-                </strong>
-
-            </div>
-
-
-            <div class="detail">
-
-                <label>
-                    Booking Date
-                </label>
-
-                <strong
-                    id="customerDate">
-                </strong>
-
-            </div>
-
-
-            <div class="detail">
-
-                <label>
-                    Status
-                </label>
-
-                <strong
-                    id="customerStatus">
-                </strong>
-
-            </div>
+        <div
+            class="details"
+            id="customerDetails">
 
         </div>
 
@@ -1085,6 +1177,11 @@ function renderDashboard(){
             }
 
 
+            /*
+             * Pending means anything which has not
+             * been marked Consultation Completed.
+             */
+
             if(
                 lead.status !==
                 "Consultation Completed"
@@ -1147,21 +1244,232 @@ function renderDashboard(){
 
 
 /* =====================================================
-   RENDER LEADS
+   SHOW PENDING CONSULTATIONS
+===================================================== */
+
+function showPendingConsultations(){
+
+    const section =
+        document.getElementById(
+            "pendingSection"
+        );
+
+
+    section.style.display =
+        "block";
+
+
+    renderPendingConsultations();
+
+
+    section.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+}
+
+
+/* =====================================================
+   HIDE PENDING CONSULTATIONS
+===================================================== */
+
+function hidePendingConsultations(){
+
+    document
+    .getElementById("pendingSection")
+    .style.display =
+    "none";
+
+}
+
+
+/* =====================================================
+   RENDER PENDING CONSULTATIONS
+===================================================== */
+
+function renderPendingConsultations(){
+
+    const container =
+        document
+        .getElementById(
+            "pendingContainer"
+        );
+
+
+    const pendingLeads =
+        leads.filter(
+            function(lead){
+
+                return (
+                    lead.status !==
+                    "Consultation Completed"
+                );
+
+            }
+        );
+
+
+    if(
+        pendingLeads.length === 0
+    ){
+
+        container.innerHTML = `
+
+            <div class="card empty">
+
+                <div class="empty-icon">
+                    ✅
+                </div>
+
+                <strong>
+                    No Pending Consultations
+                </strong>
+
+                <div class="small">
+                    All consultations are completed.
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    pendingLeads.forEach(
+        function(lead){
+
+            const amount =
+                Number(
+                    lead.amount || 0
+                );
+
+
+            html += `
+
+                <div
+                    class="card lead pending-lead">
+
+                    <div>
+
+                        <div class="name">
+                            ${safe(
+                                lead.name ||
+                                "Customer"
+                            )}
+                        </div>
+
+                        <div class="small">
+                            ${safe(
+                                lead.service ||
+                                lead.topic ||
+                                "Advisory"
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="paid">
+
+                            ₹${amount.toLocaleString("en-IN")}
+
+                        </div>
+
+                        <div class="small">
+
+                            ${safe(
+                                lead.payment ||
+                                lead.paymentStatus ||
+                                "PENDING"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="status">
+
+                            ${safe(
+                                lead.status ||
+                                "New Lead"
+                            )}
+
+                        </span>
+
+                        <div class="small">
+
+                            ${safe(
+                                formatDate(
+                                    lead.createdAt ||
+                                    lead.date
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <button
+                            class="primary"
+                            onclick="openCustomer('${lead.id}')">
+
+                            View Full Details
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   RENDER NEW LEADS
 ===================================================== */
 
 function renderLeads(){
 
     const container =
         document
-        .getElementById("leadContainer");
+        .getElementById(
+            "leadContainer"
+        );
 
 
     if(leads.length === 0){
 
         container.innerHTML = `
 
-            <div class="card">
+            <div class="card empty">
+
+                <div class="empty-icon">
+                    📭
+                </div>
 
                 <strong>
                     No leads yet.
@@ -1187,28 +1495,41 @@ function renderLeads(){
         function(lead){
 
             const amount =
-                Number(lead.amount || 0);
+                Number(
+                    lead.amount || 0
+                );
+
+
+            const completed =
+                lead.status ===
+                "Consultation Completed";
 
 
             html += `
 
-            <div class="card lead">
+            <div
+                class="card lead
+                ${completed ? "completed-lead" : ""}">
 
                 <div>
 
                     <div class="name">
+
                         ${safe(
                             lead.name ||
                             "Customer"
                         )}
+
                     </div>
 
                     <div class="small">
+
                         ${safe(
                             lead.service ||
                             lead.topic ||
                             "Advisory"
                         )}
+
                     </div>
 
                 </div>
@@ -1302,7 +1623,9 @@ function renderPayments(){
 
     const container =
         document
-        .getElementById("paymentContainer");
+        .getElementById(
+            "paymentContainer"
+        );
 
 
     const paidLeads =
@@ -1336,7 +1659,9 @@ function renderPayments(){
         function(lead){
 
             const amount =
-                Number(lead.amount || 0);
+                Number(
+                    lead.amount || 0
+                );
 
 
             html += `
@@ -1346,10 +1671,12 @@ function renderPayments(){
                 <div>
 
                     <strong>
+
                         ${safe(
                             lead.name ||
                             "Customer"
                         )}
+
                     </strong>
 
                     <div class="small">
@@ -1390,6 +1717,7 @@ function renderPayments(){
 
 /* =====================================================
    CUSTOMER DETAILS
+   SHOW ALL SAVED FIRESTORE FIELDS
 ===================================================== */
 
 function openCustomer(id){
@@ -1422,53 +1750,110 @@ function openCustomer(id){
     "Advisory";
 
 
-    document
-    .getElementById("customerMobile")
-    .innerText =
-    customer.mobile ||
-    customer.phone ||
-    "Not provided";
+    /*
+     * Important:
+     * Instead of hard-coding only 5 fields,
+     * this builds the details from ALL fields
+     * stored inside the lead document.
+     */
+
+    const details =
+        document.getElementById(
+            "customerDetails"
+        );
 
 
-    document
-    .getElementById("customerPayment")
-    .innerText =
-    "₹" +
-    Number(
-        customer.amount || 0
-    ).toLocaleString("en-IN")
-    +
-    " — " +
-    (
-        customer.payment ||
-        customer.paymentStatus ||
-        "PENDING"
+    details.innerHTML = "";
+
+
+    const hiddenFields = [
+        "id"
+    ];
+
+
+    const fieldOrder = [
+
+        "name",
+        "mobile",
+        "phone",
+        "email",
+        "service",
+        "topic",
+        "problem",
+        "message",
+        "amount",
+        "payment",
+        "paymentStatus",
+        "status",
+        "date",
+        "bookingDate",
+        "createdAt"
+
+    ];
+
+
+    const alreadyShown =
+        new Set();
+
+
+    /*
+     * First show important fields
+     * in a clean order.
+     */
+
+    fieldOrder.forEach(
+        function(key){
+
+            if(
+                Object.prototype.hasOwnProperty
+                .call(customer,key)
+            ){
+
+                addDetail(
+                    key,
+                    customer[key],
+                    details
+                );
+
+                alreadyShown.add(key);
+
+            }
+
+        }
     );
 
 
-    document
-    .getElementById("customerProblem")
-    .innerText =
-    customer.problem ||
-    customer.message ||
-    "Not provided";
+    /*
+     * Then show any additional fields
+     * that may have been added to the
+     * customer form in the future.
+     */
+
+    Object.keys(customer).forEach(
+        function(key){
+
+            if(
+                alreadyShown.has(key)
+                ||
+                hiddenFields.includes(key)
+            ){
+
+                return;
+
+            }
 
 
-    document
-    .getElementById("customerDate")
-    .innerText =
-    formatDate(
-        customer.createdAt ||
-        customer.date
+            addDetail(
+                key,
+                customer[key],
+                details
+            );
+
+        }
     );
 
 
-    document
-    .getElementById("customerStatus")
-    .innerText =
-    customer.status ||
-    "New Lead";
-
+    /* CONTACT CUSTOMER */
 
     document
     .getElementById("callCustomer")
@@ -1479,15 +1864,25 @@ function openCustomer(id){
             customer.mobile ||
             customer.phone;
 
+
         if(phone){
 
             window.location.href =
                 "tel:" + phone;
 
         }
+        else{
+
+            alert(
+                "Customer mobile number is not available."
+            );
+
+        }
 
     };
 
+
+    /* COMPLETE CONSULTATION */
 
     document
     .getElementById(
@@ -1495,6 +1890,20 @@ function openCustomer(id){
     )
     .onclick =
     function(){
+
+        const button =
+            document.getElementById(
+                "completeConsultation"
+            );
+
+
+        button.disabled =
+            true;
+
+
+        button.innerText =
+            "Updating...";
+
 
         db.collection("leads")
         .doc(customer.id)
@@ -1507,12 +1916,37 @@ function openCustomer(id){
         .then(
             function(){
 
+                button.disabled =
+                    false;
+
+                button.innerText =
+                    "✅ Mark Consultation Done";
+
+
                 closeCustomer();
+
+
+                /*
+                 * Refresh pending list
+                 * immediately.
+                 */
+
+                renderPendingConsultations();
 
             }
         )
         .catch(
             function(error){
+
+                button.disabled =
+                    false;
+
+                button.innerText =
+                    "✅ Mark Consultation Done";
+
+
+                console.error(error);
+
 
                 alert(
                     "Unable to update status: " +
@@ -1534,6 +1968,200 @@ function openCustomer(id){
 
 
 /* =====================================================
+   ADD CUSTOMER DETAIL
+===================================================== */
+
+function addDetail(
+    key,
+    value,
+    container
+){
+
+    /*
+     * Ignore empty/null fields.
+     */
+
+    if(
+        value === undefined ||
+        value === null ||
+        value === ""
+    ){
+
+        return;
+
+    }
+
+
+    let displayValue;
+
+
+    /*
+     * Firestore Timestamp
+     */
+
+    if(
+        value &&
+        typeof value.toDate ===
+        "function"
+    ){
+
+        displayValue =
+            formatDate(value);
+
+    }
+
+    /*
+     * Arrays
+     */
+
+    else if(
+        Array.isArray(value)
+    ){
+
+        displayValue =
+            value
+            .map(function(item){
+
+                return formatValue(item);
+
+            })
+            .join(", ");
+
+    }
+
+    /*
+     * Objects
+     */
+
+    else if(
+        typeof value ===
+        "object"
+    ){
+
+        try{
+
+            displayValue =
+                JSON.stringify(
+                    value,
+                    null,
+                    2
+                );
+
+        }
+        catch(e){
+
+            displayValue =
+                String(value);
+
+        }
+
+    }
+
+    else{
+
+        displayValue =
+            formatValue(value);
+
+    }
+
+
+    const div =
+        document.createElement("div");
+
+
+    /*
+     * Long fields get full width.
+     */
+
+    const longField =
+        String(displayValue).length > 80
+        ||
+        key === "problem"
+        ||
+        key === "message";
+
+
+    div.className =
+        longField
+        ? "detail full"
+        : "detail";
+
+
+    const label =
+        document.createElement("label");
+
+
+    label.innerText =
+        formatLabel(key);
+
+
+    const strong =
+        document.createElement("strong");
+
+
+    strong.innerText =
+        displayValue;
+
+
+    div.appendChild(label);
+
+    div.appendChild(strong);
+
+    container.appendChild(div);
+
+}
+
+
+/* =====================================================
+   FORMAT FIELD LABEL
+===================================================== */
+
+function formatLabel(key){
+
+    return String(key)
+        .replace(/([A-Z])/g," $1")
+        .replace(/[_-]/g," ")
+        .replace(/\s+/g," ")
+        .trim()
+        .replace(/\b\w/g,function(letter){
+
+            return letter.toUpperCase();
+
+        });
+
+}
+
+
+/* =====================================================
+   FORMAT VALUE
+===================================================== */
+
+function formatValue(value){
+
+    if(
+        value === true
+    ){
+
+        return "Yes";
+
+    }
+
+
+    if(
+        value === false
+    ){
+
+        return "No";
+
+    }
+
+
+    return String(value);
+
+}
+
+
+/* =====================================================
    CLOSE CUSTOMER
 ===================================================== */
 
@@ -1545,6 +2173,29 @@ function closeCustomer(){
     .remove("active");
 
 }
+
+
+/* =====================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+===================================================== */
+
+document
+.getElementById("customerModal")
+.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            this
+        ){
+
+            closeCustomer();
+
+        }
+
+    }
+);
 
 
 /* =====================================================
@@ -1592,7 +2243,11 @@ function formatDate(value){
             new Date(value);
 
 
-        if(!isNaN(d.getTime())){
+        if(
+            !isNaN(
+                d.getTime()
+            )
+        ){
 
             return d.toLocaleString(
                 "en-IN"
