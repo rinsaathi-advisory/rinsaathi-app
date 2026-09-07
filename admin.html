@@ -188,6 +188,11 @@ body{
   color:#53635e;
 }
 
+.status.approved{
+  background:#e4efff;
+  color:#245b9b;
+}
+
 button{
   border:0;
   border-radius:13px;
@@ -225,6 +230,11 @@ button:disabled{
 .greenBtn{
   background:#0b7656;
   color:white;
+}
+
+.blueBtn{
+  background:#e4efff;
+  color:#245b9b;
 }
 
 .actions{
@@ -290,10 +300,10 @@ input:focus{
 .modalBox{
   background:white;
   width:100%;
-  max-width:760px;
+  max-width:800px;
   padding:22px;
   border-radius:25px 25px 0 0;
-  max-height:90vh;
+  max-height:92vh;
   overflow:auto;
 }
 
@@ -368,6 +378,7 @@ input:focus{
   color:#52635d;
   margin-top:10px;
   line-height:1.45;
+  word-break:break-word;
 }
 
 .statusListActions{
@@ -410,28 +421,35 @@ input:focus{
 .fieldGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:9px;
+  gap:10px;
   margin-top:12px;
 }
 
 .field{
-  background:white;
-  border-radius:11px;
-  padding:10px;
-  border:1px solid #edf1ef;
+  background:#f7faf8;
+  border-radius:12px;
+  padding:12px;
+  border:1px solid #e7eeeb;
+}
+
+.field.full{
+  grid-column:1 / -1;
 }
 
 .field label{
   display:block;
   font-size:10px;
   color:#71817c;
-  margin-bottom:3px;
+  margin-bottom:5px;
+  font-weight:700;
+  text-transform:none;
 }
 
 .field div{
-  font-size:12px;
-  line-height:1.4;
+  font-size:13px;
+  line-height:1.5;
   word-break:break-word;
+  white-space:pre-wrap;
 }
 
 .empty{
@@ -458,7 +476,7 @@ input:focus{
 .pipelineFlow{
   font-size:12px;
   color:#71817c;
-  line-height:1.8;
+  line-height:2;
 }
 
 .lockedBox{
@@ -468,6 +486,17 @@ input:focus{
   border-radius:13px;
   font-size:12px;
   margin-top:12px;
+  line-height:1.5;
+}
+
+.stageInfo{
+  background:#eef6f2;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:13px;
+  font-size:12px;
+  color:#52635d;
+  line-height:1.5;
 }
 
 @media(max-width:1050px){
@@ -515,6 +544,10 @@ input:focus{
   .details,
   .fieldGrid{
     grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
   }
 
   .modalBox{
@@ -620,7 +653,7 @@ input:focus{
   </div>
 
 
-  <!-- PIPELINE INFO -->
+  <!-- PIPELINE -->
 
   <div class="pipelineBox">
 
@@ -629,15 +662,23 @@ input:focus{
     </div>
 
     <div class="pipelineFlow">
+
       🆕 New Lead
       →
       📅 Pending Consultation
       →
-      ✅ Consultation Completed
+      📝 Final Consultation
+      →
+      ☑️ Consultation Approved
       →
       👥 Active Client
       →
       🔒 Closed Lead
+
+      <br>
+
+      <b>↔ Closed Lead ↔ Active Client only</b>
+
     </div>
 
   </div>
@@ -687,18 +728,37 @@ input:focus{
 
     <div
       class="statCard"
-      onclick="openCompletedConsultations()">
+      onclick="openFinalConsultations()">
 
-      <div class="statIcon">✅</div>
+      <div class="statIcon">📝</div>
 
       <div
         class="statNumber"
-        id="completed">
+        id="finalConsultation">
         0
       </div>
 
       <div class="statTitle">
-        Consultation Completed
+        Final Consultation
+      </div>
+
+    </div>
+
+
+    <div
+      class="statCard"
+      onclick="openApprovedConsultations()">
+
+      <div class="statIcon">☑️</div>
+
+      <div
+        class="statNumber"
+        id="approved">
+        0
+      </div>
+
+      <div class="statTitle">
+        Consultation Approved
       </div>
 
     </div>
@@ -741,25 +801,6 @@ input:focus{
 
     </div>
 
-
-    <div
-      class="statCard"
-      onclick="showAllLeads()">
-
-      <div class="statIcon">💰</div>
-
-      <div
-        class="statNumber"
-        id="revenue">
-        ₹0
-      </div>
-
-      <div class="statTitle">
-        Consultation Revenue
-      </div>
-
-    </div>
-
   </div>
 
 
@@ -778,13 +819,15 @@ input:focus{
     <div
       class="card"
       id="paymentContainer">
+
       Loading payments...
+
     </div>
 
   </section>
 
 
-  <!-- NEW LEADS ALWAYS FIRST -->
+  <!-- NEW LEADS -->
 
   <section class="section">
 
@@ -797,7 +840,9 @@ input:focus{
       <span
         class="badge"
         id="leadCount">
+
         0 New
+
       </span>
 
     </div>
@@ -822,7 +867,9 @@ input:focus{
     <button
       class="close"
       onclick="closeStatusModal()">
+
       ✕
+
     </button>
 
     <h2 id="statusModalTitle">
@@ -845,7 +892,7 @@ input:focus{
 </div>
 
 
-<!-- CUSTOMER DETAILS -->
+<!-- CUSTOMER DETAILS MODAL -->
 
 <div
   class="modal"
@@ -856,7 +903,9 @@ input:focus{
     <button
       class="close"
       onclick="closeCustomer()">
+
       ✕
+
     </button>
 
     <h2 id="customerName">
@@ -886,42 +935,6 @@ input:focus{
       <div class="detail">
 
         <label>
-          Payment
-        </label>
-
-        <strong id="customerPayment">
-        </strong>
-
-      </div>
-
-
-      <div class="detail">
-
-        <label>
-          Problem / Concern
-        </label>
-
-        <strong id="customerProblem">
-        </strong>
-
-      </div>
-
-
-      <div class="detail">
-
-        <label>
-          Booking Date
-        </label>
-
-        <strong id="customerDate">
-        </strong>
-
-      </div>
-
-
-      <div class="detail">
-
-        <label>
           Current Status
         </label>
 
@@ -933,32 +946,38 @@ input:focus{
     </div>
 
 
-    <div class="message">
+    <div
+      style="
+      margin-top:18px;
+      padding:15px;
+      border-radius:15px;
+      background:#eef6f2;
+      ">
 
-      <b>
-        Customer Message
-      </b>
+      <h3
+        style="
+        font-size:17px;
+        color:#063f32;
+        margin-bottom:5px;
+        ">
 
-      <br>
+        📋 Customer Submitted Form
 
-      <span id="customerMessage">
-      </span>
+      </h3>
+
+      <p
+        class="small"
+        style="margin-top:4px">
+
+        नीचे वही customer information दिखाई जाएगी
+        जो form submit करते समय save हुई थी।
+
+      </p>
 
     </div>
 
 
-    <div style="margin-top:18px">
-
-      <h3
-        style="font-size:16px;color:#063f32">
-
-        📋 Complete Form Details
-
-      </h3>
-
-      <div id="completeFormDetails">
-      </div>
-
+    <div id="completeFormDetails">
     </div>
 
 
@@ -969,13 +988,17 @@ input:focus{
       <button
         class="primary"
         id="callCustomer">
+
         📞 Contact Customer
+
       </button>
 
       <button
         class="goldBtn"
         id="customerAction">
+
         Action
+
       </button>
 
     </div>
@@ -992,6 +1015,7 @@ input:focus{
 
 
 <script type="module">
+
 
 /* ==========================================
    FIREBASE
@@ -1026,7 +1050,7 @@ from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
 /* ==========================================
-   YOUR FIREBASE CONFIG
+   FIREBASE CONFIG
 ========================================== */
 
 const firebaseConfig = {
@@ -1079,7 +1103,6 @@ let leads = [];
 const ADMIN_PHONE =
   "+919319301096";
 
-
 const $ =
   id => document.getElementById(id);
 
@@ -1088,7 +1111,10 @@ const $ =
    LOGIN MESSAGE
 ========================================== */
 
-function msg(text,type="success"){
+function msg(
+  text,
+  type="success"
+){
 
   $("loginMsg").className =
     type;
@@ -1110,7 +1136,9 @@ function setupRecaptcha(){
     if(recaptcha){
 
       try{
+
         recaptcha.clear();
+
       }catch(_){}
 
       recaptcha = null;
@@ -1152,10 +1180,6 @@ function setupRecaptcha(){
 }
 
 
-/* ==========================================
-   INITIAL RECAPTCHA
-========================================== */
-
 setupRecaptcha();
 
 
@@ -1167,14 +1191,23 @@ $("sendOtp").onclick =
 async function(){
 
   const rawPhone =
-    $("phone").value.trim();
+    $("phone")
+      .value
+      .trim();
 
 
   const digits =
-    rawPhone.replace(/\D/g,"");
+    rawPhone.replace(
+      /\D/g,
+      ""
+    );
 
 
-  if(!/^[6-9]\d{9}$/.test(digits)){
+  if(
+    !/^[6-9]\d{9}$/.test(
+      digits
+    )
+  ){
 
     msg(
       "Please enter a valid 10-digit Indian mobile number.",
@@ -1202,7 +1235,8 @@ async function(){
 
 
     const phone =
-      "+91"+digits;
+      "+91"+
+      digits;
 
 
     confirmationResult =
@@ -1218,7 +1252,8 @@ async function(){
       .remove("hidden");
 
 
-    $("otp").value = "";
+    $("otp").value =
+      "";
 
     $("otp").focus();
 
@@ -1237,13 +1272,9 @@ async function(){
     );
 
 
-    let errorText =
-      e?.message ||
-      "Unable to send OTP.";
-
-
     msg(
-      errorText,
+      e?.message ||
+      "Unable to send OTP.",
       "error"
     );
 
@@ -1283,10 +1314,17 @@ async function(){
     $("otp")
       .value
       .trim()
-      .replace(/\s/g,"");
+      .replace(
+        /\s/g,
+        ""
+      );
 
 
-  if(!/^\d{6}$/.test(otp)){
+  if(
+    !/^\d{6}$/.test(
+      otp
+    )
+  ){
 
     msg(
       "Please enter the 6-digit OTP.",
@@ -1338,7 +1376,7 @@ async function(){
 
 
     msg(
-      "Invalid or expired OTP. Please request a new OTP and enter the latest OTP.",
+      "Invalid or expired OTP. Please request a new OTP.",
       "error"
     );
 
@@ -1348,11 +1386,12 @@ async function(){
 
 
 /* ==========================================
-   LOGOUT / REFRESH
+   LOGOUT
 ========================================== */
 
 $("logout").onclick =
-() => signOut(auth);
+() =>
+  signOut(auth);
 
 
 $("refresh").onclick =
@@ -1383,7 +1422,8 @@ onAuthStateChanged(
 
 
     const phone =
-      user.phoneNumber || "";
+      user.phoneNumber ||
+      "";
 
 
     if(phone !== ADMIN_PHONE){
@@ -1395,7 +1435,6 @@ onAuthStateChanged(
         "This number is not authorized as the RinSaathi Admin.",
         "error"
       );
-
 
       return;
 
@@ -1428,7 +1467,10 @@ async function loadLeads(){
 
     const q =
       query(
-        collection(db,"leads"),
+        collection(
+          db,
+          "leads"
+        ),
         orderBy(
           "createdAt",
           "desc"
@@ -1465,7 +1507,7 @@ async function loadLeads(){
 
 
 /* ==========================================
-   STATUS HELPERS
+   STATUS
 ========================================== */
 
 function getStatus(lead){
@@ -1476,15 +1518,66 @@ function getStatus(lead){
 }
 
 
-function isPending(lead){
+/* ==========================================
+   STATUS NORMALIZATION
+========================================== */
+
+function normalizeStatus(lead){
 
   const s =
     getStatus(lead);
 
-  return (
-    s === "Pending Consultation" ||
+
+  if(
     s === "Consultation Scheduled"
-  );
+  ){
+
+    return "Pending Consultation";
+
+  }
+
+
+  if(
+    s === "Consultation Completed"
+  ){
+
+    return "Final Consultation";
+
+  }
+
+
+  if(
+    s === "Approved" ||
+    s === "Consultation Approved"
+  ){
+
+    return "Consultation Approved";
+
+  }
+
+
+  if(
+    s === "Active Client"
+  ){
+
+    return "Active Advisory Client";
+
+  }
+
+
+  return s;
+
+}
+
+
+/* ==========================================
+   PENDING CHECK
+========================================== */
+
+function isPending(lead){
+
+  return normalizeStatus(lead) ===
+    "Pending Consultation";
 
 }
 
@@ -1495,35 +1588,43 @@ function isPending(lead){
 
 function render(){
 
-  let revenue = 0;
-
   let newCount = 0;
 
   let pending = 0;
 
-  let completed = 0;
+  let finalCount = 0;
+
+  let approved = 0;
 
   let clients = 0;
 
   let closed = 0;
 
+  let revenue = 0;
+
 
   leads.forEach(
     l => {
 
-      if(l.payment === "PAID"){
+      const s =
+        normalizeStatus(l);
+
+
+      if(
+        l.payment === "PAID"
+      ){
 
         revenue +=
-          Number(l.amount || 0);
+          Number(
+            l.amount || 0
+          );
 
       }
 
 
-      const s =
-        getStatus(l);
-
-
-      if(s === "New Lead"){
+      if(
+        s === "New Lead"
+      ){
 
         newCount++;
 
@@ -1531,8 +1632,8 @@ function render(){
 
 
       if(
-        s === "Pending Consultation" ||
-        s === "Consultation Scheduled"
+        s ===
+        "Pending Consultation"
       ){
 
         pending++;
@@ -1541,16 +1642,28 @@ function render(){
 
 
       if(
-        s === "Consultation Completed"
+        s ===
+        "Final Consultation"
       ){
 
-        completed++;
+        finalCount++;
 
       }
 
 
       if(
-        s === "Active Advisory Client"
+        s ===
+        "Consultation Approved"
+      ){
+
+        approved++;
+
+      }
+
+
+      if(
+        s ===
+        "Active Advisory Client"
       ){
 
         clients++;
@@ -1559,7 +1672,8 @@ function render(){
 
 
       if(
-        s === "Closed Lead"
+        s ===
+        "Closed Lead"
       ){
 
         closed++;
@@ -1570,32 +1684,46 @@ function render(){
   );
 
 
-  $("revenue").textContent =
-    "₹"+
-    revenue.toLocaleString("en-IN");
-
-
-  $("newLeads").textContent =
+  $("newLeads")
+    .textContent =
     newCount;
 
 
-  $("pending").textContent =
+  $("pending")
+    .textContent =
     pending;
 
 
-  $("completed").textContent =
-    completed;
+  $("finalConsultation")
+    .textContent =
+    finalCount;
 
 
-  $("clients").textContent =
+  $("approved")
+    .textContent =
+    approved;
+
+
+  $("clients")
+    .textContent =
     clients;
 
 
-  $("closed").textContent =
+  $("closed")
+    .textContent =
     closed;
 
 
-  $("leadCount").textContent =
+  $("revenue")
+    .textContent =
+    "₹"+
+    revenue.toLocaleString(
+      "en-IN"
+    );
+
+
+  $("leadCount")
+    .textContent =
     newCount+
     " New";
 
@@ -1616,13 +1744,15 @@ function renderNewLeadSection(){
   const list =
     leads.filter(
       l =>
-        getStatus(l) === "New Lead"
+        normalizeStatus(l) ===
+        "New Lead"
     );
 
 
   if(!list.length){
 
-    $("leadContainer").innerHTML =
+    $("leadContainer")
+      .innerHTML =
 
       `<div class="card empty">
 
@@ -1645,10 +1775,14 @@ function renderNewLeadSection(){
   }
 
 
-  $("leadContainer").innerHTML =
-    list.map(
-      l => leadCard(l)
-    ).join("");
+  $("leadContainer")
+    .innerHTML =
+    list
+      .map(
+        l =>
+          leadCard(l)
+      )
+      .join("");
 
 }
 
@@ -1660,7 +1794,7 @@ function renderNewLeadSection(){
 function leadCard(l){
 
   const s =
-    getStatus(l);
+    normalizeStatus(l);
 
 
   return `
@@ -1670,11 +1804,21 @@ function leadCard(l){
       <div>
 
         <div class="name">
-          ${esc(l.name || "Customer")}
+
+          ${esc(
+            l.name ||
+            "Customer"
+          )}
+
         </div>
 
         <div class="small">
-          ${esc(l.service || "Consultation")}
+
+          ${esc(
+            l.service ||
+            "Consultation"
+          )}
+
         </div>
 
       </div>
@@ -1682,24 +1826,41 @@ function leadCard(l){
 
       <div>
 
-        <div class="${
-          l.payment === "PAID"
-          ? "paid"
-          : "pendingPay"
-        }">
+        ${
+          l.amount !== undefined
+          ?
 
-          ₹${Number(
-            l.amount || 0
-          ).toLocaleString("en-IN")}
+          `<div class="${
+            l.payment === "PAID"
+            ? "paid"
+            : "pendingPay"
+          }">
 
-          • ${esc(
-            l.payment || "PENDING"
-          )}
+            ₹${Number(
+              l.amount || 0
+            ).toLocaleString(
+              "en-IN"
+            )}
 
-        </div>
+            • ${esc(
+              l.payment ||
+              "PENDING"
+            )}
+
+          </div>`
+
+          :
+
+          ""
+        }
+
 
         <div class="small">
-          ${formatDate(l.createdAt)}
+
+          ${formatDate(
+            l.createdAt
+          )}
+
         </div>
 
       </div>
@@ -1708,15 +1869,19 @@ function leadCard(l){
       <div>
 
         <span class="status">
+
           ${esc(s)}
+
         </span>
 
         <div class="small">
+
           ${esc(
             l.problem ||
             l.message ||
             ""
           )}
+
         </div>
 
       </div>
@@ -1742,7 +1907,7 @@ function leadCard(l){
 
 
 /* ==========================================
-   PAYMENT SECTION
+   PAYMENTS
 ========================================== */
 
 function renderPayments(){
@@ -1750,17 +1915,21 @@ function renderPayments(){
   const paid =
     leads
       .filter(
-        l => l.payment === "PAID"
+        l =>
+          l.payment === "PAID"
       )
       .slice(0,5);
 
 
   if(!paid.length){
 
-    $("paymentContainer").innerHTML =
+    $("paymentContainer")
+      .innerHTML =
 
       `<div class="empty">
+
         No paid consultations yet.
+
       </div>`;
 
     return;
@@ -1768,84 +1937,77 @@ function renderPayments(){
   }
 
 
-  $("paymentContainer").innerHTML =
-    paid.map(
-      l => `
+  $("paymentContainer")
+    .innerHTML =
+    paid
+      .map(
+        l => `
 
-        <div
-          style="
-          padding:12px 0;
-          border-bottom:1px solid #edf1ef;
-          display:flex;
-          justify-content:space-between;
-          gap:10px;
-          ">
+          <div
+            style="
+            padding:12px 0;
+            border-bottom:1px solid #edf1ef;
+            display:flex;
+            justify-content:space-between;
+            gap:10px;
+            ">
 
-          <div>
+            <div>
 
-            <strong>
-              ${esc(l.name || "Customer")}
-            </strong>
+              <strong>
 
-            <div class="small">
-              ${esc(l.service || "Consultation")}
+                ${esc(
+                  l.name ||
+                  "Customer"
+                )}
+
+              </strong>
+
+              <div class="small">
+
+                ${esc(
+                  l.service ||
+                  "Consultation"
+                )}
+
+              </div>
+
+            </div>
+
+
+            <div
+              style="
+              color:#08704d;
+              font-weight:800;
+              ">
+
+              ₹${Number(
+                l.amount || 0
+              ).toLocaleString(
+                "en-IN"
+              )}
+
             </div>
 
           </div>
 
-
-          <div
-            style="
-            color:#08704d;
-            font-weight:800;
-            ">
-
-            ₹${Number(
-              l.amount || 0
-            ).toLocaleString("en-IN")}
-
-          </div>
-
-        </div>
-
-      `
-    )
-    .join("");
+        `
+      )
+      .join("");
 
 }
 
 
 /* ==========================================
-   FILTER STATUS
+   STATUS FILTER
 ========================================== */
 
 function statusLeads(status){
 
   return leads.filter(
-    l => {
-
-      const s =
-        getStatus(l);
-
-
-      if(
-        status ===
-        "Pending Consultation"
-      ){
-
-        return (
-          s ===
-          "Pending Consultation" ||
-          s ===
-          "Consultation Scheduled"
-        );
-
-      }
-
-
-      return s === status;
-
-    }
+    l =>
+      normalizeStatus(l) ===
+      status
   );
 
 }
@@ -1872,27 +2034,48 @@ function renderStatusList(status){
         "🆕 No new leads right now.";
 
 
-    if(status === "Pending Consultation")
+    if(
+      status ===
+      "Pending Consultation"
+    )
       text =
         "📅 No pending consultations right now.";
 
 
-    if(status === "Consultation Completed")
+    if(
+      status ===
+      "Final Consultation"
+    )
       text =
-        "✅ No completed consultations right now.";
+        "📝 No final consultations right now.";
 
 
-    if(status === "Active Advisory Client")
+    if(
+      status ===
+      "Consultation Approved"
+    )
+      text =
+        "☑️ No approved consultations right now.";
+
+
+    if(
+      status ===
+      "Active Advisory Client"
+    )
       text =
         "👥 No active clients right now.";
 
 
-    if(status === "Closed Lead")
+    if(
+      status ===
+      "Closed Lead"
+    )
       text =
         "🔒 No closed leads right now.";
 
 
-    $("statusList").innerHTML =
+    $("statusList")
+      .innerHTML =
       `<div class="empty">
         ${text}
       </div>`;
@@ -1902,30 +2085,36 @@ function renderStatusList(status){
   }
 
 
-  $("statusList").innerHTML =
-    list.map(
-      l => statusListCard(l)
-    ).join("");
+  $("statusList")
+    .innerHTML =
+    list
+      .map(
+        l =>
+          statusListCard(l)
+      )
+      .join("");
 
 }
 
 
 /* ==========================================
-   STATUS CARD + ACTIONS
+   STATUS CARD
 ========================================== */
 
 function statusListCard(l){
 
   const s =
-    getStatus(l);
+    normalizeStatus(l);
 
 
   let actionButtons = "";
 
 
-  /* NEW LEAD */
+  /* NEW */
 
-  if(s === "New Lead"){
+  if(
+    s === "New Lead"
+  ){
 
     actionButtons = `
 
@@ -1944,7 +2133,10 @@ function statusListCard(l){
 
   /* PENDING */
 
-  else if(isPending(l)){
+  else if(
+    s ===
+    "Pending Consultation"
+  ){
 
     actionButtons = `
 
@@ -1959,9 +2151,9 @@ function statusListCard(l){
 
       <button
         class="goldBtn"
-        onclick="markConsultationDone('${l.id}')">
+        onclick="moveToFinal('${l.id}')">
 
-        ✅ Mark Consultation Done
+        📝 Move to Final Consultation
 
       </button>
 
@@ -1970,20 +2162,51 @@ function statusListCard(l){
   }
 
 
-  /* COMPLETED */
+  /* FINAL */
 
   else if(
     s ===
-    "Consultation Completed"
+    "Final Consultation"
   ){
 
     actionButtons = `
 
       <button
         class="secondary"
-        onclick="moveCompletedToPending('${l.id}')">
+        onclick="moveFinalToPending('${l.id}')">
 
         ↩ Move to Pending Consultation
+
+      </button>
+
+
+      <button
+        class="blueBtn"
+        onclick="moveToApproved('${l.id}')">
+
+        ☑️ Consultation Approved
+
+      </button>
+
+    `;
+
+  }
+
+
+  /* APPROVED */
+
+  else if(
+    s ===
+    "Consultation Approved"
+  ){
+
+    actionButtons = `
+
+      <button
+        class="secondary"
+        onclick="moveApprovedToFinal('${l.id}')">
+
+        ↩ Move to Final Consultation
 
       </button>
 
@@ -2018,10 +2241,14 @@ function statusListCard(l){
 
       </button>
 
+
       <div class="lockedBox">
 
         🔐 Active Client is locked.
-        There is no Back option from Active Client.
+        It cannot return to New Lead,
+        Pending Consultation,
+        Final Consultation or
+        Consultation Approved.
 
       </div>
 
@@ -2040,13 +2267,26 @@ function statusListCard(l){
     actionButtons = `
 
       <span class="closedBadge">
+
         🔒 CLOSED LEAD
+
       </span>
+
+
+      <button
+        class="greenBtn"
+        onclick="moveClosedToActive('${l.id}')">
+
+        👥 Return to Active Client
+
+      </button>
+
 
       <div class="lockedBox">
 
-        🔒 This lead is permanently closed.
-        No Back or previous-stage option is available.
+        🔒 Closed Lead can only return
+        directly to Active Client.
+        It cannot go to any consultation stage.
 
       </div>
 
@@ -2094,6 +2334,8 @@ function statusListCard(l){
           ? "active"
           : s === "Closed Lead"
           ? "closed"
+          : s === "Consultation Approved"
+          ? "approved"
           : ""
         }">
 
@@ -2121,7 +2363,7 @@ function statusListCard(l){
           class="primary"
           onclick="openCustomer('${l.id}')">
 
-          View Details
+          View Complete Form
 
         </button>
 
@@ -2137,7 +2379,7 @@ function statusListCard(l){
 
 
 /* ==========================================
-   OPEN STATUS MODAL
+   STATUS MODAL
 ========================================== */
 
 function openStatusModal(
@@ -2172,7 +2414,7 @@ function openStatusModal(
 
 
 /* ==========================================
-   OPEN NEW LEADS
+   NEW
 ========================================== */
 
 window.openNewLeads =
@@ -2188,7 +2430,7 @@ function(){
 
 
 /* ==========================================
-   OPEN PENDING
+   PENDING
 ========================================== */
 
 window.openPendingConsultations =
@@ -2196,24 +2438,40 @@ function(){
 
   openStatusModal(
     "Pending Consultation",
-    "📅 Pending Consultations",
-    "Consultations that are booked or waiting to be completed."
+    "📅 Pending Consultation",
+    "Customers waiting for the final consultation stage."
   );
 
 };
 
 
 /* ==========================================
-   OPEN COMPLETED
+   FINAL
 ========================================== */
 
-window.openCompletedConsultations =
+window.openFinalConsultations =
 function(){
 
   openStatusModal(
-    "Consultation Completed",
-    "✅ Consultation Completed",
-    "Completed consultations waiting to become Active Clients."
+    "Final Consultation",
+    "📝 Final Consultation",
+    "Customers who have reached the final consultation stage."
+  );
+
+};
+
+
+/* ==========================================
+   APPROVED
+========================================== */
+
+window.openApprovedConsultations =
+function(){
+
+  openStatusModal(
+    "Consultation Approved",
+    "☑️ Consultation Approved",
+    "Approved consultations waiting to become Active Clients."
   );
 
 };
@@ -2234,179 +2492,128 @@ function(){
 
 
 /* ==========================================
-   MOVE NEW → PENDING
+   NEW → PENDING
 ========================================== */
 
 window.moveToPending =
 async function(id){
 
-  try{
-
-    await updateDoc(
-      doc(db,"leads",id),
-      {
-        status:
-          "Pending Consultation",
-
-        updatedAt:
-          new Date()
-      }
-    );
-
-
-    await loadLeads();
-
-
-    openPendingConsultations();
-
-
-  }catch(e){
-
-    console.error(e);
-
-    alert(
-      "Could not move this lead to Pending Consultation."
-    );
-
-  }
+  await changeStatus(
+    id,
+    "Pending Consultation",
+    "Could not move this lead to Pending Consultation."
+  );
 
 };
 
 
 /* ==========================================
-   MOVE PENDING → NEW
+   PENDING → NEW
 ========================================== */
 
 window.moveToNewLead =
 async function(id){
 
-  try{
-
-    await updateDoc(
-      doc(db,"leads",id),
-      {
-        status:
-          "New Lead",
-
-        updatedAt:
-          new Date()
-      }
-    );
-
-
-    await loadLeads();
-
-
-    openNewLeads();
-
-
-  }catch(e){
-
-    console.error(e);
-
-    alert(
-      "Could not move this customer back to New Lead."
-    );
-
-  }
+  await changeStatus(
+    id,
+    "New Lead",
+    "Could not move this customer back to New Lead."
+  );
 
 };
 
 
 /* ==========================================
-   PENDING → COMPLETED
+   PENDING → FINAL
 ========================================== */
 
-window.markConsultationDone =
+window.moveToFinal =
 async function(id){
 
-  try{
-
-    await updateDoc(
-      doc(db,"leads",id),
-      {
-        status:
-          "Consultation Completed",
-
-        updatedAt:
-          new Date()
-      }
-    );
-
-
-    await loadLeads();
-
-
-    openCompletedConsultations();
-
-
-  }catch(e){
-
-    console.error(e);
-
-    alert(
-      "Could not mark consultation as completed."
-    );
-
-  }
+  await changeStatus(
+    id,
+    "Final Consultation",
+    "Could not move this customer to Final Consultation."
+  );
 
 };
 
 
 /* ==========================================
-   COMPLETED → PENDING
+   FINAL → PENDING
 ========================================== */
 
-window.moveCompletedToPending =
+window.moveFinalToPending =
 async function(id){
 
-  try{
-
-    await updateDoc(
-      doc(db,"leads",id),
-      {
-        status:
-          "Pending Consultation",
-
-        updatedAt:
-          new Date()
-      }
-    );
-
-
-    await loadLeads();
-
-
-    openPendingConsultations();
-
-
-  }catch(e){
-
-    console.error(e);
-
-    alert(
-      "Could not move the completed consultation back to pending."
-    );
-
-  }
+  await changeStatus(
+    id,
+    "Pending Consultation",
+    "Could not move this customer back to Pending Consultation."
+  );
 
 };
 
 
 /* ==========================================
-   COMPLETED → ACTIVE CLIENT
+   FINAL → APPROVED
+========================================== */
+
+window.moveToApproved =
+async function(id){
+
+  const ok =
+    confirm(
+      "Approve this consultation?\n\nThe customer will move to Consultation Approved."
+    );
+
+
+  if(!ok){
+
+    return;
+
+  }
+
+
+  await changeStatus(
+    id,
+    "Consultation Approved",
+    "Could not approve this consultation."
+  );
+
+};
+
+
+/* ==========================================
+   APPROVED → FINAL
+========================================== */
+
+window.moveApprovedToFinal =
+async function(id){
+
+  await changeStatus(
+    id,
+    "Final Consultation",
+    "Could not move this customer back to Final Consultation."
+  );
+
+};
+
+
+/* ==========================================
+   APPROVED → ACTIVE
 ========================================== */
 
 window.moveToActive =
 async function(id){
 
-  const confirmMove =
+  const ok =
     confirm(
-      "Move this customer to Active Client?\n\nOnce moved to Active Client, the customer cannot go back to New Lead, Pending Consultation, or Consultation Completed."
+      "Move this customer to Active Client?\n\nOnce Active, this customer cannot return to New Lead, Pending Consultation, Final Consultation or Consultation Approved."
     );
 
 
-  if(!confirmMove){
+  if(!ok){
 
     return;
 
@@ -2416,7 +2623,11 @@ async function(id){
   try{
 
     await updateDoc(
-      doc(db,"leads",id),
+      doc(
+        db,
+        "leads",
+        id
+      ),
       {
         status:
           "Active Advisory Client",
@@ -2456,13 +2667,13 @@ async function(id){
 window.moveToClosed =
 async function(id){
 
-  const confirmMove =
+  const ok =
     confirm(
-      "Close this Active Client?\n\nOnce closed, this lead will become a Closed Lead and cannot be moved back."
+      "Close this Active Client?\n\nThe customer will move to Closed Lead. From Closed, the only available movement will be directly back to Active Client."
     );
 
 
-  if(!confirmMove){
+  if(!ok){
 
     return;
 
@@ -2472,7 +2683,11 @@ async function(id){
   try{
 
     await updateDoc(
-      doc(db,"leads",id),
+      doc(
+        db,
+        "leads",
+        id
+      ),
       {
         status:
           "Closed Lead",
@@ -2506,56 +2721,186 @@ async function(id){
 
 
 /* ==========================================
+   CLOSED → ACTIVE
+========================================== */
+
+window.moveClosedToActive =
+async function(id){
+
+  const ok =
+    confirm(
+      "Return this Closed Lead to Active Client?\n\nIt will go directly to Active Client. It will NOT return to any consultation stage."
+    );
+
+
+  if(!ok){
+
+    return;
+
+  }
+
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "leads",
+        id
+      ),
+      {
+        status:
+          "Active Advisory Client",
+
+        updatedAt:
+          new Date(),
+
+        reactivatedAt:
+          new Date()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    showActiveClients();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not return this Closed Lead to Active Client."
+    );
+
+  }
+
+};
+
+
+/* ==========================================
+   GENERIC STATUS CHANGE
+========================================== */
+
+async function changeStatus(
+  id,
+  newStatus,
+  errorMessage
+){
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "leads",
+        id
+      ),
+      {
+        status:
+          newStatus,
+
+        updatedAt:
+          new Date()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    openStatusModal(
+      newStatus,
+      stageTitle(newStatus),
+      stageSubtitle(newStatus)
+    );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      errorMessage
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   STAGE TITLE
+========================================== */
+
+function stageTitle(status){
+
+  if(status === "New Lead")
+    return "🆕 New Leads";
+
+  if(status === "Pending Consultation")
+    return "📅 Pending Consultation";
+
+  if(status === "Final Consultation")
+    return "📝 Final Consultation";
+
+  if(status === "Consultation Approved")
+    return "☑️ Consultation Approved";
+
+  if(status === "Active Advisory Client")
+    return "👥 Active Clients";
+
+  if(status === "Closed Lead")
+    return "🔒 Closed Leads";
+
+  return "Customers";
+
+}
+
+
+/* ==========================================
+   STAGE SUBTITLE
+========================================== */
+
+function stageSubtitle(status){
+
+  if(status === "New Lead")
+    return "Every new customer enquiry starts here.";
+
+  if(status === "Pending Consultation")
+    return "Customers waiting for consultation.";
+
+  if(status === "Final Consultation")
+    return "Customers in the final consultation stage.";
+
+  if(status === "Consultation Approved")
+    return "Approved consultations waiting for Active Client.";
+
+  if(status === "Active Advisory Client")
+    return "Active clients can only move to Closed Lead.";
+
+  if(status === "Closed Lead")
+    return "Closed leads can only return directly to Active Client.";
+
+  return "";
+
+}
+
+
+/* ==========================================
    ACTIVE CLIENTS
 ========================================== */
 
 window.showActiveClients =
 function(){
 
-  const active =
-    leads.filter(
-      l =>
-        getStatus(l) ===
-        "Active Advisory Client"
-    );
-
-
-  $("statusModalTitle")
-    .textContent =
-    "👥 Active Clients";
-
-
-  $("statusModalSubtitle")
-    .textContent =
-    "Active clients can only move forward to Closed Lead. There is no Back option.";
-
-
-  if(!active.length){
-
-    $("statusList").innerHTML =
-
-      `<div class="empty">
-
-        👥 No Active Clients
-
-      </div>`;
-
-  }else{
-
-    $("statusList").innerHTML =
-      active
-        .map(
-          l =>
-            statusListCard(l)
-        )
-        .join("");
-
-  }
-
-
-  $("statusModal")
-    .classList
-    .add("active");
+  openStatusModal(
+    "Active Advisory Client",
+    "👥 Active Clients",
+    "Active Client can ONLY move to Closed Lead. No previous-stage movement is allowed."
+  );
 
 };
 
@@ -2567,56 +2912,17 @@ function(){
 window.showClosedLeads =
 function(){
 
-  const closed =
-    leads.filter(
-      l =>
-        getStatus(l) ===
-        "Closed Lead"
-    );
-
-
-  $("statusModalTitle")
-    .textContent =
-    "🔒 Closed Leads";
-
-
-  $("statusModalSubtitle")
-    .textContent =
-    "These leads are permanently closed. No Back option is available.";
-
-
-  if(!closed.length){
-
-    $("statusList").innerHTML =
-
-      `<div class="empty">
-
-        🔒 No Closed Leads
-
-      </div>`;
-
-  }else{
-
-    $("statusList").innerHTML =
-      closed
-        .map(
-          l =>
-            statusListCard(l)
-        )
-        .join("");
-
-  }
-
-
-  $("statusModal")
-    .classList
-    .add("active");
+  openStatusModal(
+    "Closed Lead",
+    "🔒 Closed Leads",
+    "Closed Lead can ONLY return directly to Active Client."
+  );
 
 };
 
 
 /* ==========================================
-   CUSTOMER DETAILS
+   OPEN CUSTOMER
 ========================================== */
 
 window.openCustomer =
@@ -2624,7 +2930,8 @@ function(id){
 
   const l =
     leads.find(
-      x => x.id === id
+      x =>
+        x.id === id
     );
 
 
@@ -2636,7 +2943,7 @@ function(id){
 
 
   const status =
-    getStatus(l);
+    normalizeStatus(l);
 
 
   $("customerName")
@@ -2654,30 +2961,8 @@ function(id){
   $("customerMobile")
     .textContent =
     l.mobile ||
+    l.phone ||
     "Not provided";
-
-
-  $("customerPayment")
-    .textContent =
-    "₹"+
-    Number(
-      l.amount || 0
-    ).toLocaleString("en-IN")
-    +" — "+
-    (l.payment || "PENDING");
-
-
-  $("customerProblem")
-    .textContent =
-    l.problem ||
-    "Not provided";
-
-
-  $("customerDate")
-    .textContent =
-    formatDate(
-      l.createdAt
-    );
 
 
   $("customerStatus")
@@ -2685,97 +2970,216 @@ function(id){
     status;
 
 
-  $("customerMessage")
-    .textContent =
-    l.message ||
-    l.problem ||
-    "Not provided";
+  /*
+    IMPORTANT:
+    Only customer-submitted form fields are shown.
+    Technical/admin/system fields are excluded.
+  */
 
-
-  /* ======================================
-     ALL FORM DATA
-  ====================================== */
-
-  const ignored = [
+  const systemFields = [
 
     "id",
-    "name",
-    "mobile",
-    "service",
-    "amount",
-    "payment",
-    "problem",
-    "message",
+
     "status",
-    "source",
+
     "createdAt",
     "updatedAt",
+
     "activatedAt",
-    "closedAt"
+    "closedAt",
+    "reactivatedAt",
+
+    "source",
+
+    "payment",
+    "paymentStatus",
+
+    "razorpayPaymentId",
+    "razorpayOrderId",
+    "razorpaySignature",
+
+    "uid",
+    "userId",
+
+    "adminId",
+
+    "consultationStatus",
+
+    "bookingStatus",
+
+    "internalNote",
+    "adminNote",
+
+    "assignedTo"
 
   ];
 
 
-  const fields =
+  /*
+    These are fields that are displayed
+    separately above the complete form.
+    They are not duplicated below.
+  */
+
+  const duplicateTopFields = [
+
+    "name",
+    "mobile",
+    "phone",
+    "service"
+
+  ];
+
+
+  const customerFields =
     Object.keys(l)
 
       .filter(
-        k =>
-          !ignored.includes(k)
+        key =>
+          !systemFields.includes(
+            key
+          )
       )
 
       .filter(
-        k =>
-          l[k] !== undefined &&
-          l[k] !== null &&
-          String(l[k]).trim() !== ""
+        key =>
+          !duplicateTopFields.includes(
+            key
+          )
+      )
+
+      .filter(
+        key =>
+          l[key] !== undefined &&
+          l[key] !== null &&
+          !isEmptyValue(l[key])
       );
+
+
+  /*
+    We also make sure that the important
+    customer-entered basic fields are shown
+    even if they are stored under standard names.
+  */
+
+  const basicFields = [];
+
+
+  if(
+    !isEmptyValue(l.name)
+  ){
+
+    basicFields.push([
+      "Name",
+      l.name
+    ]);
+
+  }
+
+
+  if(
+    !isEmptyValue(
+      l.mobile ||
+      l.phone
+    )
+  ){
+
+    basicFields.push([
+      "Mobile",
+      l.mobile ||
+      l.phone
+    ]);
+
+  }
+
+
+  if(
+    !isEmptyValue(l.service)
+  ){
+
+    basicFields.push([
+      "Service",
+      l.service
+    ]);
+
+  }
+
+
+  const finalFields = [
+
+    ...basicFields,
+
+    ...customerFields.map(
+      key => [
+        prettyLabel(key),
+        l[key]
+      ]
+    )
+
+  ];
 
 
   $("completeFormDetails")
     .innerHTML =
 
-    fields.length
+    finalFields.length
 
       ?
 
-      `<div class="fieldGrid">`+
+      `<div class="fieldGrid">
 
-      fields
-        .map(
-          k => `
+        ${finalFields
+          .map(
+            ([label,value]) => {
 
-            <div class="field">
+              const formatted =
+                formatValue(value);
 
-              <label>
-                ${esc(
-                  prettyLabel(k)
-                )}
-              </label>
 
-              <div>
-                ${esc(
-                  formatValue(l[k])
-                )}
-              </div>
+              const isLong =
+                String(formatted)
+                  .length > 100;
 
-            </div>
 
-          `
-        )
-        .join("")
+              return `
 
-      +
+                <div class="field ${
+                  isLong
+                  ? "full"
+                  : ""
+                }">
 
-      `</div>`
+                  <label>
+
+                    ${esc(
+                      label
+                    )}
+
+                  </label>
+
+                  <div>
+
+                    ${esc(
+                      formatted
+                    )}
+
+                  </div>
+
+                </div>
+
+              `;
+
+            }
+          )
+          .join("")}
+
+      </div>`
 
       :
 
-      `<div
-        class="small"
-        style="margin-top:10px">
+      `<div class="empty">
 
-        No additional form fields were saved.
+        No customer form data was saved.
 
       </div>`;
 
@@ -2787,16 +3191,21 @@ function(id){
   $("callCustomer").onclick =
   function(){
 
-    if(l.mobile){
+    const number =
+      l.mobile ||
+      l.phone ||
+      "";
+
+
+    if(number){
 
       location.href =
         "tel:"+
-        String(
-          l.mobile
-        ).replace(
-          /\s/g,
-          ""
-        );
+        String(number)
+          .replace(
+            /\s/g,
+            ""
+          );
 
     }
 
@@ -2804,7 +3213,7 @@ function(id){
 
 
   /* ======================================
-     CUSTOMER ACTION BUTTON
+     CUSTOMER ACTION
   ====================================== */
 
   const actionBtn =
@@ -2819,8 +3228,8 @@ function(id){
     false;
 
 
-  actionBtn.style.opacity =
-    "1";
+  actionBtn.className =
+    "goldBtn";
 
 
   lockInfo.classList
@@ -2829,26 +3238,25 @@ function(id){
 
   /* NEW */
 
-  if(status === "New Lead"){
+  if(
+    status ===
+    "New Lead"
+  ){
 
     actionBtn.textContent =
       "📅 Move to Pending Consultation";
 
 
-    actionBtn.className =
-      "goldBtn";
-
-
     actionBtn.onclick =
-      async function(){
+    async function(){
 
-        closeCustomer();
+      closeCustomer();
 
-        await moveToPending(
-          l.id
-        );
+      await moveToPending(
+        l.id
+      );
 
-      };
+    };
 
   }
 
@@ -2857,38 +3265,61 @@ function(id){
 
   else if(
     status ===
-    "Pending Consultation" ||
-    status ===
-    "Consultation Scheduled"
+    "Pending Consultation"
   ){
 
     actionBtn.textContent =
-      "✅ Mark Consultation Done";
-
-
-    actionBtn.className =
-      "goldBtn";
+      "📝 Move to Final Consultation";
 
 
     actionBtn.onclick =
-      async function(){
+    async function(){
 
-        closeCustomer();
+      closeCustomer();
 
-        await markConsultationDone(
-          l.id
-        );
+      await moveToFinal(
+        l.id
+      );
 
-      };
+    };
 
   }
 
 
-  /* COMPLETED */
+  /* FINAL */
 
   else if(
     status ===
-    "Consultation Completed"
+    "Final Consultation"
+  ){
+
+    actionBtn.textContent =
+      "☑️ Consultation Approved";
+
+
+    actionBtn.className =
+      "blueBtn";
+
+
+    actionBtn.onclick =
+    async function(){
+
+      closeCustomer();
+
+      await moveToApproved(
+        l.id
+      );
+
+    };
+
+  }
+
+
+  /* APPROVED */
+
+  else if(
+    status ===
+    "Consultation Approved"
   ){
 
     actionBtn.textContent =
@@ -2900,15 +3331,15 @@ function(id){
 
 
     actionBtn.onclick =
-      async function(){
+    async function(){
 
-        closeCustomer();
+      closeCustomer();
 
-        await moveToActive(
-          l.id
-        );
+      await moveToActive(
+        l.id
+      );
 
-      };
+    };
 
   }
 
@@ -2929,19 +3360,19 @@ function(id){
 
 
     actionBtn.onclick =
-      async function(){
+    async function(){
 
-        closeCustomer();
+      closeCustomer();
 
-        await moveToClosed(
-          l.id
-        );
+      await moveToClosed(
+        l.id
+      );
 
-      };
+    };
 
 
     lockInfo.textContent =
-      "🔐 Active Client is locked from going backward. The only available next stage is Closed Lead.";
+      "🔐 Active Client is locked from going backward. The only allowed movement is Active Client → Closed Lead.";
 
     lockInfo.classList
       .remove("hidden");
@@ -2957,19 +3388,27 @@ function(id){
   ){
 
     actionBtn.textContent =
-      "🔒 Closed Lead";
+      "👥 Return to Active Client";
 
 
     actionBtn.className =
-      "secondary";
+      "greenBtn";
 
 
-    actionBtn.disabled =
-      true;
+    actionBtn.onclick =
+    async function(){
+
+      closeCustomer();
+
+      await moveClosedToActive(
+        l.id
+      );
+
+    };
 
 
     lockInfo.textContent =
-      "🔒 This lead is permanently closed. There is no Back option.";
+      "🔒 Closed Lead can only return directly to Active Client. It cannot return to any consultation stage.";
 
     lockInfo.classList
       .remove("hidden");
@@ -2999,54 +3438,6 @@ function(){
 
 
 /* ==========================================
-   SHOW ALL LEADS
-========================================== */
-
-window.showAllLeads =
-function(){
-
-  const all =
-    leads;
-
-
-  $("statusModalTitle")
-    .textContent =
-    "📊 All Leads";
-
-
-  $("statusModalSubtitle")
-    .textContent =
-    "All customer enquiries and their current pipeline stage.";
-
-
-  if(!all.length){
-
-    $("statusList").innerHTML =
-      `<div class="empty">
-        No leads yet.
-      </div>`;
-
-  }else{
-
-    $("statusList").innerHTML =
-      all
-        .map(
-          l =>
-            statusListCard(l)
-        )
-        .join("");
-
-  }
-
-
-  $("statusModal")
-    .classList
-    .add("active");
-
-};
-
-
-/* ==========================================
    DATE FORMAT
 ========================================== */
 
@@ -3071,16 +3462,60 @@ function formatDate(ts){
   }
 
 
-  if(ts instanceof Date){
+  if(
+    ts instanceof Date
+  ){
 
-    return ts.toLocaleString(
-      "en-IN"
-    );
+    return ts
+      .toLocaleString(
+        "en-IN"
+      );
 
   }
 
 
   return "Just now";
+
+}
+
+
+/* ==========================================
+   EMPTY VALUE
+========================================== */
+
+function isEmptyValue(value){
+
+  if(
+    value === undefined ||
+    value === null
+  ){
+
+    return true;
+
+  }
+
+
+  if(
+    typeof value === "string" &&
+    value.trim() === ""
+  ){
+
+    return true;
+
+  }
+
+
+  if(
+    Array.isArray(value) &&
+    value.length === 0
+  ){
+
+    return true;
+
+  }
+
+
+  return false;
 
 }
 
@@ -3112,7 +3547,8 @@ function prettyLabel(key){
 
     .replace(
       /^./,
-      c => c.toUpperCase()
+      c =>
+        c.toUpperCase()
     );
 
 }
@@ -3143,9 +3579,14 @@ function formatValue(value){
     Array.isArray(value)
   ){
 
-    return value.join(
-      ", "
-    );
+    return value
+      .map(
+        v =>
+          formatValue(v)
+      )
+      .join(
+        ", "
+      );
 
   }
 
@@ -3158,9 +3599,16 @@ function formatValue(value){
 
     try{
 
-      return JSON.stringify(
+      return Object.entries(
         value
-      );
+      )
+      .map(
+        ([k,v]) =>
+          prettyLabel(k)+
+          ": "+
+          formatValue(v)
+      )
+      .join("\n");
 
     }catch(_){
 
@@ -3171,7 +3619,9 @@ function formatValue(value){
   }
 
 
-  return String(value);
+  return String(
+    value
+  );
 
 }
 
@@ -3204,7 +3654,7 @@ function esc(v){
 
 
 /* ==========================================
-   CLOSE MODAL ON BACKGROUND CLICK
+   BACKGROUND CLICK
 ========================================== */
 
 $("statusModal")
@@ -3246,4 +3696,5 @@ $("customerModal")
 </script>
 
 </body>
+
 </html>
