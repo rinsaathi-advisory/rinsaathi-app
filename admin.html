@@ -116,11 +116,6 @@ button{
   color:#17352d;
 }
 
-.blueBtn{
-  background:#dceaff;
-  color:#24558e;
-}
-
 .redBtn{
   background:#f8dddd;
   color:#9d3030;
@@ -221,15 +216,6 @@ button:disabled{
 
 .sectionHeading h2{
   font-size:21px;
-}
-
-.badge{
-  background:#e6f4ed;
-  color:#08704d;
-  padding:7px 12px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:800;
 }
 
 .pipeline{
@@ -451,11 +437,9 @@ button:disabled{
 }
 
 @media(max-width:950px){
-
   .stats{
     grid-template-columns:repeat(3,1fr);
   }
-
 }
 
 @media(max-width:700px){
@@ -502,10 +486,6 @@ button:disabled{
 <body>
 
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header class="header">
 
   <div class="logo">
@@ -530,9 +510,7 @@ button:disabled{
 <main class="container">
 
 
-<!-- =====================================================
-     LOGIN
-===================================================== -->
+<!-- LOGIN -->
 
 <section id="loginBox" class="card login">
 
@@ -599,16 +577,12 @@ button:disabled{
 </section>
 
 
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
+<!-- DASHBOARD -->
 
 <section id="dashboard" class="hidden">
 
-  <div
-    class="actions"
-    style="margin-bottom:16px"
-  >
+
+  <div class="actions" style="margin-bottom:16px">
 
     <button
       class="secondary"
@@ -627,9 +601,7 @@ button:disabled{
   </div>
 
 
-  <!-- ===================================================
-       STATS
-  =================================================== -->
+  <!-- FIVE PIPELINE STAGES -->
 
   <div class="stats">
 
@@ -639,9 +611,7 @@ button:disabled{
       onclick="openNewLeads()"
     >
 
-      <div class="statIcon">
-        🆕
-      </div>
+      <div class="statIcon">🆕</div>
 
       <div
         class="statNumber"
@@ -666,9 +636,7 @@ button:disabled{
       onclick="openPending()"
     >
 
-      <div class="statIcon">
-        📅
-      </div>
+      <div class="statIcon">📅</div>
 
       <div
         class="statNumber"
@@ -693,9 +661,7 @@ button:disabled{
       onclick="openCompleted()"
     >
 
-      <div class="statIcon">
-        ✅
-      </div>
+      <div class="statIcon">✅</div>
 
       <div
         class="statNumber"
@@ -720,9 +686,7 @@ button:disabled{
       onclick="openActive()"
     >
 
-      <div class="statIcon">
-        👥
-      </div>
+      <div class="statIcon">👥</div>
 
       <div
         class="statNumber"
@@ -747,9 +711,7 @@ button:disabled{
       onclick="openClosed()"
     >
 
-      <div class="statIcon">
-        🔒
-      </div>
+      <div class="statIcon">🔒</div>
 
       <div
         class="statNumber"
@@ -772,9 +734,7 @@ button:disabled{
   </div>
 
 
-  <!-- ===================================================
-       PIPELINE
-  =================================================== -->
+  <!-- PIPELINE -->
 
   <section class="section">
 
@@ -806,8 +766,8 @@ button:disabled{
         class="small"
         style="margin-top:12px"
       >
-        Leads move forward through the pipeline. If a mistake happens,
-        a customer can only be moved back to the immediately previous stage.
+        New Lead → Pending Consultation → Consultation Completed
+        → Active Client → Closed Lead
       </p>
 
     </div>
@@ -815,9 +775,7 @@ button:disabled{
   </section>
 
 
-  <!-- ===================================================
-       PAYMENTS
-  =================================================== -->
+  <!-- PAYMENTS -->
 
   <section class="section">
 
@@ -842,9 +800,7 @@ button:disabled{
 </main>
 
 
-<!-- =====================================================
-     STATUS MODAL
-===================================================== -->
+<!-- STATUS MODAL -->
 
 <div
   class="modal"
@@ -880,9 +836,7 @@ button:disabled{
 </div>
 
 
-<!-- =====================================================
-     CUSTOMER DETAILS
-===================================================== -->
+<!-- CUSTOMER MODAL -->
 
 <div
   class="modal"
@@ -907,51 +861,31 @@ button:disabled{
       id="customerService"
     ></div>
 
-
     <div class="details">
 
       <div class="detail">
-
         <label>Mobile</label>
-
         <strong id="customerMobile"></strong>
-
       </div>
 
-
       <div class="detail">
-
         <label>Payment</label>
-
         <strong id="customerPayment"></strong>
-
       </div>
 
-
       <div class="detail">
-
         <label>Problem / Concern</label>
-
         <strong id="customerProblem"></strong>
-
       </div>
 
-
       <div class="detail">
-
         <label>Created Date</label>
-
         <strong id="customerDate"></strong>
-
       </div>
 
-
       <div class="detail">
-
         <label>Current Stage</label>
-
         <strong id="customerStatus"></strong>
-
       </div>
 
     </div>
@@ -1032,7 +966,7 @@ from
 const firebaseConfig={
 
   apiKey:
-  "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
+  "AIzaSyCP0TMqjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
   authDomain:
   "rinsaathi-app.firebaseapp.com",
@@ -1598,11 +1532,6 @@ function getStatus(lead){
 }
 
 
-/*
-  Old data compatibility:
-  Consultation Scheduled is treated as Pending.
-*/
-
 function normalizedStatus(lead){
 
   const s=
@@ -1639,8 +1568,6 @@ function renderDashboard(){
 
   let closedCount=0;
 
-  let revenue=0;
-
 
   leads.forEach(
     lead=>{
@@ -1652,57 +1579,35 @@ function renderDashboard(){
       if(
         status==="New Lead"
       ){
-
         newCount++;
-
       }
 
 
       if(
         status==="Pending Consultation"
       ){
-
         pendingCount++;
-
       }
 
 
       if(
         status==="Consultation Completed"
       ){
-
         completedCount++;
-
       }
 
 
       if(
         status==="Active Advisory Client"
       ){
-
         activeCount++;
-
       }
 
 
       if(
         status==="Closed Lead"
       ){
-
         closedCount++;
-
-      }
-
-
-      if(
-        lead.payment==="PAID"
-      ){
-
-        revenue+=
-          Number(
-            lead.amount || 0
-          );
-
       }
 
     }
@@ -1829,11 +1734,10 @@ function renderPayments(){
 
 
 /* =====================================================
-   OPEN STATUS WINDOWS
+   OPEN STATUS
 ===================================================== */
 
-window.openNewLeads=
-function(){
+window.openNewLeads=function(){
 
   openStatusModal(
     "New Lead",
@@ -1844,8 +1748,7 @@ function(){
 };
 
 
-window.openPending=
-function(){
+window.openPending=function(){
 
   openStatusModal(
     "Pending Consultation",
@@ -1856,8 +1759,7 @@ function(){
 };
 
 
-window.openCompleted=
-function(){
+window.openCompleted=function(){
 
   openStatusModal(
     "Consultation Completed",
@@ -1868,32 +1770,30 @@ function(){
 };
 
 
-window.openActive=
-function(){
+window.openActive=function(){
 
   openStatusModal(
     "Active Advisory Client",
     "👥 Active Clients",
-    "Customers who have moved into active advisory."
+    "Active clients. There is NO back option from this stage."
   );
 
 };
 
 
-window.openClosed=
-function(){
+window.openClosed=function(){
 
   openStatusModal(
     "Closed Lead",
     "🔒 Closed Leads",
-    "Leads that have been closed after being active clients."
+    "Leads that have been closed after becoming active clients."
   );
 
 };
 
 
 /* =====================================================
-   STATUS FILTER
+   FILTER
 ===================================================== */
 
 function getLeadsForStatus(status){
@@ -1934,106 +1834,36 @@ function openStatusModal(
 
   if(!list.length){
 
-    let icon="📋";
-
-    let heading="No Leads";
-
-
-    if(
-      status==="New Lead"
-    ){
-
-      icon="🆕";
-      heading="No New Leads";
-
-    }
-
-
-    if(
-      status==="Pending Consultation"
-    ){
-
-      icon="📅";
-      heading="No Pending Consultations";
-
-    }
-
-
-    if(
-      status==="Consultation Completed"
-    ){
-
-      icon="✅";
-      heading="No Completed Consultations";
-
-    }
-
-
-    if(
-      status==="Active Advisory Client"
-    ){
-
-      icon="👥";
-      heading="No Active Clients";
-
-    }
-
-
-    if(
-      status==="Closed Lead"
-    ){
-
-      icon="🔒";
-      heading="No Closed Leads";
-
-    }
-
-
     $("statusList")
       .innerHTML=`
 
         <div class="empty">
 
           <div class="emptyIcon">
-            ${icon}
+            📋
           </div>
 
           <h3>
-            ${heading}
+            No customers in this stage
           </h3>
-
-          <p
-            class="small"
-            style="margin-top:5px"
-          >
-            Nothing in this stage right now.
-          </p>
 
         </div>
 
       `;
 
+  }else{
 
-    $("statusModal")
-      .classList
-      .add("active");
+    $("statusList")
+      .innerHTML=
 
-
-    return;
+      list.map(
+        lead=>
+          createLeadCard(
+            lead
+          )
+      ).join("");
 
   }
-
-
-  $("statusList")
-    .innerHTML=
-
-    list.map(
-      lead=>
-        createLeadCard(
-          lead
-        )
-    )
-    .join("");
 
 
   $("statusModal")
@@ -2044,7 +1874,7 @@ function openStatusModal(
 
 
 /* =====================================================
-   CREATE LEAD CARD
+   LEAD CARD
 ===================================================== */
 
 function createLeadCard(lead){
@@ -2053,56 +1883,41 @@ function createLeadCard(lead){
     normalizedStatus(lead);
 
 
-  let badgeClass=
-    "newBadge";
+  let badgeClass="newBadge";
 
 
   if(
     status==="Pending Consultation"
   ){
-
-    badgeClass=
-      "pendingBadge";
-
+    badgeClass="pendingBadge";
   }
 
 
   if(
     status==="Consultation Completed"
   ){
-
-    badgeClass=
-      "completedBadge";
-
+    badgeClass="completedBadge";
   }
 
 
   if(
     status==="Active Advisory Client"
   ){
-
-    badgeClass=
-      "activeBadge";
-
+    badgeClass="activeBadge";
   }
 
 
   if(
     status==="Closed Lead"
   ){
-
-    badgeClass=
-      "closedBadge";
-
+    badgeClass="closedBadge";
   }
 
 
   let actions="";
 
 
-  /* -----------------------------------------------
-     NEW LEAD
-  ------------------------------------------------ */
+  /* NEW LEAD */
 
   if(
     status==="New Lead"
@@ -2125,9 +1940,7 @@ function createLeadCard(lead){
   }
 
 
-  /* -----------------------------------------------
-     PENDING
-  ------------------------------------------------ */
+  /* PENDING CONSULTATION */
 
   else if(
     status==="Pending Consultation"
@@ -2161,9 +1974,7 @@ function createLeadCard(lead){
   }
 
 
-  /* -----------------------------------------------
-     COMPLETED
-  ------------------------------------------------ */
+  /* CONSULTATION COMPLETED */
 
   else if(
     status==="Consultation Completed"
@@ -2197,26 +2008,19 @@ function createLeadCard(lead){
   }
 
 
-  /* -----------------------------------------------
+  /* =================================================
      ACTIVE CLIENT
-  ------------------------------------------------ */
+
+     IMPORTANT:
+     NO BACK BUTTON HERE.
+     ONLY CLOSED LEAD.
+  ================================================= */
 
   else if(
     status==="Active Advisory Client"
   ){
 
     actions=`
-
-      <button
-        class="secondary"
-        onclick="moveLead(
-          '${lead.id}',
-          'Consultation Completed'
-        )"
-      >
-        ↩ Move to Consultation Completed
-      </button>
-
 
       <button
         class="redBtn"
@@ -2233,9 +2037,11 @@ function createLeadCard(lead){
   }
 
 
-  /* -----------------------------------------------
-     CLOSED
-  ------------------------------------------------ */
+  /* =================================================
+     CLOSED LEAD
+
+     NO BACK BUTTON.
+  ================================================= */
 
   else if(
     status==="Closed Lead"
@@ -2243,15 +2049,17 @@ function createLeadCard(lead){
 
     actions=`
 
-      <button
-        class="secondary"
-        onclick="moveLead(
-          '${lead.id}',
-          'Active Advisory Client'
-        )"
+      <div
+        class="small"
+        style="
+          background:#eeeeee;
+          padding:10px;
+          border-radius:12px;
+          font-weight:700;
+        "
       >
-        ↩ Move to Active Client
-      </button>
+        🔒 Closed — Final Stage
+      </div>
 
     `;
 
@@ -2357,6 +2165,67 @@ async function(
     normalizedStatus(lead);
 
 
+  /*
+    HARD PIPELINE PROTECTION
+
+    Allowed movements:
+
+    New → Pending
+
+    Pending → New
+    Pending → Completed
+
+    Completed → Pending
+    Completed → Active
+
+    Active → Closed
+
+    Closed → NOTHING
+  */
+
+
+  const allowedMoves={
+
+    "New Lead":[
+      "Pending Consultation"
+    ],
+
+    "Pending Consultation":[
+      "New Lead",
+      "Consultation Completed"
+    ],
+
+    "Consultation Completed":[
+      "Pending Consultation",
+      "Active Advisory Client"
+    ],
+
+    "Active Advisory Client":[
+      "Closed Lead"
+    ],
+
+    "Closed Lead":[]
+
+  };
+
+
+  if(
+    !allowedMoves[
+      oldStatus
+    ]?.includes(
+      newStatus
+    )
+  ){
+
+    alert(
+      "This movement is not allowed in the RinSaathi pipeline."
+    );
+
+    return;
+
+  }
+
+
   let question=
     `Move ${lead.name || "this customer"} from "${oldStatus}" to "${newStatus}"?`;
 
@@ -2366,7 +2235,7 @@ async function(
   ){
 
     question=
-      `Close "${lead.name || "this lead"}"?\n\nClosed Leads can only be moved back to Active Client.`;
+      `Are you sure you want to CLOSE "${lead.name || "this client"}"?\n\nAfter closing, this lead will remain in Closed Lead and cannot be moved back.`;
 
   }
 
@@ -2400,8 +2269,6 @@ async function(
 
     closeStatusModal();
 
-
-    /* Reopen the destination stage */
 
     if(
       newStatus==="New Lead"
@@ -2549,10 +2416,6 @@ function(id){
     "Not provided";
 
 
-  /* -----------------------------------------------
-     COMPLETE SAVED DETAILS
-  ------------------------------------------------ */
-
   const ignored=[
 
     "id",
@@ -2637,9 +2500,7 @@ function(id){
   }
 
 
-  /* -----------------------------------------------
-     ACTIONS
-  ------------------------------------------------ */
+  /* CUSTOMER ACTIONS */
 
   const actionBox=
     $("customerActions");
@@ -2686,37 +2547,31 @@ function(id){
   );
 
 
-  /* -----------------------------------------------
-     STAGE BUTTON
-  ------------------------------------------------ */
-
-  const stageButton=
-    document.createElement(
-      "button"
-    );
+  /*
+    STAGE ACTIONS
+    Follow the exact same rules.
+  */
 
 
   if(
     status==="New Lead"
   ){
 
-    stageButton.className=
-      "goldBtn";
+    addStageButton(
+      actionBox,
+      "goldBtn",
+      "📅 Move to Pending Consultation",
+      ()=>{
 
-    stageButton.textContent=
-      "📅 Move to Pending Consultation";
+        closeCustomer();
 
-    stageButton.onclick=
-    async()=>{
+        moveLead(
+          lead.id,
+          "Pending Consultation"
+        );
 
-      closeCustomer();
-
-      await moveLead(
-        lead.id,
-        "Pending Consultation"
-      );
-
-    };
+      }
+    );
 
   }
 
@@ -2725,50 +2580,37 @@ function(id){
     status==="Pending Consultation"
   ){
 
-    stageButton.className=
-      "goldBtn";
+    addStageButton(
+      actionBox,
+      "secondary",
+      "↩ Move to New Lead",
+      ()=>{
 
-    stageButton.textContent=
-      "✅ Consultation Completed";
+        closeCustomer();
 
-    stageButton.onclick=
-    async()=>{
+        moveLead(
+          lead.id,
+          "New Lead"
+        );
 
-      closeCustomer();
-
-      await moveLead(
-        lead.id,
-        "Consultation Completed"
-      );
-
-    };
+      }
+    );
 
 
-    const back=
-      document.createElement(
-        "button"
-      );
+    addStageButton(
+      actionBox,
+      "goldBtn",
+      "✅ Consultation Completed",
+      ()=>{
 
-    back.className=
-      "secondary";
+        closeCustomer();
 
-    back.textContent=
-      "↩ Move to New Lead";
+        moveLead(
+          lead.id,
+          "Consultation Completed"
+        );
 
-    back.onclick=
-    async()=>{
-
-      closeCustomer();
-
-      await moveLead(
-        lead.id,
-        "New Lead"
-      );
-
-    };
-
-    actionBox.appendChild(
-      back
+      }
     );
 
   }
@@ -2778,136 +2620,116 @@ function(id){
     status==="Consultation Completed"
   ){
 
-    stageButton.className=
-      "primary";
+    addStageButton(
+      actionBox,
+      "secondary",
+      "↩ Move to Pending Consultation",
+      ()=>{
 
-    stageButton.textContent=
-      "👥 Move to Active Client";
+        closeCustomer();
 
-    stageButton.onclick=
-    async()=>{
+        moveLead(
+          lead.id,
+          "Pending Consultation"
+        );
 
-      closeCustomer();
-
-      await moveLead(
-        lead.id,
-        "Active Advisory Client"
-      );
-
-    };
+      }
+    );
 
 
-    const back=
-      document.createElement(
-        "button"
-      );
+    addStageButton(
+      actionBox,
+      "primary",
+      "👥 Move to Active Client",
+      ()=>{
 
-    back.className=
-      "secondary";
+        closeCustomer();
 
-    back.textContent=
-      "↩ Move to Pending Consultation";
+        moveLead(
+          lead.id,
+          "Active Advisory Client"
+        );
 
-    back.onclick=
-    async()=>{
-
-      closeCustomer();
-
-      await moveLead(
-        lead.id,
-        "Pending Consultation"
-      );
-
-    };
-
-    actionBox.appendChild(
-      back
+      }
     );
 
   }
 
+
+  /*
+    ACTIVE CLIENT:
+    NO BACK.
+    ONLY CLOSE.
+  */
 
   else if(
     status==="Active Advisory Client"
   ){
 
-    stageButton.className=
-      "redBtn";
+    addStageButton(
+      actionBox,
+      "redBtn",
+      "🔒 Close Lead",
+      ()=>{
 
-    stageButton.textContent=
-      "🔒 Close Lead";
+        closeCustomer();
 
-    stageButton.onclick=
-    async()=>{
+        moveLead(
+          lead.id,
+          "Closed Lead"
+        );
 
-      closeCustomer();
-
-      await moveLead(
-        lead.id,
-        "Closed Lead"
-      );
-
-    };
-
-
-    const back=
-      document.createElement(
-        "button"
-      );
-
-    back.className=
-      "secondary";
-
-    back.textContent=
-      "↩ Move to Consultation Completed";
-
-    back.onclick=
-    async()=>{
-
-      closeCustomer();
-
-      await moveLead(
-        lead.id,
-        "Consultation Completed"
-      );
-
-    };
-
-    actionBox.appendChild(
-      back
+      }
     );
 
   }
 
 
+  /*
+    CLOSED:
+    NO BACK.
+    NO MOVE.
+  */
+
   else if(
     status==="Closed Lead"
   ){
 
-    stageButton.className=
-      "secondary";
-
-    stageButton.textContent=
-      "↩ Move to Active Client";
-
-    stageButton.onclick=
-    async()=>{
-
-      closeCustomer();
-
-      await moveLead(
-        lead.id,
-        "Active Advisory Client"
+    const finalBox=
+      document.createElement(
+        "div"
       );
 
-    };
+
+    finalBox.className=
+      "small";
+
+
+    finalBox.style.background=
+      "#eeeeee";
+
+
+    finalBox.style.padding=
+      "12px";
+
+
+    finalBox.style.borderRadius=
+      "12px";
+
+
+    finalBox.style.fontWeight=
+      "800";
+
+
+    finalBox.textContent=
+      "🔒 Closed Lead — Final Stage";
+
+
+    actionBox.appendChild(
+      finalBox
+    );
 
   }
-
-
-  actionBox.appendChild(
-    stageButton
-  );
 
 
   $("customerModal")
@@ -2915,6 +2737,42 @@ function(id){
     .add("active");
 
 };
+
+
+/* =====================================================
+   ADD STAGE BUTTON
+===================================================== */
+
+function addStageButton(
+  parent,
+  className,
+  text,
+  handler
+){
+
+  const btn=
+    document.createElement(
+      "button"
+    );
+
+
+  btn.className=
+    className;
+
+
+  btn.textContent=
+    text;
+
+
+  btn.onclick=
+    handler;
+
+
+  parent.appendChild(
+    btn
+  );
+
+}
 
 
 /* =====================================================
