@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
 <meta name="theme-color" content="#063f32">
 
-<title>RinSaathi Admin Dashboard</title>
+<title>RinSaathi Owner Dashboard</title>
 
 <style>
 
@@ -17,15 +20,16 @@
 }
 
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,
+  "Segoe UI",Arial,sans-serif;
   background:#f3f6f4;
   color:#17352e;
 }
 
 .header{
   background:linear-gradient(135deg,#063f32,#0b5b49);
-  color:#fff;
-  padding:28px 20px 34px;
+  color:white;
+  padding:30px 20px 34px;
   border-radius:0 0 30px 30px;
 }
 
@@ -36,21 +40,21 @@ body{
 
 .subtitle{
   font-size:12px;
-  opacity:.75;
+  opacity:.78;
   margin-top:5px;
   letter-spacing:.6px;
 }
 
 .welcome{
   margin-top:25px;
-  font-size:28px;
+  font-size:29px;
   font-weight:800;
 }
 
 .admin-number{
-  margin-top:7px;
   font-size:14px;
-  opacity:.8;
+  opacity:.82;
+  margin-top:6px;
 }
 
 .container{
@@ -59,51 +63,148 @@ body{
   padding:18px;
 }
 
-.card{
-  background:#fff;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 6px 25px rgba(0,0,0,.06);
-}
-
 .login{
-  max-width:520px;
+  max-width:540px;
   margin:35px auto;
 }
 
-.login h2{
-  font-size:27px;
-  margin-bottom:8px;
+.card{
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 7px 25px rgba(0,0,0,.06);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+  margin-top:5px;
+}
+
+.statCard{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  box-shadow:0 7px 25px rgba(0,0,0,.06);
+  cursor:pointer;
+  transition:.15s;
+}
+
+.statCard:active{
+  transform:scale(.97);
+}
+
+.statIcon{
+  font-size:25px;
+}
+
+.statNumber{
+  font-size:26px;
+  font-weight:850;
+  margin-top:8px;
+}
+
+.statTitle{
+  color:#71817c;
+  font-size:12px;
+  margin-top:4px;
+  font-weight:600;
+}
+
+.section{
+  margin-top:26px;
+}
+
+.sectionHeading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.sectionHeading h2{
+  font-size:20px;
+}
+
+.badge{
+  background:#e6f4ed;
+  color:#08704d;
+  padding:7px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.lead{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr auto;
+  gap:15px;
+  align-items:center;
+  margin-bottom:11px;
+}
+
+.name{
+  font-weight:800;
+  font-size:16px;
 }
 
 .small{
+  font-size:12px;
   color:#788681;
-  font-size:13px;
-  line-height:1.45;
+  margin-top:5px;
 }
 
-input{
-  width:100%;
-  padding:15px;
-  margin-top:12px;
-  border:1px solid #d2e2db;
+.paid{
+  color:#08704d;
+  font-size:13px;
+  font-weight:800;
+}
+
+.pendingPay{
+  color:#8a6500;
+  font-size:13px;
+  font-weight:800;
+}
+
+.status{
+  display:inline-block;
+  padding:7px 10px;
   border-radius:15px;
-  font-size:17px;
-  outline:none;
+  background:#fff4d7;
+  color:#8a6500;
+  font-size:11px;
+  font-weight:800;
+}
+
+.status.active{
+  background:#e6f4ed;
+  color:#08704d;
+}
+
+.status.closed{
+  background:#edf0ef;
+  color:#53635e;
 }
 
 button{
   border:0;
   border-radius:13px;
-  padding:12px 17px;
-  font-size:14px;
-  font-weight:800;
+  padding:11px 15px;
+  font-weight:750;
   cursor:pointer;
+  font-size:13px;
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
 .primary{
   background:#063f32;
-  color:#fff;
+  color:white;
 }
 
 .secondary{
@@ -117,154 +218,65 @@ button{
 }
 
 .redBtn{
-  background:#f8dddd;
-  color:#9d3030;
+  background:#f0dddd;
+  color:#8c2d2d;
 }
 
-button:disabled{
-  opacity:.55;
-  cursor:not-allowed;
+.greenBtn{
+  background:#0b7656;
+  color:white;
 }
 
 .actions{
   display:flex;
-  gap:9px;
+  gap:8px;
   flex-wrap:wrap;
+}
+
+input{
+  width:100%;
+  padding:15px;
+  border:1px solid #d2e2db;
+  border-radius:15px;
+  margin:8px 0;
+  font:inherit;
+  outline:none;
+}
+
+input:focus{
+  border-color:#0b7656;
 }
 
 .hidden{
   display:none!important;
 }
 
-.success{
-  background:#e6f4ed;
-  color:#08704d;
-  padding:13px;
-  border-radius:13px;
-  margin-top:12px;
-  font-weight:700;
-}
-
 .error{
+  color:#a33;
   background:#fff0f0;
-  color:#b03535;
   padding:13px;
   border-radius:13px;
-  margin-top:12px;
-  font-weight:700;
-}
-
-#recaptcha-container{
-  margin-top:12px;
-  min-height:78px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:12px;
-}
-
-.statCard{
-  background:#fff;
-  border-radius:20px;
-  padding:18px;
-  box-shadow:0 6px 25px rgba(0,0,0,.06);
-  cursor:pointer;
-  transition:.15s;
-}
-
-.statCard:active{
-  transform:scale(.98);
-}
-
-.statIcon{
-  font-size:27px;
-}
-
-.statNumber{
-  font-size:28px;
-  font-weight:800;
-  margin-top:8px;
-}
-
-.statTitle{
-  color:#71817c;
+  margin-top:10px;
+  line-height:1.4;
   font-size:13px;
-  margin-top:3px;
-  font-weight:600;
 }
 
-.tap{
+.success{
   color:#08704d;
-  font-weight:800;
-  margin-top:8px;
-  font-size:12px;
+  background:#e6f4ed;
+  padding:13px;
+  border-radius:13px;
+  margin-top:10px;
+  line-height:1.4;
+  font-size:13px;
 }
 
-.section{
-  margin-top:27px;
-}
-
-.sectionHeading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:13px;
-}
-
-.sectionHeading h2{
-  font-size:21px;
-}
-
-.pipeline{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-top:14px;
-}
-
-.pipeline span{
-  background:#eef5f2;
-  padding:8px 11px;
-  border-radius:12px;
-  font-size:11px;
-  font-weight:800;
-}
-
-.pipeline b{
-  color:#78918a;
-}
-
-.paymentRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  padding:14px 0;
-  border-bottom:1px solid #edf1ef;
-}
-
-.paymentRow:last-child{
-  border-bottom:0;
-}
-
-.paid{
-  color:#08704d;
-  font-weight:800;
-}
-
-.pendingPay{
-  color:#8a6500;
-  font-weight:800;
-}
+/* MODAL */
 
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.58);
+  background:rgba(0,0,0,.55);
   display:none;
   align-items:flex-end;
   justify-content:center;
@@ -276,104 +288,20 @@ button:disabled{
 }
 
 .modalBox{
+  background:white;
   width:100%;
   max-width:760px;
+  padding:22px;
+  border-radius:25px 25px 0 0;
   max-height:90vh;
   overflow:auto;
-  background:#fff;
-  border-radius:27px 27px 0 0;
-  padding:22px;
 }
 
 .close{
   float:right;
   background:#edf3f0;
   color:#063f32;
-  padding:9px 12px;
-}
-
-.statusListItem{
-  background:#f7faf8;
-  border:1px solid #e2ebe7;
-  border-radius:17px;
-  padding:16px;
-  margin-top:10px;
-}
-
-.statusTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-}
-
-.statusName{
-  font-size:17px;
-  font-weight:800;
-}
-
-.statusMeta{
-  color:#71817c;
-  font-size:12px;
-  margin-top:4px;
-}
-
-.statusProblem{
-  color:#52635d;
-  font-size:13px;
-  margin-top:10px;
-  line-height:1.45;
-}
-
-.statusBadge{
-  padding:7px 10px;
-  border-radius:15px;
-  font-size:10px;
-  font-weight:800;
-  white-space:nowrap;
-}
-
-.newBadge{
-  background:#e6f4ed;
-  color:#08704d;
-}
-
-.pendingBadge{
-  background:#fff4d7;
-  color:#8a6500;
-}
-
-.completedBadge{
-  background:#e5f0ff;
-  color:#315f9b;
-}
-
-.activeBadge{
-  background:#dff4ea;
-  color:#08704d;
-}
-
-.closedBadge{
-  background:#eeeeee;
-  color:#555;
-}
-
-.statusActions{
-  margin-top:13px;
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.empty{
-  text-align:center;
-  padding:32px 15px;
-  color:#71817c;
-}
-
-.emptyIcon{
-  font-size:42px;
-  margin-bottom:10px;
+  padding:8px 11px;
 }
 
 .details{
@@ -391,7 +319,7 @@ button:disabled{
 
 .detail label{
   display:block;
-  color:#71817c;
+  color:#6d7c77;
   font-size:11px;
   margin-bottom:5px;
 }
@@ -402,11 +330,81 @@ button:disabled{
 }
 
 .message{
-  background:#f5f8f6;
+  margin-top:12px;
   padding:15px;
-  border-radius:15px;
+  border-radius:14px;
+  background:#f5f8f6;
   line-height:1.5;
-  font-size:14px;
+}
+
+.statusListItem{
+  background:#f7faf8;
+  border:1px solid #e2ebe7;
+  border-radius:17px;
+  padding:16px;
+  margin-bottom:11px;
+}
+
+.statusListTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.statusListName{
+  font-size:17px;
+  font-weight:850;
+}
+
+.statusListMeta{
+  font-size:12px;
+  color:#71817c;
+  margin-top:4px;
+}
+
+.statusListProblem{
+  font-size:13px;
+  color:#52635d;
+  margin-top:10px;
+  line-height:1.45;
+}
+
+.statusListActions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.completeBadge{
+  display:inline-block;
+  padding:7px 10px;
+  border-radius:14px;
+  background:#e6f4ed;
+  color:#08704d;
+  font-size:11px;
+  font-weight:850;
+}
+
+.closedBadge{
+  display:inline-block;
+  padding:7px 10px;
+  border-radius:14px;
+  background:#edf0ef;
+  color:#53635e;
+  font-size:11px;
+  font-weight:850;
+}
+
+.infoBox{
+  background:#e6f4ed;
+  color:#08704d;
+  border-radius:15px;
+  padding:14px;
+  margin-top:15px;
+  font-size:13px;
+  line-height:1.5;
 }
 
 .fieldGrid{
@@ -417,17 +415,17 @@ button:disabled{
 }
 
 .field{
-  background:#f7faf8;
-  border:1px solid #e6eeea;
-  border-radius:12px;
-  padding:11px;
+  background:white;
+  border-radius:11px;
+  padding:10px;
+  border:1px solid #edf1ef;
 }
 
 .field label{
   display:block;
-  color:#71817c;
   font-size:10px;
-  margin-bottom:4px;
+  color:#71817c;
+  margin-bottom:3px;
 }
 
 .field div{
@@ -436,16 +434,82 @@ button:disabled{
   word-break:break-word;
 }
 
-@media(max-width:950px){
+.empty{
+  text-align:center;
+  padding:30px 18px;
+  color:#71817c;
+}
+
+.pipelineBox{
+  background:#f7faf8;
+  border:1px solid #e2ebe7;
+  border-radius:17px;
+  padding:15px;
+  margin-bottom:16px;
+}
+
+.pipelineTitle{
+  font-weight:850;
+  font-size:14px;
+  color:#063f32;
+  margin-bottom:8px;
+}
+
+.pipelineFlow{
+  font-size:12px;
+  color:#71817c;
+  line-height:1.8;
+}
+
+.lockedBox{
+  background:#f1f3f2;
+  color:#586761;
+  padding:12px;
+  border-radius:13px;
+  font-size:12px;
+  margin-top:12px;
+}
+
+@media(max-width:1050px){
+
   .stats{
     grid-template-columns:repeat(3,1fr);
   }
+
 }
 
-@media(max-width:700px){
+@media(max-width:760px){
 
   .stats{
     grid-template-columns:repeat(2,1fr);
+  }
+
+  .lead{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:450px){
+
+  .header{
+    padding:25px 16px 30px;
+  }
+
+  .welcome{
+    font-size:25px;
+  }
+
+  .container{
+    padding:14px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .lead{
+    grid-template-columns:1fr;
   }
 
   .details,
@@ -453,28 +517,8 @@ button:disabled{
     grid-template-columns:1fr;
   }
 
-}
-
-@media(max-width:450px){
-
-  .container{
-    padding:14px;
-  }
-
-  .stats{
-    gap:9px;
-  }
-
-  .statCard{
-    padding:15px;
-  }
-
-  .statNumber{
-    font-size:24px;
-  }
-
-  .welcome{
-    font-size:24px;
+  .modalBox{
+    padding:18px;
   }
 
 }
@@ -484,7 +528,6 @@ button:disabled{
 </head>
 
 <body>
-
 
 <header class="header">
 
@@ -509,14 +552,11 @@ button:disabled{
 
 <main class="container">
 
-
 <!-- LOGIN -->
 
 <section id="loginBox" class="card login">
 
-  <h2>
-    🔐 Admin Login
-  </h2>
+  <h2>🔐 Admin Login</h2>
 
   <p class="small">
     Login with the registered RinSaathi admin mobile number.
@@ -525,19 +565,15 @@ button:disabled{
   <input
     id="phone"
     type="tel"
-    value="9319301096"
-    inputmode="numeric"
-    maxlength="10"
-    placeholder="10-digit mobile number"
+    value="+919319301096"
+    placeholder="+91XXXXXXXXXX"
   >
 
   <div id="recaptcha-container"></div>
 
   <button
     class="primary"
-    id="sendOtp"
-    style="margin-top:10px"
-  >
+    id="sendOtp">
     Send OTP
   </button>
 
@@ -545,30 +581,16 @@ button:disabled{
 
     <input
       id="otp"
-      type="text"
       inputmode="numeric"
-      autocomplete="one-time-code"
       maxlength="6"
       placeholder="Enter 6-digit OTP"
     >
 
-    <div class="actions" style="margin-top:8px">
-
-      <button
-        class="primary"
-        id="verifyOtp"
-      >
-        Verify OTP
-      </button>
-
-      <button
-        class="secondary"
-        id="resendOtp"
-      >
-        Resend OTP
-      </button>
-
-    </div>
+    <button
+      class="primary"
+      id="verifyOtp">
+      Verify OTP
+    </button>
 
   </div>
 
@@ -581,42 +603,59 @@ button:disabled{
 
 <section id="dashboard" class="hidden">
 
-
-  <div class="actions" style="margin-bottom:16px">
+  <div class="actions" style="margin:0 0 15px">
 
     <button
       class="secondary"
-      id="refresh"
-    >
+      id="refresh">
       ↻ Refresh
     </button>
 
     <button
       class="secondary"
-      id="logout"
-    >
+      id="logout">
       Logout
     </button>
 
   </div>
 
 
-  <!-- FIVE PIPELINE STAGES -->
+  <!-- PIPELINE INFO -->
+
+  <div class="pipelineBox">
+
+    <div class="pipelineTitle">
+      🔄 Customer Pipeline
+    </div>
+
+    <div class="pipelineFlow">
+      🆕 New Lead
+      →
+      📅 Pending Consultation
+      →
+      ✅ Consultation Completed
+      →
+      👥 Active Client
+      →
+      🔒 Closed Lead
+    </div>
+
+  </div>
+
+
+  <!-- STATS -->
 
   <div class="stats">
 
-
     <div
       class="statCard"
-      onclick="openNewLeads()"
-    >
+      onclick="openNewLeads()">
 
       <div class="statIcon">🆕</div>
 
       <div
         class="statNumber"
-        id="newLeads"
-      >
+        id="newLeads">
         0
       </div>
 
@@ -624,24 +663,18 @@ button:disabled{
         New Leads
       </div>
 
-      <div class="tap">
-        Tap to view →
-      </div>
-
     </div>
 
 
     <div
       class="statCard"
-      onclick="openPending()"
-    >
+      onclick="openPendingConsultations()">
 
       <div class="statIcon">📅</div>
 
       <div
         class="statNumber"
-        id="pending"
-      >
+        id="pending">
         0
       </div>
 
@@ -649,24 +682,18 @@ button:disabled{
         Pending Consultation
       </div>
 
-      <div class="tap">
-        Tap to view →
-      </div>
-
     </div>
 
 
     <div
       class="statCard"
-      onclick="openCompleted()"
-    >
+      onclick="openCompletedConsultations()">
 
       <div class="statIcon">✅</div>
 
       <div
         class="statNumber"
-        id="completed"
-      >
+        id="completed">
         0
       </div>
 
@@ -674,24 +701,18 @@ button:disabled{
         Consultation Completed
       </div>
 
-      <div class="tap">
-        Tap to view →
-      </div>
-
     </div>
 
 
     <div
       class="statCard"
-      onclick="openActive()"
-    >
+      onclick="showActiveClients()">
 
       <div class="statIcon">👥</div>
 
       <div
         class="statNumber"
-        id="active"
-      >
+        id="clients">
         0
       </div>
 
@@ -699,24 +720,18 @@ button:disabled{
         Active Clients
       </div>
 
-      <div class="tap">
-        Tap to view →
-      </div>
-
     </div>
 
 
     <div
       class="statCard"
-      onclick="openClosed()"
-    >
+      onclick="showClosedLeads()">
 
       <div class="statIcon">🔒</div>
 
       <div
         class="statNumber"
-        id="closed"
-      >
+        id="closed">
         0
       </div>
 
@@ -724,58 +739,31 @@ button:disabled{
         Closed Leads
       </div>
 
-      <div class="tap">
-        Tap to view →
+    </div>
+
+
+    <div
+      class="statCard"
+      onclick="showAllLeads()">
+
+      <div class="statIcon">💰</div>
+
+      <div
+        class="statNumber"
+        id="revenue">
+        ₹0
+      </div>
+
+      <div class="statTitle">
+        Consultation Revenue
       </div>
 
     </div>
-
 
   </div>
 
 
-  <!-- PIPELINE -->
-
-  <section class="section">
-
-    <div class="card">
-
-      <div style="font-size:17px;font-weight:800">
-        🔄 Lead Pipeline
-      </div>
-
-      <div class="pipeline">
-
-        <span>🆕 New Lead</span>
-        <b>→</b>
-
-        <span>📅 Pending Consultation</span>
-        <b>→</b>
-
-        <span>✅ Consultation Completed</span>
-        <b>→</b>
-
-        <span>👥 Active Client</span>
-        <b>→</b>
-
-        <span>🔒 Closed Lead</span>
-
-      </div>
-
-      <p
-        class="small"
-        style="margin-top:12px"
-      >
-        New Lead → Pending Consultation → Consultation Completed
-        → Active Client → Closed Lead
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- PAYMENTS -->
+  <!-- RECENT PAYMENTS -->
 
   <section class="section">
 
@@ -789,11 +777,34 @@ button:disabled{
 
     <div
       class="card"
-      id="paymentContainer"
-    ></div>
+      id="paymentContainer">
+      Loading payments...
+    </div>
 
   </section>
 
+
+  <!-- NEW LEADS ALWAYS FIRST -->
+
+  <section class="section">
+
+    <div class="sectionHeading">
+
+      <h2>
+        🆕 New Leads
+      </h2>
+
+      <span
+        class="badge"
+        id="leadCount">
+        0 New
+      </span>
+
+    </div>
+
+    <div id="leadContainer"></div>
+
+  </section>
 
 </section>
 
@@ -804,15 +815,13 @@ button:disabled{
 
 <div
   class="modal"
-  id="statusModal"
->
+  id="statusModal">
 
   <div class="modalBox">
 
     <button
       class="close"
-      onclick="closeStatusModal()"
-    >
+      onclick="closeStatusModal()">
       ✕
     </button>
 
@@ -823,32 +832,30 @@ button:disabled{
     <p
       class="small"
       id="statusModalSubtitle"
-      style="margin-top:5px"
-    ></p>
+      style="margin-top:5px">
+    </p>
 
     <div
       id="statusList"
-      style="margin-top:18px"
-    ></div>
+      style="margin-top:18px">
+    </div>
 
   </div>
 
 </div>
 
 
-<!-- CUSTOMER MODAL -->
+<!-- CUSTOMER DETAILS -->
 
 <div
   class="modal"
-  id="customerModal"
->
+  id="customerModal">
 
   <div class="modalBox">
 
     <button
       class="close"
-      onclick="closeCustomer()"
-    >
+      onclick="closeCustomer()">
       ✕
     </button>
 
@@ -858,34 +865,69 @@ button:disabled{
 
     <div
       class="small"
-      id="customerService"
-    ></div>
+      id="customerService">
+    </div>
+
 
     <div class="details">
 
       <div class="detail">
-        <label>Mobile</label>
-        <strong id="customerMobile"></strong>
+
+        <label>
+          Mobile
+        </label>
+
+        <strong id="customerMobile">
+        </strong>
+
       </div>
 
-      <div class="detail">
-        <label>Payment</label>
-        <strong id="customerPayment"></strong>
-      </div>
 
       <div class="detail">
-        <label>Problem / Concern</label>
-        <strong id="customerProblem"></strong>
+
+        <label>
+          Payment
+        </label>
+
+        <strong id="customerPayment">
+        </strong>
+
       </div>
 
-      <div class="detail">
-        <label>Created Date</label>
-        <strong id="customerDate"></strong>
-      </div>
 
       <div class="detail">
-        <label>Current Stage</label>
-        <strong id="customerStatus"></strong>
+
+        <label>
+          Problem / Concern
+        </label>
+
+        <strong id="customerProblem">
+        </strong>
+
+      </div>
+
+
+      <div class="detail">
+
+        <label>
+          Booking Date
+        </label>
+
+        <strong id="customerDate">
+        </strong>
+
+      </div>
+
+
+      <div class="detail">
+
+        <label>
+          Current Status
+        </label>
+
+        <strong id="customerStatus">
+        </strong>
+
       </div>
 
     </div>
@@ -893,31 +935,56 @@ button:disabled{
 
     <div class="message">
 
-      <b>Customer Message</b>
+      <b>
+        Customer Message
+      </b>
 
       <br>
 
-      <span id="customerMessage"></span>
+      <span id="customerMessage">
+      </span>
 
     </div>
 
 
-    <div style="margin-top:20px">
+    <div style="margin-top:18px">
 
-      <h3 style="font-size:16px;color:#063f32">
-        📋 Complete Enquiry Details
+      <h3
+        style="font-size:16px;color:#063f32">
+
+        📋 Complete Form Details
+
       </h3>
 
-      <div id="completeFormDetails"></div>
+      <div id="completeFormDetails">
+      </div>
 
     </div>
 
 
     <div
       class="actions"
-      id="customerActions"
-      style="margin-top:18px"
-    ></div>
+      style="margin-top:17px">
+
+      <button
+        class="primary"
+        id="callCustomer">
+        📞 Contact Customer
+      </button>
+
+      <button
+        class="goldBtn"
+        id="customerAction">
+        Action
+      </button>
+
+    </div>
+
+
+    <div
+      id="customerLockInfo"
+      class="lockedBox hidden">
+    </div>
 
   </div>
 
@@ -926,27 +993,24 @@ button:disabled{
 
 <script type="module">
 
-
-/* =====================================================
+/* ==========================================
    FIREBASE
-===================================================== */
+========================================== */
 
 import {
   initializeApp
 }
-from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 
 import {
   getAuth,
+  onAuthStateChanged,
   RecaptchaVerifier,
   signInWithPhoneNumber,
-  onAuthStateChanged,
   signOut
 }
-from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 
 import {
@@ -956,94 +1020,105 @@ import {
   query,
   orderBy,
   doc,
-  updateDoc,
-  serverTimestamp
+  updateDoc
 }
-from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-const firebaseConfig={
+/* ==========================================
+   YOUR FIREBASE CONFIG
+========================================== */
+
+const firebaseConfig = {
 
   apiKey:
-  "AIzaSyCP0TMqjJ4nlofmVkmIS9G5aAAkFafHMV4",
+    "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
   authDomain:
-  "rinsaathi-app.firebaseapp.com",
+    "rinsaathi-app.firebaseapp.com",
 
   projectId:
-  "rinsaathi-app",
+    "rinsaathi-app",
 
   storageBucket:
-  "rinsaathi-app.firebasestorage.app",
+    "rinsaathi-app.firebasestorage.app",
 
   messagingSenderId:
-  "156758734237",
+    "156758734237",
 
   appId:
-  "1:156758734237:web:b2daa2fb6e43a7bc192b74"
+    "1:156758734237:web:b2daa2fb6e43a7bc192b74"
 
 };
 
 
-const app=
-initializeApp(firebaseConfig);
+/* ==========================================
+   INITIALIZE
+========================================== */
 
-const auth=
-getAuth(app);
+const app =
+  initializeApp(firebaseConfig);
 
-const db=
-getFirestore(app);
+const auth =
+  getAuth(app);
 
-
-let confirmationResult=null;
-
-let recaptchaVerifier=null;
-
-let leads=[];
+const db =
+  getFirestore(app);
 
 
-const $=
-id=>document.getElementById(id);
+/* ==========================================
+   VARIABLES
+========================================== */
+
+let confirmationResult = null;
+
+let recaptcha = null;
+
+let leads = [];
+
+const ADMIN_PHONE =
+  "+919319301096";
 
 
-/* =====================================================
+const $ =
+  id => document.getElementById(id);
+
+
+/* ==========================================
    LOGIN MESSAGE
-===================================================== */
+========================================== */
 
-function loginMessage(
-  text,
-  type="success"
-){
+function msg(text,type="success"){
 
-  const box=$("loginMsg");
+  $("loginMsg").className =
+    type;
 
-  box.textContent=text;
-
-  box.className=type;
+  $("loginMsg").textContent =
+    text;
 
 }
 
 
-/* =====================================================
+/* ==========================================
    RECAPTCHA
-===================================================== */
+========================================== */
 
-function createRecaptcha(){
+function setupRecaptcha(){
 
   try{
 
-    if(recaptchaVerifier){
+    if(recaptcha){
 
       try{
-        recaptchaVerifier.clear();
-      }catch(e){}
+        recaptcha.clear();
+      }catch(_){}
+
+      recaptcha = null;
 
     }
 
-    recaptchaVerifier=null;
 
-    recaptchaVerifier=
+    recaptcha =
       new RecaptchaVerifier(
         auth,
         "recaptcha-container",
@@ -1052,44 +1127,56 @@ function createRecaptcha(){
         }
       );
 
-    recaptchaVerifier
+
+    recaptcha
       .render()
       .catch(
-        e=>console.error(e)
+        e =>
+        console.error(
+          "reCAPTCHA render error:",
+          e
+        )
       );
 
   }catch(e){
 
-    console.error(e);
+    console.error(
+      "reCAPTCHA setup error:",
+      e
+    );
 
-    recaptchaVerifier=null;
+    recaptcha = null;
 
   }
 
 }
 
 
-createRecaptcha();
+/* ==========================================
+   INITIAL RECAPTCHA
+========================================== */
+
+setupRecaptcha();
 
 
-/* =====================================================
+/* ==========================================
    SEND OTP
-===================================================== */
+========================================== */
 
-async function sendOTP(){
+$("sendOtp").onclick =
+async function(){
 
-  const digits=
-    $("phone")
-      .value
-      .trim()
-      .replace(/\D/g,"");
+  const rawPhone =
+    $("phone").value.trim();
 
 
-  if(
-    !/^[6-9]\d{9}$/.test(digits)
-  ){
+  const digits =
+    rawPhone.replace(/\D/g,"");
 
-    loginMessage(
+
+  if(!/^[6-9]\d{9}$/.test(digits)){
+
+    msg(
       "Please enter a valid 10-digit Indian mobile number.",
       "error"
     );
@@ -1101,28 +1188,28 @@ async function sendOTP(){
 
   try{
 
-    loginMessage(
+    msg(
       "Sending OTP...",
       "success"
     );
 
 
-    if(!recaptchaVerifier){
+    if(!recaptcha){
 
-      createRecaptcha();
-
-      await new Promise(
-        r=>setTimeout(r,500)
-      );
+      setupRecaptcha();
 
     }
 
 
-    confirmationResult=
+    const phone =
+      "+91"+digits;
+
+
+    confirmationResult =
       await signInWithPhoneNumber(
         auth,
-        "+91"+digits,
-        recaptchaVerifier
+        phone,
+        recaptcha
       );
 
 
@@ -1131,73 +1218,77 @@ async function sendOTP(){
       .remove("hidden");
 
 
-    $("otp").value="";
+    $("otp").value = "";
 
     $("otp").focus();
 
 
-    loginMessage(
-      "OTP sent successfully. Please enter the latest OTP.",
+    msg(
+      "OTP sent successfully. Enter the latest 6-digit OTP.",
       "success"
     );
 
 
-  }catch(error){
+  }catch(e){
 
-    console.error(error);
+    console.error(
+      "Send OTP error:",
+      e
+    );
 
-    loginMessage(
-      getFirebaseErrorMessage(error),
+
+    let errorText =
+      e?.message ||
+      "Unable to send OTP.";
+
+
+    msg(
+      errorText,
       "error"
     );
 
 
     try{
 
-      if(recaptchaVerifier){
-        recaptchaVerifier.clear();
+      if(recaptcha){
+
+        recaptcha.clear();
+
       }
 
-    }catch(e){}
+    }catch(_){}
 
 
-    recaptchaVerifier=null;
+    recaptcha = null;
+
 
     setTimeout(
-      createRecaptcha,
-      300
+      setupRecaptcha,
+      500
     );
 
   }
 
-}
+};
 
 
-$("sendOtp")
-  .addEventListener(
-    "click",
-    sendOTP
-  );
-
-
-/* =====================================================
+/* ==========================================
    VERIFY OTP
-===================================================== */
+========================================== */
 
-async function verifyOTP(){
+$("verifyOtp").onclick =
+async function(){
 
-  const otp=
+  const otp =
     $("otp")
       .value
       .trim()
       .replace(/\s/g,"");
 
 
-  if(
-    !/^\d{6}$/.test(otp)
-  ){
+  if(!/^\d{6}$/.test(otp)){
 
-    loginMessage(
+    msg(
       "Please enter the 6-digit OTP.",
       "error"
     );
@@ -1209,7 +1300,7 @@ async function verifyOTP(){
 
   if(!confirmationResult){
 
-    loginMessage(
+    msg(
       "Please request a new OTP first.",
       "error"
     );
@@ -1221,182 +1312,60 @@ async function verifyOTP(){
 
   try{
 
-    loginMessage(
+    msg(
       "Verifying OTP...",
       "success"
     );
 
 
-    const result=
-      await confirmationResult.confirm(
-        otp
-      );
+    await confirmationResult.confirm(
+      otp
+    );
 
 
-    const user=
-      result.user;
-
-
-    if(
-      user.phoneNumber !==
-      "+919319301096"
-    ){
-
-      await signOut(auth);
-
-      loginMessage(
-        "This number is not authorized as RinSaathi Admin.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    loginMessage(
+    msg(
       "Login successful!",
       "success"
     );
 
 
-  }catch(error){
+  }catch(e){
 
-    console.error(error);
+    console.error(
+      "Verify OTP error:",
+      e
+    );
 
-    loginMessage(
-      getFirebaseErrorMessage(error),
+
+    msg(
+      "Invalid or expired OTP. Please request a new OTP and enter the latest OTP.",
       "error"
     );
 
   }
 
-}
+};
 
 
-$("verifyOtp")
-  .addEventListener(
-    "click",
-    verifyOTP
-  );
+/* ==========================================
+   LOGOUT / REFRESH
+========================================== */
+
+$("logout").onclick =
+() => signOut(auth);
 
 
-/* =====================================================
-   RESEND OTP
-===================================================== */
-
-$("resendOtp")
-  .addEventListener(
-    "click",
-    async()=>{
-
-      try{
-
-        if(recaptchaVerifier){
-
-          try{
-            recaptchaVerifier.clear();
-          }catch(e){}
-
-        }
-
-        recaptchaVerifier=null;
-
-        createRecaptcha();
-
-        await new Promise(
-          r=>setTimeout(r,500)
-        );
-
-        await sendOTP();
-
-      }catch(e){
-
-        console.error(e);
-
-      }
-
-    }
-  );
+$("refresh").onclick =
+loadLeads;
 
 
-/* =====================================================
-   FIREBASE ERRORS
-===================================================== */
-
-function getFirebaseErrorMessage(error){
-
-  const code=
-    error?.code || "";
-
-
-  if(
-    code.includes(
-      "invalid-verification-code"
-    )
-  ){
-
-    return(
-      "Incorrect OTP. Please enter the latest OTP received."
-    );
-
-  }
-
-
-  if(
-    code.includes(
-      "code-expired"
-    )
-  ){
-
-    return(
-      "OTP expired. Please tap Resend OTP."
-    );
-
-  }
-
-
-  if(
-    code.includes(
-      "too-many-requests"
-    )
-  ){
-
-    return(
-      "Too many attempts. Please wait and try again."
-    );
-
-  }
-
-
-  if(
-    code.includes(
-      "invalid-phone-number"
-    )
-  ){
-
-    return(
-      "Invalid mobile number."
-    );
-
-  }
-
-
-  return(
-    error?.message ||
-    "Something went wrong. Please try again."
-  );
-
-}
-
-
-/* =====================================================
+/* ==========================================
    AUTH STATE
-===================================================== */
+========================================== */
 
 onAuthStateChanged(
   auth,
-  async user=>{
+  async(user)=>{
 
     if(!user){
 
@@ -1413,17 +1382,20 @@ onAuthStateChanged(
     }
 
 
-    if(
-      user.phoneNumber !==
-      "+919319301096"
-    ){
+    const phone =
+      user.phoneNumber || "";
+
+
+    if(phone !== ADMIN_PHONE){
 
       await signOut(auth);
 
-      loginMessage(
-        "This number is not authorized as RinSaathi Admin.",
+
+      msg(
+        "This number is not authorized as the RinSaathi Admin.",
         "error"
       );
+
 
       return;
 
@@ -1446,44 +1418,17 @@ onAuthStateChanged(
 );
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-$("logout")
-  .addEventListener(
-    "click",
-    async()=>{
-
-      await signOut(auth);
-
-      location.reload();
-
-    }
-  );
-
-
-$("refresh")
-  .addEventListener(
-    "click",
-    loadLeads
-  );
-
-
-/* =====================================================
+/* ==========================================
    LOAD LEADS
-===================================================== */
+========================================== */
 
 async function loadLeads(){
 
   try{
 
-    const q=
+    const q =
       query(
-        collection(
-          db,
-          "leads"
-        ),
+        collection(db,"leads"),
         orderBy(
           "createdAt",
           "desc"
@@ -1491,28 +1436,27 @@ async function loadLeads(){
       );
 
 
-    const snap=
+    const snap =
       await getDocs(q);
 
 
-    leads=
+    leads =
       snap.docs.map(
-        d=>({
+        d => ({
           id:d.id,
           ...d.data()
         })
       );
 
 
-    renderDashboard();
+    render();
 
+  }catch(e){
 
-  }catch(error){
-
-    console.error(error);
+    console.error(e);
 
     alert(
-      "Could not load leads. Please check Firestore Rules."
+      "Could not load leads. Please check Firestore Rules and database."
     );
 
   }
@@ -1520,9 +1464,9 @@ async function loadLeads(){
 }
 
 
-/* =====================================================
-   STATUS
-===================================================== */
+/* ==========================================
+   STATUS HELPERS
+========================================== */
 
 function getStatus(lead){
 
@@ -1532,407 +1476,465 @@ function getStatus(lead){
 }
 
 
-function normalizedStatus(lead){
+function isPending(lead){
 
-  const s=
+  const s =
     getStatus(lead);
 
-
-  if(
-    s==="Consultation Scheduled"
-  ){
-
-    return "Pending Consultation";
-
-  }
-
-
-  return s;
+  return (
+    s === "Pending Consultation" ||
+    s === "Consultation Scheduled"
+  );
 
 }
 
 
-/* =====================================================
+/* ==========================================
    DASHBOARD COUNTS
-===================================================== */
+========================================== */
 
-function renderDashboard(){
+function render(){
 
-  let newCount=0;
+  let revenue = 0;
 
-  let pendingCount=0;
+  let newCount = 0;
 
-  let completedCount=0;
+  let pending = 0;
 
-  let activeCount=0;
+  let completed = 0;
 
-  let closedCount=0;
+  let clients = 0;
+
+  let closed = 0;
 
 
   leads.forEach(
-    lead=>{
+    l => {
 
-      const status=
-        normalizedStatus(lead);
+      if(l.payment === "PAID"){
+
+        revenue +=
+          Number(l.amount || 0);
+
+      }
 
 
-      if(
-        status==="New Lead"
-      ){
+      const s =
+        getStatus(l);
+
+
+      if(s === "New Lead"){
+
         newCount++;
+
       }
 
 
       if(
-        status==="Pending Consultation"
+        s === "Pending Consultation" ||
+        s === "Consultation Scheduled"
       ){
-        pendingCount++;
+
+        pending++;
+
       }
 
 
       if(
-        status==="Consultation Completed"
+        s === "Consultation Completed"
       ){
-        completedCount++;
+
+        completed++;
+
       }
 
 
       if(
-        status==="Active Advisory Client"
+        s === "Active Advisory Client"
       ){
-        activeCount++;
+
+        clients++;
+
       }
 
 
       if(
-        status==="Closed Lead"
+        s === "Closed Lead"
       ){
-        closedCount++;
+
+        closed++;
+
       }
 
     }
   );
 
 
-  $("newLeads")
-    .textContent=
+  $("revenue").textContent =
+    "₹"+
+    revenue.toLocaleString("en-IN");
+
+
+  $("newLeads").textContent =
     newCount;
 
 
-  $("pending")
-    .textContent=
-    pendingCount;
+  $("pending").textContent =
+    pending;
 
 
-  $("completed")
-    .textContent=
-    completedCount;
+  $("completed").textContent =
+    completed;
 
 
-  $("active")
-    .textContent=
-    activeCount;
+  $("clients").textContent =
+    clients;
 
 
-  $("closed")
-    .textContent=
-    closedCount;
+  $("closed").textContent =
+    closed;
 
+
+  $("leadCount").textContent =
+    newCount+
+    " New";
+
+
+  renderNewLeadSection();
 
   renderPayments();
 
 }
 
 
-/* =====================================================
-   PAYMENTS
-===================================================== */
+/* ==========================================
+   NEW LEADS
+========================================== */
 
-function renderPayments(){
+function renderNewLeadSection(){
 
-  if(!leads.length){
+  const list =
+    leads.filter(
+      l =>
+        getStatus(l) === "New Lead"
+    );
 
-    $("paymentContainer")
-      .innerHTML=`
 
-        <div class="empty">
+  if(!list.length){
 
-          <div class="emptyIcon">
-            💳
-          </div>
+    $("leadContainer").innerHTML =
 
-          <h3>
-            No Payments Yet
-          </h3>
+      `<div class="card empty">
 
+        <div style="font-size:38px">
+          ✅
         </div>
 
-      `;
+        <h3 style="margin-top:10px">
+          No New Leads
+        </h3>
+
+        <p class="small">
+          All new enquiries have been moved to the next stage.
+        </p>
+
+      </div>`;
 
     return;
 
   }
 
 
-  $("paymentContainer")
-    .innerHTML=
+  $("leadContainer").innerHTML =
+    list.map(
+      l => leadCard(l)
+    ).join("");
 
+}
+
+
+/* ==========================================
+   LEAD CARD
+========================================== */
+
+function leadCard(l){
+
+  const s =
+    getStatus(l);
+
+
+  return `
+
+    <div class="card lead">
+
+      <div>
+
+        <div class="name">
+          ${esc(l.name || "Customer")}
+        </div>
+
+        <div class="small">
+          ${esc(l.service || "Consultation")}
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="${
+          l.payment === "PAID"
+          ? "paid"
+          : "pendingPay"
+        }">
+
+          ₹${Number(
+            l.amount || 0
+          ).toLocaleString("en-IN")}
+
+          • ${esc(
+            l.payment || "PENDING"
+          )}
+
+        </div>
+
+        <div class="small">
+          ${formatDate(l.createdAt)}
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <span class="status">
+          ${esc(s)}
+        </span>
+
+        <div class="small">
+          ${esc(
+            l.problem ||
+            l.message ||
+            ""
+          )}
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <button
+          class="primary"
+          onclick="openCustomer('${l.id}')">
+
+          View Details
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==========================================
+   PAYMENT SECTION
+========================================== */
+
+function renderPayments(){
+
+  const paid =
     leads
-      .slice(0,15)
-      .map(
-        lead=>`
-
-          <div class="paymentRow">
-
-            <div>
-
-              <strong>
-                ${esc(
-                  lead.name ||
-                  "Customer"
-                )}
-              </strong>
-
-              <div class="small">
-                ${formatDate(
-                  lead.createdAt
-                )}
-              </div>
-
-            </div>
+      .filter(
+        l => l.payment === "PAID"
+      )
+      .slice(0,5);
 
 
-            <div class="${
-              lead.payment==="PAID"
-              ?"paid"
-              :"pendingPay"
-            }">
+  if(!paid.length){
 
-              ₹${
-                Number(
-                  lead.amount||0
-                ).toLocaleString(
-                  "en-IN"
-                )
-              }
+    $("paymentContainer").innerHTML =
 
-              ${
-                lead.payment==="PAID"
-                ?" • PAID ✅"
-                :" • PENDING"
-              }
+      `<div class="empty">
+        No paid consultations yet.
+      </div>`;
 
+    return;
+
+  }
+
+
+  $("paymentContainer").innerHTML =
+    paid.map(
+      l => `
+
+        <div
+          style="
+          padding:12px 0;
+          border-bottom:1px solid #edf1ef;
+          display:flex;
+          justify-content:space-between;
+          gap:10px;
+          ">
+
+          <div>
+
+            <strong>
+              ${esc(l.name || "Customer")}
+            </strong>
+
+            <div class="small">
+              ${esc(l.service || "Consultation")}
             </div>
 
           </div>
 
-        `
-      )
-      .join("");
+
+          <div
+            style="
+            color:#08704d;
+            font-weight:800;
+            ">
+
+            ₹${Number(
+              l.amount || 0
+            ).toLocaleString("en-IN")}
+
+          </div>
+
+        </div>
+
+      `
+    )
+    .join("");
 
 }
 
 
-/* =====================================================
-   OPEN STATUS
-===================================================== */
+/* ==========================================
+   FILTER STATUS
+========================================== */
 
-window.openNewLeads=function(){
-
-  openStatusModal(
-    "New Lead",
-    "🆕 New Leads",
-    "All new customer enquiries start here."
-  );
-
-};
-
-
-window.openPending=function(){
-
-  openStatusModal(
-    "Pending Consultation",
-    "📅 Pending Consultations",
-    "Customers waiting for or currently going through consultation."
-  );
-
-};
-
-
-window.openCompleted=function(){
-
-  openStatusModal(
-    "Consultation Completed",
-    "✅ Consultation Completed",
-    "Consultations that have been completed."
-  );
-
-};
-
-
-window.openActive=function(){
-
-  openStatusModal(
-    "Active Advisory Client",
-    "👥 Active Clients",
-    "Active clients. There is NO back option from this stage."
-  );
-
-};
-
-
-window.openClosed=function(){
-
-  openStatusModal(
-    "Closed Lead",
-    "🔒 Closed Leads",
-    "Leads that have been closed after becoming active clients."
-  );
-
-};
-
-
-/* =====================================================
-   FILTER
-===================================================== */
-
-function getLeadsForStatus(status){
+function statusLeads(status){
 
   return leads.filter(
-    lead=>
-      normalizedStatus(lead)===status
+    l => {
+
+      const s =
+        getStatus(l);
+
+
+      if(
+        status ===
+        "Pending Consultation"
+      ){
+
+        return (
+          s ===
+          "Pending Consultation" ||
+          s ===
+          "Consultation Scheduled"
+        );
+
+      }
+
+
+      return s === status;
+
+    }
   );
 
 }
 
 
-/* =====================================================
-   STATUS MODAL
-===================================================== */
+/* ==========================================
+   STATUS LIST
+========================================== */
 
-function openStatusModal(
-  status,
-  title,
-  subtitle
-){
+function renderStatusList(status){
 
-  $("statusModalTitle")
-    .textContent=
-    title;
-
-
-  $("statusModalSubtitle")
-    .textContent=
-    subtitle;
-
-
-  const list=
-    getLeadsForStatus(
-      status
-    );
+  const list =
+    statusLeads(status);
 
 
   if(!list.length){
 
-    $("statusList")
-      .innerHTML=`
+    let text =
+      "No customers in this stage right now.";
 
-        <div class="empty">
 
-          <div class="emptyIcon">
-            📋
-          </div>
+    if(status === "New Lead")
+      text =
+        "🆕 No new leads right now.";
 
-          <h3>
-            No customers in this stage
-          </h3>
 
-        </div>
+    if(status === "Pending Consultation")
+      text =
+        "📅 No pending consultations right now.";
 
-      `;
 
-  }else{
+    if(status === "Consultation Completed")
+      text =
+        "✅ No completed consultations right now.";
 
-    $("statusList")
-      .innerHTML=
 
-      list.map(
-        lead=>
-          createLeadCard(
-            lead
-          )
-      ).join("");
+    if(status === "Active Advisory Client")
+      text =
+        "👥 No active clients right now.";
+
+
+    if(status === "Closed Lead")
+      text =
+        "🔒 No closed leads right now.";
+
+
+    $("statusList").innerHTML =
+      `<div class="empty">
+        ${text}
+      </div>`;
+
+    return;
 
   }
 
 
-  $("statusModal")
-    .classList
-    .add("active");
+  $("statusList").innerHTML =
+    list.map(
+      l => statusListCard(l)
+    ).join("");
 
 }
 
 
-/* =====================================================
-   LEAD CARD
-===================================================== */
+/* ==========================================
+   STATUS CARD + ACTIONS
+========================================== */
 
-function createLeadCard(lead){
+function statusListCard(l){
 
-  const status=
-    normalizedStatus(lead);
-
-
-  let badgeClass="newBadge";
+  const s =
+    getStatus(l);
 
 
-  if(
-    status==="Pending Consultation"
-  ){
-    badgeClass="pendingBadge";
-  }
-
-
-  if(
-    status==="Consultation Completed"
-  ){
-    badgeClass="completedBadge";
-  }
-
-
-  if(
-    status==="Active Advisory Client"
-  ){
-    badgeClass="activeBadge";
-  }
-
-
-  if(
-    status==="Closed Lead"
-  ){
-    badgeClass="closedBadge";
-  }
-
-
-  let actions="";
+  let actionButtons = "";
 
 
   /* NEW LEAD */
 
-  if(
-    status==="New Lead"
-  ){
+  if(s === "New Lead"){
 
-    actions=`
+    actionButtons = `
 
       <button
         class="goldBtn"
-        onclick="moveLead(
-          '${lead.id}',
-          'Pending Consultation'
-        )"
-      >
+        onclick="moveToPending('${l.id}')">
+
         📅 Move to Pending Consultation
+
       </button>
 
     `;
@@ -1940,33 +1942,27 @@ function createLeadCard(lead){
   }
 
 
-  /* PENDING CONSULTATION */
+  /* PENDING */
 
-  else if(
-    status==="Pending Consultation"
-  ){
+  else if(isPending(l)){
 
-    actions=`
+    actionButtons = `
 
       <button
         class="secondary"
-        onclick="moveLead(
-          '${lead.id}',
-          'New Lead'
-        )"
-      >
+        onclick="moveToNewLead('${l.id}')">
+
         ↩ Move to New Lead
+
       </button>
 
 
       <button
         class="goldBtn"
-        onclick="moveLead(
-          '${lead.id}',
-          'Consultation Completed'
-        )"
-      >
-        ✅ Consultation Completed
+        onclick="markConsultationDone('${l.id}')">
+
+        ✅ Mark Consultation Done
+
       </button>
 
     `;
@@ -1974,33 +1970,30 @@ function createLeadCard(lead){
   }
 
 
-  /* CONSULTATION COMPLETED */
+  /* COMPLETED */
 
   else if(
-    status==="Consultation Completed"
+    s ===
+    "Consultation Completed"
   ){
 
-    actions=`
+    actionButtons = `
 
       <button
         class="secondary"
-        onclick="moveLead(
-          '${lead.id}',
-          'Pending Consultation'
-        )"
-      >
+        onclick="moveCompletedToPending('${l.id}')">
+
         ↩ Move to Pending Consultation
+
       </button>
 
 
       <button
-        class="primary"
-        onclick="moveLead(
-          '${lead.id}',
-          'Active Advisory Client'
-        )"
-      >
+        class="greenBtn"
+        onclick="moveToActive('${l.id}')">
+
         👥 Move to Active Client
+
       </button>
 
     `;
@@ -2008,57 +2001,53 @@ function createLeadCard(lead){
   }
 
 
-  /* =================================================
-     ACTIVE CLIENT
-
-     IMPORTANT:
-     NO BACK BUTTON HERE.
-     ONLY CLOSED LEAD.
-  ================================================= */
+  /* ACTIVE */
 
   else if(
-    status==="Active Advisory Client"
+    s ===
+    "Active Advisory Client"
   ){
 
-    actions=`
+    actionButtons = `
 
       <button
         class="redBtn"
-        onclick="moveLead(
-          '${lead.id}',
-          'Closed Lead'
-        )"
-      >
-        🔒 Close Lead
+        onclick="moveToClosed('${l.id}')">
+
+        🔒 Move to Closed Lead
+
       </button>
+
+      <div class="lockedBox">
+
+        🔐 Active Client is locked.
+        There is no Back option from Active Client.
+
+      </div>
 
     `;
 
   }
 
 
-  /* =================================================
-     CLOSED LEAD
-
-     NO BACK BUTTON.
-  ================================================= */
+  /* CLOSED */
 
   else if(
-    status==="Closed Lead"
+    s ===
+    "Closed Lead"
   ){
 
-    actions=`
+    actionButtons = `
 
-      <div
-        class="small"
-        style="
-          background:#eeeeee;
-          padding:10px;
-          border-radius:12px;
-          font-weight:700;
-        "
-      >
-        🔒 Closed — Final Stage
+      <span class="closedBadge">
+        🔒 CLOSED LEAD
+      </span>
+
+      <div class="lockedBox">
+
+        🔒 This lead is permanently closed.
+        No Back or previous-stage option is available.
+
       </div>
 
     `;
@@ -2070,68 +2059,73 @@ function createLeadCard(lead){
 
     <div class="statusListItem">
 
-      <div class="statusTop">
+      <div class="statusListTop">
 
         <div>
 
-          <div class="statusName">
+          <div class="statusListName">
+
             ${esc(
-              lead.name ||
+              l.name ||
               "Customer"
             )}
+
           </div>
 
-          <div class="statusMeta">
-            ${esc(
-              lead.mobile ||
-              "Mobile not available"
-            )}
-          </div>
+          <div class="statusListMeta">
 
-          <div class="statusMeta">
             ${esc(
-              lead.service ||
+              l.service ||
               "Consultation"
             )}
+
             •
             ${formatDate(
-              lead.createdAt
+              l.createdAt
             )}
+
           </div>
 
         </div>
 
 
-        <span
-          class="statusBadge ${badgeClass}"
-        >
-          ${esc(status)}
+        <span class="status ${
+          s === "Active Advisory Client"
+          ? "active"
+          : s === "Closed Lead"
+          ? "closed"
+          : ""
+        }">
+
+          ${esc(s)}
+
         </span>
 
       </div>
 
 
-      <div class="statusProblem">
+      <div class="statusListProblem">
 
         ${esc(
-          lead.problem ||
-          lead.message ||
+          l.problem ||
+          l.message ||
           "No concern provided."
         )}
 
       </div>
 
 
-      <div class="statusActions">
+      <div class="statusListActions">
 
         <button
           class="primary"
-          onclick="openCustomer('${lead.id}')"
-        >
+          onclick="openCustomer('${l.id}')">
+
           View Details
+
         </button>
 
-        ${actions}
+        ${actionButtons}
 
       </div>
 
@@ -2142,193 +2136,94 @@ function createLeadCard(lead){
 }
 
 
-/* =====================================================
-   MOVE LEAD
-===================================================== */
+/* ==========================================
+   OPEN STATUS MODAL
+========================================== */
 
-window.moveLead=
-async function(
-  id,
-  newStatus
+function openStatusModal(
+  status,
+  title,
+  subtitle
 ){
 
-  const lead=
-    leads.find(
-      x=>x.id===id
-    );
+  $("statusModalTitle")
+    .textContent =
+    title;
 
 
-  if(!lead)return;
+  $("statusModalSubtitle")
+    .textContent =
+    subtitle;
 
 
-  const oldStatus=
-    normalizedStatus(lead);
+  renderStatusList(status);
 
 
-  /*
-    HARD PIPELINE PROTECTION
-
-    Allowed movements:
-
-    New → Pending
-
-    Pending → New
-    Pending → Completed
-
-    Completed → Pending
-    Completed → Active
-
-    Active → Closed
-
-    Closed → NOTHING
-  */
+  $("statusModal")
+    .dataset.status =
+    status;
 
 
-  const allowedMoves={
+  $("statusModal")
+    .classList
+    .add("active");
 
-    "New Lead":[
-      "Pending Consultation"
-    ],
-
-    "Pending Consultation":[
-      "New Lead",
-      "Consultation Completed"
-    ],
-
-    "Consultation Completed":[
-      "Pending Consultation",
-      "Active Advisory Client"
-    ],
-
-    "Active Advisory Client":[
-      "Closed Lead"
-    ],
-
-    "Closed Lead":[]
-
-  };
+}
 
 
-  if(
-    !allowedMoves[
-      oldStatus
-    ]?.includes(
-      newStatus
-    )
-  ){
+/* ==========================================
+   OPEN NEW LEADS
+========================================== */
 
-    alert(
-      "This movement is not allowed in the RinSaathi pipeline."
-    );
+window.openNewLeads =
+function(){
 
-    return;
-
-  }
-
-
-  let question=
-    `Move ${lead.name || "this customer"} from "${oldStatus}" to "${newStatus}"?`;
-
-
-  if(
-    newStatus==="Closed Lead"
-  ){
-
-    question=
-      `Are you sure you want to CLOSE "${lead.name || "this client"}"?\n\nAfter closing, this lead will remain in Closed Lead and cannot be moved back.`;
-
-  }
-
-
-  if(
-    !confirm(question)
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    await updateDoc(
-      doc(
-        db,
-        "leads",
-        id
-      ),
-      {
-        status:newStatus,
-        updatedAt:serverTimestamp()
-      }
-    );
-
-
-    await loadLeads();
-
-
-    closeStatusModal();
-
-
-    if(
-      newStatus==="New Lead"
-    ){
-
-      openNewLeads();
-
-    }
-
-    else if(
-      newStatus==="Pending Consultation"
-    ){
-
-      openPending();
-
-    }
-
-    else if(
-      newStatus==="Consultation Completed"
-    ){
-
-      openCompleted();
-
-    }
-
-    else if(
-      newStatus==="Active Advisory Client"
-    ){
-
-      openActive();
-
-    }
-
-    else if(
-      newStatus==="Closed Lead"
-    ){
-
-      openClosed();
-
-    }
-
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "Could not update the lead stage."
-    );
-
-  }
+  openStatusModal(
+    "New Lead",
+    "🆕 New Leads",
+    "Every new customer enquiry starts here."
+  );
 
 };
 
 
-/* =====================================================
-   CLOSE STATUS MODAL
-===================================================== */
+/* ==========================================
+   OPEN PENDING
+========================================== */
 
-window.closeStatusModal=
+window.openPendingConsultations =
+function(){
+
+  openStatusModal(
+    "Pending Consultation",
+    "📅 Pending Consultations",
+    "Consultations that are booked or waiting to be completed."
+  );
+
+};
+
+
+/* ==========================================
+   OPEN COMPLETED
+========================================== */
+
+window.openCompletedConsultations =
+function(){
+
+  openStatusModal(
+    "Consultation Completed",
+    "✅ Consultation Completed",
+    "Completed consultations waiting to become Active Clients."
+  );
+
+};
+
+
+/* ==========================================
+   CLOSE STATUS MODAL
+========================================== */
+
+window.closeStatusModal =
 function(){
 
   $("statusModal")
@@ -2338,85 +2233,470 @@ function(){
 };
 
 
-/* =====================================================
-   CUSTOMER DETAILS
-===================================================== */
+/* ==========================================
+   MOVE NEW → PENDING
+========================================== */
 
-window.openCustomer=
-function(id){
+window.moveToPending =
+async function(id){
 
-  const lead=
-    leads.find(
-      x=>x.id===id
+  try{
+
+    await updateDoc(
+      doc(db,"leads",id),
+      {
+        status:
+          "Pending Consultation",
+
+        updatedAt:
+          new Date()
+      }
     );
 
 
-  if(!lead)return;
+    await loadLeads();
 
 
-  const status=
-    normalizedStatus(lead);
+    openPendingConsultations();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not move this lead to Pending Consultation."
+    );
+
+  }
+
+};
+
+
+/* ==========================================
+   MOVE PENDING → NEW
+========================================== */
+
+window.moveToNewLead =
+async function(id){
+
+  try{
+
+    await updateDoc(
+      doc(db,"leads",id),
+      {
+        status:
+          "New Lead",
+
+        updatedAt:
+          new Date()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    openNewLeads();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not move this customer back to New Lead."
+    );
+
+  }
+
+};
+
+
+/* ==========================================
+   PENDING → COMPLETED
+========================================== */
+
+window.markConsultationDone =
+async function(id){
+
+  try{
+
+    await updateDoc(
+      doc(db,"leads",id),
+      {
+        status:
+          "Consultation Completed",
+
+        updatedAt:
+          new Date()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    openCompletedConsultations();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not mark consultation as completed."
+    );
+
+  }
+
+};
+
+
+/* ==========================================
+   COMPLETED → PENDING
+========================================== */
+
+window.moveCompletedToPending =
+async function(id){
+
+  try{
+
+    await updateDoc(
+      doc(db,"leads",id),
+      {
+        status:
+          "Pending Consultation",
+
+        updatedAt:
+          new Date()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    openPendingConsultations();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not move the completed consultation back to pending."
+    );
+
+  }
+
+};
+
+
+/* ==========================================
+   COMPLETED → ACTIVE CLIENT
+========================================== */
+
+window.moveToActive =
+async function(id){
+
+  const confirmMove =
+    confirm(
+      "Move this customer to Active Client?\n\nOnce moved to Active Client, the customer cannot go back to New Lead, Pending Consultation, or Consultation Completed."
+    );
+
+
+  if(!confirmMove){
+
+    return;
+
+  }
+
+
+  try{
+
+    await updateDoc(
+      doc(db,"leads",id),
+      {
+        status:
+          "Active Advisory Client",
+
+        updatedAt:
+          new Date(),
+
+        activatedAt:
+          new Date()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    showActiveClients();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not move this customer to Active Client."
+    );
+
+  }
+
+};
+
+
+/* ==========================================
+   ACTIVE → CLOSED
+========================================== */
+
+window.moveToClosed =
+async function(id){
+
+  const confirmMove =
+    confirm(
+      "Close this Active Client?\n\nOnce closed, this lead will become a Closed Lead and cannot be moved back."
+    );
+
+
+  if(!confirmMove){
+
+    return;
+
+  }
+
+
+  try{
+
+    await updateDoc(
+      doc(db,"leads",id),
+      {
+        status:
+          "Closed Lead",
+
+        updatedAt:
+          new Date(),
+
+        closedAt:
+          new Date()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    showClosedLeads();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not close this Active Client."
+    );
+
+  }
+
+};
+
+
+/* ==========================================
+   ACTIVE CLIENTS
+========================================== */
+
+window.showActiveClients =
+function(){
+
+  const active =
+    leads.filter(
+      l =>
+        getStatus(l) ===
+        "Active Advisory Client"
+    );
+
+
+  $("statusModalTitle")
+    .textContent =
+    "👥 Active Clients";
+
+
+  $("statusModalSubtitle")
+    .textContent =
+    "Active clients can only move forward to Closed Lead. There is no Back option.";
+
+
+  if(!active.length){
+
+    $("statusList").innerHTML =
+
+      `<div class="empty">
+
+        👥 No Active Clients
+
+      </div>`;
+
+  }else{
+
+    $("statusList").innerHTML =
+      active
+        .map(
+          l =>
+            statusListCard(l)
+        )
+        .join("");
+
+  }
+
+
+  $("statusModal")
+    .classList
+    .add("active");
+
+};
+
+
+/* ==========================================
+   CLOSED LEADS
+========================================== */
+
+window.showClosedLeads =
+function(){
+
+  const closed =
+    leads.filter(
+      l =>
+        getStatus(l) ===
+        "Closed Lead"
+    );
+
+
+  $("statusModalTitle")
+    .textContent =
+    "🔒 Closed Leads";
+
+
+  $("statusModalSubtitle")
+    .textContent =
+    "These leads are permanently closed. No Back option is available.";
+
+
+  if(!closed.length){
+
+    $("statusList").innerHTML =
+
+      `<div class="empty">
+
+        🔒 No Closed Leads
+
+      </div>`;
+
+  }else{
+
+    $("statusList").innerHTML =
+      closed
+        .map(
+          l =>
+            statusListCard(l)
+        )
+        .join("");
+
+  }
+
+
+  $("statusModal")
+    .classList
+    .add("active");
+
+};
+
+
+/* ==========================================
+   CUSTOMER DETAILS
+========================================== */
+
+window.openCustomer =
+function(id){
+
+  const l =
+    leads.find(
+      x => x.id === id
+    );
+
+
+  if(!l){
+
+    return;
+
+  }
+
+
+  const status =
+    getStatus(l);
 
 
   $("customerName")
-    .textContent=
-    lead.name ||
+    .textContent =
+    l.name ||
     "Customer";
 
 
   $("customerService")
-    .textContent=
-    lead.service ||
-    "Consultation";
+    .textContent =
+    l.service ||
+    "";
 
 
   $("customerMobile")
-    .textContent=
-    lead.mobile ||
+    .textContent =
+    l.mobile ||
     "Not provided";
 
 
   $("customerPayment")
-    .textContent=
+    .textContent =
     "₹"+
     Number(
-      lead.amount||0
-    ).toLocaleString(
-      "en-IN"
-    )+
-    " — "+
-    (
-      lead.payment ||
-      "PENDING"
-    );
+      l.amount || 0
+    ).toLocaleString("en-IN")
+    +" — "+
+    (l.payment || "PENDING");
 
 
   $("customerProblem")
-    .textContent=
-    lead.problem ||
+    .textContent =
+    l.problem ||
     "Not provided";
 
 
   $("customerDate")
-    .textContent=
+    .textContent =
     formatDate(
-      lead.createdAt
+      l.createdAt
     );
 
 
   $("customerStatus")
-    .textContent=
+    .textContent =
     status;
 
 
   $("customerMessage")
-    .textContent=
-    lead.message ||
-    lead.problem ||
+    .textContent =
+    l.message ||
+    l.problem ||
     "Not provided";
 
 
-  const ignored=[
+  /* ======================================
+     ALL FORM DATA
+  ====================================== */
+
+  const ignored = [
 
     "id",
     "name",
@@ -2429,109 +2709,90 @@ function(id){
     "status",
     "source",
     "createdAt",
-    "updatedAt"
+    "updatedAt",
+    "activatedAt",
+    "closedAt"
 
   ];
 
 
-  const fields=
-    Object.keys(lead)
+  const fields =
+    Object.keys(l)
+
       .filter(
-        key=>
-          !ignored.includes(key)
+        k =>
+          !ignored.includes(k)
       )
+
       .filter(
-        key=>
-          lead[key]!==undefined &&
-          lead[key]!==null &&
-          String(
-            lead[key]
-          ).trim()!==""
+        k =>
+          l[k] !== undefined &&
+          l[k] !== null &&
+          String(l[k]).trim() !== ""
       );
 
 
-  if(fields.length){
+  $("completeFormDetails")
+    .innerHTML =
 
-    $("completeFormDetails")
-      .innerHTML=
+    fields.length
+
+      ?
 
       `<div class="fieldGrid">`+
 
-      fields.map(
-        key=>`
+      fields
+        .map(
+          k => `
 
-          <div class="field">
+            <div class="field">
 
-            <label>
-              ${esc(
-                prettyLabel(key)
-              )}
-            </label>
+              <label>
+                ${esc(
+                  prettyLabel(k)
+                )}
+              </label>
 
-            <div>
-              ${esc(
-                formatValue(
-                  lead[key]
-                )
-              )}
+              <div>
+                ${esc(
+                  formatValue(l[k])
+                )}
+              </div>
+
             </div>
 
-          </div>
+          `
+        )
+        .join("")
 
-        `
-      ).join("")+
+      +
 
-      `</div>`;
+      `</div>`
 
-  }else{
+      :
 
-    $("completeFormDetails")
-      .innerHTML=`
+      `<div
+        class="small"
+        style="margin-top:10px">
 
-        <div
-          class="small"
-          style="margin-top:10px"
-        >
-          No additional enquiry fields were saved.
-        </div>
+        No additional form fields were saved.
 
-      `;
-
-  }
+      </div>`;
 
 
-  /* CUSTOMER ACTIONS */
+  /* ======================================
+     CALL CUSTOMER
+  ====================================== */
 
-  const actionBox=
-    $("customerActions");
-
-
-  actionBox.innerHTML="";
-
-
-  const callButton=
-    document.createElement(
-      "button"
-    );
-
-
-  callButton.className=
-    "primary";
-
-
-  callButton.textContent=
-    "📞 Contact Customer";
-
-
-  callButton.onclick=
+  $("callCustomer").onclick =
   function(){
 
-    if(lead.mobile){
+    if(l.mobile){
 
-      location.href=
+      location.href =
         "tel:"+
         String(
-          lead.mobile
+          l.mobile
         ).replace(
           /\s/g,
           ""
@@ -2542,192 +2803,176 @@ function(id){
   };
 
 
-  actionBox.appendChild(
-    callButton
-  );
+  /* ======================================
+     CUSTOMER ACTION BUTTON
+  ====================================== */
+
+  const actionBtn =
+    $("customerAction");
 
 
-  /*
-    STAGE ACTIONS
-    Follow the exact same rules.
-  */
+  const lockInfo =
+    $("customerLockInfo");
 
 
-  if(
-    status==="New Lead"
-  ){
+  actionBtn.disabled =
+    false;
 
-    addStageButton(
-      actionBox,
-      "goldBtn",
-      "📅 Move to Pending Consultation",
-      ()=>{
+
+  actionBtn.style.opacity =
+    "1";
+
+
+  lockInfo.classList
+    .add("hidden");
+
+
+  /* NEW */
+
+  if(status === "New Lead"){
+
+    actionBtn.textContent =
+      "📅 Move to Pending Consultation";
+
+
+    actionBtn.className =
+      "goldBtn";
+
+
+    actionBtn.onclick =
+      async function(){
 
         closeCustomer();
 
-        moveLead(
-          lead.id,
-          "Pending Consultation"
+        await moveToPending(
+          l.id
         );
 
-      }
-    );
+      };
 
   }
 
 
+  /* PENDING */
+
   else if(
-    status==="Pending Consultation"
+    status ===
+    "Pending Consultation" ||
+    status ===
+    "Consultation Scheduled"
   ){
 
-    addStageButton(
-      actionBox,
-      "secondary",
-      "↩ Move to New Lead",
-      ()=>{
+    actionBtn.textContent =
+      "✅ Mark Consultation Done";
+
+
+    actionBtn.className =
+      "goldBtn";
+
+
+    actionBtn.onclick =
+      async function(){
 
         closeCustomer();
 
-        moveLead(
-          lead.id,
-          "New Lead"
+        await markConsultationDone(
+          l.id
         );
 
-      }
-    );
-
-
-    addStageButton(
-      actionBox,
-      "goldBtn",
-      "✅ Consultation Completed",
-      ()=>{
-
-        closeCustomer();
-
-        moveLead(
-          lead.id,
-          "Consultation Completed"
-        );
-
-      }
-    );
+      };
 
   }
 
 
+  /* COMPLETED */
+
   else if(
-    status==="Consultation Completed"
+    status ===
+    "Consultation Completed"
   ){
 
-    addStageButton(
-      actionBox,
-      "secondary",
-      "↩ Move to Pending Consultation",
-      ()=>{
+    actionBtn.textContent =
+      "👥 Move to Active Client";
+
+
+    actionBtn.className =
+      "greenBtn";
+
+
+    actionBtn.onclick =
+      async function(){
 
         closeCustomer();
 
-        moveLead(
-          lead.id,
-          "Pending Consultation"
+        await moveToActive(
+          l.id
         );
 
-      }
-    );
-
-
-    addStageButton(
-      actionBox,
-      "primary",
-      "👥 Move to Active Client",
-      ()=>{
-
-        closeCustomer();
-
-        moveLead(
-          lead.id,
-          "Active Advisory Client"
-        );
-
-      }
-    );
+      };
 
   }
 
 
-  /*
-    ACTIVE CLIENT:
-    NO BACK.
-    ONLY CLOSE.
-  */
+  /* ACTIVE */
 
   else if(
-    status==="Active Advisory Client"
+    status ===
+    "Active Advisory Client"
   ){
 
-    addStageButton(
-      actionBox,
-      "redBtn",
-      "🔒 Close Lead",
-      ()=>{
+    actionBtn.textContent =
+      "🔒 Move to Closed Lead";
+
+
+    actionBtn.className =
+      "redBtn";
+
+
+    actionBtn.onclick =
+      async function(){
 
         closeCustomer();
 
-        moveLead(
-          lead.id,
-          "Closed Lead"
+        await moveToClosed(
+          l.id
         );
 
-      }
-    );
+      };
+
+
+    lockInfo.textContent =
+      "🔐 Active Client is locked from going backward. The only available next stage is Closed Lead.";
+
+    lockInfo.classList
+      .remove("hidden");
 
   }
 
 
-  /*
-    CLOSED:
-    NO BACK.
-    NO MOVE.
-  */
+  /* CLOSED */
 
   else if(
-    status==="Closed Lead"
+    status ===
+    "Closed Lead"
   ){
 
-    const finalBox=
-      document.createElement(
-        "div"
-      );
+    actionBtn.textContent =
+      "🔒 Closed Lead";
 
 
-    finalBox.className=
-      "small";
+    actionBtn.className =
+      "secondary";
 
 
-    finalBox.style.background=
-      "#eeeeee";
+    actionBtn.disabled =
+      true;
 
 
-    finalBox.style.padding=
-      "12px";
+    lockInfo.textContent =
+      "🔒 This lead is permanently closed. There is no Back option.";
 
-
-    finalBox.style.borderRadius=
-      "12px";
-
-
-    finalBox.style.fontWeight=
-      "800";
-
-
-    finalBox.textContent=
-      "🔒 Closed Lead — Final Stage";
-
-
-    actionBox.appendChild(
-      finalBox
-    );
+    lockInfo.classList
+      .remove("hidden");
 
   }
 
@@ -2739,47 +2984,11 @@ function(id){
 };
 
 
-/* =====================================================
-   ADD STAGE BUTTON
-===================================================== */
-
-function addStageButton(
-  parent,
-  className,
-  text,
-  handler
-){
-
-  const btn=
-    document.createElement(
-      "button"
-    );
-
-
-  btn.className=
-    className;
-
-
-  btn.textContent=
-    text;
-
-
-  btn.onclick=
-    handler;
-
-
-  parent.appendChild(
-    btn
-  );
-
-}
-
-
-/* =====================================================
+/* ==========================================
    CLOSE CUSTOMER
-===================================================== */
+========================================== */
 
-window.closeCustomer=
+window.closeCustomer =
 function(){
 
   $("customerModal")
@@ -2789,15 +2998,64 @@ function(){
 };
 
 
-/* =====================================================
-   HELPERS
-===================================================== */
+/* ==========================================
+   SHOW ALL LEADS
+========================================== */
+
+window.showAllLeads =
+function(){
+
+  const all =
+    leads;
+
+
+  $("statusModalTitle")
+    .textContent =
+    "📊 All Leads";
+
+
+  $("statusModalSubtitle")
+    .textContent =
+    "All customer enquiries and their current pipeline stage.";
+
+
+  if(!all.length){
+
+    $("statusList").innerHTML =
+      `<div class="empty">
+        No leads yet.
+      </div>`;
+
+  }else{
+
+    $("statusList").innerHTML =
+      all
+        .map(
+          l =>
+            statusListCard(l)
+        )
+        .join("");
+
+  }
+
+
+  $("statusModal")
+    .classList
+    .add("active");
+
+};
+
+
+/* ==========================================
+   DATE FORMAT
+========================================== */
 
 function formatDate(ts){
 
   if(
     ts &&
-    typeof ts.toDate==="function"
+    typeof ts.toDate ===
+    "function"
   ){
 
     return ts
@@ -2813,10 +3071,23 @@ function formatDate(ts){
   }
 
 
+  if(ts instanceof Date){
+
+    return ts.toLocaleString(
+      "en-IN"
+    );
+
+  }
+
+
   return "Just now";
 
 }
 
+
+/* ==========================================
+   PRETTY LABEL
+========================================== */
 
 function prettyLabel(key){
 
@@ -2841,17 +3112,22 @@ function prettyLabel(key){
 
     .replace(
       /^./,
-      c=>c.toUpperCase()
+      c => c.toUpperCase()
     );
 
 }
 
 
+/* ==========================================
+   FORMAT VALUE
+========================================== */
+
 function formatValue(value){
 
   if(
     value &&
-    typeof value.toDate==="function"
+    typeof value.toDate ===
+    "function"
   ){
 
     return value
@@ -2867,21 +3143,26 @@ function formatValue(value){
     Array.isArray(value)
   ){
 
-    return value.join(", ");
+    return value.join(
+      ", "
+    );
 
   }
 
 
   if(
-    typeof value==="object" &&
-    value!==null
+    typeof value ===
+    "object" &&
+    value !== null
   ){
 
     try{
 
-      return JSON.stringify(value);
+      return JSON.stringify(
+        value
+      );
 
-    }catch(e){
+    }catch(_){
 
       return String(value);
 
@@ -2895,14 +3176,19 @@ function formatValue(value){
 }
 
 
-function esc(value){
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function esc(v){
 
   return String(
-    value ?? ""
+    v ?? ""
   )
+
   .replace(
     /[&<>"']/g,
-    char=>({
+    c => ({
 
       "&":"&amp;",
       "<":"&lt;",
@@ -2910,10 +3196,52 @@ function esc(value){
       '"':"&quot;",
       "'":"&#039;"
 
-    }[char])
+    }[c])
+
   );
 
 }
+
+
+/* ==========================================
+   CLOSE MODAL ON BACKGROUND CLICK
+========================================== */
+
+$("statusModal")
+  .addEventListener(
+    "click",
+    function(e){
+
+      if(
+        e.target ===
+        $("statusModal")
+      ){
+
+        closeStatusModal();
+
+      }
+
+    }
+  );
+
+
+$("customerModal")
+  .addEventListener(
+    "click",
+    function(e){
+
+      if(
+        e.target ===
+        $("customerModal")
+      ){
+
+        closeCustomer();
+
+      }
+
+    }
+  );
+
 
 </script>
 
