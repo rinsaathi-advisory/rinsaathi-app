@@ -233,7 +233,7 @@ body{
   margin-top:28px;
 }
 
-/* FIRST CONSULTATION */
+/* FIRST INQUIRY */
 
 .firstInquiry{
   background:#edf8f2;
@@ -536,26 +536,38 @@ body{
 
 .freeBadge{
   display:inline-block;
-  background:#edf8f2;
-  color:#16704f;
-  border:1px solid #d4eadf;
+  background:#d8b45f;
+  color:#17352d;
   padding:6px 10px;
   border-radius:20px;
   font-size:11px;
   font-weight:900;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .usedBadge{
   display:inline-block;
-  background:#fff8e7;
-  color:#806a2f;
-  border:1px solid #ead9a9;
+  background:#eef1ef;
+  color:#53635e;
   padding:6px 10px;
   border-radius:20px;
   font-size:11px;
   font-weight:900;
-  margin-bottom:10px;
+  margin-bottom:12px;
+}
+
+.freeInfo{
+  margin-top:10px;
+  font-size:12px;
+  line-height:1.5;
+  opacity:.9;
+}
+
+.loadingStatus{
+  text-align:center;
+  padding:12px;
+  color:#6a7974;
+  font-size:12px;
 }
 
 @media(max-width:380px){
@@ -692,15 +704,34 @@ body{
 
 <div id="home">
 
-  <div class="firstInquiry">
+  <div
+    id="freeInquiryBanner"
+    class="firstInquiry">
 
-    <div class="firstInquiryBadge">
+    <div
+      id="freeInquiryBadge"
+      class="firstInquiryBadge">
+
       ✓ FIRST CONSULTATION FREE
+
     </div>
 
-    <div class="firstInquiryText">
-      Select any of 6 options below for your first consultation — completely free.
+    <div
+      id="freeInquiryText"
+      class="firstInquiryText">
+
+      Select any of the 6 options below for your first consultation — completely free.
+
     </div>
+
+  </div>
+
+
+  <div
+    id="checkingFreeStatus"
+    class="loadingStatus">
+
+    Checking your consultation status...
 
   </div>
 
@@ -810,43 +841,57 @@ body{
   <div class="section">
 
     <div class="title">
-      Get Consultation
+      Consultation
     </div>
 
-    <div class="consultationOffer">
+    <div
+      id="consultationOffer"
+      class="consultationOffer">
 
-      <div class="offerBadge">
-        🔥 LIMITED TIME OFFER • 50% OFF
-      </div>
+      <div id="consultationBadge"></div>
 
-      <h3>
+      <h3 id="consultationTitle">
         Personalised Debt Advisory
       </h3>
 
-      <p>
-        One-to-one consultation to understand your financial
-        situation and discuss practical next steps.
+      <p id="consultationDescription">
+        One-to-one consultation to understand your financial situation and discuss practical next steps.
       </p>
 
-      <div class="oldPrice">
-        Original Price: ₹999
+      <div id="paidPriceArea">
+
+        <div class="oldPrice">
+          Original Price: ₹999
+        </div>
+
+        <div class="offerPrice">
+          ₹499
+        </div>
+
+        <div class="saveText">
+          You Save ₹500
+        </div>
+
       </div>
 
-      <div class="offerPrice">
-        ₹499
+      <div
+        id="freePriceArea"
+        class="freeInfo">
+
+        Your first consultation is completely free.
+
       </div>
 
-      <div class="saveText">
-        You Save ₹500
-      </div>
 
       <button
+        id="consultationButton"
         class="btn btnGold"
-        onclick="startConsultationPayment()">
+        onclick="handleConsultationButton()">
 
-        Pay ₹499 & Get Consultation
+        Start Free Consultation
 
       </button>
+
 
       <div
         id="paymentStatus"
@@ -869,7 +914,7 @@ body{
       </h3>
 
       <p>
-        Complete your consultation payment to unlock
+        Complete your ₹499 consultation payment to unlock
         consultation access and Advisory Plans.
       </p>
 
@@ -900,7 +945,7 @@ body{
 
     <button
       class="btn btnGold"
-      onclick="openForm('Consultation',false)">
+      onclick="openForm('Consultation')">
 
       Start My Consultation
 
@@ -938,7 +983,7 @@ body{
 
     <button
       class="btn btnGold"
-      onclick="openForm('1 Month Advisory',false)">
+      onclick="openForm('1 Month Advisory')">
 
       Choose 1 Month
 
@@ -971,7 +1016,7 @@ body{
 
     <button
       class="btn btnGold"
-      onclick="openForm('3 Month Advisory',false)">
+      onclick="openForm('3 Month Advisory')">
 
       Choose 3 Months
 
@@ -1004,7 +1049,7 @@ body{
 
     <button
       class="btn btnGold"
-      onclick="openForm('6 Month Advisory',false)">
+      onclick="openForm('6 Month Advisory')">
 
       Choose 6 Months
 
@@ -1120,10 +1165,6 @@ body{
 </div>
 
 
-<!-- =========================================================
-     FIREBASE AUTH + FIRESTORE
-========================================================= -->
-
 <script type="module">
 
 import {
@@ -1180,35 +1221,28 @@ const db =
   getFirestore(app);
 
 
-/* Make Firebase auth available to the other script */
+/* GLOBAL FREE CONSULTATION STATUS */
 
-window.rinsaathiAuth =
-  auth;
-
-window.rinsaathiDB =
-  db;
-
-
-let confirmationResult = null;
-
-let recaptchaVerifier = null;
-
-let recaptchaWidgetId = null;
-
-
-/* =========================================================
-   USER STATE
-========================================================= */
-
-window.firstConsultationUsed =
+window.freeInquiryUsed =
   false;
 
+window.freeStatusLoaded =
+  false;
 
-async function loadUserConsultationStatus(user){
+window.currentFirebaseUser =
+  null;
+
+
+/* CHECK FREE INQUIRY STATUS */
+
+async function checkFreeInquiryStatus(user){
 
   if(!user){
 
-    window.firstConsultationUsed =
+    window.freeInquiryUsed =
+      false;
+
+    window.freeStatusLoaded =
       false;
 
     return;
@@ -1217,131 +1251,225 @@ async function loadUserConsultationStatus(user){
 
   try{
 
-    const userRef =
+    const inquiryRef =
       doc(
         db,
-        "users",
+        "free_inquiries",
         user.uid
       );
 
-    const userSnap =
-      await getDoc(userRef);
+    const inquirySnap =
+      await getDoc(
+        inquiryRef
+      );
 
-    if(
-      userSnap.exists()
-    ){
+    if(inquirySnap.exists()){
 
-      const data =
-        userSnap.data();
-
-      window.firstConsultationUsed =
-        data.firstConsultationUsed === true;
+      window.freeInquiryUsed =
+        inquirySnap.data().freeInquiryUsed === true;
 
     }else{
 
-      /*
-       New user:
-       First consultation is FREE.
-      */
-
-      window.firstConsultationUsed =
+      window.freeInquiryUsed =
         false;
 
-      await setDoc(
-        userRef,
-        {
-          firstConsultationUsed:false,
-          createdAt:serverTimestamp(),
-          lastLoginAt:serverTimestamp()
-        },
-        {
-          merge:true
-        }
-      );
-
     }
+
+    window.freeStatusLoaded =
+      true;
+
+    updateConsultationUI();
 
   }catch(error){
 
     console.error(
-      "Firestore user status error:",
+      "FREE STATUS ERROR:",
       error
     );
 
     /*
-     If Firestore temporarily fails,
-     do not incorrectly mark the user as used.
+      SECURITY FIRST:
+      If Firebase status cannot be checked,
+      do NOT show the free offer.
     */
 
-    window.firstConsultationUsed =
-      false;
-
-  }
-
-}
-
-
-async function markFirstConsultationUsed(){
-
-  const user =
-    auth.currentUser;
-
-  if(!user){
-
-    console.error(
-      "No Firebase user found."
-    );
-
-    return false;
-
-  }
-
-  try{
-
-    const userRef =
-      doc(
-        db,
-        "users",
-        user.uid
-      );
-
-    await setDoc(
-      userRef,
-      {
-        firstConsultationUsed:true,
-        firstConsultationUsedAt:serverTimestamp()
-      },
-      {
-        merge:true
-      }
-    );
-
-    window.firstConsultationUsed =
+    window.freeInquiryUsed =
       true;
 
-    return true;
+    window.freeStatusLoaded =
+      false;
 
-  }catch(error){
-
-    console.error(
-      "Firestore save error:",
-      error
-    );
-
-    alert(
-      "We could not save your consultation status. Please try again."
-    );
-
-    return false;
+    updateConsultationUI();
 
   }
 
 }
 
 
-/* =========================================================
-   LOGIN MESSAGE
-========================================================= */
+/* UPDATE HOME UI */
+
+function updateConsultationUI(){
+
+  const loading =
+    document.getElementById(
+      "checkingFreeStatus"
+    );
+
+  const banner =
+    document.getElementById(
+      "freeInquiryBanner"
+    );
+
+  const badge =
+    document.getElementById(
+      "consultationBadge"
+    );
+
+  const button =
+    document.getElementById(
+      "consultationButton"
+    );
+
+  const paidArea =
+    document.getElementById(
+      "paidPriceArea"
+    );
+
+  const freeArea =
+    document.getElementById(
+      "freePriceArea"
+    );
+
+  if(loading){
+
+    loading.style.display =
+      "none";
+
+  }
+
+  if(
+    !window.freeStatusLoaded
+  ){
+
+    if(banner){
+
+      banner.style.display =
+        "none";
+
+    }
+
+    if(button){
+
+      button.innerText =
+        "Get Consultation";
+
+    }
+
+    return;
+
+  }
+
+
+  if(
+    window.freeInquiryUsed === false
+  ){
+
+    /* FREE USER */
+
+    if(banner){
+
+      banner.style.display =
+        "block";
+
+    }
+
+    if(badge){
+
+      badge.innerText =
+        "✓ FIRST CONSULTATION FREE";
+
+      badge.className =
+        "freeBadge";
+
+    }
+
+    if(button){
+
+      button.innerText =
+        "Start Free Consultation";
+
+    }
+
+    if(paidArea){
+
+      paidArea.style.display =
+        "none";
+
+    }
+
+    if(freeArea){
+
+      freeArea.style.display =
+        "block";
+
+    }
+
+  }else{
+
+    /* FREE ALREADY USED */
+
+    if(banner){
+
+      banner.style.display =
+        "none";
+
+    }
+
+    if(badge){
+
+      badge.innerText =
+        "PERSONALISED CONSULTATION";
+
+      badge.className =
+        "usedBadge";
+
+    }
+
+    if(button){
+
+      button.innerText =
+        "Pay ₹499 & Get Consultation";
+
+    }
+
+    if(paidArea){
+
+      paidArea.style.display =
+        "block";
+
+    }
+
+    if(freeArea){
+
+      freeArea.style.display =
+        "none";
+
+    }
+
+  }
+
+}
+
+
+let confirmationResult =
+  null;
+
+let recaptchaVerifier =
+  null;
+
+let recaptchaWidgetId =
+  null;
+
 
 function setLoginMessage(
   message,
@@ -1359,14 +1487,11 @@ function setLoginMessage(
     message;
 
   box.className =
-    "loginMessage " + type;
+    "loginMessage " +
+    type;
 
 }
 
-
-/* =========================================================
-   RECAPTCHA
-========================================================= */
 
 async function createRecaptcha(){
 
@@ -1479,10 +1604,6 @@ function resetRecaptcha(){
 }
 
 
-/* =========================================================
-   SEND OTP
-========================================================= */
-
 window.sendOTP =
 async function(){
 
@@ -1501,11 +1622,7 @@ async function(){
   const phone =
     phoneInput.value.trim();
 
-  if(
-    !/^[6-9]\d{9}$/.test(
-      phone
-    )
-  ){
+  if(!/^[6-9]\d{9}$/.test(phone)){
 
     setLoginMessage(
       "Please enter a valid 10-digit Indian mobile number.",
@@ -1659,10 +1776,6 @@ async function(){
 };
 
 
-/* =========================================================
-   VERIFY OTP
-========================================================= */
-
 window.verifyOTP =
 async function(){
 
@@ -1681,11 +1794,7 @@ async function(){
   const otp =
     otpInput.value.trim();
 
-  if(
-    !/^\d{6}$/.test(
-      otp
-    )
-  ){
+  if(!/^\d{6}$/.test(otp)){
 
     setLoginMessage(
       "Please enter the 6-digit OTP.",
@@ -1796,10 +1905,6 @@ async function(){
 };
 
 
-/* =========================================================
-   CHANGE PHONE
-========================================================= */
-
 window.backToPhone =
 async function(){
 
@@ -1828,10 +1933,6 @@ async function(){
 };
 
 
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
 onAuthStateChanged(
   auth,
   async function(user){
@@ -1848,55 +1949,29 @@ onAuthStateChanged(
 
     if(user){
 
+      window.currentFirebaseUser =
+        user;
+
       loginScreen.style.display =
         "none";
 
       mainApp.style.display =
         "block";
 
-
-      /*
-       Load THIS user's Firestore record.
-       Every Firebase UID gets its own record.
-      */
-
-      await loadUserConsultationStatus(
+      await checkFreeInquiryStatus(
         user
       );
 
-
-      /*
-       Fill phone number from Firebase account
-       if available.
-      */
-
-      const loginPhone =
-        document.getElementById(
-          "loginPhone"
-        );
-
-      if(
-        loginPhone &&
-        user.phoneNumber
-      ){
-
-        const cleanPhone =
-          user.phoneNumber
-            .replace("+91","")
-            .replace(/\D/g,"");
-
-        if(
-          cleanPhone.length === 10
-        ){
-
-          loginPhone.value =
-            cleanPhone;
-
-        }
-
-      }
-
     }else{
+
+      window.currentFirebaseUser =
+        null;
+
+      window.freeInquiryUsed =
+        false;
+
+      window.freeStatusLoaded =
+        false;
 
       loginScreen.style.display =
         "flex";
@@ -1904,18 +1979,11 @@ onAuthStateChanged(
       mainApp.style.display =
         "none";
 
-      window.firstConsultationUsed =
-        false;
-
     }
 
   }
 );
 
-
-/* =========================================================
-   LOGOUT
-========================================================= */
 
 window.logoutUser =
 async function(){
@@ -1943,26 +2011,22 @@ createRecaptcha();
 </script>
 
 
-<!-- =========================================================
-     MAIN APP LOGIC
-========================================================= -->
-
 <script>
 
-let currentService = "";
+let currentService =
+  "";
 
-let isFreeConsultation = false;
+let consultationPaid =
+  false;
 
-let consultationPaid = false;
 
-
-/* =========================================================
-   RAZORPAY
-========================================================= */
+/* RAZORPAY */
 
 const RAZORPAY_KEY =
   "rzp_live_TYiZXJ0sZcSA5l";
 
+
+/* START PAID PAYMENT */
 
 function startConsultationPayment(){
 
@@ -2000,36 +2064,9 @@ function startConsultationPayment(){
 
   }
 
-  let phone =
-    document.getElementById(
-      "loginPhone"
-    )?.value || "";
-
-
-  /*
-   Use Firebase phone number if login input
-   is empty.
-  */
-
-  try{
-
-    const user =
-      window.rinsaathiAuth?.currentUser;
-
-    if(
-      !phone &&
-      user?.phoneNumber
-    ){
-
-      phone =
-        user.phoneNumber
-          .replace("+91","")
-          .replace(/\D/g,"");
-
-    }
-
-  }catch(e){}
-
+  const phone =
+    window.currentFirebaseUser?.phoneNumber ||
+    "";
 
   const options = {
 
@@ -2052,11 +2089,16 @@ function startConsultationPayment(){
       "./logo.png",
 
     prefill:{
-      contact:phone
+      contact:
+        phone.replace(
+          "+91",
+          ""
+        )
     },
 
     theme:{
-      color:"#063f32"
+      color:
+        "#063f32"
     },
 
     handler:function(response){
@@ -2083,7 +2125,6 @@ function startConsultationPayment(){
     }
 
   };
-
 
   try{
 
@@ -2133,9 +2174,7 @@ function startConsultationPayment(){
 }
 
 
-/* =========================================================
-   PAID ACCESS CHECK
-========================================================= */
+/* PAID CONTENT ACCESS */
 
 function requireConsultationPayment(){
 
@@ -2158,10 +2197,6 @@ function requireConsultationPayment(){
 }
 
 
-/* =========================================================
-   UNLOCK PAID CONTENT
-========================================================= */
-
 function unlockPaidContent(response){
 
   consultationPaid =
@@ -2177,14 +2212,12 @@ function unlockPaidContent(response){
       "lockedMessage"
     );
 
-
   if(paidContent){
 
     paidContent.style.display =
       "block";
 
   }
-
 
   if(lockedMessage){
 
@@ -2193,12 +2226,10 @@ function unlockPaidContent(response){
 
   }
 
-
   const status =
     document.getElementById(
       "paymentStatus"
     );
-
 
   if(status){
 
@@ -2216,7 +2247,6 @@ function unlockPaidContent(response){
 
   }
 
-
   alert(
     "Payment successful! Your consultation and Advisory Plans are now unlocked."
   );
@@ -2224,9 +2254,50 @@ function unlockPaidContent(response){
 }
 
 
-/* =========================================================
-   SERVICE DATA
-========================================================= */
+/*
+  MAIN CONSULTATION BUTTON
+
+  New user:
+  → Free Consultation
+
+  Used user:
+  → ₹499 Paid Consultation
+*/
+
+function handleConsultationButton(){
+
+  if(
+    window.freeStatusLoaded ===
+    false
+  ){
+
+    alert(
+      "Please wait while we check your consultation status."
+    );
+
+    return;
+
+  }
+
+  if(
+    window.freeInquiryUsed ===
+    false
+  ){
+
+    openForm(
+      currentService ||
+      "Consultation",
+      true
+    );
+
+  }else{
+
+    startConsultationPayment();
+
+  }
+
+}
+
 
 const serviceData = {
 
@@ -2352,18 +2423,14 @@ const serviceData = {
 };
 
 
-/* =========================================================
-   SHOW SERVICE GUIDANCE
-========================================================= */
+/*
+  SHOW ONE OF SIX SERVICES
+*/
 
 function showGuidance(title){
 
   currentService =
     title;
-
-  isFreeConsultation =
-    false;
-
 
   document.getElementById(
     "home"
@@ -2377,90 +2444,32 @@ function showGuidance(title){
     "guidance"
   ).classList.remove("hidden");
 
-
   document.getElementById(
     "guidanceTitle"
   ).innerText =
     title;
 
-
   const data =
     serviceData[title];
 
-
   const freeAvailable =
-    window.firstConsultationUsed !== true;
+    window.freeStatusLoaded &&
+    window.freeInquiryUsed === false;
 
+  const ctaTitle =
+    freeAvailable
+      ? "Your First Consultation is Free"
+      : "Need Personalised Guidance?";
 
-  let ctaHTML = "";
+  const ctaText =
+    freeAvailable
+      ? "Start your first RinSaathi consultation completely free."
+      : "Book a one-to-one RinSaathi consultation to discuss your individual situation.";
 
-
-  if(freeAvailable){
-
-    ctaHTML = `
-
-      <div class="guidanceCTA">
-
-        <div class="freeBadge">
-          ✓ FIRST CONSULTATION FREE
-        </div>
-
-        <h3>
-          Start Your Free Consultation
-        </h3>
-
-        <p>
-          Your first consultation with RinSaathi
-          is completely free. Share your situation
-          and continue on WhatsApp.
-        </p>
-
-        <button
-          class="btn btnGold"
-          onclick="startFreeConsultation()">
-
-          Start Free Consultation
-
-        </button>
-
-      </div>
-
-    `;
-
-  }else{
-
-    ctaHTML = `
-
-      <div class="guidanceCTA">
-
-        <div class="usedBadge">
-          ✓ FREE CONSULTATION ALREADY USED
-        </div>
-
-        <h3>
-          Need Further Personalised Guidance?
-        </h3>
-
-        <p>
-          Your first free consultation has already
-          been used. You can continue with our
-          personalised paid consultation.
-        </p>
-
-        <button
-          class="btn btnGold"
-          onclick="goToConsultation()">
-
-          Get Personalised Consultation
-
-        </button>
-
-      </div>
-
-    `;
-
-  }
-
+  const ctaButton =
+    freeAvailable
+      ? "Start Free Consultation"
+      : "Get Personalised Consultation";
 
   document.getElementById(
     "guidanceContent"
@@ -2485,10 +2494,27 @@ function showGuidance(title){
 
     </ul>
 
-    ${ctaHTML}
+    <div class="guidanceCTA">
+
+      <h3>
+        ${ctaTitle}
+      </h3>
+
+      <p>
+        ${ctaText}
+      </p>
+
+      <button
+        class="btn btnGold"
+        onclick="handleGuidanceCTA()">
+
+        ${ctaButton}
+
+      </button>
+
+    </div>
 
   `;
-
 
   window.scrollTo(
     0,
@@ -2498,54 +2524,49 @@ function showGuidance(title){
 }
 
 
-/* =========================================================
-   START FREE CONSULTATION
-========================================================= */
+/*
+  BUTTON INSIDE SERVICE PAGE
+*/
 
-function startFreeConsultation(){
+function handleGuidanceCTA(){
 
   if(
-    window.firstConsultationUsed === true
+    window.freeStatusLoaded ===
+    false
   ){
 
     alert(
-      "Your first free consultation has already been used. Please continue with the ₹499 personalised consultation."
+      "Please wait while we check your consultation status."
     );
-
-    goToConsultation();
 
     return;
 
   }
 
+  if(
+    window.freeInquiryUsed ===
+    false
+  ){
 
-  isFreeConsultation =
-    true;
+    openForm(
+      currentService,
+      true
+    );
 
+  }else{
 
-  /*
-   Keep the selected service.
-   This means if user selected CIBIL,
-   the form remains CIBIL related.
-  */
+    goToConsultation();
 
-  openForm(
-    currentService,
-    true
-  );
+  }
 
 }
 
 
-/* =========================================================
-   GO TO PAID CONSULTATION
-========================================================= */
+/*
+  GO TO CONSULTATION SECTION
+*/
 
 function goToConsultation(){
-
-  isFreeConsultation =
-    false;
-
 
   document.getElementById(
     "guidance"
@@ -2559,12 +2580,10 @@ function goToConsultation(){
     "home"
   ).classList.remove("hidden");
 
-
   const consultationSection =
     document.querySelector(
       ".consultationOffer"
     );
-
 
   if(consultationSection){
 
@@ -2572,10 +2591,11 @@ function goToConsultation(){
       function(){
 
         consultationSection.scrollIntoView({
+          behavior:
+            "smooth",
 
-          behavior:"smooth",
-
-          block:"center"
+          block:
+            "center"
 
         });
 
@@ -2588,67 +2608,49 @@ function goToConsultation(){
 }
 
 
-/* =========================================================
-   OPEN FORM
-========================================================= */
+/*
+  OPEN FORM
+
+  isFree = true
+  means this is the user's
+  one-time free inquiry.
+*/
 
 function openForm(
   service,
-  freeMode = false
+  isFree=false
 ){
 
   currentService =
     service ||
     "Consultation";
 
-  isFreeConsultation =
-    freeMode === true;
-
-
-  /*
-   Free consultation DOES NOT require payment.
-  */
-
   if(
-    isFreeConsultation
+    !isFree &&
+    !requireConsultationPayment()
   ){
 
-    if(
-      window.firstConsultationUsed === true
-    ){
-
-      alert(
-        "Your first free consultation has already been used."
-      );
-
-      goToConsultation();
-
-      return;
-
-    }
+    return;
 
   }
 
-
-  /*
-   Paid consultation and advisory plans require
-   ₹499 payment first.
-  */
-
   if(
-    !isFreeConsultation
+    isFree &&
+    (
+      window.freeStatusLoaded !== true ||
+      window.freeInquiryUsed === true
+    )
   ){
 
-    if(
-      !requireConsultationPayment()
-    ){
+    alert(
+      "Your free consultation has already been used. Please continue with the paid consultation."
+    );
 
-      return;
+    goHome();
 
-    }
+    return;
 
   }
-
 
   document.getElementById(
     "home"
@@ -2662,30 +2664,19 @@ function openForm(
     "formSection"
   ).classList.remove("hidden");
 
-
-  if(isFreeConsultation){
-
-    document.getElementById(
-      "formTitle"
-    ).innerText =
-      currentService +
-      " – First Consultation FREE";
-
-  }else{
-
-    document.getElementById(
-      "formTitle"
-    ).innerText =
-      currentService +
-      " – Share Your Details";
-
-  }
-
+  document.getElementById(
+    "formTitle"
+  ).innerText =
+    isFree
+      ? currentService +
+        " – Free Consultation"
+      : currentService +
+        " – Share Your Details";
 
   buildServiceForm(
-    currentService
+    currentService,
+    isFree
   );
-
 
   window.scrollTo(
     0,
@@ -2695,11 +2686,14 @@ function openForm(
 }
 
 
-/* =========================================================
-   BUILD SERVICE FORM
-========================================================= */
+/*
+  BUILD FORM
+*/
 
-function buildServiceForm(service){
+function buildServiceForm(
+  service,
+  isFree=false
+){
 
   const container =
     document.getElementById(
@@ -3004,67 +2998,55 @@ function buildServiceForm(service){
   `;
 
 
+  if(isFree){
+
+    html += `
+
+      <div class="notice">
+
+        <b>✓ First Consultation Free:</b>
+
+        This is your one-time free consultation.
+        Once submitted, your free consultation will be marked as used
+        for this mobile number.
+
+      </div>
+
+    `;
+
+  }
+
+
   container.innerHTML =
     html;
 
 
-  /*
-   Prefill logged-in Firebase phone number
-   in the form.
-  */
-
-  try{
-
-    const user =
-      window.rinsaathiAuth?.currentUser;
-
-    const phoneField =
-      document.getElementById(
-        "phone"
-      );
-
-    if(
-      user?.phoneNumber &&
-      phoneField
-    ){
-
-      const phone =
-        user.phoneNumber
-          .replace("+91","")
-          .replace(/\D/g,"");
-
-      if(
-        phone.length === 10
-      ){
-
-        phoneField.value =
-          phone;
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.log(
-      "Phone prefill error:",
-      error
+  const button =
+    document.getElementById(
+      "whatsappButton"
     );
 
+  if(button){
+
+    button.innerText =
+      isFree
+        ? "Submit Free Consultation"
+        : "Continue on WhatsApp";
+
   }
+
+
+  window.currentFormIsFree =
+    isFree;
 
 }
 
 
-/* =========================================================
-   GO HOME
-========================================================= */
+/*
+  RETURN HOME
+*/
 
 function goHome(){
-
-  isFreeConsultation =
-    false;
-
 
   document.getElementById(
     "guidance"
@@ -3078,7 +3060,6 @@ function goHome(){
     "home"
   ).classList.remove("hidden");
 
-
   window.scrollTo(
     0,
     0
@@ -3087,47 +3068,94 @@ function goHome(){
 }
 
 
-/* =========================================================
-   SEND WHATSAPP
-========================================================= */
+/*
+  IMPORTANT:
+  MARK FREE INQUIRY PERMANENTLY IN FIRESTORE
+*/
 
-async function sendWhatsApp(){
+async function markFreeInquiryUsed(){
 
-  /*
-   FREE consultation:
-   No payment required.
+  const user =
+    window.currentFirebaseUser;
 
-   PAID consultation:
-   Payment required.
-  */
+  if(!user){
 
-  if(
-    !isFreeConsultation &&
-    !requireConsultationPayment()
-  ){
-
-    return;
+    throw new Error(
+      "User is not authenticated."
+    );
 
   }
 
+  const inquiryRef =
+    window.firebaseInquiryRef ||
+    null;
 
   /*
-   If free mode somehow opens after being used,
-   stop it.
+    Dynamic import is not needed because
+    Firestore functions are exposed below.
   */
 
-  if(
-    isFreeConsultation &&
-    window.firstConsultationUsed === true
-  ){
-
-    alert(
-      "Your first free consultation has already been used."
+  const result =
+    await window.saveFreeInquiryRecord(
+      user
     );
 
-    goToConsultation();
+  return result;
 
-    return;
+}
+
+
+/*
+  SEND WHATSAPP / FREE INQUIRY
+*/
+
+async function sendWhatsApp(){
+
+  const isFree =
+    window.currentFormIsFree === true;
+
+
+  /*
+    SECURITY CHECK FOR FREE INQUIRY
+  */
+
+  if(isFree){
+
+    if(
+      window.freeStatusLoaded !== true
+    ){
+
+      alert(
+        "Please wait while your consultation status is being checked."
+      );
+
+      return;
+
+    }
+
+    if(
+      window.freeInquiryUsed === true
+    ){
+
+      alert(
+        "Your free consultation has already been used. Please continue with the paid consultation."
+      );
+
+      goHome();
+
+      return;
+
+    }
+
+  }else{
+
+    if(
+      !requireConsultationPayment()
+    ){
+
+      return;
+
+    }
 
   }
 
@@ -3177,6 +3205,97 @@ async function sendWhatsApp(){
   }
 
 
+  const loggedInPhone =
+    window.currentFirebaseUser?.phoneNumber
+      ?.replace(
+        "+91",
+        ""
+      );
+
+
+  /*
+    The consultation form number must
+    match the verified login number.
+  */
+
+  if(
+    loggedInPhone &&
+    phone !== loggedInPhone
+  ){
+
+    alert(
+      "Please use the same mobile number with which you logged in."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    FREE INQUIRY:
+    FIRST permanently save it in Firebase.
+    Only after Firebase confirms it,
+    open WhatsApp.
+  */
+
+  if(isFree){
+
+    const button =
+      document.getElementById(
+        "whatsappButton"
+      );
+
+    if(button){
+
+      button.disabled =
+        true;
+
+      button.innerText =
+        "Saving Free Consultation...";
+
+    }
+
+    try{
+
+      await markFreeInquiryUsed();
+
+      window.freeInquiryUsed =
+        true;
+
+      window.freeStatusLoaded =
+        true;
+
+      updateConsultationUI();
+
+    }catch(error){
+
+      console.error(
+        "FREE INQUIRY SAVE ERROR:",
+        error
+      );
+
+      if(button){
+
+        button.disabled =
+          false;
+
+        button.innerText =
+          "Submit Free Consultation";
+
+      }
+
+      alert(
+        "We could not register your free consultation. Please try again."
+      );
+
+      return;
+
+    }
+
+  }
+
+
   let text =
 
 `Hello RinSaathi,
@@ -3186,9 +3305,9 @@ I would like guidance regarding:
 Service: ${currentService}
 
 Consultation Type: ${
-  isFreeConsultation
-    ? "First Consultation - FREE"
-    : "Paid Personalised Consultation"
+  isFree
+    ? "FIRST CONSULTATION - FREE"
+    : "PAID CONSULTATION"
 }
 
 Name: ${name}
@@ -3261,45 +3380,6 @@ I understand that RinSaathi provides advisory and guidance services and does not
     );
 
 
-  /*
-   For FREE consultation:
-   Save the user's status in Firestore
-   before opening WhatsApp.
-
-   This is tied to Firebase UID,
-   so another user's account is unaffected.
-  */
-
-  if(isFreeConsultation){
-
-    const saved =
-      await window.markFreeConsultationForUser?.();
-
-    /*
-     The helper above may not exist because functions
-     inside module scope are not automatically global.
-     So use the exposed helper below.
-    */
-
-    if(
-      typeof window.saveFirstConsultationUsed ===
-      "function"
-    ){
-
-      const result =
-        await window.saveFirstConsultationUsed();
-
-      if(!result){
-
-        return;
-
-      }
-
-    }
-
-  }
-
-
   window.open(
     whatsappURL,
     "_blank"
@@ -3307,130 +3387,209 @@ I understand that RinSaathi provides advisory and guidance services and does not
 
 
   /*
-   After free consultation is used,
-   return to home so the user sees the updated state.
+    If it was a free consultation,
+    the user is now permanently converted
+    to paid status in this session.
   */
 
-  if(isFreeConsultation){
+  if(isFree){
 
-    isFreeConsultation =
-      false;
+    const button =
+      document.getElementById(
+        "whatsappButton"
+      );
 
-    goHome();
+    if(button){
+
+      button.disabled =
+        false;
+
+    }
+
+    alert(
+      "✓ Your first free consultation has been registered. This mobile number will not receive another free consultation."
+    );
 
   }
 
 }
 
 
-/* =========================================================
-   CONNECT FIRESTORE FUNCTION TO MAIN SCRIPT
-========================================================= */
+/*
+  RECEIVE FIRESTORE SAVE FUNCTION
+  FROM MODULE SCRIPT
+*/
 
-window.saveFirstConsultationUsed =
-async function(){
+window.saveFreeInquiryRecord =
+  null;
 
-  const auth =
-    window.rinsaathiAuth;
 
-  const db =
-    window.rinsaathiDB;
+/*
+  Wait until Firebase module is ready.
+*/
 
-  if(
-    !auth ||
-    !db
-  ){
+window.addEventListener(
+  "firebaseReady",
+  function(){
 
-    alert(
-      "Secure user connection is not ready. Please refresh and try again."
+    console.log(
+      "RinSaathi Firebase ready."
     );
-
-    return false;
 
   }
+);
+
+</script>
 
 
-  const user =
-    auth.currentUser;
+<script type="module">
+
+/*
+  FIRESTORE SAVE MODULE
+
+  This creates ONE permanent document:
+
+  free_inquiries/{Firebase UID}
+
+  Once created, Firestore Rules will prevent
+  changing or deleting the free status.
+*/
+
+import {
+  initializeApp,
+  getApps
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-  if(!user){
+const firebaseConfig = {
 
-    alert(
-      "Please login again before continuing."
-    );
+  apiKey:
+    "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
-    return false;
+  authDomain:
+    "rinsaathi-app.firebaseapp.com",
 
-  }
+  projectId:
+    "rinsaathi-app",
 
+  storageBucket:
+    "rinsaathi-app.firebasestorage.app",
 
-  try{
+  messagingSenderId:
+    "156758734237",
 
-    /*
-     Dynamic import avoids dependency problems
-     between the two script blocks.
-    */
-
-    const firestore =
-      await import(
-        "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js"
-      );
-
-
-    const userRef =
-      firestore.doc(
-        db,
-        "users",
-        user.uid
-      );
-
-
-    await firestore.setDoc(
-      userRef,
-      {
-
-        firstConsultationUsed:true,
-
-        firstConsultationUsedAt:
-          firestore.serverTimestamp()
-
-      },
-
-      {
-        merge:true
-      }
-
-    );
-
-
-    window.firstConsultationUsed =
-      true;
-
-
-    return true;
-
-  }catch(error){
-
-    console.error(
-      "FREE CONSULTATION FIRESTORE ERROR:",
-      error
-    );
-
-    alert(
-      "We could not save your free consultation status. Please try again."
-    );
-
-    return false;
-
-  }
+  appId:
+    "1:156758734237:web:b2daa2fb6e43a7bc192b74"
 
 };
 
 
-/* =========================================================
-   MAKE FIRESTORE STATUS LOADER AVAILABLE
-========================================================= */
+const firebaseApp =
+  getApps().length
+    ? getApps()[0]
+    : initializeApp(
+        firebaseConfig
+      );
+
+
+const db =
+  getFirestore(
+    firebaseApp
+  );
+
+
+window.saveFreeInquiryRecord =
+  async function(user){
+
+    if(!user){
+
+      throw new Error(
+        "No authenticated user."
+      );
+
+    }
+
+
+    const ref =
+      doc(
+        db,
+        "free_inquiries",
+        user.uid
+      );
+
+
+    /*
+      Double-check BEFORE creating.
+    */
+
+    const existing =
+      await getDoc(
+        ref
+      );
+
+
+    if(existing.exists()){
+
+      /*
+        Already used.
+        NEVER create again.
+      */
+
+      if(
+        existing.data().freeInquiryUsed === true
+      ){
+
+        throw new Error(
+          "FREE_INQUIRY_ALREADY_USED"
+        );
+
+      }
+
+    }
+
+
+    /*
+      Create permanent record.
+    */
+
+    await setDoc(
+      ref,
+      {
+
+        freeInquiryUsed:
+          true,
+
+        uid:
+          user.uid,
+
+        phoneNumber:
+          user.phoneNumber || "",
+
+        usedAt:
+          serverTimestamp()
+
+      }
+    );
+
+
+    return true;
+
+  };
+
+
+window.dispatchEvent(
+  new Event(
+    "firebaseReady"
+  )
+);
 
 </script>
 
