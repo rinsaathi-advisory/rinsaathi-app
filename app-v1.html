@@ -29,9 +29,7 @@ body{
   background:#fff;
 }
 
-/* =========================================================
-   LOGIN
-========================================================= */
+/* LOGIN */
 
 #loginScreen{
   min-height:100vh;
@@ -84,10 +82,6 @@ body{
   outline:none;
 }
 
-.loginInput:focus{
-  border-color:#d8b45f;
-}
-
 .otpInput{
   letter-spacing:7px;
   text-align:center;
@@ -106,10 +100,6 @@ body{
   font-size:15px;
   font-weight:800;
   cursor:pointer;
-}
-
-.loginBtn:disabled{
-  opacity:.6;
 }
 
 .secondaryBtn{
@@ -143,9 +133,7 @@ body{
   color:#16704f;
 }
 
-/* =========================================================
-   MAIN APP
-========================================================= */
+/* MAIN */
 
 #mainApp{
   display:none;
@@ -237,44 +225,7 @@ body{
   margin-top:28px;
 }
 
-/* =========================================================
-   FREE FIRST INQUIRY
-========================================================= */
-
-.freeInquiryBox{
-  background:linear-gradient(145deg,#f7fbf9,#eef7f3);
-  border:1px solid #dceae4;
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:15px;
-}
-
-.freeBadge{
-  display:inline-block;
-  background:#16704f;
-  color:white;
-  padding:6px 11px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:800;
-  margin-bottom:10px;
-}
-
-.freeInquiryBox h3{
-  color:#063f32;
-  font-size:19px;
-}
-
-.freeInquiryBox p{
-  color:#61716c;
-  font-size:13px;
-  line-height:1.5;
-  margin-top:7px;
-}
-
-/* =========================================================
-   CONSULTATION OFFER
-========================================================= */
+/* CONSULTATION */
 
 .consultationOffer{
   background:linear-gradient(145deg,#063f32,#0d604c);
@@ -350,14 +301,7 @@ body{
   color:white;
 }
 
-.btnWhite{
-  background:white;
-  color:#063f32;
-}
-
-/* =========================================================
-   LOCKED
-========================================================= */
+/* LOCKED */
 
 .lockedBox{
   border:1px solid #e4e8e6;
@@ -385,9 +329,7 @@ body{
   margin-top:7px;
 }
 
-/* =========================================================
-   PAID CONTENT
-========================================================= */
+/* PAID */
 
 #paidContent{
   display:none;
@@ -432,9 +374,7 @@ body{
   margin-top:3px;
 }
 
-/* =========================================================
-   FORM
-========================================================= */
+/* FORM */
 
 .form{
   display:none;
@@ -541,25 +481,40 @@ body{
   font-weight:700;
 }
 
-/* =========================================================
-   INQUIRY STATUS
-========================================================= */
+/* FREE INQUIRY */
 
-.inquiryStatus{
-  background:#eef7f3;
-  border:1px solid #dceae4;
+.freeBadge{
+  display:inline-block;
+  background:#edf8f2;
   color:#16704f;
-  padding:13px;
-  border-radius:13px;
-  font-size:12px;
-  line-height:1.5;
-  margin-top:12px;
-  display:none;
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:14px;
 }
 
-/* =========================================================
-   GUIDANCE CTA
-========================================================= */
+.inquiryInfo{
+  background:#f8faf9;
+  border:1px solid #e2e9e5;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.inquiryInfo h3{
+  color:#063f32;
+  font-size:17px;
+}
+
+.inquiryInfo p{
+  color:#6a7974;
+  font-size:13px;
+  line-height:1.5;
+  margin-top:7px;
+}
+
+/* CTA */
 
 .guidanceCTA{
   margin-top:22px;
@@ -582,10 +537,6 @@ body{
   margin-top:6px;
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
 @media(max-width:380px){
 
   .grid{
@@ -607,9 +558,7 @@ body{
 <body>
 
 
-<!-- =========================================================
-     LOGIN SCREEN
-========================================================= -->
+<!-- LOGIN -->
 
 <div id="loginScreen">
 
@@ -686,10 +635,8 @@ body{
     </div>
 
     <div class="notice">
-
       Your mobile number is used only for secure verification.
       Never share your OTP with anyone.
-
     </div>
 
   </div>
@@ -697,9 +644,7 @@ body{
 </div>
 
 
-<!-- =========================================================
-     MAIN APP
-========================================================= -->
+<!-- MAIN APP -->
 
 <div id="mainApp">
 
@@ -731,23 +676,40 @@ body{
 <main class="content">
 
 
-<!-- =========================================================
-     HOME
-========================================================= -->
+<!-- HOME -->
 
 <div id="home">
 
   <div class="section">
 
+    <div class="inquiryInfo">
+
+      <div class="freeBadge">
+        ✓ FIRST INQUIRY FREE
+      </div>
+
+      <h3>
+        Talk to RinSaathi
+      </h3>
+
+      <p>
+        Start with your first inquiry completely free.
+        Share your situation and understand the right area
+        for guidance.
+      </p>
+
+    </div>
+
     <div class="title">
       How can we help you?
     </div>
+
 
     <div class="grid">
 
       <div
         class="card"
-        onclick="showGuidance('Loan & EMI Guidance')">
+        onclick="handleServiceClick('Loan & EMI Guidance')">
 
         <div class="icon">💳</div>
 
@@ -762,7 +724,7 @@ body{
 
       <div
         class="card"
-        onclick="showGuidance('CIBIL / Credit Guidance')">
+        onclick="handleServiceClick('CIBIL / Credit Guidance')">
 
         <div class="icon">📊</div>
 
@@ -777,7 +739,7 @@ body{
 
       <div
         class="card"
-        onclick="showGuidance('Recovery Call Guidance')">
+        onclick="handleServiceClick('Recovery Call Guidance')">
 
         <div class="icon">📞</div>
 
@@ -792,7 +754,7 @@ body{
 
       <div
         class="card"
-        onclick="showGuidance('Debt Management')">
+        onclick="handleServiceClick('Debt Management')">
 
         <div class="icon">🧾</div>
 
@@ -807,7 +769,7 @@ body{
 
       <div
         class="card"
-        onclick="showGuidance('Settlement Option Education')">
+        onclick="handleServiceClick('Settlement Option Education')">
 
         <div class="icon">🧠</div>
 
@@ -822,14 +784,14 @@ body{
 
       <div
         class="card"
-        onclick="showGuidance('Talk to RinSaathi')">
+        onclick="handleServiceClick('Talk to RinSaathi')">
 
         <div class="icon">💬</div>
 
         <h3>Talk to RinSaathi</h3>
 
         <p>
-          First inquiry is FREE.
+          Share your situation for guidance.
         </p>
 
       </div>
@@ -839,51 +801,11 @@ body{
   </div>
 
 
-<!-- =========================================================
-     FREE INQUIRY
-========================================================= -->
+<!-- CONSULTATION -->
 
-  <div class="section">
-
-    <div class="freeInquiryBox">
-
-      <div class="freeBadge">
-        ✓ FIRST INQUIRY FREE
-      </div>
-
-      <h3>
-        Talk to RinSaathi
-      </h3>
-
-      <p>
-        Your first inquiry is completely free.
-        Share your situation and our team can understand
-        what type of guidance you may need.
-      </p>
-
-      <div
-        id="freeInquiryStatus"
-        class="inquiryStatus">
-      </div>
-
-      <button
-        class="btn btnGreen"
-        onclick="startTalkToRinSaathi()">
-
-        Start My First Free Inquiry
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-<!-- =========================================================
-     CONSULTATION
-========================================================= -->
-
-  <div class="section">
+  <div
+    id="consultationSection"
+    class="section">
 
     <div class="title">
       Get Consultation
@@ -920,7 +842,7 @@ body{
         class="btn btnGold"
         onclick="startConsultationPayment()">
 
-        Pay ₹499 & Unlock All Services
+        Pay ₹499 & Get Consultation
 
       </button>
 
@@ -941,13 +863,12 @@ body{
       </div>
 
       <h3>
-        Additional Advisory Services Locked
+        Consultation & Advisory Plans Locked
       </h3>
 
       <p>
-        Your first Talk to RinSaathi inquiry is free.
-        For your next inquiry, pay the ₹499 consultation fee
-        to unlock all advisory services and plans.
+        Complete your consultation payment to unlock
+        all advisory options and plans.
       </p>
 
     </div>
@@ -955,16 +876,14 @@ body{
   </div>
 
 
-<!-- =========================================================
-     PAID CONTENT
-========================================================= -->
+<!-- PAID CONTENT -->
 
 <div
   id="paidContent"
   class="section">
 
   <div class="unlockedTitle">
-    ✓ All Services Unlocked
+    ✓ All Consultation & Advisory Options Unlocked
   </div>
 
 
@@ -983,7 +902,7 @@ body{
       class="btn btnGold"
       onclick="openForm('Consultation')">
 
-      Start Consultation
+      Start My Consultation
 
     </button>
 
@@ -1118,9 +1037,7 @@ body{
 </div>
 
 
-<!-- =========================================================
-     GUIDANCE
-========================================================= -->
+<!-- GUIDANCE -->
 
 <div
   id="guidance"
@@ -1148,9 +1065,7 @@ body{
 </div>
 
 
-<!-- =========================================================
-     FORM
-========================================================= -->
+<!-- FORM -->
 
 <div
   id="formSection"
@@ -1221,9 +1136,7 @@ body{
 </div>
 
 
-<!-- =========================================================
-     FIREBASE OTP
-========================================================= -->
+<!-- FIREBASE -->
 
 <script type="module">
 
@@ -1275,55 +1188,6 @@ let recaptchaVerifier = null;
 let recaptchaWidgetId = null;
 
 
-/* =========================================================
-   EXPOSE CURRENT USER
-========================================================= */
-
-onAuthStateChanged(
-  auth,
-  function(user){
-
-    const loginScreen =
-      document.getElementById("loginScreen");
-
-    const mainApp =
-      document.getElementById("mainApp");
-
-
-    if(user){
-
-      window.rinSaathiUser =
-        user;
-
-      loginScreen.style.display =
-        "none";
-
-      mainApp.style.display =
-        "block";
-
-      updateInquiryStatus();
-
-    }else{
-
-      window.rinSaathiUser =
-        null;
-
-      loginScreen.style.display =
-        "flex";
-
-      mainApp.style.display =
-        "none";
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   MESSAGE
-========================================================= */
-
 function setLoginMessage(message,type=""){
 
   const box =
@@ -1340,17 +1204,12 @@ function setLoginMessage(message,type=""){
 }
 
 
-/* =========================================================
-   RECAPTCHA
-========================================================= */
-
 async function createRecaptcha(){
 
   const container =
     document.getElementById("recaptcha-container");
 
   if(!container) return false;
-
 
   try{
 
@@ -1365,9 +1224,7 @@ async function createRecaptcha(){
 
     }
 
-
     container.innerHTML = "";
-
 
     recaptchaVerifier =
       new RecaptchaVerifier(
@@ -1396,24 +1253,19 @@ async function createRecaptcha(){
         }
       );
 
-
     recaptchaWidgetId =
       await recaptchaVerifier.render();
-
 
     return true;
 
   }catch(error){
 
-    console.error(
-      "RECAPTCHA ERROR:",
-      error
-    );
+    console.error(error);
 
     recaptchaVerifier = null;
 
     setLoginMessage(
-      "Security verification could not load. Please refresh the page and try again.",
+      "Security verification could not load. Please refresh the page.",
       "error"
     );
 
@@ -1439,21 +1291,10 @@ function resetRecaptcha(){
 
     }
 
-  }catch(error){
-
-    console.log(
-      "reCAPTCHA reset:",
-      error
-    );
-
-  }
+  }catch(error){}
 
 }
 
-
-/* =========================================================
-   SEND OTP
-========================================================= */
 
 window.sendOTP =
 async function(){
@@ -1464,10 +1305,8 @@ async function(){
   const sendButton =
     document.getElementById("sendOtpBtn");
 
-
   const phone =
     phoneInput.value.trim();
-
 
   if(!/^[6-9]\d{9}$/.test(phone)){
 
@@ -1480,15 +1319,10 @@ async function(){
 
   }
 
-
   try{
 
-    sendButton.disabled =
-      true;
-
-    sendButton.innerText =
-      "Please wait...";
-
+    sendButton.disabled = true;
+    sendButton.innerText = "Please wait...";
 
     if(!recaptchaVerifier){
 
@@ -1496,20 +1330,12 @@ async function(){
         await createRecaptcha();
 
       if(!ready){
-
-        throw new Error(
-          "reCAPTCHA could not be loaded."
-        );
-
+        throw new Error("reCAPTCHA failed");
       }
 
     }
 
-
-    setLoginMessage(
-      "Sending OTP..."
-    );
-
+    setLoginMessage("Sending OTP...");
 
     confirmationResult =
       await signInWithPhoneNumber(
@@ -1518,104 +1344,68 @@ async function(){
         recaptchaVerifier
       );
 
-
     document.getElementById(
       "phoneSection"
-    ).style.display =
-      "none";
-
+    ).style.display = "none";
 
     document.getElementById(
       "otpSection"
-    ).style.display =
-      "block";
-
+    ).style.display = "block";
 
     setLoginMessage(
       "OTP sent successfully. Please check your SMS.",
       "success"
     );
 
-
   }catch(error){
 
-    console.error(
-      "SEND OTP ERROR:",
-      error
-    );
+    console.error(error);
 
     resetRecaptcha();
-
 
     let message =
       "Unable to send OTP. Please try again.";
 
-
     if(error?.code){
 
-      if(
-        error.code ===
-        "auth/network-request-failed"
-      ){
+      if(error.code === "auth/network-request-failed"){
 
         message =
           "Network request failed. Please check your internet connection.";
 
-      }
-
-      else if(
-        error.code ===
-        "auth/invalid-phone-number"
-      ){
+      }else if(error.code === "auth/invalid-phone-number"){
 
         message =
           "The mobile number is invalid.";
 
-      }
-
-      else if(
-        error.code ===
-        "auth/too-many-requests"
-      ){
+      }else if(error.code === "auth/too-many-requests"){
 
         message =
           "Too many OTP attempts. Please try again later.";
 
-      }
-
-      else{
+      }else{
 
         message +=
-          "\nFirebase: " +
-          error.code;
+          "\nFirebase: " + error.code;
 
       }
 
     }
-
 
     setLoginMessage(
       message,
       "error"
     );
 
-
   }finally{
 
-    sendButton.disabled =
-      false;
-
-    sendButton.innerText =
-      "Send OTP";
+    sendButton.disabled = false;
+    sendButton.innerText = "Send OTP";
 
   }
 
 };
 
-
-/* =========================================================
-   VERIFY OTP
-========================================================= */
 
 window.verifyOTP =
 async function(){
@@ -1626,10 +1416,8 @@ async function(){
   const verifyButton =
     document.getElementById("verifyOtpBtn");
 
-
   const otp =
     otpInput.value.trim();
-
 
   if(!/^\d{6}$/.test(otp)){
 
@@ -1642,7 +1430,6 @@ async function(){
 
   }
 
-
   if(!confirmationResult){
 
     setLoginMessage(
@@ -1654,128 +1441,105 @@ async function(){
 
   }
 
-
   try{
 
-    verifyButton.disabled =
-      true;
+    verifyButton.disabled = true;
+    verifyButton.innerText = "Verifying...";
 
-    verifyButton.innerText =
-      "Verifying...";
+    setLoginMessage("Verifying OTP...");
 
-
-    setLoginMessage(
-      "Verifying OTP..."
-    );
-
-
-    await confirmationResult.confirm(
-      otp
-    );
-
+    await confirmationResult.confirm(otp);
 
     setLoginMessage(
       "Login successful!",
       "success"
     );
 
-
   }catch(error){
 
-    console.error(
-      "OTP VERIFY ERROR:",
-      error
-    );
-
+    console.error(error);
 
     let message =
       "OTP verification failed.";
 
+    if(error?.code === "auth/invalid-verification-code"){
 
-    if(error?.code){
+      message =
+        "Incorrect OTP. Please check and try again.";
 
-      if(
-        error.code ===
-        "auth/invalid-verification-code"
-      ){
+    }else if(error?.code === "auth/code-expired"){
 
-        message =
-          "Incorrect OTP. Please check the OTP and try again.";
-
-      }
-
-      else if(
-        error.code ===
-        "auth/code-expired"
-      ){
-
-        message =
-          "This OTP has expired. Please request a new OTP.";
-
-      }
+      message =
+        "This OTP has expired. Please request a new OTP.";
 
     }
-
 
     setLoginMessage(
       message,
       "error"
     );
 
-
   }finally{
 
-    verifyButton.disabled =
-      false;
-
-    verifyButton.innerText =
-      "Verify OTP";
+    verifyButton.disabled = false;
+    verifyButton.innerText = "Verify OTP";
 
   }
 
 };
 
 
-/* =========================================================
-   CHANGE MOBILE
-========================================================= */
-
 window.backToPhone =
 async function(){
 
   document.getElementById(
     "otpSection"
-  ).style.display =
-    "none";
-
+  ).style.display = "none";
 
   document.getElementById(
     "phoneSection"
-  ).style.display =
-    "block";
-
+  ).style.display = "block";
 
   document.getElementById(
     "otpCode"
-  ).value =
-    "";
+  ).value = "";
 
-
-  confirmationResult =
-    null;
-
+  confirmationResult = null;
 
   setLoginMessage("");
-
 
   await createRecaptcha();
 
 };
 
 
-/* =========================================================
-   LOGOUT
-========================================================= */
+onAuthStateChanged(
+  auth,
+  function(user){
+
+    const loginScreen =
+      document.getElementById("loginScreen");
+
+    const mainApp =
+      document.getElementById("mainApp");
+
+    if(user){
+
+      loginScreen.style.display = "none";
+      mainApp.style.display = "block";
+
+      initializeCustomerState();
+
+    }else{
+
+      loginScreen.style.display = "flex";
+      mainApp.style.display = "none";
+
+    }
+
+  }
+);
+
 
 window.logoutUser =
 async function(){
@@ -1788,28 +1552,19 @@ async function(){
 
   }catch(error){
 
-    console.error(
-      "Logout error:",
-      error
-    );
+    console.error(error);
 
   }
 
 };
 
 
-/* =========================================================
-   INITIAL RECAPTCHA
-========================================================= */
-
 createRecaptcha();
 
 </script>
 
 
-<!-- =========================================================
-     APP FUNCTIONS + RAZORPAY
-========================================================= -->
+<!-- APP LOGIC -->
 
 <script>
 
@@ -1817,196 +1572,123 @@ let currentService = "";
 
 let consultationPaid = false;
 
+let firstInquiryCompleted = false;
 
-/* =========================================================
-   RAZORPAY
-========================================================= */
+
+/* RAZORPAY */
 
 const RAZORPAY_KEY =
   "rzp_live_TYiZXJ0sZcSA5l";
 
 
-/* =========================================================
-   USER ID
-========================================================= */
+/* CUSTOMER STORAGE */
 
-function getUserKey(){
+function getCustomerKey(){
 
-  if(
-    window.rinSaathiUser &&
-    window.rinSaathiUser.uid
-  ){
+  try{
 
-    return window.rinSaathiUser.uid;
+    const phone =
+      window.currentFirebasePhone ||
+      document.getElementById("loginPhone")?.value ||
+      "";
+
+    return "rinsaathi_customer_" + phone;
+
+  }catch(e){
+
+    return "rinsaathi_customer_unknown";
 
   }
 
-  const phone =
-    document.getElementById(
-      "loginPhone"
-    )?.value || "";
+}
 
-  return phone || "unknown-user";
+
+function initializeCustomerState(){
+
+  const key =
+    getCustomerKey();
+
+  const saved =
+    localStorage.getItem(key);
+
+  if(saved){
+
+    try{
+
+      const data =
+        JSON.parse(saved);
+
+      firstInquiryCompleted =
+        data.firstInquiryCompleted === true;
+
+      consultationPaid =
+        data.consultationPaid === true;
+
+    }catch(e){}
+
+  }
+
+  updatePaidUI();
 
 }
 
 
-/* =========================================================
-   FREE INQUIRY STATUS
-========================================================= */
-
-function hasUsedFreeInquiry(){
+function saveCustomerState(){
 
   const key =
-    "rinsaathi_free_inquiry_" +
-    getUserKey();
-
-  return localStorage.getItem(key) === "used";
-
-}
-
-
-function markFreeInquiryUsed(){
-
-  const key =
-    "rinsaathi_free_inquiry_" +
-    getUserKey();
+    getCustomerKey();
 
   localStorage.setItem(
     key,
-    "used"
+    JSON.stringify({
+      firstInquiryCompleted:
+        firstInquiryCompleted,
+
+      consultationPaid:
+        consultationPaid
+    })
   );
 
 }
 
 
-function updateInquiryStatus(){
+function updatePaidUI(){
 
-  const status =
-    document.getElementById(
-      "freeInquiryStatus"
-    );
+  const paidContent =
+    document.getElementById("paidContent");
 
-  if(!status) return;
+  const lockedMessage =
+    document.getElementById("lockedMessage");
 
+  if(consultationPaid){
 
-  if(hasUsedFreeInquiry()){
+    if(paidContent)
+      paidContent.style.display = "block";
 
-    status.style.display =
-      "block";
-
-    status.innerText =
-      "✓ Your first free inquiry has already been used. Your next inquiry requires the ₹499 consultation payment.";
+    if(lockedMessage)
+      lockedMessage.style.display = "none";
 
   }else{
 
-    status.style.display =
-      "none";
+    if(paidContent)
+      paidContent.style.display = "none";
+
+    if(lockedMessage)
+      lockedMessage.style.display = "block";
 
   }
 
 }
 
 
-/* =========================================================
-   START TALK TO RINSAATHI
-========================================================= */
-
-function startTalkToRinSaathi(){
-
-  if(
-    consultationPaid === true
-  ){
-
-    openForm(
-      "Talk to RinSaathi"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    hasUsedFreeInquiry()
-  ){
-
-    alert(
-      "Your first free inquiry has already been used. Please pay the ₹499 consultation fee to continue with your next inquiry."
-    );
-
-    startConsultationPayment();
-
-    return;
-
-  }
-
-
-  currentService =
-    "Talk to RinSaathi";
-
-
-  document.getElementById(
-    "home"
-  ).classList.add("hidden");
-
-
-  document.getElementById(
-    "guidance"
-  ).classList.add("hidden");
-
-
-  document.getElementById(
-    "formSection"
-  ).classList.remove("hidden");
-
-
-  document.getElementById(
-    "formTitle"
-  ).innerText =
-    "Talk to RinSaathi – First Inquiry FREE";
-
-
-  buildServiceForm(
-    "Talk to RinSaathi"
-  );
-
-
-  const button =
-    document.getElementById(
-      "whatsappButton"
-    );
-
-
-  if(button){
-
-    button.innerText =
-      "Submit Free Inquiry on WhatsApp";
-
-  }
-
-
-  window.scrollTo(
-    0,
-    0
-  );
-
-}
-
-
-/* =========================================================
-   START PAYMENT
-========================================================= */
+/* PAYMENT */
 
 function startConsultationPayment(){
 
-  if(
-    typeof Razorpay ===
-    "undefined"
-  ){
+  if(typeof Razorpay === "undefined"){
 
     alert(
-      "Payment system is not loaded. Please refresh the page and try again."
+      "Payment system is not loaded. Please refresh the app."
     );
 
     return;
@@ -2015,21 +1697,12 @@ function startConsultationPayment(){
 
 
   const status =
-    document.getElementById(
-      "paymentStatus"
-    );
+    document.getElementById("paymentStatus");
 
 
   if(status){
 
-    status.style.display =
-      "block";
-
-    status.style.background =
-      "#edf8f2";
-
-    status.style.color =
-      "#16704f";
+    status.style.display = "block";
 
     status.innerText =
       "Opening secure Razorpay payment...";
@@ -2038,11 +1711,7 @@ function startConsultationPayment(){
 
 
   const phone =
-    window.rinSaathiUser?.phoneNumber ||
-    document.getElementById(
-      "loginPhone"
-    )?.value ||
-    "";
+    document.getElementById("loginPhone")?.value || "";
 
 
   const options = {
@@ -2066,8 +1735,7 @@ function startConsultationPayment(){
       "./logo.png",
 
     prefill:{
-      contact:
-        phone.replace("+91","")
+      contact:phone
     },
 
     theme:{
@@ -2075,12 +1743,6 @@ function startConsultationPayment(){
     },
 
     handler:function(response){
-
-      console.log(
-        "PAYMENT RESPONSE:",
-        response
-      );
-
 
       unlockPaidContent(
         response
@@ -2094,8 +1756,7 @@ function startConsultationPayment(){
 
         if(status){
 
-          status.style.display =
-            "none";
+          status.style.display = "none";
 
         }
 
@@ -2114,24 +1775,15 @@ function startConsultationPayment(){
 
     razorpay.on(
       "payment.failed",
-      function(response){
-
-        console.error(
-          "PAYMENT FAILED:",
-          response
-        );
-
+      function(){
 
         if(status){
 
-          status.style.display =
-            "block";
+          status.style.display = "block";
 
-          status.style.background =
-            "#fff0f0";
+          status.style.background = "#fff0f0";
 
-          status.style.color =
-            "#b3261e";
+          status.style.color = "#b3261e";
 
           status.innerText =
             "Payment failed. Please try again.";
@@ -2144,14 +1796,9 @@ function startConsultationPayment(){
 
     razorpay.open();
 
-
   }catch(error){
 
-    console.error(
-      "RAZORPAY ERROR:",
-      error
-    );
-
+    console.error(error);
 
     alert(
       "Unable to open payment window. Please refresh and try again."
@@ -2162,108 +1809,45 @@ function startConsultationPayment(){
 }
 
 
-/* =========================================================
-   PAYMENT GATE
-========================================================= */
-
-function requireConsultationPayment(){
-
-  if(
-    consultationPaid !== true
-  ){
-
-    alert(
-      "Please complete the ₹499 consultation payment first to unlock this service."
-    );
-
-    startConsultationPayment();
-
-    return false;
-
-  }
-
-  return true;
-
-}
-
-
-/* =========================================================
-   UNLOCK ALL SERVICES
-========================================================= */
+/* PAYMENT UNLOCK */
 
 function unlockPaidContent(response){
 
-  consultationPaid =
-    true;
+  consultationPaid = true;
 
+  saveCustomerState();
 
-  const paidContent =
-    document.getElementById(
-      "paidContent"
-    );
-
-
-  const lockedMessage =
-    document.getElementById(
-      "lockedMessage"
-    );
-
-
-  if(paidContent){
-
-    paidContent.style.display =
-      "block";
-
-  }
-
-
-  if(lockedMessage){
-
-    lockedMessage.style.display =
-      "none";
-
-  }
-
+  updatePaidUI();
 
   const status =
-    document.getElementById(
-      "paymentStatus"
-    );
-
+    document.getElementById("paymentStatus");
 
   if(status){
 
-    status.style.display =
-      "block";
+    status.style.display = "block";
 
-    status.style.background =
-      "#edf8f2";
+    status.style.background = "#edf8f2";
 
-    status.style.color =
-      "#16704f";
+    status.style.color = "#16704f";
 
     status.innerText =
-      "✓ Payment successful. All RinSaathi services are now unlocked.";
+      "✓ Payment successful. All consultation and advisory options are now unlocked.";
 
   }
-
 
   console.log(
     "Payment ID:",
     response?.razorpay_payment_id || ""
   );
 
-
   alert(
-    "Payment successful! All RinSaathi services and Advisory Plans are now unlocked."
+    "Payment successful! All consultation and advisory options are now unlocked."
   );
 
 }
 
 
-/* =========================================================
-   SERVICE DATA
-========================================================= */
+/* SERVICE DATA */
 
 const serviceData = {
 
@@ -2370,7 +1954,7 @@ const serviceData = {
   "Talk to RinSaathi":{
 
     description:
-      "Share your overall situation with RinSaathi and understand which area may require attention and what practical next steps you can consider.",
+      "Share your situation with RinSaathi and understand which area may require attention and what practical next step you can consider.",
 
     points:[
 
@@ -2389,9 +1973,121 @@ const serviceData = {
 };
 
 
-/* =========================================================
-   SHOW GUIDANCE
-========================================================= */
+/* SERVICE CLICK */
+
+function handleServiceClick(service){
+
+  currentService =
+    service;
+
+
+  /*
+    FIRST INQUIRY:
+    FREE — only Talk to RinSaathi
+  */
+
+  if(!firstInquiryCompleted){
+
+    showGuidance(
+      "Talk to RinSaathi"
+    );
+
+    return;
+
+  }
+
+
+  /*
+    AFTER FIRST INQUIRY:
+    PAYMENT REQUIRED
+  */
+
+  if(!consultationPaid){
+
+    showPaymentRequiredPage();
+
+    return;
+
+  }
+
+
+  /*
+    PAYMENT COMPLETED:
+    EVERYTHING OPEN
+  */
+
+  showGuidance(service);
+
+}
+
+
+/* PAYMENT REQUIRED PAGE */
+
+function showPaymentRequiredPage(){
+
+  document.getElementById(
+    "home"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "formSection"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "guidance"
+  ).classList.remove("hidden");
+
+
+  document.getElementById(
+    "guidanceTitle"
+  ).innerText =
+    currentService;
+
+
+  document.getElementById(
+    "guidanceContent"
+  ).innerHTML = `
+
+    <div class="guidanceText">
+
+      This section is available after your
+      first free inquiry.
+
+    </div>
+
+    <div class="guidanceCTA">
+
+      <h3>
+        Continue with Personalised Consultation
+      </h3>
+
+      <p>
+        Book a consultation to continue and unlock
+        all RinSaathi advisory options.
+      </p>
+
+      <button
+        class="btn btnGold"
+        onclick="goToConsultation()">
+
+        Book Consultation
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* GUIDANCE */
 
 function showGuidance(title){
 
@@ -2403,11 +2099,9 @@ function showGuidance(title){
     "home"
   ).classList.add("hidden");
 
-
   document.getElementById(
     "formSection"
   ).classList.add("hidden");
-
 
   document.getElementById(
     "guidance"
@@ -2422,134 +2116,6 @@ function showGuidance(title){
 
   const data =
     serviceData[title];
-
-
-  let ctaHTML = "";
-
-
-  if(
-    title ===
-    "Talk to RinSaathi"
-  ){
-
-    if(
-      consultationPaid === true
-    ){
-
-      ctaHTML = `
-
-        <div class="guidanceCTA">
-
-          <h3>
-            ✓ All Services Unlocked
-          </h3>
-
-          <p>
-            You can now submit your Talk to RinSaathi inquiry.
-          </p>
-
-          <button
-            class="btn btnGold"
-            onclick="openForm('Talk to RinSaathi')">
-
-            Start Inquiry
-
-          </button>
-
-        </div>
-
-      `;
-
-    }else{
-
-      ctaHTML = `
-
-        <div class="guidanceCTA">
-
-          <h3>
-            First Inquiry is FREE
-          </h3>
-
-          <p>
-            Your first Talk to RinSaathi inquiry is free.
-            After the first inquiry, the ₹499 consultation
-            payment is required for further inquiries.
-          </p>
-
-          <button
-            class="btn btnGold"
-            onclick="startTalkToRinSaathi()">
-
-            Start My Inquiry
-
-          </button>
-
-        </div>
-
-      `;
-
-    }
-
-  }else{
-
-    if(
-      consultationPaid === true
-    ){
-
-      ctaHTML = `
-
-        <div class="guidanceCTA">
-
-          <h3>
-            ✓ Service Unlocked
-          </h3>
-
-          <p>
-            You can now submit your personalised inquiry.
-          </p>
-
-          <button
-            class="btn btnGold"
-            onclick="openForm('${title.replace(/'/g,"\\'")}')">
-
-            Start My Inquiry
-
-          </button>
-
-        </div>
-
-      `;
-
-    }else{
-
-      ctaHTML = `
-
-        <div class="guidanceCTA">
-
-          <h3>
-            Personalised Inquiry Locked
-          </h3>
-
-          <p>
-            Pay the ₹499 consultation fee to unlock
-            personalised inquiries across all services.
-          </p>
-
-          <button
-            class="btn btnGold"
-            onclick="startConsultationPayment()">
-
-            Pay ₹499 & Unlock All
-
-          </button>
-
-        </div>
-
-      `;
-
-    }
-
-  }
 
 
   document.getElementById(
@@ -2575,7 +2141,25 @@ function showGuidance(title){
 
     </ul>
 
-    ${ctaHTML}
+    <div class="guidanceCTA">
+
+      <h3>
+        Need Personalised Guidance?
+      </h3>
+
+      <p>
+        Share your situation with RinSaathi.
+      </p>
+
+      <button
+        class="btn btnGold"
+        onclick="openServiceInquiry()">
+
+        Continue Inquiry
+
+      </button>
+
+    </div>
 
   `;
 
@@ -2588,35 +2172,113 @@ function showGuidance(title){
 }
 
 
-/* =========================================================
-   OPEN FORM
-========================================================= */
+/* GO TO CONSULTATION */
+
+function goToConsultation(){
+
+  document.getElementById(
+    "guidance"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "formSection"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "home"
+  ).classList.remove("hidden");
+
+
+  const consultationSection =
+    document.getElementById(
+      "consultationSection"
+    );
+
+
+  if(consultationSection){
+
+    setTimeout(function(){
+
+      consultationSection.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+
+    },100);
+
+  }
+
+}
+
+
+/* OPEN FIRST FREE INQUIRY */
+
+function openServiceInquiry(){
+
+  if(!firstInquiryCompleted){
+
+    openForm(
+      "Talk to RinSaathi"
+    );
+
+    return;
+
+  }
+
+
+  if(!consultationPaid){
+
+    showPaymentRequiredPage();
+
+    return;
+
+  }
+
+
+  openForm(
+    currentService
+  );
+
+}
+
+
+/* OPEN FORM */
 
 function openForm(service){
 
   currentService =
     service ||
-    "Consultation";
+    "Talk to RinSaathi";
 
+
+  /*
+    FIRST INQUIRY FREE
+  */
 
   if(
-    consultationPaid !== true
+    !firstInquiryCompleted &&
+    service !== "Talk to RinSaathi"
   ){
 
-    if(
-      currentService ===
-      "Talk to RinSaathi" &&
-      !hasUsedFreeInquiry()
-    ){
+    openForm(
+      "Talk to RinSaathi"
+    );
 
-      startTalkToRinSaathi();
+    return;
 
-      return;
-
-    }
+  }
 
 
-    requireConsultationPayment();
+  /*
+    AFTER FIRST INQUIRY PAYMENT REQUIRED
+  */
+
+  if(
+    firstInquiryCompleted &&
+    !consultationPaid
+  ){
+
+    showPaymentRequiredPage();
 
     return;
 
@@ -2627,11 +2289,9 @@ function openForm(service){
     "home"
   ).classList.add("hidden");
 
-
   document.getElementById(
     "guidance"
   ).classList.add("hidden");
-
 
   document.getElementById(
     "formSection"
@@ -2650,20 +2310,6 @@ function openForm(service){
   );
 
 
-  const button =
-    document.getElementById(
-      "whatsappButton"
-    );
-
-
-  if(button){
-
-    button.innerText =
-      "Continue on WhatsApp";
-
-  }
-
-
   window.scrollTo(
     0,
     0
@@ -2672,9 +2318,7 @@ function openForm(service){
 }
 
 
-/* =========================================================
-   BUILD FORM
-========================================================= */
+/* BUILD FORM */
 
 function buildServiceForm(service){
 
@@ -2753,10 +2397,7 @@ function buildServiceForm(service){
   }
 
 
-  if(
-    service ===
-    "Loan & EMI Guidance"
-  ){
+  if(service === "Loan & EMI Guidance"){
 
     html += `
 
@@ -2785,10 +2426,7 @@ function buildServiceForm(service){
   }
 
 
-  if(
-    service ===
-    "CIBIL / Credit Guidance"
-  ){
+  if(service === "CIBIL / Credit Guidance"){
 
     html += `
 
@@ -2823,10 +2461,7 @@ function buildServiceForm(service){
   }
 
 
-  if(
-    service ===
-    "Recovery Call Guidance"
-  ){
+  if(service === "Recovery Call Guidance"){
 
     html += `
 
@@ -2860,10 +2495,7 @@ function buildServiceForm(service){
   }
 
 
-  if(
-    service ===
-    "Debt Management"
-  ){
+  if(service === "Debt Management"){
 
     html += `
 
@@ -2889,10 +2521,7 @@ function buildServiceForm(service){
   }
 
 
-  if(
-    service ===
-    "Settlement Option Education"
-  ){
+  if(service === "Settlement Option Education"){
 
     html += `
 
@@ -2930,9 +2559,7 @@ function buildServiceForm(service){
 }
 
 
-/* =========================================================
-   HOME
-========================================================= */
+/* HOME */
 
 function goHome(){
 
@@ -2940,19 +2567,13 @@ function goHome(){
     "guidance"
   ).classList.add("hidden");
 
-
   document.getElementById(
     "formSection"
   ).classList.add("hidden");
 
-
   document.getElementById(
     "home"
   ).classList.remove("hidden");
-
-
-  updateInquiryStatus();
-
 
   window.scrollTo(
     0,
@@ -2962,35 +2583,9 @@ function goHome(){
 }
 
 
-/* =========================================================
-   WHATSAPP
-========================================================= */
+/* WHATSAPP */
 
 function sendWhatsApp(){
-
-  /*
-    IMPORTANT:
-    First Talk to RinSaathi inquiry is FREE.
-    After submitting it, it becomes used.
-  */
-
-  if(
-    currentService !==
-    "Talk to RinSaathi"
-  ){
-
-    if(
-      consultationPaid !== true
-    ){
-
-      requireConsultationPayment();
-
-      return;
-
-    }
-
-  }
-
 
   const name =
     document.getElementById(
@@ -3010,10 +2605,7 @@ function sendWhatsApp(){
     )?.value.trim();
 
 
-  if(
-    !name ||
-    !phone
-  ){
+  if(!name || !phone){
 
     alert(
       "Please enter your name and mobile number."
@@ -3025,9 +2617,7 @@ function sendWhatsApp(){
 
 
   if(
-    !/^[6-9]\d{9}$/.test(
-      phone
-    )
+    !/^[6-9]\d{9}$/.test(phone)
   ){
 
     alert(
@@ -3037,18 +2627,6 @@ function sendWhatsApp(){
     return;
 
   }
-
-
-  /*
-    If this is the first free Talk to RinSaathi inquiry,
-    mark it as used before opening WhatsApp.
-  */
-
-  const isFirstFreeInquiry =
-    currentService ===
-    "Talk to RinSaathi" &&
-    consultationPaid !== true &&
-    !hasUsedFreeInquiry();
 
 
   let text =
@@ -3067,35 +2645,20 @@ Mobile: ${phone}
   const ids = [
 
     ["loanType","Loan Type"],
-
     ["lender","Bank / NBFC / Lender"],
-
     ["outstanding","Approx Outstanding"],
-
     ["emi","Current EMI"],
-
     ["pendingEmi","Pending EMIs"],
-
     ["mainConcern","Main Concern"],
-
     ["cibilScore","Approx CIBIL Score"],
-
     ["activeLoans","Active Loans / Cards"],
-
     ["creditConcern","Credit Concern"],
-
     ["recoveryLender","Recovery Lender"],
-
     ["recoveryMethod","Recovery Contact Method"],
-
     ["callFrequency","Call Frequency"],
-
     ["numberOfDebts","Number of Loans / Debts"],
-
     ["totalEmi","Total Monthly EMI"],
-
     ["incomeRange","Approx Monthly Income"],
-
     ["settlementStatus","Current Loan Status"]
 
   ];
@@ -3132,6 +2695,23 @@ ${message || "Not provided"}
 I understand that RinSaathi provides advisory and guidance services and does not guarantee any specific outcome.`;
 
 
+  /*
+    FIRST INQUIRY COMPLETE
+  */
+
+  if(!firstInquiryCompleted){
+
+    firstInquiryCompleted = true;
+
+    saveCustomerState();
+
+    text += `
+
+This is my first inquiry with RinSaathi.`;
+
+  }
+
+
   const whatsappNumber =
     "919319301096";
 
@@ -3145,19 +2725,6 @@ I understand that RinSaathi provides advisory and guidance services and does not
     );
 
 
-  /*
-    Mark first free inquiry as used.
-  */
-
-  if(
-    isFirstFreeInquiry
-  ){
-
-    markFreeInquiryUsed();
-
-  }
-
-
   window.open(
     whatsappURL,
     "_blank"
@@ -3165,27 +2732,58 @@ I understand that RinSaathi provides advisory and guidance services and does not
 
 
   /*
-    Show next-inquiry message.
+    After first inquiry,
+    return customer to home.
   */
 
-  if(
-    isFirstFreeInquiry
-  ){
+  setTimeout(
+    function(){
+
+      goHome();
+
+    },
+    500
+  );
+
+}
+
+
+/* FIREBASE PHONE HELPER */
+
+window.currentFirebasePhone = "";
+
+
+/*
+  Keep the logged-in phone number available.
+*/
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
 
     setTimeout(
       function(){
 
-        alert(
-          "Your first inquiry has been submitted. Your next inquiry will require the ₹499 consultation payment."
-        );
+        try{
+
+          if(
+            window.firebaseCurrentUser &&
+            window.firebaseCurrentUser.phoneNumber
+          ){
+
+            window.currentFirebasePhone =
+              window.firebaseCurrentUser.phoneNumber;
+
+          }
+
+        }catch(e){}
 
       },
-      500
+      1000
     );
 
   }
-
-}
+);
 
 </script>
 
