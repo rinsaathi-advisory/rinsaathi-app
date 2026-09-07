@@ -1,499 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color"
-content="#063f32">
+<meta name="theme-color" content="#063f32">
 
-<title>RinSaathi Owner Dashboard</title>
-
+<title>RinSaathi Admin</title>
 
 <style>
 
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-font-family:-apple-system,BlinkMacSystemFont,
-"Segoe UI",Arial,sans-serif;
-
-background:#f3f6f4;
-
-color:#17352e;
+    font-family:-apple-system,BlinkMacSystemFont,
+    "Segoe UI",Arial,sans-serif;
+    background:#f3f6f4;
+    color:#17352e;
 }
 
+/* ================= LOGIN ================= */
+
+#loginScreen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+    linear-gradient(145deg,#063f32,#0b5b49);
+}
+
+.login-box{
+    width:100%;
+    max-width:430px;
+    background:white;
+    border-radius:28px;
+    padding:28px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+    text-align:center;
+}
+
+.login-logo{
+    width:95px;
+    height:95px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:16px;
+}
+
+.login-box h1{
+    font-size:25px;
+    color:#063f32;
+    margin-bottom:5px;
+}
+
+.login-subtitle{
+    color:#71817c;
+    font-size:13px;
+    margin-bottom:25px;
+}
+
+.login-box input{
+    width:100%;
+    padding:15px;
+    border:1px solid #d5e3dd;
+    border-radius:15px;
+    font-size:16px;
+    margin-bottom:12px;
+    outline:none;
+}
+
+.login-box input:focus{
+    border-color:#08704d;
+    box-shadow:0 0 0 3px rgba(8,112,77,.1);
+}
+
+.login-btn{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:15px;
+    background:#063f32;
+    color:white;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.login-btn:active{
+    transform:scale(.98);
+}
+
+#recaptcha-container{
+    margin:10px 0;
+}
+
+.login-message{
+    margin-top:12px;
+    font-size:13px;
+    color:#b00020;
+    line-height:1.4;
+}
+
+/* ================= HEADER ================= */
 
 .header{
-
-background:
-linear-gradient(135deg,#063f32,#0b5b49);
-
-color:white;
-
-padding:25px 18px 30px;
-
-border-radius:0 0 28px 28px;
+    background:linear-gradient(135deg,#063f32,#0b5b49);
+    color:white;
+    padding:25px 18px 30px;
+    border-radius:0 0 28px 28px;
 }
-
 
 .logo{
-
-font-size:22px;
-
-font-weight:800;
+    font-size:22px;
+    font-weight:800;
 }
-
 
 .subtitle{
-
-font-size:12px;
-
-opacity:.75;
-
-margin-top:4px;
-
-letter-spacing:.5px;
+    font-size:12px;
+    opacity:.75;
+    margin-top:4px;
+    letter-spacing:.5px;
 }
-
 
 .welcome{
-
-margin-top:24px;
-
-font-size:27px;
-
-font-weight:800;
+    margin-top:24px;
+    font-size:27px;
+    font-weight:800;
 }
 
-
-.admin-number{
-
-font-size:13px;
-
-opacity:.8;
-
-margin-top:5px;
-}
-
+/* ================= CONTAINER ================= */
 
 .container{
-
-max-width:1100px;
-
-margin:auto;
-
-padding:18px;
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
 }
 
+/* ================= STATS ================= */
 
 .stats{
-
-display:grid;
-
-grid-template-columns:
-repeat(4,1fr);
-
-gap:12px;
-
-margin-top:-5px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:-5px;
 }
-
 
 .card{
-
-background:white;
-
-border-radius:18px;
-
-padding:18px;
-
-box-shadow:
-0 6px 20px rgba(0,0,0,.06);
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 6px 20px rgba(0,0,0,.06);
 }
-
 
 .stat-icon{
-
-font-size:24px;
+    font-size:24px;
 }
-
 
 .stat-number{
-
-font-size:26px;
-
-font-weight:800;
-
-margin-top:8px;
+    font-size:26px;
+    font-weight:800;
+    margin-top:8px;
 }
-
 
 .stat-title{
-
-color:#71817c;
-
-font-size:12px;
-
-margin-top:3px;
+    color:#71817c;
+    font-size:12px;
+    margin-top:3px;
 }
 
+/* ================= SECTIONS ================= */
 
 .section{
-
-margin-top:25px;
+    margin-top:25px;
 }
-
 
 .section-heading{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
 }
-
 
 .section-heading h2{
-
-font-size:19px;
+    font-size:19px;
 }
-
 
 .badge{
-
-background:#e6f4ed;
-
-color:#08704d;
-
-padding:6px 11px;
-
-border-radius:20px;
-
-font-size:12px;
-
-font-weight:700;
+    background:#e6f4ed;
+    color:#08704d;
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
 }
 
+/* ================= LEADS ================= */
 
 .lead{
-
-display:grid;
-
-grid-template-columns:
-1.3fr 1fr 1fr auto;
-
-gap:15px;
-
-align-items:center;
-
-margin-bottom:10px;
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr auto;
+    gap:15px;
+    align-items:center;
+    margin-bottom:10px;
 }
-
 
 .name{
-
-font-weight:800;
+    font-weight:800;
 }
-
 
 .small{
-
-font-size:12px;
-
-color:#788681;
-
-margin-top:4px;
+    font-size:12px;
+    color:#788681;
+    margin-top:4px;
 }
-
 
 .paid{
-
-color:#08704d;
-
-font-size:13px;
-
-font-weight:800;
+    color:#08704d;
+    font-size:13px;
+    font-weight:800;
 }
-
-
-.pending-payment{
-
-color:#a56b00;
-
-font-size:13px;
-
-font-weight:800;
-}
-
 
 .status{
-
-display:inline-block;
-
-padding:7px 10px;
-
-border-radius:15px;
-
-background:#fff4d7;
-
-color:#8a6500;
-
-font-size:12px;
-
-font-weight:700;
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:15px;
+    background:#fff4d7;
+    color:#8a6500;
+    font-size:12px;
+    font-weight:700;
 }
 
-
-.status-paid{
-
-background:#e2f5eb;
-
-color:#08704d;
-}
-
+/* ================= BUTTONS ================= */
 
 button{
-
-border:0;
-
-border-radius:12px;
-
-padding:10px 14px;
-
-font-weight:700;
-
-cursor:pointer;
+    border:0;
+    border-radius:12px;
+    padding:10px 14px;
+    font-weight:700;
+    cursor:pointer;
 }
-
 
 .primary{
-
-background:#063f32;
-
-color:white;
+    background:#063f32;
+    color:white;
 }
-
 
 .secondary{
-
-background:#edf3f0;
-
-color:#063f32;
+    background:#edf3f0;
+    color:#063f32;
 }
 
-
-.danger{
-
-background:#ffe9e7;
-
-color:#a52b21;
+.logout{
+    margin-top:15px;
+    background:rgba(255,255,255,.14);
+    color:white;
+    border:1px solid rgba(255,255,255,.3);
 }
 
+/* ================= ACTIONS ================= */
 
 .actions{
-
-display:flex;
-
-gap:8px;
-
-flex-wrap:wrap;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
+/* ================= PAYMENTS ================= */
 
 .payment-row{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-padding:13px 0;
-
-border-bottom:
-1px solid #edf1ef;
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #edf1ef;
 }
 
-
-.empty{
-
-text-align:center;
-
-padding:30px 15px;
-
-color:#7b8984;
-}
-
+/* ================= MODAL ================= */
 
 .modal{
-
-position:fixed;
-
-inset:0;
-
-background:
-rgba(0,0,0,.55);
-
-display:none;
-
-align-items:flex-end;
-
-justify-content:center;
-
-z-index:100;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    z-index:100;
 }
-
 
 .modal.active{
-
-display:flex;
+    display:flex;
 }
-
 
 .modal-box{
-
-background:white;
-
-width:100%;
-
-max-width:650px;
-
-padding:22px;
-
-border-radius:
-25px 25px 0 0;
-
-max-height:85vh;
-
-overflow:auto;
+    background:white;
+    width:100%;
+    max-width:650px;
+    padding:22px;
+    border-radius:25px 25px 0 0;
+    max-height:85vh;
+    overflow:auto;
 }
-
 
 .close{
-
-float:right;
-
-background:#edf3f0;
+    float:right;
+    background:#edf3f0;
 }
-
 
 .details{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
-gap:12px;
-
-margin:20px 0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:20px 0;
 }
-
 
 .detail{
-
-background:#f5f8f6;
-
-padding:13px;
-
-border-radius:13px;
+    background:#f5f8f6;
+    padding:13px;
+    border-radius:13px;
 }
-
 
 .detail label{
-
-display:block;
-
-color:#6d7c77;
-
-font-size:11px;
-
-margin-bottom:4px;
+    display:block;
+    color:#6d7c77;
+    font-size:11px;
+    margin-bottom:4px;
 }
-
 
 .detail strong{
-
-font-size:14px;
+    font-size:14px;
 }
 
-
-.loading{
-
-text-align:center;
-
-padding:30px;
-
-color:#6d7c77;
-}
-
-
-.error{
-
-background:#fff0ee;
-
-color:#a52b21;
-
-padding:15px;
-
-border-radius:15px;
-
-margin-top:15px;
-
-display:none;
-}
-
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:760px){
 
-.stats{
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-grid-template-columns:
-repeat(2,1fr);
-}
-
-
-.lead{
-
-grid-template-columns:
-1fr 1fr;
-}
+    .lead{
+        grid-template-columns:1fr 1fr;
+    }
 
 }
-
 
 @media(max-width:450px){
 
-.container{
+    .container{
+        padding:14px;
+    }
 
-padding:14px;
-}
+    .lead{
+        grid-template-columns:1fr;
+    }
 
-
-.lead{
-
-grid-template-columns:
-1fr;
-}
-
-
-.details{
-
-grid-template-columns:
-1fr;
-}
+    .details{
+        grid-template-columns:1fr;
+    }
 
 }
 
@@ -501,1059 +371,1276 @@ grid-template-columns:
 
 </head>
 
-
 <body>
+
+
+<!-- =====================================================
+     ADMIN LOGIN
+===================================================== -->
+
+<div id="loginScreen">
+
+    <div class="login-box">
+
+        <img
+            src="logo.png"
+            class="login-logo"
+            alt="RinSaathi">
+
+        <h1>RinSaathi Advisory Services</h1>
+
+        <div class="login-subtitle">
+            ADMIN SECURE LOGIN
+        </div>
+
+        <input
+            id="adminPhone"
+            type="tel"
+            inputmode="tel"
+            placeholder="Enter admin mobile number"
+            autocomplete="tel">
+
+        <div id="recaptcha-container"></div>
+
+        <button
+            class="login-btn"
+            onclick="sendOTP()">
+
+            Send OTP
+
+        </button>
+
+        <div id="otpArea" style="display:none;margin-top:15px;">
+
+            <input
+                id="otp"
+                type="tel"
+                inputmode="numeric"
+                maxlength="6"
+                placeholder="Enter OTP">
+
+            <button
+                class="login-btn"
+                onclick="verifyOTP()">
+
+                Login to Admin
+
+            </button>
+
+        </div>
+
+        <div
+            id="loginMessage"
+            class="login-message">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ADMIN DASHBOARD
+===================================================== -->
+
+<div id="adminApp" style="display:none;">
 
 
 <header class="header">
 
-<div class="logo">
+    <div class="logo">
+        RinSaathi Advisory Services
+    </div>
 
-RinSaathi Advisory Services
+    <div class="subtitle">
+        ADMIN DASHBOARD
+    </div>
 
-</div>
+    <div class="welcome">
+        Welcome back, Admin 👋
+    </div>
 
+    <button
+        class="logout"
+        onclick="logoutAdmin()">
 
-<div class="subtitle">
+        Logout
 
-OWNER / ADMIN DASHBOARD
-
-</div>
-
-
-<div class="welcome">
-
-Welcome back, Admin 👋
-
-</div>
-
-
-<div class="admin-number">
-
-Admin Mobile: 9319301096
-
-</div>
+    </button>
 
 </header>
-
 
 
 <main class="container">
 
 
-<!-- STATISTICS -->
+<!-- ================= STATISTICS ================= -->
 
 <div class="stats">
 
+    <div class="card">
 
-<div class="card">
+        <div class="stat-icon">💰</div>
 
-<div class="stat-icon">
-💰
-</div>
+        <div
+            class="stat-number"
+            id="revenue">
+            ₹0
+        </div>
 
-<div
-class="stat-number"
-id="revenue">
+        <div class="stat-title">
+            Consultation Revenue
+        </div>
 
-₹0
-
-</div>
-
-<div class="stat-title">
-
-Consultation Revenue
-
-</div>
-
-</div>
+    </div>
 
 
+    <div class="card">
 
-<div class="card">
+        <div class="stat-icon">🆕</div>
 
-<div class="stat-icon">
-🆕
-</div>
+        <div
+            class="stat-number"
+            id="newLeads">
+            0
+        </div>
 
-<div
-class="stat-number"
-id="newLeads">
+        <div class="stat-title">
+            New Leads
+        </div>
 
-0
-
-</div>
-
-<div class="stat-title">
-
-New Leads
-
-</div>
-
-</div>
+    </div>
 
 
+    <div class="card">
 
-<div class="card">
+        <div class="stat-icon">📅</div>
 
-<div class="stat-icon">
-📅
-</div>
+        <div
+            class="stat-number"
+            id="pending">
+            0
+        </div>
 
-<div
-class="stat-number"
-id="pending">
+        <div class="stat-title">
+            Pending Consultations
+        </div>
 
-0
+    </div>
 
-</div>
 
-<div class="stat-title">
+    <div class="card">
 
-Pending Consultations
+        <div class="stat-icon">👥</div>
 
-</div>
+        <div
+            class="stat-number"
+            id="clients">
+            0
+        </div>
+
+        <div class="stat-title">
+            Active Clients
+        </div>
+
+    </div>
 
 </div>
 
 
-
-<div class="card">
-
-<div class="stat-icon">
-👥
-</div>
-
-<div
-class="stat-number"
-id="clients">
-
-0
-
-</div>
-
-<div class="stat-title">
-
-Active Clients
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- NEW LEADS -->
+<!-- ================= NEW LEADS ================= -->
 
 <section class="section">
 
-<div class="section-heading">
+    <div class="section-heading">
 
-<h2>
+        <h2>
+            🔥 New Leads
+        </h2>
 
-🔥 New Leads
+        <span
+            class="badge"
+            id="leadCount">
 
-</h2>
+            0 New
 
-<span
-class="badge"
-id="leadCount">
+        </span>
 
-0 New
+    </div>
 
-</span>
-
-</div>
-
-
-<div
-id="leadContainer">
-
-<div class="loading">
-
-Loading leads...
-
-</div>
-
-</div>
+    <div id="leadContainer"></div>
 
 </section>
 
 
-
-<!-- PAYMENTS -->
+<!-- ================= PAYMENTS ================= -->
 
 <section class="section">
 
-<div class="section-heading">
+    <div class="section-heading">
 
-<h2>
+        <h2>
+            💳 Recent Payments
+        </h2>
 
-💳 Recent Payments
+    </div>
 
-</h2>
+    <div
+        class="card"
+        id="paymentContainer">
 
-</div>
+        No payments yet.
 
-
-<div
-class="card"
-id="paymentContainer">
-
-<div class="loading">
-
-Loading payments...
-
-</div>
-
-</div>
+    </div>
 
 </section>
-
-
-<div
-class="error"
-id="errorBox">
-
-Unable to load Firebase data.
-
-Please check Firebase Firestore rules.
-
-</div>
 
 
 </main>
 
 
-
-<!-- CUSTOMER DETAILS -->
-
-<div
-class="modal"
-id="customerModal">
-
-
-<div class="modal-box">
-
-
-<button
-class="close"
-onclick="closeCustomer()">
-
-✕
-
-</button>
-
-
-<h2
-id="customerName">
-
-Customer
-
-</h2>
-
+<!-- ================= CUSTOMER DETAILS ================= -->
 
 <div
-class="small"
-id="customerService">
+    class="modal"
+    id="customerModal">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeCustomer()">
+
+            ✕
+
+        </button>
+
+        <h2 id="customerName">
+            Customer
+        </h2>
+
+        <div
+            class="small"
+            id="customerService">
+        </div>
+
+
+        <div class="details">
+
+            <div class="detail">
+
+                <label>
+                    Mobile
+                </label>
+
+                <strong
+                    id="customerMobile">
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <label>
+                    Payment
+                </label>
+
+                <strong
+                    id="customerPayment">
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <label>
+                    Problem
+                </label>
+
+                <strong
+                    id="customerProblem">
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <label>
+                    Booking Date
+                </label>
+
+                <strong
+                    id="customerDate">
+                </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+                <label>
+                    Status
+                </label>
+
+                <strong
+                    id="customerStatus">
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="primary"
+                id="callCustomer">
+
+                📞 Contact Customer
+
+            </button>
+
+
+            <button
+                class="secondary"
+                id="completeConsultation">
+
+                ✅ Mark Consultation Done
+
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
 
 
-
-<div class="details">
-
-
-<div class="detail">
-
-<label>
-Mobile
-</label>
-
-<strong
-id="customerMobile">
-</strong>
-
 </div>
 
 
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
-<div class="detail">
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 
-<label>
-Payment
-</label>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 
-<strong
-id="customerPayment">
-</strong>
-
-</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
 
+<script>
 
-<div class="detail">
-
-<label>
-Problem / Message
-</label>
-
-<strong
-id="customerProblem">
-</strong>
-
-</div>
-
-
-
-<div class="detail">
-
-<label>
-Booking Date
-</label>
-
-<strong
-id="customerDate">
-</strong>
-
-</div>
-
-
-
-<div class="detail">
-
-<label>
-Status
-</label>
-
-<strong
-id="customerStatus">
-</strong>
-
-</div>
-
-</div>
-
-
-
-<div class="actions">
-
-
-<button
-class="primary"
-id="callCustomer">
-
-📞 Call Customer
-
-</button>
-
-
-<button
-class="secondary"
-id="whatsappCustomer">
-
-💬 WhatsApp
-
-</button>
-
-
-<button
-class="secondary"
-id="completeConsultation">
-
-✅ Mark Done
-
-</button>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-
-<!-- FIREBASE -->
-
-<script type="module">
-
-
-import {
-
-initializeApp
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-
-
-import {
-
-getFirestore,
-
-collection,
-
-getDocs,
-
-query,
-
-orderBy
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
-
-
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig = {
 
+    apiKey:
+    "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
 
-apiKey:
-"AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
+    authDomain:
+    "rinsaathi-app.firebaseapp.com",
 
+    projectId:
+    "rinsaathi-app",
 
-authDomain:
-"rinsaathi-app.firebaseapp.com",
+    storageBucket:
+    "rinsaathi-app.firebasestorage.app",
 
+    messagingSenderId:
+    "156758734237",
 
-projectId:
-"rinsaathi-app",
-
-
-storageBucket:
-"rinsaathi-app.firebasestorage.app",
-
-
-messagingSenderId:
-"156758734237",
-
-
-appId:
-"1:156758734237:web:b2daa2fb6e43a7bc192b74"
+    appId:
+    "1:156758734237:web:b2daa2fb6e43a7bc192b74"
 
 };
 
 
+firebase.initializeApp(firebaseConfig);
 
-const app =
-initializeApp(firebaseConfig);
+
+const auth =
+    firebase.auth();
 
 
 const db =
-getFirestore(app);
+    firebase.firestore();
 
 
+let confirmationResult = null;
 
 let leads = [];
 
 
+/* =====================================================
+   LOGIN
+===================================================== */
 
-async function loadLeads(){
+function sendOTP(){
 
-
-try{
-
-
-const leadsRef =
-collection(db,"leads");
-
-
-let snapshot;
-
-
-try{
+    const phone =
+        document
+        .getElementById("adminPhone")
+        .value
+        .trim();
 
 
-const q =
-query(
-leadsRef,
-orderBy("createdAt","desc")
+    if(!phone){
+
+        showLoginMessage(
+            "Please enter the admin mobile number."
+        );
+
+        return;
+
+    }
+
+
+    let formattedPhone = phone;
+
+
+    if(!formattedPhone.startsWith("+")){
+
+        if(formattedPhone.startsWith("91")){
+
+            formattedPhone =
+                "+" + formattedPhone;
+
+        }
+        else{
+
+            formattedPhone =
+                "+91" + formattedPhone;
+
+        }
+
+    }
+
+
+    showLoginMessage(
+        "Sending OTP..."
+    );
+
+
+    if(!window.recaptchaVerifier){
+
+        window.recaptchaVerifier =
+            new firebase.auth.RecaptchaVerifier(
+                "recaptcha-container",
+                {
+                    size:"normal"
+                }
+            );
+
+    }
+
+
+    auth.signInWithPhoneNumber(
+        formattedPhone,
+        window.recaptchaVerifier
+    )
+    .then(function(result){
+
+        confirmationResult =
+            result;
+
+        document
+        .getElementById("otpArea")
+        .style.display =
+        "block";
+
+        showLoginMessage(
+            "OTP sent successfully."
+        );
+
+    })
+    .catch(function(error){
+
+        console.error(error);
+
+        showLoginMessage(
+            error.message
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   VERIFY OTP
+===================================================== */
+
+function verifyOTP(){
+
+    const otp =
+        document
+        .getElementById("otp")
+        .value
+        .trim();
+
+
+    if(!confirmationResult){
+
+        showLoginMessage(
+            "Please request OTP first."
+        );
+
+        return;
+
+    }
+
+
+    if(!otp){
+
+        showLoginMessage(
+            "Please enter OTP."
+        );
+
+        return;
+
+    }
+
+
+    confirmationResult
+    .confirm(otp)
+    .then(function(){
+
+        showLoginMessage(
+            "Login successful."
+        );
+
+    })
+    .catch(function(error){
+
+        console.error(error);
+
+        showLoginMessage(
+            "Invalid OTP. Please try again."
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+auth.onAuthStateChanged(
+    function(user){
+
+        if(user){
+
+            document
+            .getElementById("loginScreen")
+            .style.display =
+            "none";
+
+
+            document
+            .getElementById("adminApp")
+            .style.display =
+            "block";
+
+
+            loadLeads();
+
+        }
+        else{
+
+            document
+            .getElementById("loginScreen")
+            .style.display =
+            "flex";
+
+
+            document
+            .getElementById("adminApp")
+            .style.display =
+            "none";
+
+        }
+
+    }
 );
 
 
-snapshot =
-await getDocs(q);
+/* =====================================================
+   LOAD REAL FIRESTORE LEADS
+===================================================== */
+
+function loadLeads(){
+
+    db.collection("leads")
+    .orderBy("createdAt","desc")
+    .onSnapshot(
+
+        function(snapshot){
+
+            leads = [];
 
 
-}catch(orderError){
+            snapshot.forEach(
+                function(doc){
+
+                    const data =
+                        doc.data();
+
+                    leads.push({
+
+                        id:doc.id,
+
+                        ...data
+
+                    });
+
+                }
+            );
 
 
-snapshot =
-await getDocs(leadsRef);
+            renderDashboard();
 
-}
+        },
 
+        function(error){
 
+            console.error(error);
 
-leads = [];
+            document
+            .getElementById("leadContainer")
+            .innerHTML = `
 
+                <div class="card">
 
-snapshot.forEach(function(doc){
+                    <strong>
+                        Unable to load leads.
+                    </strong>
 
+                    <div class="small">
+                        Please check Firebase Firestore Rules
+                        and the leads collection.
+                    </div>
 
-const data =
-doc.data();
+                </div>
 
+            `;
 
-leads.push({
+        }
 
-id:doc.id,
-
-name:data.name || "Unknown Customer",
-
-phone:data.phone || "",
-
-service:data.service || "General Guidance",
-
-amount:Number(data.amount || 0),
-
-paymentStatus:
-data.paymentStatus || "NOT PAID",
-
-status:
-data.status || "New Lead",
-
-message:
-data.message || "",
-
-createdAt:
-data.createdAt || null
-
-});
-
-
-});
-
-
-renderDashboard();
-
-
-}catch(error){
-
-
-console.error(error);
-
-
-document
-.getElementById("errorBox")
-.style.display="block";
-
-
-document
-.getElementById("leadContainer")
-.innerHTML=
-
-`<div class="card empty">
-Unable to load leads.
-<br><br>
-Check Firestore rules.
-</div>`;
-
-}
+    );
 
 }
 
 
-
-function formatDate(timestamp){
-
-
-if(!timestamp)
-return "Date not available";
-
-
-try{
-
-
-if(timestamp.toDate){
-
-return timestamp
-.toDate()
-.toLocaleString("en-IN");
-
-}
-
-
-return "Date available";
-
-
-}catch(e){
-
-return "Date available";
-
-}
-
-}
-
-
+/* =====================================================
+   DASHBOARD
+===================================================== */
 
 function renderDashboard(){
 
+    let revenue = 0;
 
-let revenue=0;
+    let newLeadCount = 0;
 
-let newLeads=0;
+    let pendingCount = 0;
 
-let pending=0;
-
-let clients=0;
-
-
-leads.forEach(function(lead){
+    let activeClients = 0;
 
 
-if(
-lead.paymentStatus==="PAID"
-){
+    leads.forEach(
+        function(lead){
 
-revenue += lead.amount;
+            const amount =
+                Number(lead.amount || 0);
+
+
+            if(
+                lead.payment === "PAID"
+                ||
+                lead.paymentStatus === "PAID"
+            ){
+
+                revenue += amount;
+
+            }
+
+
+            if(
+                lead.status === "New Lead"
+                ||
+                lead.status === "NEW"
+            ){
+
+                newLeadCount++;
+
+            }
+
+
+            if(
+                lead.status !==
+                "Consultation Completed"
+            ){
+
+                pendingCount++;
+
+            }
+
+
+            if(
+                lead.status ===
+                "Active Advisory Client"
+            ){
+
+                activeClients++;
+
+            }
+
+        }
+    );
+
+
+    document
+    .getElementById("revenue")
+    .innerText =
+    "₹" +
+    revenue.toLocaleString("en-IN");
+
+
+    document
+    .getElementById("newLeads")
+    .innerText =
+    newLeadCount;
+
+
+    document
+    .getElementById("pending")
+    .innerText =
+    pendingCount;
+
+
+    document
+    .getElementById("clients")
+    .innerText =
+    activeClients;
+
+
+    document
+    .getElementById("leadCount")
+    .innerText =
+    newLeadCount + " New";
+
+
+    renderLeads();
+
+    renderPayments();
 
 }
 
 
-if(
-lead.status==="New Lead"
-){
-
-newLeads++;
-
-}
-
-
-if(
-lead.status!=="Consultation Completed"
-){
-
-pending++;
-
-}
-
-
-if(
-lead.status==="Active Advisory Client"
-){
-
-clients++;
-
-}
-
-});
-
-
-
-document
-.getElementById("revenue")
-.innerText=
-"₹"+revenue.toLocaleString("en-IN");
-
-
-document
-.getElementById("newLeads")
-.innerText=
-newLeads;
-
-
-document
-.getElementById("pending")
-.innerText=
-pending;
-
-
-document
-.getElementById("clients")
-.innerText=
-clients;
-
-
-document
-.getElementById("leadCount")
-.innerText=
-newLeads+" New";
-
-
-
-renderLeads();
-
-renderPayments();
-
-}
-
-
+/* =====================================================
+   RENDER LEADS
+===================================================== */
 
 function renderLeads(){
 
-
-const container =
-document.getElementById(
-"leadContainer"
-);
+    const container =
+        document
+        .getElementById("leadContainer");
 
 
-if(leads.length===0){
+    if(leads.length === 0){
 
-container.innerHTML=
+        container.innerHTML = `
 
-`<div class="card empty">
+            <div class="card">
 
-No leads yet.
+                <strong>
+                    No leads yet.
+                </strong>
 
-Customer enquiries will appear here automatically.
+                <div class="small">
+                    New customer enquiries will appear here.
+                </div>
 
-</div>`;
+            </div>
 
-return;
+        `;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    leads.forEach(
+        function(lead){
+
+            const amount =
+                Number(lead.amount || 0);
+
+
+            html += `
+
+            <div class="card lead">
+
+                <div>
+
+                    <div class="name">
+                        ${safe(
+                            lead.name ||
+                            "Customer"
+                        )}
+                    </div>
+
+                    <div class="small">
+                        ${safe(
+                            lead.service ||
+                            lead.topic ||
+                            "Advisory"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="paid">
+
+                        ₹${amount.toLocaleString("en-IN")}
+
+                        •
+                        ${safe(
+                            lead.payment ||
+                            lead.paymentStatus ||
+                            "PENDING"
+                        )}
+
+                    </div>
+
+                    <div class="small">
+
+                        ${safe(
+                            formatDate(
+                                lead.createdAt ||
+                                lead.date
+                            )
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <span class="status">
+
+                        ${safe(
+                            lead.status ||
+                            "New Lead"
+                        )}
+
+                    </span>
+
+                    <div class="small">
+
+                        ${safe(
+                            lead.problem ||
+                            lead.message ||
+                            lead.topic ||
+                            ""
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <button
+                        class="primary"
+                        onclick="openCustomer('${lead.id}')">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+
+    container.innerHTML =
+        html;
 
 }
 
 
-let html="";
-
-
-leads.forEach(function(lead){
-
-
-let paymentHTML;
-
-
-if(
-lead.paymentStatus==="PAID"
-){
-
-paymentHTML=
-
-`<div class="paid">
-₹${lead.amount.toLocaleString("en-IN")}
-• PAID ✅
-</div>`;
-
-}else{
-
-paymentHTML=
-
-`<div class="pending-payment">
-₹${lead.amount.toLocaleString("en-IN")}
-• ${lead.paymentStatus}
-</div>`;
-
-}
-
-
-
-let statusClass=
-lead.paymentStatus==="PAID"
-?
-"status status-paid"
-:
-"status";
-
-
-html += `
-
-<div class="card lead">
-
-<div>
-
-<div class="name">
-
-${escapeHTML(lead.name)}
-
-</div>
-
-<div class="small">
-
-${escapeHTML(lead.service)}
-
-</div>
-
-</div>
-
-
-<div>
-
-${paymentHTML}
-
-<div class="small">
-
-${formatDate(lead.createdAt)}
-
-</div>
-
-</div>
-
-
-<div>
-
-<span class="${statusClass}">
-
-${escapeHTML(lead.status)}
-
-</span>
-
-<div class="small">
-
-${escapeHTML(lead.message)}
-
-</div>
-
-</div>
-
-
-<div>
-
-<button
-class="primary"
-onclick="window.openCustomer('${lead.id}')">
-
-View Details
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-
-container.innerHTML=html;
-
-}
-
-
+/* =====================================================
+   PAYMENTS
+===================================================== */
 
 function renderPayments(){
 
-
-const container =
-document.getElementById(
-"paymentContainer"
-);
+    const container =
+        document
+        .getElementById("paymentContainer");
 
 
-const paidLeads =
-leads.filter(function(lead){
+    const paidLeads =
+        leads.filter(
+            function(lead){
 
-return lead.paymentStatus==="PAID";
+                return (
+                    lead.payment === "PAID"
+                    ||
+                    lead.paymentStatus === "PAID"
+                );
 
-});
+            }
+        );
 
 
-if(paidLeads.length===0){
+    if(paidLeads.length === 0){
 
-container.innerHTML=
+        container.innerHTML =
+        "No payments yet.";
 
-`<div class="empty">
+        return;
 
-No payments received yet.
+    }
 
-</div>`;
 
-return;
+    let html = "";
+
+
+    paidLeads.forEach(
+        function(lead){
+
+            const amount =
+                Number(lead.amount || 0);
+
+
+            html += `
+
+            <div class="payment-row">
+
+                <div>
+
+                    <strong>
+                        ${safe(
+                            lead.name ||
+                            "Customer"
+                        )}
+                    </strong>
+
+                    <div class="small">
+
+                        ${safe(
+                            formatDate(
+                                lead.createdAt ||
+                                lead.date
+                            )
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="paid">
+
+                    ₹${amount.toLocaleString("en-IN")}
+
+                    ✅
+
+                </div>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+
+    container.innerHTML =
+        html;
 
 }
 
 
-let html="";
+/* =====================================================
+   CUSTOMER DETAILS
+===================================================== */
+
+function openCustomer(id){
+
+    const customer =
+        leads.find(
+            function(item){
+
+                return item.id === id;
+
+            }
+        );
 
 
-paidLeads.forEach(function(lead){
+    if(!customer) return;
 
 
-html += `
-
-<div class="payment-row">
-
-<div>
-
-<strong>
-
-${escapeHTML(lead.name)}
-
-</strong>
-
-<div class="small">
-
-${formatDate(lead.createdAt)}
-
-</div>
-
-</div>
+    document
+    .getElementById("customerName")
+    .innerText =
+    customer.name ||
+    "Customer";
 
 
-<div class="paid">
-
-₹${lead.amount.toLocaleString("en-IN")}
-✅
-
-</div>
-
-</div>
-
-`;
-
-});
+    document
+    .getElementById("customerService")
+    .innerText =
+    customer.service ||
+    customer.topic ||
+    "Advisory";
 
 
-container.innerHTML=html;
+    document
+    .getElementById("customerMobile")
+    .innerText =
+    customer.mobile ||
+    customer.phone ||
+    "Not provided";
+
+
+    document
+    .getElementById("customerPayment")
+    .innerText =
+    "₹" +
+    Number(
+        customer.amount || 0
+    ).toLocaleString("en-IN")
+    +
+    " — " +
+    (
+        customer.payment ||
+        customer.paymentStatus ||
+        "PENDING"
+    );
+
+
+    document
+    .getElementById("customerProblem")
+    .innerText =
+    customer.problem ||
+    customer.message ||
+    "Not provided";
+
+
+    document
+    .getElementById("customerDate")
+    .innerText =
+    formatDate(
+        customer.createdAt ||
+        customer.date
+    );
+
+
+    document
+    .getElementById("customerStatus")
+    .innerText =
+    customer.status ||
+    "New Lead";
+
+
+    document
+    .getElementById("callCustomer")
+    .onclick =
+    function(){
+
+        const phone =
+            customer.mobile ||
+            customer.phone;
+
+        if(phone){
+
+            window.location.href =
+                "tel:" + phone;
+
+        }
+
+    };
+
+
+    document
+    .getElementById(
+        "completeConsultation"
+    )
+    .onclick =
+    function(){
+
+        db.collection("leads")
+        .doc(customer.id)
+        .update({
+
+            status:
+            "Consultation Completed"
+
+        })
+        .then(
+            function(){
+
+                closeCustomer();
+
+            }
+        )
+        .catch(
+            function(error){
+
+                alert(
+                    "Unable to update status: " +
+                    error.message
+                );
+
+            }
+        );
+
+    };
+
+
+    document
+    .getElementById("customerModal")
+    .classList
+    .add("active");
 
 }
 
 
+/* =====================================================
+   CLOSE CUSTOMER
+===================================================== */
 
-window.openCustomer =
-function(id){
+function closeCustomer(){
 
-
-const customer =
-leads.find(function(item){
-
-return item.id===id;
-
-});
-
-
-if(!customer)return;
-
-
-
-document
-.getElementById("customerName")
-.innerText=
-customer.name;
-
-
-document
-.getElementById("customerService")
-.innerText=
-customer.service;
-
-
-document
-.getElementById("customerMobile")
-.innerText=
-customer.phone;
-
-
-document
-.getElementById("customerPayment")
-.innerText=
-
-"₹"+
-customer.amount+
-" — "+
-customer.paymentStatus;
-
-
-document
-.getElementById("customerProblem")
-.innerText=
-customer.message;
-
-
-document
-.getElementById("customerDate")
-.innerText=
-formatDate(customer.createdAt);
-
-
-document
-.getElementById("customerStatus")
-.innerText=
-customer.status;
-
-
-
-document
-.getElementById("callCustomer")
-.onclick=function(){
-
-window.location.href=
-"tel:"+customer.phone;
-
-};
-
-
-
-document
-.getElementById("whatsappCustomer")
-.onclick=function(){
-
-window.open(
-"https://wa.me/91"+
-customer.phone,
-"_blank"
-);
-
-};
-
-
-
-document
-.getElementById("completeConsultation")
-.onclick=function(){
-
-customer.status=
-"Consultation Completed";
-
-renderDashboard();
-
-closeCustomer();
-
-alert(
-"Consultation marked as completed."
-);
-
-};
-
-
-
-document
-.getElementById("customerModal")
-.classList.add("active");
-
-};
-
-
-
-window.closeCustomer =
-function(){
-
-document
-.getElementById("customerModal")
-.classList.remove("active");
-
-};
-
-
-
-function escapeHTML(value){
-
-return String(value)
-
-.replace(/&/g,"&amp;")
-
-.replace(/</g,"&lt;")
-
-.replace(/>/g,"&gt;")
-
-.replace(/"/g,"&quot;")
-
-.replace(/'/g,"&#039;");
+    document
+    .getElementById("customerModal")
+    .classList
+    .remove("active");
 
 }
 
 
+/* =====================================================
+   LOGOUT
+===================================================== */
 
-loadLeads();
+function logoutAdmin(){
 
+    auth.signOut();
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(value){
+
+    if(!value){
+
+        return "Not available";
+
+    }
+
+
+    try{
+
+        if(
+            value &&
+            typeof value.toDate ===
+            "function"
+        ){
+
+            return value
+            .toDate()
+            .toLocaleString(
+                "en-IN"
+            );
+
+        }
+
+
+        const d =
+            new Date(value);
+
+
+        if(!isNaN(d.getTime())){
+
+            return d.toLocaleString(
+                "en-IN"
+            );
+
+        }
+
+    }
+    catch(e){}
+
+
+    return String(value);
+
+}
+
+
+/* =====================================================
+   SAFE TEXT
+===================================================== */
+
+function safe(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   LOGIN MESSAGE
+===================================================== */
+
+function showLoginMessage(message){
+
+    document
+    .getElementById("loginMessage")
+    .innerText =
+    message;
+
+}
 
 </script>
 
 </body>
-
 </html>
