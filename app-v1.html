@@ -562,7 +562,7 @@ body{
 
 </style>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
 </head>
 
@@ -1154,6 +1154,11 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
+import {
+  getFunctions,
+  httpsCallable
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-functions.js";
+
 
 /* FIREBASE */
 
@@ -1190,6 +1195,29 @@ const db =
   getFirestore(app);
 
 
+/* CASHFREE FUNCTIONS */
+
+const functions =
+  getFunctions(app);
+
+const createCashfreeOrder =
+  httpsCallable(
+    functions,
+    "createCashfreeOrder"
+  );
+
+const verifyCashfreePayment =
+  httpsCallable(
+    functions,
+    "verifyCashfreePayment"
+  );
+
+const cashfree =
+  Cashfree({
+    mode:"production"
+  });
+
+
 /* GLOBAL STATE */
 
 let confirmationResult = null;
@@ -1205,12 +1233,6 @@ let consultationPaid = false;
 let freeConsultationUsed = false;
 
 let consultationStatusChecked = false;
-
-
-/* RAZORPAY */
-
-const RAZORPAY_KEY =
-  "rzp_live_TYiZXJ0sZcSA5l";
 
 
 /* LOGIN MESSAGE */
@@ -1923,6 +1945,8 @@ onAuthStateChanged(
 
       await checkFreeConsultationStatus();
 
+      await verifyReturnedCashfreePayment();
+
     }else{
 
       loginScreen.style.display =
@@ -2064,18 +2088,124 @@ function openFreeConsultationForm(){
 }
 
 
-/* PAID RAZORPAY */
+/* CASHFREE PAYMENT */
 
-function startConsultationPayment(){
+async function startConsultationPayment(){
 
-  if(
-    typeof Razorpay ===
-    "undefined"
-  ){
+  const status =
+    document.getElementById(
+      "paymentStatus"
+    );
+
+  const user =
+    auth.currentUser;
+
+  if(!user){
 
     alert(
-      "Payment system is not loaded. Please refresh the page and try again."
+      "Please login again before making the payment."
     );
+
+    return;
+
+  }
+
+  try{
+
+    if(status){
+
+      status.style.display =
+        "block";
+
+      status.style.background =
+        "#edf8f2";
+
+      status.style.color =
+        "#16704f";
+
+      status.innerText =
+        "Creating secure payment order...";
+
+    }
+
+    const result =
+      await createCashfreeOrder({});
+
+    const data =
+      result?.data || {};
+
+    const paymentSessionId =
+      data.paymentSessionId;
+
+    if(!paymentSessionId){
+
+      throw new Error(
+        "Payment session could not be created."
+      );
+
+    }
+
+    if(status){
+
+      status.innerText =
+        "Opening secure Cashfree payment...";
+
+    }
+
+    await cashfree.checkout({
+
+      paymentSessionId:
+        paymentSessionId,
+
+      redirectTarget:
+        "_self"
+
+    });
+
+  }catch(error){
+
+    console.error(
+      "CASHFREE PAYMENT ERROR:",
+      error
+    );
+
+    if(status){
+
+      status.style.display =
+        "block";
+
+      status.style.background =
+        "#fff0f0";
+
+      status.style.color =
+        "#b3261e";
+
+      status.innerText =
+        "Unable to start payment. Please try again.";
+    }
+
+    alert(
+      "Unable to open payment. Please try again."
+    );
+
+  }
+
+}
+
+
+/* VERIFY CASHFREE RETURN PAYMENT */
+
+async function verifyReturnedCashfreePayment(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const orderId =
+    params.get("order_id");
+
+  if(!orderId){
 
     return;
 
@@ -2086,128 +2216,87 @@ function startConsultationPayment(){
       "paymentStatus"
     );
 
-  if(status){
+  try{
 
-    status.style.display =
-      "block";
+    if(status){
 
-    status.style.background =
-      "#edf8f2";
+      status.style.display =
+        "block";
 
-    status.style.color =
-      "#16704f";
+      status.style.background =
+        "#edf8f2";
 
-    status.innerText =
-      "Opening secure Razorpay payment...";
+      status.style.color =
+        "#16704f";
 
-  }
+      status.innerText =
+        "Verifying your payment securely...";
+    }
 
-  const user =
-    auth.currentUser;
+    const result =
+      await verifyCashfreePayment({
 
-  const phone =
-    user?.phoneNumber ||
-    "";
+        orderId:
+          orderId
 
-  const options = {
+      });
 
-    key:
-      RAZORPAY_KEY,
+    const data =
+      result?.data || {};
 
-    amount:
-      49900,
+    if(
+      data.success === true &&
+      data.paid === true &&
+      data.status === "PAID"
+    ){
 
-    currency:
-      "INR",
+      unlockPaidContent();
 
-    name:
-      "RinSaathi Advisory Services",
+    }else{
 
-    description:
-      "Personalised Debt Advisory Consultation",
+      if(status){
 
-    image:
-      "./logo.png",
+        status.style.background =
+          "#fff0f0";
 
-    prefill:{
-      contact:
-        phone.replace(
-          "+91",
-          ""
-        )
-    },
+        status.style.color =
+          "#b3261e";
 
-    theme:{
-      color:"#063f32"
-    },
-
-    handler:function(response){
-
-      unlockPaidContent(
-        response
-      );
-
-    },
-
-    modal:{
-
-      ondismiss:function(){
-
-        if(status){
-
-          status.style.display =
-            "none";
-
-        }
-
+        status.innerText =
+          "Payment could not be verified. Please contact RinSaathi if the amount was deducted.";
       }
 
     }
 
-  };
-
-
-  try{
-
-    const razorpay =
-      new Razorpay(
-        options
-      );
-
-    razorpay.on(
-      "payment.failed",
-      function(){
-
-        if(status){
-
-          status.style.display =
-            "block";
-
-          status.style.background =
-            "#fff0f0";
-
-          status.style.color =
-            "#b3261e";
-
-          status.innerText =
-            "Payment failed. Please try again.";
-
-        }
-
-      }
-    );
-
-    razorpay.open();
-
   }catch(error){
 
     console.error(
-      "RAZORPAY ERROR:",
+      "CASHFREE VERIFICATION ERROR:",
       error
     );
 
-    alert(
-      "Unable to open payment window. Please refresh and try again."
+    if(status){
+
+      status.style.background =
+        "#fff0f0";
+
+      status.style.color =
+        "#b3261e";
+
+      status.innerText =
+        "Payment verification could not be completed. Please refresh and try again.";
+    }
+
+  }finally{
+
+    const cleanUrl =
+      window.location.origin +
+      window.location.pathname;
+
+    window.history.replaceState(
+      {},
+      document.title,
+      cleanUrl
     );
 
   }
@@ -2238,7 +2327,7 @@ function requireConsultationPayment(){
 }
 
 
-function unlockPaidContent(response){
+function unlockPaidContent(){
 
   consultationPaid =
     true;
@@ -2425,6 +2514,16 @@ const serviceData = {
 
 window.showGuidance =
 function(title){
+
+  if(
+    consultationPaid === true
+  ){
+
+    openForm(title);
+
+    return;
+
+  }
 
   currentService =
     title;
