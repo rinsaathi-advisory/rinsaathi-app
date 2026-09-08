@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#063f32">
+
+<title>RinSaathi Advisory Services</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,
+    "Segoe UI",Arial,sans-serif;
+    background:#f4f7f5;
+    color:#17352d;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+.app{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    background:#fff;
+}
+
+.header{
+    background:linear-gradient(145deg,#063f32,#0b5b48);
+    color:#fff;
+    padding:28px 22px 32px;
+    border-radius:0 0 28px 28px;
+}
+
+.logoImage{
+    display:block;
+    width:190px;
+    max-width:78%;
+    height:auto;
+    margin:0 auto;
+    border-radius:50%;
+}
+
+.hero{
+    margin-top:28px;
+}
+
+.hero h1{
+    font-size:29px;
+    line-height:1.15;
+}
+
+.hero p{
+    margin-top:10px;
+    font-size:15px;
+    line-height:1.5;
+    opacity:.9;
+}
+
+.gold{
+    color:#d6ae54;
+}
+
+.content{
+    padding:22px;
+}
+
+.section{
+    margin-top:28px;
+}
+
+.section:first-child{
+    margin-top:0;
+}
+
+.title{
+    font-size:21px;
+    font-weight:800;
+    margin-bottom:14px;
+}
+
+/* REVIEW NOTICE */
+
+.reviewBanner{
+    background:#edf8f2;
+    border:1px solid #d4eadf;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.reviewBanner h3{
+    font-size:16px;
+    color:#16704f;
+}
+
+.reviewBanner p{
+    font-size:12px;
+    color:#53635e;
+    line-height:1.5;
+    margin-top:6px;
+}
+
+/* SERVICES */
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.card{
+    border:1px solid #e3e9e6;
+    border-radius:18px;
+    padding:18px 14px;
+    background:#fff;
+    box-shadow:0 5px 18px rgba(0,0,0,.05);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.card:active{
+    transform:scale(.97);
+}
+
+.icon{
+    font-size:27px;
+    margin-bottom:10px;
+}
+
+.card h3{
+    font-size:15px;
+}
+
+.card p{
+    font-size:12px;
+    color:#6a7974;
+    margin-top:5px;
+    line-height:1.4;
+}
+
+/* CONSULTATION */
+
+.consultationOffer{
+    background:linear-gradient(145deg,#063f32,#0d604c);
+    color:white;
+    border-radius:22px;
+    padding:22px;
+    margin-bottom:12px;
+    box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+
+.offerBadge{
+    display:inline-block;
+    background:#d8b45f;
+    color:#17352d;
+    padding:7px 11px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:12px;
+}
+
+.consultationOffer h3{
+    font-size:20px;
+}
+
+.consultationOffer p{
+    font-size:13px;
+    opacity:.9;
+    margin-top:7px;
+    line-height:1.5;
+}
+
+.oldPrice{
+    font-size:14px;
+    text-decoration:line-through;
+    opacity:.7;
+    margin-top:14px;
+}
+
+.offerPrice{
+    font-size:30px;
+    font-weight:900;
+    color:#e2bc65;
+    margin-top:2px;
+}
+
+.saveText{
+    font-size:12px;
+    color:#fff;
+    margin-top:3px;
+    font-weight:700;
+}
+
+/* BUTTON */
+
+.btn{
+    display:block;
+    width:100%;
+    border:0;
+    border-radius:14px;
+    padding:14px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:13px;
+}
+
+.btnGold{
+    background:#d8b45f;
+    color:#17352d;
+}
+
+.btnGreen{
+    background:#063f32;
+    color:#fff;
+}
+
+.btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* PAYMENT LOCK */
+
+.paymentLocked{
+    background:#fff8e7;
+    border:1px solid #ead9a9;
+    color:#6b5830;
+    border-radius:12px;
+    padding:12px;
+    margin-top:13px;
+    font-size:12px;
+    line-height:1.5;
+    text-align:center;
+}
+
+/* LOCKED CONTENT */
+
+.lockedBox{
+    border:1px solid #e4e8e6;
+    background:#f8faf9;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    margin-top:18px;
+}
+
+.lockIcon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+.lockedBox h3{
+    font-size:17px;
+    color:#063f32;
+}
+
+.lockedBox p{
+    font-size:13px;
+    color:#6a7974;
+    line-height:1.5;
+    margin-top:7px;
+}
+
+#paidContent{
+    display:none;
+}
+
+/* PACKAGES */
+
+.package{
+    background:linear-gradient(145deg,#073f32,#0d604c);
+    color:white;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:12px;
+}
+
+.package h3{
+    font-size:18px;
+}
+
+.package p{
+    font-size:13px;
+    opacity:.88;
+    margin-top:6px;
+    line-height:1.45;
+}
+
+.price{
+    font-size:24px;
+    font-weight:800;
+    color:#e2bc65;
+    margin-top:10px;
+}
+
+.oldPlanPrice{
+    font-size:13px;
+    text-decoration:line-through;
+    opacity:.7;
+    margin-top:12px;
+}
+
+.savePlan{
+    font-size:12px;
+    font-weight:800;
+    margin-top:3px;
+}
+
+.unlockedTitle{
+    color:#16704f;
+    font-size:15px;
+    font-weight:800;
+    margin-bottom:12px;
+}
+
+.paymentStatus{
+    display:none;
+    margin-top:14px;
+    padding:13px;
+    border-radius:12px;
+    background:#edf8f2;
+    color:#16704f;
+    font-size:13px;
+    text-align:center;
+    font-weight:700;
+    line-height:1.5;
+}
+
+/* GUIDANCE */
+
+.guidanceText{
+    font-size:14px;
+    color:#53635e;
+    line-height:1.65;
+    margin-bottom:18px;
+}
+
+.guidanceList{
+    margin:0 0 18px 20px;
+    color:#53635e;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.guidanceList li{
+    margin-bottom:4px;
+}
+
+.guidanceCTA{
+    background:#f8faf9;
+    border:1px solid #e2e9e5;
+    border-radius:20px;
+    padding:20px;
+    margin-top:18px;
+}
+
+.guidanceCTA h3{
+    color:#063f32;
+    font-size:18px;
+}
+
+.guidanceCTA p{
+    color:#687771;
+    font-size:13px;
+    line-height:1.5;
+    margin-top:7px;
+}
+
+/* FORM */
+
+.form{
+    display:block;
+    margin-top:20px;
+}
+
+.form input,
+.form textarea,
+.form select{
+    width:100%;
+    padding:14px;
+    border:1px solid #dce5e1;
+    border-radius:12px;
+    margin-bottom:11px;
+    font-size:14px;
+    background:#fafcfb;
+    outline:none;
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus{
+    border-color:#d8b45f;
+    box-shadow:0 0 0 3px rgba(216,180,95,.10);
+}
+
+.form textarea{
+    min-height:110px;
+    resize:none;
+}
+
+.notice{
+    background:#fff8e7;
+    border-left:4px solid #d5ad51;
+    padding:13px;
+    border-radius:10px;
+    font-size:12px;
+    line-height:1.5;
+    margin-top:18px;
+    color:#5f5131;
+}
+
+.footer{
+    text-align:center;
+    padding:25px 20px 35px;
+    font-size:11px;
+    color:#77837f;
+    line-height:1.5;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.back{
+    color:#063f32;
+    font-weight:700;
+    cursor:pointer;
+    margin-bottom:18px;
+}
+
+@media(max-width:380px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+    <img
+        class="logoImage"
+        src="./logo.png"
+        alt="RinSaathi Advisory Services"
+    >
+
+    <div class="hero">
+
+        <h1>
+            Your Debt.<br>
+            <span class="gold">Our Guidance.</span>
+        </h1>
+
+        <p>
+            Practical guidance for loan, EMI, debt and
+            credit-related challenges.
+        </p>
+
+    </div>
+
+</header>
+
+
+<main class="content">
+
+
+<!-- HOME -->
+
+<div id="home">
+
+
+    <div class="reviewBanner">
+
+        <h3>✓ RinSaathi Advisory Services</h3>
+
+        <p>
+            Welcome to RinSaathi Advisory Services.
+            Explore our advisory services and consultation options.
+        </p>
+
+    </div>
+
+
+    <!-- SERVICES -->
+
+    <div class="section">
+
+        <div class="title">
+            How can we help you?
+        </div>
+
+        <div class="grid">
+
+
+            <div
+                class="card"
+                data-service="Loan & EMI Guidance"
+            >
+
+                <div class="icon">💳</div>
+
+                <h3>
+                    Loan & EMI
+                </h3>
+
+                <p>
+                    Understand your loan and EMI situation.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                data-service="CIBIL / Credit Guidance"
+            >
+
+                <div class="icon">📊</div>
+
+                <h3>
+                    CIBIL Guidance
+                </h3>
+
+                <p>
+                    Understand credit-related concerns.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                data-service="Recovery Call Guidance"
+            >
+
+                <div class="icon">📞</div>
+
+                <h3>
+                    Recovery Calls
+                </h3>
+
+                <p>
+                    Understand recovery communication.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                data-service="Debt Management"
+            >
+
+                <div class="icon">🧾</div>
+
+                <h3>
+                    Debt Management
+                </h3>
+
+                <p>
+                    Organise multiple debt obligations.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                data-service="Settlement Option Education"
+            >
+
+                <div class="icon">🧠</div>
+
+                <h3>
+                    Settlement Education
+                </h3>
+
+                <p>
+                    Understand settlement-related options.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                data-service="Talk to RinSaathi"
+            >
+
+                <div class="icon">💬</div>
+
+                <h3>
+                    Talk to RinSaathi
+                </h3>
+
+                <p>
+                    Share your complete situation.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- CONSULTATION -->
+
+    <div class="section">
+
+        <div class="title">
+            Get Consultation
+        </div>
+
+
+        <div class="consultationOffer">
+
+            <div class="offerBadge">
+                🔥 LIMITED TIME OFFER • 50% OFF
+            </div>
+
+            <h3>
+                Personalised Debt Advisory
+            </h3>
+
+            <p>
+                One-to-one consultation to understand
+                your financial situation and discuss
+                practical next steps.
+            </p>
+
+            <div class="oldPrice">
+                Original Price: ₹999
+            </div>
+
+            <div class="offerPrice">
+                ₹499
+            </div>
+
+            <div class="saveText">
+                You Save ₹500
+            </div>
+
+
+            <button
+                id="bookConsultationBtn"
+                class="btn btnGold"
+                type="button"
+            >
+                🔒 Consultation Payment • ₹499
+            </button>
+
+
+            <div
+                id="paymentStatus"
+                class="paymentStatus"
+            ></div>
+
+            <div class="paymentLocked">
+                🔒 Online payment is temporarily unavailable.
+                Cashfree payment activation is in progress.
+            </div>
+
+        </div>
+
+
+        <div
+            id="lockedMessage"
+            class="lockedBox"
+        >
+
+            <div class="lockIcon">
+                🔒
+            </div>
+
+            <h3>
+                Consultation & Advisory Plans
+            </h3>
+
+            <p>
+                Complete the ₹499 consultation payment
+                to unlock consultation access and
+                all Advisory Plans.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- PAID CONTENT -->
+
+<div
+    id="paidContent"
+    class="section"
+>
+
+    <div class="unlockedTitle">
+        ✓ Consultation Access Unlocked
+    </div>
+
+
+    <div class="package">
+
+        <h3>
+            Personalised Consultation
+        </h3>
+
+        <p>
+            Your paid consultation access is now available.
+            Share your complete situation and receive
+            practical guidance.
+        </p>
+
+        <button
+            class="btn btnGold paid-form-btn"
+            data-service="Consultation"
+            type="button"
+        >
+            Start My Consultation
+        </button>
+
+    </div>
+
+
+    <div class="title">
+        Advisory Plans
+    </div>
+
+
+    <div class="package">
+
+        <h3>
+            1 Month Advisory
+        </h3>
+
+        <p>
+            Guidance and support according to your situation.
+        </p>
+
+        <div class="oldPlanPrice">
+            ₹2,499
+        </div>
+
+        <div class="price">
+            ₹1,999
+        </div>
+
+        <div class="savePlan">
+            Save ₹500
+        </div>
+
+        <button
+            class="btn btnGold paid-form-btn"
+            data-service="1 Month Advisory"
+        >
+            Choose 1 Month
+        </button>
+
+    </div>
+
+
+    <div class="package">
+
+        <h3>
+            3 Month Advisory
+        </h3>
+
+        <p>
+            Longer-term guidance for ongoing
+            debt challenges.
+        </p>
+
+        <div class="oldPlanPrice">
+            ₹5,999
+        </div>
+
+        <div class="price">
+            ₹4,999
+        </div>
+
+        <div class="savePlan">
+            Save ₹1,000
+        </div>
+
+        <button
+            class="btn btnGold paid-form-btn"
+            data-service="3 Month Advisory"
+        >
+            Choose 3 Months
+        </button>
+
+    </div>
+
+
+    <div class="package">
+
+        <h3>
+            6 Month Advisory
+        </h3>
+
+        <p>
+            Extended advisory support for
+            structured debt planning.
+        </p>
+
+        <div class="oldPlanPrice">
+            ₹9,999
+        </div>
+
+        <div class="price">
+            ₹7,999
+        </div>
+
+        <div class="savePlan">
+            Save ₹2,000
+        </div>
+
+        <button
+            class="btn btnGold paid-form-btn"
+            data-service="6 Month Advisory"
+        >
+            Choose 6 Months
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- DISCLAIMER -->
+
+<div class="notice">
+
+    <b>Important:</b>
+
+    RinSaathi Advisory Services is an independent
+    advisory and guidance service.
+
+    We are not a bank, lender or loan provider and
+    do not guarantee loan approval, settlement or
+    any specific outcome.
+
+</div>
+
+
+<!-- GUIDANCE -->
+
+<div
+    id="guidance"
+    class="hidden"
+>
+
+    <div
+        class="back"
+        id="guidanceBack"
+    >
+        ← Back
+    </div>
+
+
+    <div
+        class="title"
+        id="guidanceTitle"
+    ></div>
+
+
+    <div
+        id="guidanceContent"
+    ></div>
+
+</div>
+
+
+<!-- FORM -->
+
+<div
+    id="formSection"
+    class="hidden"
+>
+
+    <div
+        class="back"
+        id="formBack"
+    >
+        ← Back
+    </div>
+
+
+    <div
+        class="title"
+        id="formTitle"
+    >
+        Share Your Situation
+    </div>
+
+
+    <div class="form">
+
+        <div
+            id="dynamicFormFields"
+        ></div>
+
+
+        <button
+            id="submitEnquiryBtn"
+            class="btn btnGreen"
+            type="button"
+        >
+            Continue on WhatsApp
+        </button>
+
+
+        <div class="notice">
+
+            Please do not share passwords,
+            OTPs, card PINs or other confidential
+            banking credentials.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</main>
+
+
+<footer class="footer">
+
+    © RinSaathi Advisory Services
+
+    <br>
+
+    Your Debt. Our Strategy.
+    Your Freedom. Our Mission.
+
+</footer>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   BASIC STATE
+===================================================== */
+
+let currentService = "";
+
+
+/* =====================================================
+   PAYMENT STATE
+===================================================== */
+
+/*
+   Cashfree integration is intentionally locked
+   until merchant approval + secure backend setup.
+*/
+
+const CASHFREE_PAYMENT_ENABLED = false;
+
+const CONSULTATION_AMOUNT = 499;
+
+
+/* =====================================================
+   PAID SERVICES
+===================================================== */
+
+const paidServices = [
+    "Consultation",
+    "1 Month Advisory",
+    "3 Month Advisory",
+    "6 Month Advisory"
+];
+
+
+/* =====================================================
+   SERVICE DATA
+===================================================== */
+
+const serviceData = {
+
+    "Loan & EMI Guidance": {
+
+        description:
+        "Managing a loan can become difficult when EMIs, overdue payments or financial pressure start affecting your monthly budget. Understanding your loan position is an important first step toward making a practical decision.",
+
+        points: [
+
+            "Understand your current loan and EMI position.",
+
+            "Review overdue payments and EMI pressure.",
+
+            "Understand loan, lender and repayment details.",
+
+            "Identify practical next steps based on your situation."
+
+        ]
+
+    },
+
+
+    "CIBIL / Credit Guidance": {
+
+        description:
+        "Your credit profile can be affected by repayment history, outstanding obligations and other credit-related factors.",
+
+        points: [
+
+            "Understand your CIBIL / credit score.",
+
+            "Review factors affecting your credit profile.",
+
+            "Identify overdue or reporting concerns.",
+
+            "Understand practical credit-management steps."
+
+        ]
+
+    },
+
+
+    "Recovery Call Guidance": {
+
+        description:
+        "Recovery communication can be stressful. Understanding how to respond, what information to verify and how to keep proper records can help.",
+
+        points: [
+
+            "Understand how to handle recovery communication.",
+
+            "Know what information should be verified.",
+
+            "Keep records of important calls and messages.",
+
+            "Understand practical precautions while communicating."
+
+        ]
+
+    },
+
+
+    "Debt Management": {
+
+        description:
+        "When multiple EMIs and debts become difficult to manage, getting a clear picture of your total obligations is an important starting point.",
+
+        points: [
+
+            "Organise multiple loan and debt obligations.",
+
+            "Understand your total monthly EMI burden.",
+
+            "Identify obligations that need attention first.",
+
+            "Discuss practical debt-planning approaches."
+
+        ]
+
+    },
+
+
+    "Settlement Option Education": {
+
+        description:
+        "Loan settlement is a financial decision that should be understood carefully. Settlement and regular loan closure can have different implications.",
+
+        points: [
+
+            "Understand what loan settlement means.",
+
+            "Understand settlement versus regular closure.",
+
+            "Learn about possible credit-profile implications.",
+
+            "Review important points before considering settlement."
+
+        ]
+
+    },
+
+
+    "Talk to RinSaathi": {
+
+        description:
+        "Not sure which option is right for you? Share your complete financial situation with RinSaathi and receive guidance on the most relevant area.",
+
+        points: [
+
+            "Share your complete financial situation.",
+
+            "Tell us about loans, EMIs and credit concerns.",
+
+            "Explain your main financial difficulty.",
+
+            "Receive guidance on the most relevant next step."
+
+        ]
+
+    }
+
+};
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function $(id){
+
+    return document.getElementById(id);
+
+}
+
+
+function val(id){
+
+    return $(id)?.value.trim() || "";
+
+}
+
+
+/* =====================================================
+   GUIDANCE PAGE
+===================================================== */
+
+function showGuidance(service){
+
+    currentService = service;
+
+    $("home").classList.add("hidden");
+
+    $("formSection").classList.add("hidden");
+
+    $("guidance").classList.remove("hidden");
+
+
+    $("guidanceTitle").innerText =
+        service;
+
+
+    const d =
+        serviceData[service];
+
+
+    $("guidanceContent").innerHTML = `
+
+        <div class="guidanceText">
+
+            ${d.description}
+
+        </div>
+
+
+        <div class="title">
+
+            What you can understand
+
+        </div>
+
+
+        <ul class="guidanceList">
+
+            ${d.points
+                .map(p => `<li>${p}</li>`)
+                .join("")}
+
+        </ul>
+
+
+        <div class="guidanceCTA">
+
+            <h3>
+                Need Personalised Guidance?
+            </h3>
+
+            <p>
+                You can submit an enquiry
+                directly from this page.
+            </p>
+
+            <button
+                class="btn btnGreen"
+                type="button"
+                onclick="openFreeForm('${service.replace(/'/g,"\\'")}')"
+            >
+                Share Your Situation
+            </button>
+
+        </div>
+
+    `;
+
+
+    scrollTo(0,0);
+
+}
+
+
+/* =====================================================
+   FORM BUILDER
+===================================================== */
+
+function buildServiceForm(service){
+
+    let html = `
+
+        <input
+            id="name"
+            type="text"
+            placeholder="Your Name"
+        >
+
+        <input
+            id="phone"
+            type="tel"
+            inputmode="numeric"
+            maxlength="10"
+            placeholder="Mobile Number"
+        >
+
+    `;
+
+
+    if(service === "Loan & EMI Guidance"){
+
+        html += `
+
+            <select id="loanType">
+
+                <option value="">
+                    Select Loan Type
+                </option>
+
+                <option>
+                    Personal Loan
+                </option>
+
+                <option>
+                    Business Loan
+                </option>
+
+                <option>
+                    Consumer Loan
+                </option>
+
+                <option>
+                    Credit Card
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+
+            <input
+                id="lender"
+                placeholder="Bank / NBFC / Lender Name"
+            >
+
+
+            <input
+                id="loanAmount"
+                placeholder="Original / Loan Amount"
+            >
+
+
+            <input
+                id="outstanding"
+                placeholder="Approx. Outstanding Amount"
+            >
+
+
+            <input
+                id="emi"
+                placeholder="Current EMI"
+            >
+
+
+            <input
+                id="pendingEmi"
+                placeholder="Pending EMIs (if any)"
+            >
+
+
+            <select id="mainConcern">
+
+                <option value="">
+                    Select your main concern
+                </option>
+
+                <option>
+                    EMI Payment Difficulty
+                </option>
+
+                <option>
+                    Overdue / Bounce
+                </option>
+
+                <option>
+                    High EMI Burden
+                </option>
+
+                <option>
+                    Loan Understanding
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+        `;
+
+    }
+
+
+    if(service === "CIBIL / Credit Guidance"){
+
+        html += `
+
+            <input
+                id="cibilScore"
+                placeholder="Approx. CIBIL Score (if known)"
+            >
+
+
+            <input
+                id="activeLoans"
+                placeholder="Approx. Active Loans / Cards"
+            >
+
+
+            <select id="creditConcern">
+
+                <option value="">
+                    Select your credit concern
+                </option>
+
+                <option>
+                    Low CIBIL Score
+                </option>
+
+                <option>
+                    Overdue Account
+                </option>
+
+                <option>
+                    Settlement / Written-off Account
+                </option>
+
+                <option>
+                    Incorrect Credit Information
+                </option>
+
+                <option>
+                    General Credit Guidance
+                </option>
+
+            </select>
+
+        `;
+
+    }
+
+
+    if(service === "Recovery Call Guidance"){
+
+        html += `
+
+            <input
+                id="recoveryLender"
+                placeholder="Lender / Bank / NBFC Name"
+            >
+
+
+            <select id="recoveryMethod">
+
+                <option value="">
+                    How are they contacting you?
+                </option>
+
+                <option>
+                    Phone Calls
+                </option>
+
+                <option>
+                    SMS / WhatsApp
+                </option>
+
+                <option>
+                    Email
+                </option>
+
+                <option>
+                    Multiple Methods
+                </option>
+
+            </select>
+
+
+            <input
+                id="callFrequency"
+                placeholder="Approx. Call Frequency"
+            >
+
+        `;
+
+    }
+
+
+    if(service === "Debt Management"){
+
+        html += `
+
+            <input
+                id="numberOfDebts"
+                placeholder="Approx. Number of Loans / Debts"
+            >
+
+
+            <input
+                id="totalEmi"
+                placeholder="Total Monthly EMI"
+            >
+
+
+            <input
+                id="incomeRange"
+                placeholder="Approx. Monthly Income"
+            >
+
+        `;
+
+    }
+
+
+    if(service === "Settlement Option Education"){
+
+        html += `
+
+            <select id="settlementStatus">
+
+                <option value="">
+                    Current Loan Status
+                </option>
+
+                <option>
+                    Regular Payments
+                </option>
+
+                <option>
+                    EMI Overdue
+                </option>
+
+                <option>
+                    Multiple EMIs Overdue
+                </option>
+
+                <option>
+                    Recovery Communication
+                </option>
+
+                <option>
+                    Already Offered Settlement
+                </option>
+
+            </select>
+
+        `;
+
+    }
+
+
+    if(
+        service === "Talk to RinSaathi" ||
+        paidServices.includes(service)
+    ){
+
+        html += `
+
+            <select id="loanType">
+
+                <option value="">
+                    Select Main Loan Type
+                </option>
+
+                <option>
+                    Personal Loan
+                </option>
+
+                <option>
+                    Business Loan
+                </option>
+
+                <option>
+                    Consumer Loan
+                </option>
+
+                <option>
+                    Credit Card
+                </option>
+
+                <option>
+                    Multiple Loans
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+
+            <input
+                id="lender"
+                placeholder="Bank / NBFC / Lender"
+            >
+
+
+            <input
+                id="loanAmount"
+                placeholder="Original / Loan Amount"
+            >
+
+
+            <input
+                id="outstanding"
+                placeholder="Approx. Outstanding Amount"
+            >
+
+
+            <input
+                id="emi"
+                placeholder="Current EMI"
+            >
+
+
+            <input
+                id="pendingEmi"
+                placeholder="Pending EMIs (if any)"
+            >
+
+
+            <input
+                id="cibilScore"
+                placeholder="Approx. CIBIL Score"
+            >
+
+
+            <input
+                id="activeLoans"
+                placeholder="Active Loans / Cards"
+            >
+
+
+            <input
+                id="numberOfDebts"
+                placeholder="Number of Loans / Debts"
+            >
+
+
+            <input
+                id="incomeRange"
+                placeholder="Approx. Monthly Income"
+            >
+
+        `;
+
+    }
+
+
+    html += `
+
+        <textarea
+            id="message"
+            placeholder="Briefly tell us about your situation"
+        ></textarea>
+
+    `;
+
+
+    $("dynamicFormFields").innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   FREE FORM
+===================================================== */
+
+function openFreeForm(service){
+
+    currentService = service;
+
+    $("home").classList.add("hidden");
+
+    $("guidance").classList.add("hidden");
+
+    $("formSection").classList.remove("hidden");
+
+
+    $("formTitle").innerText =
+        service + " – Share Your Details";
+
+
+    buildServiceForm(service);
+
+
+    $("submitEnquiryBtn").innerText =
+        "Continue on WhatsApp";
+
+
+    scrollTo(0,0);
+
+}
+
+
+/* =====================================================
+   PAID FORM
+===================================================== */
+
+function openForm(service){
+
+    alert(
+        "Please complete the ₹499 consultation payment first."
+    );
+
+}
+
+
+/* =====================================================
+   COLLECT FORM DATA
+===================================================== */
+
+function collectFormData(){
+
+    const data = {
+
+        name:val("name"),
+
+        mobile:val("phone"),
+
+        message:val("message"),
+
+        service:currentService
+
+    };
+
+
+    [
+
+        "loanType",
+        "lender",
+        "loanAmount",
+        "outstanding",
+        "emi",
+        "pendingEmi",
+        "mainConcern",
+        "cibilScore",
+        "activeLoans",
+        "creditConcern",
+        "recoveryLender",
+        "recoveryMethod",
+        "callFrequency",
+        "numberOfDebts",
+        "totalEmi",
+        "incomeRange",
+        "settlementStatus"
+
+    ].forEach(id => {
+
+        if(val(id)){
+
+            data[id] =
+                val(id);
+
+        }
+
+    });
+
+
+    return data;
+
+}
+
+
+/* =====================================================
+   WHATSAPP MESSAGE
+===================================================== */
+
+function buildWhatsAppText(d){
+
+    let t =
+
+`Hello RinSaathi Advisory Services,
+
+I would like guidance regarding:
+
+Service: ${d.service}
+Name: ${d.name}
+Mobile: ${d.mobile}
+`;
+
+
+    const labels = {
+
+        loanType:
+            "Loan Type",
+
+        lender:
+            "Bank / NBFC / Lender",
+
+        loanAmount:
+            "Original / Loan Amount",
+
+        outstanding:
+            "Approx Outstanding",
+
+        emi:
+            "Current EMI",
+
+        pendingEmi:
+            "Pending EMIs",
+
+        mainConcern:
+            "Main Concern",
+
+        cibilScore:
+            "Approx CIBIL Score",
+
+        activeLoans:
+            "Active Loans / Cards",
+
+        creditConcern:
+            "Credit Concern",
+
+        recoveryLender:
+            "Recovery Lender",
+
+        recoveryMethod:
+            "Recovery Contact Method",
+
+        callFrequency:
+            "Call Frequency",
+
+        numberOfDebts:
+            "Number of Loans / Debts",
+
+        totalEmi:
+            "Total Monthly EMI",
+
+        incomeRange:
+            "Approx Monthly Income",
+
+        settlementStatus:
+            "Current Loan Status"
+
+    };
+
+
+    Object.keys(labels).forEach(k => {
+
+        if(d[k]){
+
+            t +=
+                `${labels[k]}: ${d[k]}\n`;
+
+        }
+
+    });
+
+
+    return t +
+
+`
+
+My Situation:
+${d.message || "Not provided"}
+
+I understand that RinSaathi provides advisory and guidance services and does not guarantee any specific outcome.`;
+
+}
+
+
+/* =====================================================
+   SUBMIT ENQUIRY
+===================================================== */
+
+function submitEnquiry(){
+
+    const d =
+        collectFormData();
+
+
+    if(!d.name || !d.mobile){
+
+        alert(
+            "Please enter your name and mobile number."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !/^[6-9]\d{9}$/.test(d.mobile)
+    ){
+
+        alert(
+            "Please enter a valid 10-digit Indian mobile number."
+        );
+
+        return;
+
+    }
+
+
+    window.open(
+
+        "https://wa.me/919319301096?text=" +
+        encodeURIComponent(
+            buildWhatsAppText(d)
+        ),
+
+        "_blank"
+
+    );
+
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+function goHome(){
+
+    $("guidance")
+        .classList
+        .add("hidden");
+
+
+    $("formSection")
+        .classList
+        .add("hidden");
+
+
+    $("home")
+        .classList
+        .remove("hidden");
+
+
+    scrollTo(0,0);
+
+}
+
+
+/* =====================================================
+   CASHFREE PAYMENT — TEMPORARILY LOCKED
+===================================================== */
+
+function startConsultationPayment(){
+
+    const status =
+        $("paymentStatus");
+
+
+    status.style.display =
+        "block";
+
+
+    status.innerText =
+        "Cashfree payment is currently being activated.";
+
+
+    alert(
+        "Online payment is temporarily unavailable. Cashfree payment activation is in progress."
+    );
+
+}
+
+
+/* =====================================================
+   EVENT LISTENERS
+===================================================== */
+
+$("bookConsultationBtn")
+    .addEventListener(
+        "click",
+        startConsultationPayment
+    );
+
+
+$("submitEnquiryBtn")
+    .addEventListener(
+        "click",
+        submitEnquiry
+    );
+
+
+$("guidanceBack")
+    .addEventListener(
+        "click",
+        goHome
+    );
+
+
+$("formBack")
+    .addEventListener(
+        "click",
+        goHome
+    );
+
+
+document
+    .querySelectorAll(
+        ".card[data-service]"
+    )
+    .forEach(card => {
+
+        card.addEventListener(
+            "click",
+            () =>
+                showGuidance(
+                    card.dataset.service
+                )
+        );
+
+    });
+
+
+document
+    .querySelectorAll(
+        ".paid-form-btn"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () =>
+                openForm(
+                    button.dataset.service
+                )
+        );
+
+    });
+
+</script>
+
+</body>
+</html>
