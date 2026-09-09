@@ -1976,6 +1976,7 @@ onAuthStateChanged(
       mainApp.style.display =
         "block";
 
+
       /*
         IMPORTANT:
         First check whether this exact Firebase user
@@ -2000,6 +2001,7 @@ onAuthStateChanged(
       }
 
       await checkFreeConsultationStatus();
+
 
       /*
         Even if a previous paid flag exists,
@@ -2409,7 +2411,7 @@ async function verifyReturnedCashfreePayment(){
 
 
     /*
-      Accept PAID regardless of capitalization.
+      Accept PAID or SUCCESS regardless of capitalization.
     */
 
     const paymentStatusValue =
@@ -2425,7 +2427,10 @@ async function verifyReturnedCashfreePayment(){
       (
         data.success === true &&
         data.paid === true &&
-        paymentStatusValue === "PAID"
+        (
+          paymentStatusValue === "PAID" ||
+          paymentStatusValue === "SUCCESS"
+        )
       );
 
 
@@ -3722,6 +3727,7 @@ async function saveFreeConsultationAndContinue(){
           serverTimestamp()
 
       }
+
     );
 
 
