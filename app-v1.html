@@ -1253,6 +1253,21 @@ let freeConsultationUsed = false;
 let consultationStatusChecked = false;
 
 
+/* PAYMENT STORAGE KEYS */
+
+function getCashfreeOrderKey(uid){
+
+  return "rinsaathi_cashfree_order_id_" + uid;
+
+}
+
+function getCashfreePaidKey(uid){
+
+  return "rinsaathi_cashfree_paid_" + uid;
+
+}
+
+
 /* LOGIN MESSAGE */
 
 function setLoginMessage(message,type=""){
@@ -1961,7 +1976,36 @@ onAuthStateChanged(
       mainApp.style.display =
         "block";
 
+      /*
+        IMPORTANT:
+        First check whether this exact Firebase user
+        already has a previously verified Cashfree payment
+        saved on this device.
+      */
+
+      const paidKey =
+        getCashfreePaidKey(
+          user.uid
+        );
+
+      const previouslyPaid =
+        localStorage.getItem(
+          paidKey
+        ) === "true";
+
+      if(previouslyPaid){
+
+        unlockPaidContent(false);
+
+      }
+
       await checkFreeConsultationStatus();
+
+      /*
+        Even if a previous paid flag exists,
+        continue with server-side verification when
+        a Cashfree order ID is available.
+      */
 
       await verifyReturnedCashfreePayment();
 
@@ -2015,6 +2059,20 @@ async function(){
 
 window.handleMainConsultationButton =
 function(){
+
+  /*
+    If this user has already completed and verified
+    the ₹499 payment, never ask for payment again.
+  */
+
+  if(consultationPaid === true){
+
+    openForm("Consultation");
+
+    return;
+
+  }
+
 
   if(!consultationStatusChecked){
 
@@ -2131,6 +2189,19 @@ async function startConsultationPayment(){
 
   }
 
+  /*
+    Existing verified payment:
+    NEVER create another ₹499 order.
+  */
+
+  if(consultationPaid === true){
+
+    openForm("Consultation");
+
+    return;
+
+  }
+
   try{
 
     if(status){
@@ -2156,7 +2227,8 @@ async function startConsultationPayment(){
       result?.data || {};
 
     const paymentSessionId =
-      data.paymentSessionId;
+      data.paymentSessionId ||
+      data.payment_session_id;
 
     const orderId =
       data.orderId ||
@@ -2173,8 +2245,10 @@ async function startConsultationPayment(){
     if(orderId){
 
       localStorage.setItem(
-        "rinsaathi_cashfree_order_id_" + user.uid,
-        orderId
+        getCashfreeOrderKey(
+          user.uid
+        ),
+        String(orderId)
       );
 
     }
@@ -2240,23 +2314,44 @@ async function verifyReturnedCashfreePayment(){
 
   }
 
+
+  /*
+    Cashfree normally returns:
+    ?order_id=XXXX
+  */
+
   const params =
     new URLSearchParams(
       window.location.search
     );
 
   const returnedOrderId =
-    params.get("order_id");
+    params.get("order_id") ||
+    params.get("orderId");
+
+
+  /*
+    If Cashfree did not return order_id,
+    use the order ID saved before checkout.
+  */
 
   const savedOrderId =
     localStorage.getItem(
-      "rinsaathi_cashfree_order_id_" +
-      user.uid
+      getCashfreeOrderKey(
+        user.uid
+      )
     );
+
 
   const orderId =
     returnedOrderId ||
     savedOrderId;
+
+
+  /*
+    If there is no order ID at all,
+    do not show a false payment error.
+  */
 
   if(!orderId){
 
@@ -2264,10 +2359,12 @@ async function verifyReturnedCashfreePayment(){
 
   }
 
+
   const status =
     document.getElementById(
       "paymentStatus"
     );
+
 
   try{
 
@@ -2286,30 +2383,157 @@ async function verifyReturnedCashfreePayment(){
         "Verifying your payment securely...";
     }
 
+
+    /*
+      Send the exact Cashfree order ID to
+      the Firebase backend for server-side verification.
+    */
+
     const result =
       await verifyCashfreePayment({
 
         orderId:
-          orderId
+          String(orderId)
 
       });
+
 
     const data =
       result?.data || {};
 
-    if(
-      data.success === true &&
-      data.paid === true &&
-      data.status === "PAID"
-    ){
 
-      localStorage.setItem(
-        "rinsaathi_cashfree_order_id_" +
-        user.uid,
-        orderId
+    console.log(
+      "CASHFREE VERIFICATION RESPONSE:",
+      data
+    );
+
+
+    /*
+      Accept PAID regardless of capitalization.
+    */
+
+    const paymentStatusValue =
+      String(
+        data.status ||
+        data.paymentStatus ||
+        data.payment_status ||
+        ""
+      ).toUpperCase();
+
+
+    const isPaid =
+      (
+        data.success === true &&
+        data.paid === true &&
+        paymentStatusValue === "PAID"
       );
 
-      unlockPaidContent();
+
+    if(isPaid){
+
+      /*
+        Save the verified order ID for this exact
+        Firebase user.
+      */
+
+      localStorage.setItem(
+        getCashfreeOrderKey(
+          user.uid
+        ),
+        String(orderId)
+      );
+
+
+      /*
+        Save verified paid state for this exact user.
+        This prevents the same user from being asked
+        for ₹499 again after refresh/login.
+      */
+
+      localStorage.setItem(
+        getCashfreePaidKey(
+          user.uid
+        ),
+        "true"
+      );
+
+
+      unlockPaidContent(true);
+
+
+    }else{
+
+      console.error(
+        "CASHFREE PAYMENT NOT PAID:",
+        data
+      );
+
+
+      /*
+        If we already know this exact user was
+        previously verified as paid, do not lock
+        the account because of a temporary
+        verification response.
+      */
+
+      if(
+        consultationPaid === true ||
+        localStorage.getItem(
+          getCashfreePaidKey(
+            user.uid
+          )
+        ) === "true"
+      ){
+
+        unlockPaidContent(false);
+
+      }else{
+
+        if(status){
+
+          status.style.background =
+            "#fff0f0";
+
+          status.style.color =
+            "#b3261e";
+
+          status.innerText =
+            "Payment could not be verified. Please refresh and try again.";
+
+        }
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "CASHFREE VERIFICATION ERROR:",
+      error
+    );
+
+
+    /*
+      IMPORTANT:
+      A temporary verification/network error must
+      not destroy an already verified paid state.
+    */
+
+    const previouslyPaid =
+      localStorage.getItem(
+        getCashfreePaidKey(
+          user.uid
+        )
+      ) === "true";
+
+
+    if(
+      consultationPaid === true ||
+      previouslyPaid
+    ){
+
+      unlockPaidContent(false);
 
     }else{
 
@@ -2322,33 +2546,22 @@ async function verifyReturnedCashfreePayment(){
           "#b3261e";
 
         status.innerText =
-          "Payment could not be verified. Please contact RinSaathi if the amount was deducted.";
+          "Payment verification could not be completed. Please refresh and try again.";
+
       }
 
     }
 
-  }catch(error){
-
-    console.error(
-      "CASHFREE VERIFICATION ERROR:",
-      error
-    );
-
-    if(status){
-
-      status.style.background =
-        "#fff0f0";
-
-      status.style.color =
-        "#b3261e";
-
-      status.innerText =
-        "Payment verification could not be completed. Please refresh and try again.";
-    }
-
   }finally{
 
-    if(returnedOrderId){
+    /*
+      Remove order_id from the browser URL
+      after verification attempt.
+    */
+
+    if(
+      returnedOrderId
+    ){
 
       const cleanUrl =
         window.location.origin +
@@ -2371,29 +2584,83 @@ async function verifyReturnedCashfreePayment(){
 
 function requireConsultationPayment(){
 
+  /*
+    First check the live state.
+  */
+
   if(
-    consultationPaid !== true
+    consultationPaid === true
   ){
 
-    alert(
-      "Please complete the ₹499 consultation payment first."
-    );
-
-    goHome();
-
-    return false;
+    return true;
 
   }
 
-  return true;
+
+  /*
+    Also check the saved verified state
+    for this exact Firebase user.
+  */
+
+  const user =
+    auth.currentUser;
+
+  if(user){
+
+    const previouslyPaid =
+      localStorage.getItem(
+        getCashfreePaidKey(
+          user.uid
+        )
+      ) === "true";
+
+    if(previouslyPaid){
+
+      unlockPaidContent(false);
+
+      return true;
+
+    }
+
+  }
+
+
+  alert(
+    "Please complete the ₹499 consultation payment first."
+  );
+
+  goHome();
+
+  return false;
 
 }
 
 
-function unlockPaidContent(){
+function unlockPaidContent(showAlert=true){
 
   consultationPaid =
     true;
+
+
+  const user =
+    auth.currentUser;
+
+
+  /*
+    Persist only for this exact Firebase user.
+  */
+
+  if(user){
+
+    localStorage.setItem(
+      getCashfreePaidKey(
+        user.uid
+      ),
+      "true"
+    );
+
+  }
+
 
   const paidContent =
     document.getElementById(
@@ -2410,12 +2677,22 @@ function unlockPaidContent(){
       "paidConsultationSection"
     );
 
-  if(paidContent){
 
-    paidContent.style.display =
-      "block";
+  /*
+    Hide the complete ₹499 payment section.
+  */
+
+  if(paidConsultationSection){
+
+    paidConsultationSection.style.display =
+      "none";
 
   }
+
+
+  /*
+    Hide the lock message.
+  */
 
   if(lockedMessage){
 
@@ -2424,12 +2701,23 @@ function unlockPaidContent(){
 
   }
 
-  if(paidConsultationSection){
 
-    paidConsultationSection.style.display =
-      "none";
+  /*
+    Show consultation + advisory plans.
+  */
+
+  if(paidContent){
+
+    paidContent.style.display =
+      "block";
 
   }
+
+
+  /*
+    Hide payment status because the actual
+    payment card is no longer needed.
+  */
 
   const status =
     document.getElementById(
@@ -2439,22 +2727,23 @@ function unlockPaidContent(){
   if(status){
 
     status.style.display =
-      "block";
-
-    status.style.background =
-      "#edf8f2";
-
-    status.style.color =
-      "#16704f";
-
-    status.innerText =
-      "✓ Payment successful. Consultation access and Advisory Plans are now unlocked.";
+      "none";
 
   }
 
-  alert(
-    "Payment successful! Consultation access and Advisory Plans are now unlocked."
-  );
+
+  /*
+    Only show success alert when payment has just
+    been verified, not every time the user logs in.
+  */
+
+  if(showAlert){
+
+    alert(
+      "Payment successful! Consultation access and Advisory Plans are now unlocked."
+    );
+
+  }
 
 }
 
@@ -2606,6 +2895,11 @@ const serviceData = {
 window.showGuidance =
 function(title){
 
+  /*
+    Already verified user:
+    directly open the service form.
+  */
+
   if(
     consultationPaid === true
   ){
@@ -2615,6 +2909,7 @@ function(title){
     return;
 
   }
+
 
   currentService =
     title;
@@ -2715,7 +3010,10 @@ function(){
     "home"
   ).classList.remove("hidden");
 
-  updateConsultationUI();
+
+  /*
+    If already paid, show only unlocked content.
+  */
 
   if(
     consultationPaid === true
@@ -2745,16 +3043,23 @@ function(){
 
     }
 
-    const paidSection =
+    const lockedMessage =
       document.getElementById(
-        "paidContent"
+        "lockedMessage"
       );
 
-    if(paidSection){
+    if(lockedMessage){
+
+      lockedMessage.style.display =
+        "none";
+
+    }
+
+    if(paidContent){
 
       setTimeout(function(){
 
-        paidSection.scrollIntoView({
+        paidContent.scrollIntoView({
           behavior:"smooth",
           block:"start"
         });
@@ -2766,6 +3071,10 @@ function(){
     return;
 
   }
+
+
+  updateConsultationUI();
+
 
   const consultationSection =
     document.querySelector(
@@ -2797,6 +3106,7 @@ function(service){
     service ||
     "Consultation";
 
+
   if(
     !requireConsultationPayment()
   ){
@@ -2804,6 +3114,7 @@ function(service){
     return;
 
   }
+
 
   document.getElementById(
     "home"
@@ -3176,7 +3487,11 @@ function(){
     "home"
   ).classList.remove("hidden");
 
-  updateConsultationUI();
+
+  /*
+    Paid user:
+    hide payment section and show unlocked content.
+  */
 
   if(
     consultationPaid === true
@@ -3206,7 +3521,24 @@ function(){
 
     }
 
+    const lockedMessage =
+      document.getElementById(
+        "lockedMessage"
+      );
+
+    if(lockedMessage){
+
+      lockedMessage.style.display =
+        "none";
+
+    }
+
+  }else{
+
+    updateConsultationUI();
+
   }
+
 
   window.scrollTo(
     0,
