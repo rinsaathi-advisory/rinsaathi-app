@@ -2316,12 +2316,6 @@ async function verifyReturnedCashfreePayment(){
 
   }
 
-
-  /*
-    Cashfree normally returns:
-    ?order_id=XXXX
-  */
-
   const params =
     new URLSearchParams(
       window.location.search
@@ -2331,12 +2325,6 @@ async function verifyReturnedCashfreePayment(){
     params.get("order_id") ||
     params.get("orderId");
 
-
-  /*
-    If Cashfree did not return order_id,
-    use the order ID saved before checkout.
-  */
-
   const savedOrderId =
     localStorage.getItem(
       getCashfreeOrderKey(
@@ -2344,16 +2332,9 @@ async function verifyReturnedCashfreePayment(){
       )
     );
 
-
   const orderId =
     returnedOrderId ||
     savedOrderId;
-
-
-  /*
-    If there is no order ID at all,
-    do not show a false payment error.
-  */
 
   if(!orderId){
 
@@ -2361,12 +2342,10 @@ async function verifyReturnedCashfreePayment(){
 
   }
 
-
   const status =
     document.getElementById(
       "paymentStatus"
     );
-
 
   try{
 
@@ -2383,13 +2362,8 @@ async function verifyReturnedCashfreePayment(){
 
       status.innerText =
         "Verifying your payment securely...";
+
     }
-
-
-    /*
-      Send the exact Cashfree order ID to
-      the Firebase backend for server-side verification.
-    */
 
     const result =
       await verifyCashfreePayment({
@@ -2399,47 +2373,160 @@ async function verifyReturnedCashfreePayment(){
 
       });
 
-
-    const data =
+    const rawData =
       result?.data || {};
-
 
     console.log(
       "CASHFREE VERIFICATION RESPONSE:",
-      data
+      rawData
     );
 
+    const objects = [];
 
-    /*
-      Accept PAID or SUCCESS regardless of capitalization.
-    */
+    function addObject(value){
 
-    const paymentStatusValue =
-      String(
-        data.status ||
-        data.paymentStatus ||
-        data.payment_status ||
-        ""
-      ).toUpperCase();
+      if(
+        value &&
+        typeof value === "object"
+      ){
 
+        objects.push(value);
+
+      }
+
+    }
+
+    addObject(rawData);
+    addObject(rawData.data);
+    addObject(rawData.result);
+    addObject(rawData.payment);
+    addObject(rawData.order);
+    addObject(rawData.paymentData);
+    addObject(rawData.payment_details);
+
+    if(
+      Array.isArray(rawData.payments)
+    ){
+
+      rawData.payments.forEach(
+        function(item){
+
+          addObject(item);
+
+        }
+      );
+
+    }
+
+    if(
+      rawData.data &&
+      Array.isArray(rawData.data.payments)
+    ){
+
+      rawData.data.payments.forEach(
+        function(item){
+
+          addObject(item);
+
+        }
+      );
+
+    }
+
+    const statusValues =
+      objects
+        .flatMap(
+          function(item){
+
+            return [
+
+              item.status,
+              item.paymentStatus,
+              item.payment_status,
+              item.transactionStatus,
+              item.transaction_status,
+              item.orderStatus,
+              item.order_status
+
+            ];
+
+          }
+        )
+        .map(
+          function(value){
+
+            return String(
+              value ?? ""
+            )
+              .trim()
+              .toUpperCase();
+
+          }
+        )
+        .filter(
+          Boolean
+        );
+
+    const hasPaidFlag =
+      objects.some(
+        function(item){
+
+          return (
+            item.paid === true ||
+            item.isPaid === true ||
+            item.is_paid === true
+          );
+
+        }
+      );
+
+    const hasSuccessFlag =
+      objects.some(
+        function(item){
+
+          return (
+            item.success === true ||
+            item.verified === true ||
+            item.paymentVerified === true ||
+            item.payment_verified === true
+          );
+
+        }
+      );
+
+    const hasSuccessfulStatus =
+      statusValues.some(
+        function(value){
+
+          return (
+            value === "PAID" ||
+            value === "SUCCESS" ||
+            value === "SUCCESSFUL" ||
+            value === "COMPLETED"
+          );
+
+        }
+      );
 
     const isPaid =
       (
-        data.success === true &&
-        data.paid === true &&
-        (
-          paymentStatusValue === "PAID" ||
-          paymentStatusValue === "SUCCESS"
-        )
+        hasPaidFlag &&
+        hasSuccessfulStatus
+      ) ||
+      (
+        hasSuccessFlag &&
+        hasSuccessfulStatus
+      ) ||
+      (
+        hasPaidFlag &&
+        !statusValues.length
+      ) ||
+      (
+        hasSuccessFlag &&
+        hasPaidFlag
       );
 
-
     if(isPaid){
-
-      /*
-        Save the verified order ID for this exact
-        Firebase user.
-      */
 
       localStorage.setItem(
         getCashfreeOrderKey(
@@ -2448,13 +2535,6 @@ async function verifyReturnedCashfreePayment(){
         String(orderId)
       );
 
-
-      /*
-        Save verified paid state for this exact user.
-        This prevents the same user from being asked
-        for ₹499 again after refresh/login.
-      */
-
       localStorage.setItem(
         getCashfreePaidKey(
           user.uid
@@ -2462,24 +2542,14 @@ async function verifyReturnedCashfreePayment(){
         "true"
       );
 
-
       unlockPaidContent(true);
-
 
     }else{
 
       console.error(
-        "CASHFREE PAYMENT NOT PAID:",
-        data
+        "CASHFREE PAYMENT NOT CONFIRMED:",
+        rawData
       );
-
-
-      /*
-        If we already know this exact user was
-        previously verified as paid, do not lock
-        the account because of a temporary
-        verification response.
-      */
 
       if(
         consultationPaid === true ||
@@ -2518,20 +2588,12 @@ async function verifyReturnedCashfreePayment(){
       error
     );
 
-
-    /*
-      IMPORTANT:
-      A temporary verification/network error must
-      not destroy an already verified paid state.
-    */
-
     const previouslyPaid =
       localStorage.getItem(
         getCashfreePaidKey(
           user.uid
         )
       ) === "true";
-
 
     if(
       consultationPaid === true ||
@@ -2558,11 +2620,6 @@ async function verifyReturnedCashfreePayment(){
     }
 
   }finally{
-
-    /*
-      Remove order_id from the browser URL
-      after verification attempt.
-    */
 
     if(
       returnedOrderId
