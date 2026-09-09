@@ -1851,6 +1851,65 @@ function updateConsultationUI(){
   }
 
 
+  /*
+    IMPORTANT:
+    A successfully verified ₹499 payment
+    always takes priority over free-consultation status.
+  */
+
+  if(consultationPaid === true){
+
+    if(title){
+
+      title.innerText =
+        "✓ PAYMENT RECEIVED";
+
+      title.className =
+        "firstInquiryBadge";
+
+    }
+
+    if(text){
+
+      text.innerText =
+        "Your amount has been received. Now you can access all the benefits of your paid consultation.";
+
+    }
+
+    if(offerBadge){
+
+      offerBadge.innerText =
+        "CONSULTATION UNLOCKED";
+
+    }
+
+    if(offerDescription){
+
+      offerDescription.innerText =
+        "Your paid consultation access is active. You can now select any of the six consultation options and continue with personalised guidance.";
+
+    }
+
+    if(paidPriceArea){
+
+      paidPriceArea.classList.add(
+        "hidden"
+      );
+
+    }
+
+    if(button){
+
+      button.innerText =
+        "Get Paid Consultation";
+
+    }
+
+    return;
+
+  }
+
+
   if(freeConsultationUsed){
 
     if(title){
@@ -2338,6 +2397,31 @@ async function verifyReturnedCashfreePayment(){
 
   if(!orderId){
 
+    /*
+      No new Cashfree return order.
+      If this exact user was already paid,
+      restore the paid UI from the saved state.
+    */
+
+    if(
+      consultationPaid === true ||
+      localStorage.getItem(
+        getCashfreePaidKey(
+          user.uid
+        )
+      ) === "true"
+    ){
+
+      unlockPaidContent(false);
+
+      if(consultationStatusChecked){
+
+        updateConsultationUI();
+
+      }
+
+    }
+
     return;
 
   }
@@ -2549,15 +2633,8 @@ async function verifyReturnedCashfreePayment(){
 
 
     /*
-      IMPORTANT:
-      The Firebase function is already responsible
-      for server-side Cashfree verification.
-
-      Therefore a confirmed successful payment
-      status from that verified response is enough
-      to unlock the user's account.
-
-      Merchant bank settlement is NOT required here.
+      The Firebase function performs the actual
+      server-side Cashfree verification.
     */
 
     const isPaid =
@@ -2619,6 +2696,21 @@ async function verifyReturnedCashfreePayment(){
       unlockPaidContent(true);
 
 
+      /*
+        IMPORTANT:
+        Refresh the consultation status UI
+        so "FREE CONSULTATION ALREADY USED"
+        is immediately replaced by the
+        payment-received message.
+      */
+
+      if(consultationStatusChecked){
+
+        updateConsultationUI();
+
+      }
+
+
     }else{
 
       console.error(
@@ -2642,6 +2734,12 @@ async function verifyReturnedCashfreePayment(){
       ){
 
         unlockPaidContent(false);
+
+        if(consultationStatusChecked){
+
+          updateConsultationUI();
+
+        }
 
       }else{
 
@@ -2689,6 +2787,12 @@ async function verifyReturnedCashfreePayment(){
     ){
 
       unlockPaidContent(false);
+
+      if(consultationStatusChecked){
+
+        updateConsultationUI();
+
+      }
 
     }else{
 
