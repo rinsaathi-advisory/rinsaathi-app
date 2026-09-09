@@ -1268,6 +1268,108 @@ function getCashfreePaidKey(uid){
 }
 
 
+/* LOAD VERIFIED PAYMENT STATE FROM FIRESTORE */
+
+async function loadPaymentState(){
+
+  const user =
+    auth.currentUser;
+
+  consultationPaid =
+    false;
+
+  if(!user){
+    return;
+  }
+
+  try{
+
+    const paymentRef =
+      doc(
+        db,
+        "payments",
+        user.uid
+      );
+
+    const snapshot =
+      await getDoc(
+        paymentRef
+      );
+
+    if(
+      snapshot.exists()
+    ){
+
+      const paymentData =
+        snapshot.data();
+
+      consultationPaid =
+        paymentData.status === "PAID" &&
+        paymentData.verified === true;
+
+    }
+
+    /*
+      Keep the existing device-level flag only
+      as a fallback. Firestore remains the source
+      of truth for cross-device payment access.
+    */
+
+    if(!consultationPaid){
+
+      const localPaid =
+        localStorage.getItem(
+          getCashfreePaidKey(
+            user.uid
+          )
+        ) === "true";
+
+      if(localPaid){
+        consultationPaid = true;
+      }
+
+    }
+
+    if(consultationPaid){
+
+      unlockPaidContent(false);
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "PAYMENT STATE ERROR:",
+      error
+    );
+
+    /*
+      If Firestore is temporarily unavailable,
+      preserve an already verified local state
+      on the same device.
+    */
+
+    const localPaid =
+      localStorage.getItem(
+        getCashfreePaidKey(
+          user.uid
+        )
+      ) === "true";
+
+    if(localPaid){
+
+      consultationPaid =
+        true;
+
+      unlockPaidContent(false);
+
+    }
+
+  }
+
+}
+
+
 /* LOGIN MESSAGE */
 
 function setLoginMessage(message,type=""){
@@ -2038,34 +2140,26 @@ onAuthStateChanged(
 
       /*
         IMPORTANT:
-        First check whether this exact Firebase user
-        already has a previously verified Cashfree payment
-        saved on this device.
+        The verified payment record in
+        payments/{uid} is the permanent source
+        of truth. This allows the same paid user
+        to stay unlocked on another device.
       */
 
-      const paidKey =
-        getCashfreePaidKey(
-          user.uid
-        );
+      await loadPaymentState();
 
-      const previouslyPaid =
-        localStorage.getItem(
-          paidKey
-        ) === "true";
 
-      if(previouslyPaid){
-
-        unlockPaidContent(false);
-
-      }
+      /*
+        Keep the existing one-time free
+        consultation check unchanged.
+      */
 
       await checkFreeConsultationStatus();
 
 
       /*
-        Even if a previous paid flag exists,
-        continue with server-side verification when
-        a Cashfree order ID is available.
+        If Cashfree has just returned the user
+        from a new payment, verify it server-side.
       */
 
       await verifyReturnedCashfreePayment();
