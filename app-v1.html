@@ -807,7 +807,9 @@ body{
   </div>
 
 
-  <div class="section">
+  <div
+    id="paidConsultationSection"
+    class="section">
 
     <div class="title">
       Get Consultation
@@ -894,7 +896,7 @@ body{
   class="section">
 
   <div class="unlockedTitle">
-    ✓ Consultation Access Unlocked
+    ✓ Consultation & Advisory Plans Unlocked
   </div>
 
 
@@ -906,14 +908,23 @@ body{
 
     <p>
       Your consultation access is now available.
-      Share your situation and receive practical guidance.
+      Book your consultation and share your situation
+      to receive practical guidance.
     </p>
 
     <button
       class="btn btnGold"
       onclick="openForm('Consultation')">
 
-      Start My Consultation
+      Book Consultation
+
+    </button>
+
+    <button
+      class="btn btnGreen"
+      onclick="openRinSaathiChat()">
+
+      Chat with Us
 
     </button>
 
@@ -924,6 +935,10 @@ body{
     Advisory Plans
   </div>
 
+  <div class="firstInquiryText" style="margin-bottom:14px;text-align:left;">
+    Select a plan below to know more about the support and process.
+  </div>
+
 
   <div class="package">
 
@@ -932,7 +947,8 @@ body{
     </h3>
 
     <p>
-      Guidance and support according to your situation.
+      Focused guidance for customers who need practical
+      support with their current loan, EMI, debt or credit situation.
     </p>
 
     <div class="oldPlanPrice">
@@ -951,7 +967,7 @@ body{
       class="btn btnGold"
       onclick="openForm('1 Month Advisory')">
 
-      Choose 1 Month
+      Select to Know More
 
     </button>
 
@@ -965,7 +981,8 @@ body{
     </h3>
 
     <p>
-      Longer-term guidance for ongoing debt challenges.
+      Longer-term guidance for customers who need continued
+      support, structured debt planning and regular advisory.
     </p>
 
     <div class="oldPlanPrice">
@@ -984,7 +1001,7 @@ body{
       class="btn btnGold"
       onclick="openForm('3 Month Advisory')">
 
-      Choose 3 Months
+      Select to Know More
 
     </button>
 
@@ -998,7 +1015,8 @@ body{
     </h3>
 
     <p>
-      Extended advisory support for structured debt planning.
+      Extended advisory support for structured debt planning,
+      ongoing guidance and longer-term financial decision support.
     </p>
 
     <div class="oldPlanPrice">
@@ -1017,7 +1035,7 @@ body{
       class="btn btnGold"
       onclick="openForm('6 Month Advisory')">
 
-      Choose 6 Months
+      Select to Know More
 
     </button>
 
@@ -2140,10 +2158,23 @@ async function startConsultationPayment(){
     const paymentSessionId =
       data.paymentSessionId;
 
+    const orderId =
+      data.orderId ||
+      data.order_id;
+
     if(!paymentSessionId){
 
       throw new Error(
         "Payment session could not be created."
+      );
+
+    }
+
+    if(orderId){
+
+      localStorage.setItem(
+        "rinsaathi_cashfree_order_id_" + user.uid,
+        orderId
       );
 
     }
@@ -2200,6 +2231,15 @@ async function startConsultationPayment(){
 
 async function verifyReturnedCashfreePayment(){
 
+  const user =
+    auth.currentUser;
+
+  if(!user){
+
+    return;
+
+  }
+
   const params =
     new URLSearchParams(
       window.location.search
@@ -2210,7 +2250,8 @@ async function verifyReturnedCashfreePayment(){
 
   const savedOrderId =
     localStorage.getItem(
-      "rinsaathi_cashfree_order_id"
+      "rinsaathi_cashfree_order_id_" +
+      user.uid
     );
 
   const orderId =
@@ -2263,7 +2304,8 @@ async function verifyReturnedCashfreePayment(){
     ){
 
       localStorage.setItem(
-        "rinsaathi_cashfree_order_id",
+        "rinsaathi_cashfree_order_id_" +
+        user.uid,
         orderId
       );
 
@@ -2363,6 +2405,11 @@ function unlockPaidContent(){
       "lockedMessage"
     );
 
+  const paidConsultationSection =
+    document.getElementById(
+      "paidConsultationSection"
+    );
+
   if(paidContent){
 
     paidContent.style.display =
@@ -2373,6 +2420,13 @@ function unlockPaidContent(){
   if(lockedMessage){
 
     lockedMessage.style.display =
+      "none";
+
+  }
+
+  if(paidConsultationSection){
+
+    paidConsultationSection.style.display =
       "none";
 
   }
@@ -2394,15 +2448,31 @@ function unlockPaidContent(){
       "#16704f";
 
     status.innerText =
-      "✓ Payment successful. Consultation and Advisory Plans unlocked.";
+      "✓ Payment successful. Consultation access and Advisory Plans are now unlocked.";
 
   }
 
   alert(
-    "Payment successful! Your consultation and Advisory Plans are now unlocked."
+    "Payment successful! Consultation access and Advisory Plans are now unlocked."
   );
 
 }
+
+
+/* CHAT WITH RINSAATHI */
+
+window.openRinSaathiChat =
+function(){
+
+  window.open(
+    "https://wa.me/919319301096?text=" +
+    encodeURIComponent(
+      "Hello RinSaathi, I have completed my consultation payment and would like to chat with you."
+    ),
+    "_blank"
+  );
+
+};
 
 
 /* SERVICE DATA */
@@ -2646,6 +2716,56 @@ function(){
   ).classList.remove("hidden");
 
   updateConsultationUI();
+
+  if(
+    consultationPaid === true
+  ){
+
+    const paidContent =
+      document.getElementById(
+        "paidContent"
+      );
+
+    if(paidContent){
+
+      paidContent.style.display =
+        "block";
+
+    }
+
+    const paidConsultationSection =
+      document.getElementById(
+        "paidConsultationSection"
+      );
+
+    if(paidConsultationSection){
+
+      paidConsultationSection.style.display =
+        "none";
+
+    }
+
+    const paidSection =
+      document.getElementById(
+        "paidContent"
+      );
+
+    if(paidSection){
+
+      setTimeout(function(){
+
+        paidSection.scrollIntoView({
+          behavior:"smooth",
+          block:"start"
+        });
+
+      },100);
+
+    }
+
+    return;
+
+  }
 
   const consultationSection =
     document.querySelector(
@@ -3057,6 +3177,36 @@ function(){
   ).classList.remove("hidden");
 
   updateConsultationUI();
+
+  if(
+    consultationPaid === true
+  ){
+
+    const paidContent =
+      document.getElementById(
+        "paidContent"
+      );
+
+    if(paidContent){
+
+      paidContent.style.display =
+        "block";
+
+    }
+
+    const paidConsultationSection =
+      document.getElementById(
+        "paidConsultationSection"
+      );
+
+    if(paidConsultationSection){
+
+      paidConsultationSection.style.display =
+        "none";
+
+    }
+
+  }
 
   window.scrollTo(
     0,
