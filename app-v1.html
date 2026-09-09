@@ -2381,6 +2381,11 @@ async function verifyReturnedCashfreePayment(){
       rawData
     );
 
+
+    /*
+      Collect all possible server-response objects.
+    */
+
     const objects = [];
 
     function addObject(value){
@@ -2433,6 +2438,11 @@ async function verifyReturnedCashfreePayment(){
 
     }
 
+
+    /*
+      Read every possible payment/order status.
+    */
+
     const statusValues =
       objects
         .flatMap(
@@ -2467,66 +2477,119 @@ async function verifyReturnedCashfreePayment(){
           Boolean
         );
 
-    const hasPaidFlag =
-      objects.some(
-        function(item){
 
-          return (
-            item.paid === true ||
-            item.isPaid === true ||
-            item.is_paid === true
-          );
-
-        }
-      );
-
-    const hasSuccessFlag =
-      objects.some(
-        function(item){
-
-          return (
-            item.success === true ||
-            item.verified === true ||
-            item.paymentVerified === true ||
-            item.payment_verified === true
-          );
-
-        }
-      );
+    /*
+      Cashfree successful payment statuses.
+    */
 
     const hasSuccessfulStatus =
       statusValues.some(
         function(value){
 
           return (
+
             value === "PAID" ||
+
             value === "SUCCESS" ||
+
             value === "SUCCESSFUL" ||
+
             value === "COMPLETED"
+
           );
 
         }
       );
 
+
+    /*
+      Some backend responses may explicitly
+      return paid=true.
+    */
+
+    const hasPaidFlag =
+      objects.some(
+        function(item){
+
+          return (
+
+            item.paid === true ||
+
+            item.isPaid === true ||
+
+            item.is_paid === true
+
+          );
+
+        }
+      );
+
+
+    /*
+      Some backend responses may explicitly
+      confirm verification.
+    */
+
+    const hasVerifiedFlag =
+      objects.some(
+        function(item){
+
+          return (
+
+            item.verified === true ||
+
+            item.paymentVerified === true ||
+
+            item.payment_verified === true
+
+          );
+
+        }
+      );
+
+
+    /*
+      IMPORTANT:
+      The Firebase function is already responsible
+      for server-side Cashfree verification.
+
+      Therefore a confirmed successful payment
+      status from that verified response is enough
+      to unlock the user's account.
+
+      Merchant bank settlement is NOT required here.
+    */
+
     const isPaid =
       (
-        hasPaidFlag &&
         hasSuccessfulStatus
       ) ||
       (
-        hasSuccessFlag &&
-        hasSuccessfulStatus
+        hasPaidFlag
       ) ||
       (
-        hasPaidFlag &&
-        !statusValues.length
-      ) ||
-      (
-        hasSuccessFlag &&
+        hasVerifiedFlag &&
         hasPaidFlag
       );
 
+
+    console.log(
+      "CASHFREE STATUS VALUES:",
+      statusValues
+    );
+
+    console.log(
+      "CASHFREE PAYMENT CONFIRMED:",
+      isPaid
+    );
+
+
     if(isPaid){
+
+      /*
+        Save the verified order ID
+        for this exact Firebase user.
+      */
 
       localStorage.setItem(
         getCashfreeOrderKey(
@@ -2535,6 +2598,12 @@ async function verifyReturnedCashfreePayment(){
         String(orderId)
       );
 
+
+      /*
+        Save verified paid state
+        for this exact Firebase user.
+      */
+
       localStorage.setItem(
         getCashfreePaidKey(
           user.uid
@@ -2542,7 +2611,13 @@ async function verifyReturnedCashfreePayment(){
         "true"
       );
 
+
+      /*
+        Unlock everything immediately.
+      */
+
       unlockPaidContent(true);
+
 
     }else{
 
@@ -2550,6 +2625,12 @@ async function verifyReturnedCashfreePayment(){
         "CASHFREE PAYMENT NOT CONFIRMED:",
         rawData
       );
+
+
+      /*
+        If this exact user was already verified
+        as paid earlier, keep everything unlocked.
+      */
 
       if(
         consultationPaid === true ||
@@ -2588,12 +2669,19 @@ async function verifyReturnedCashfreePayment(){
       error
     );
 
+
+    /*
+      Never lock an already verified user
+      because of a temporary verification error.
+    */
+
     const previouslyPaid =
       localStorage.getItem(
         getCashfreePaidKey(
           user.uid
         )
       ) === "true";
+
 
     if(
       consultationPaid === true ||
@@ -2620,6 +2708,10 @@ async function verifyReturnedCashfreePayment(){
     }
 
   }finally{
+
+    /*
+      Remove order_id from URL after verification.
+    */
 
     if(
       returnedOrderId
