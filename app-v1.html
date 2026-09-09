@@ -1961,6 +1961,9 @@ onAuthStateChanged(
       consultationStatusChecked =
         false;
 
+      consultationPaid =
+        false;
+
     }
 
   }
@@ -2202,8 +2205,17 @@ async function verifyReturnedCashfreePayment(){
       window.location.search
     );
 
-  const orderId =
+  const returnedOrderId =
     params.get("order_id");
+
+  const savedOrderId =
+    localStorage.getItem(
+      "rinsaathi_cashfree_order_id"
+    );
+
+  const orderId =
+    returnedOrderId ||
+    savedOrderId;
 
   if(!orderId){
 
@@ -2250,6 +2262,11 @@ async function verifyReturnedCashfreePayment(){
       data.status === "PAID"
     ){
 
+      localStorage.setItem(
+        "rinsaathi_cashfree_order_id",
+        orderId
+      );
+
       unlockPaidContent();
 
     }else{
@@ -2289,15 +2306,19 @@ async function verifyReturnedCashfreePayment(){
 
   }finally{
 
-    const cleanUrl =
-      window.location.origin +
-      window.location.pathname;
+    if(returnedOrderId){
 
-    window.history.replaceState(
-      {},
-      document.title,
-      cleanUrl
-    );
+      const cleanUrl =
+        window.location.origin +
+        window.location.pathname;
+
+      window.history.replaceState(
+        {},
+        document.title,
+        cleanUrl
+      );
+
+    }
 
   }
 
