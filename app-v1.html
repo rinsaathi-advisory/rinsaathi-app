@@ -3221,8 +3221,25 @@ window.showGuidance =
 function(title){
 
   /*
-    Already verified user:
-    directly open the service form.
+    IMPORTANT:
+    Never decide free/paid state before
+    Firebase consultation status has been checked.
+  */
+
+  if(!consultationStatusChecked){
+
+    alert(
+      "Please wait while we check your consultation status."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Verified paid user:
+    directly open the selected service form.
   */
 
   if(
@@ -3239,30 +3256,47 @@ function(title){
   currentService =
     title;
 
+
   document.getElementById(
     "home"
   ).classList.add("hidden");
+
 
   document.getElementById(
     "formSection"
   ).classList.add("hidden");
 
+
   document.getElementById(
     "guidance"
   ).classList.remove("hidden");
+
 
   document.getElementById(
     "guidanceTitle"
   ).innerText =
     title;
 
+
   const data =
     serviceData[title];
+
+
+  /*
+    GLOBAL ONE-TIME FREE CONSULTATION
+
+    If free consultation is already used,
+    all six services show the paid consultation option.
+
+    If free consultation has not been used,
+    all six services show the free consultation option.
+  */
 
   const consultationButton =
     freeConsultationUsed
       ? "Get Paid Consultation"
       : "Get Free Consultation";
+
 
   const consultationText =
     freeConsultationUsed
@@ -3314,6 +3348,7 @@ function(title){
     </div>
 
   `;
+
 
   window.scrollTo(
     0,
