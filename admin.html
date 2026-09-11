@@ -11,94 +11,92 @@
 
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#f3f6f4;color:#17352e;
+  background:#f3f6f4;
+  color:#17352e
 }
 
 .header{
   background:linear-gradient(135deg,#063f32,#0b5b49);
-  color:white;padding:25px 18px 30px;border-radius:0 0 28px 28px;
+  color:#fff;
+  padding:25px 18px 30px;
+  border-radius:0 0 28px 28px
 }
 
 .logo{
   font-size:22px;
-  font-weight:800;
+  font-weight:800
 }
 
 .subtitle{
   font-size:12px;
   opacity:.75;
   margin-top:4px;
-  letter-spacing:.5px;
+  letter-spacing:.5px
 }
 
 .welcome{
   margin-top:24px;
   font-size:27px;
-  font-weight:800;
+  font-weight:800
 }
 
 .admin-number{
   font-size:13px;
   opacity:.8;
-  margin-top:5px;
+  margin-top:5px
 }
 
 .container{
   max-width:1100px;
   margin:auto;
-  padding:18px;
+  padding:18px
 }
 
 .login{
   max-width:520px;
-  margin:30px auto;
+  margin:30px auto
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:12px;
-  margin-top:-5px;
+  margin-top:-5px
 }
 
 .statCard{
-  background:white;
+  background:#fff;
   border-radius:18px;
   padding:18px;
   box-shadow:0 6px 20px rgba(0,0,0,.06);
-  cursor:pointer;
-  transition:.15s;
-}
-
-.statCard:active{
-  transform:scale(.98);
+  cursor:pointer
 }
 
 .statIcon{
-  font-size:24px;
+  font-size:24px
 }
 
 .statNumber{
   font-size:26px;
   font-weight:800;
-  margin-top:8px;
+  margin-top:8px
 }
 
 .statTitle{
   color:#71817c;
   font-size:12px;
-  margin-top:3px;
+  margin-top:3px
 }
 
 .card{
-  background:white;
+  background:#fff;
   border-radius:18px;
   padding:18px;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);
+  box-shadow:0 6px 20px rgba(0,0,0,.06)
 }
 
 .section{
-  margin-top:25px;
+  margin-top:25px
 }
 
 .sectionHeading{
@@ -106,11 +104,11 @@ body{
   justify-content:space-between;
   align-items:center;
   margin-bottom:12px;
-  gap:10px;
+  gap:10px
 }
 
 .sectionHeading h2{
-  font-size:19px;
+  font-size:19px
 }
 
 .badge{
@@ -119,7 +117,7 @@ body{
   padding:6px 11px;
   border-radius:20px;
   font-size:12px;
-  font-weight:700;
+  font-weight:700
 }
 
 .lead{
@@ -127,29 +125,29 @@ body{
   grid-template-columns:1.3fr 1fr 1fr auto;
   gap:15px;
   align-items:center;
-  margin-bottom:10px;
+  margin-bottom:10px
 }
 
 .name{
-  font-weight:800;
+  font-weight:800
 }
 
 .small{
   font-size:12px;
   color:#788681;
-  margin-top:4px;
+  margin-top:4px
 }
 
 .paid{
   color:#08704d;
   font-size:13px;
-  font-weight:800;
+  font-weight:800
 }
 
 .pendingPay{
   color:#8a6500;
   font-size:13px;
-  font-weight:800;
+  font-weight:800
 }
 
 .status{
@@ -159,7 +157,7 @@ body{
   background:#fff4d7;
   color:#8a6500;
   font-size:12px;
-  font-weight:700;
+  font-weight:700
 }
 
 button{
@@ -167,28 +165,33 @@ button{
   border-radius:12px;
   padding:10px 14px;
   font-weight:700;
-  cursor:pointer;
+  cursor:pointer
 }
 
 .primary{
   background:#063f32;
-  color:white;
+  color:#fff
 }
 
 .secondary{
   background:#edf3f0;
-  color:#063f32;
+  color:#063f32
 }
 
 .goldBtn{
   background:#d8b45f;
-  color:#17352d;
+  color:#17352d
+}
+
+.danger{
+  background:#fbe8e8;
+  color:#9b2c2c
 }
 
 .actions{
   display:flex;
   gap:8px;
-  flex-wrap:wrap;
+  flex-wrap:wrap
 }
 
 input{
@@ -197,11 +200,11 @@ input{
   border:1px solid #d2e2db;
   border-radius:14px;
   margin:8px 0;
-  font:inherit;
+  font:inherit
 }
 
 .hidden{
-  display:none!important;
+  display:none!important
 }
 
 .error{
@@ -209,7 +212,7 @@ input{
   background:#fff0f0;
   padding:12px;
   border-radius:12px;
-  margin-top:10px;
+  margin-top:10px
 }
 
 .success{
@@ -217,10 +220,8 @@ input{
   background:#e6f4ed;
   padding:12px;
   border-radius:12px;
-  margin-top:10px;
+  margin-top:10px
 }
-
-/* Modal */
 
 .modal{
   position:fixed;
@@ -229,52 +230,52 @@ input{
   display:none;
   align-items:flex-end;
   justify-content:center;
-  z-index:1000;
+  z-index:1000
 }
 
 .modal.active{
-  display:flex;
+  display:flex
 }
 
 .modalBox{
-  background:white;
+  background:#fff;
   width:100%;
-  max-width:720px;
+  max-width:760px;
   padding:22px;
   border-radius:25px 25px 0 0;
-  max-height:88vh;
-  overflow:auto;
+  max-height:90vh;
+  overflow:auto
 }
 
 .close{
   float:right;
   background:#edf3f0;
-  padding:8px 11px;
+  padding:8px 11px
 }
 
 .details{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
-  margin:20px 0;
+  margin:20px 0
 }
 
 .detail{
   background:#f5f8f6;
   padding:13px;
-  border-radius:13px;
+  border-radius:13px
 }
 
 .detail label{
   display:block;
   color:#6d7c77;
   font-size:11px;
-  margin-bottom:4px;
+  margin-bottom:4px
 }
 
 .detail strong{
   font-size:14px;
-  word-break:break-word;
+  word-break:break-word
 }
 
 .message{
@@ -282,165 +283,142 @@ input{
   padding:14px;
   border-radius:14px;
   background:#f5f8f6;
-  line-height:1.5;
-}
-
-/* Pending customers */
-
-.pendingCustomer{
-  background:#f7faf8;
-  border:1px solid #e2ebe7;
-  border-radius:16px;
-  padding:15px;
-  margin-bottom:10px;
-}
-
-.pendingCustomerTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-}
-
-.pendingCustomerName{
-  font-size:17px;
-  font-weight:800;
-}
-
-.pendingCustomerPhone{
-  font-size:12px;
-  color:#71817c;
-  margin-top:4px;
-}
-
-.pendingCount{
-  background:#fff4d7;
-  color:#8a6500;
-  padding:6px 9px;
-  border-radius:14px;
-  font-size:11px;
-  font-weight:800;
-  white-space:nowrap;
-}
-
-.historyItem{
-  background:#f7faf8;
-  border:1px solid #e2ebe7;
-  border-radius:15px;
-  padding:15px;
-  margin-top:12px;
-}
-
-.historyHead{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:flex-start;
-}
-
-.historyService{
-  font-weight:800;
-}
-
-.historyDate{
-  font-size:11px;
-  color:#71817c;
+  line-height:1.5
 }
 
 .fieldGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:9px;
-  margin-top:12px;
+  margin-top:12px
 }
 
 .field{
-  background:white;
+  background:#fff;
   border-radius:11px;
   padding:10px;
-  border:1px solid #edf1ef;
+  border:1px solid #edf1ef
 }
 
 .field label{
   display:block;
   font-size:10px;
   color:#71817c;
-  margin-bottom:3px;
+  margin-bottom:3px
 }
 
 .field div{
   font-size:12px;
   line-height:1.4;
-  word-break:break-word;
+  word-break:break-word
 }
 
-.pendingEmpty{
+.listItem{
+  background:#f7faf8;
+  border:1px solid #e2ebe7;
+  border-radius:16px;
+  padding:15px;
+  margin-bottom:10px
+}
+
+.listTop{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start
+}
+
+.listName{
+  font-size:16px;
+  font-weight:800
+}
+
+.listMeta{
+  font-size:12px;
+  color:#71817c;
+  margin-top:4px
+}
+
+.empty{
   text-align:center;
   padding:20px;
-  color:#71817c;
+  color:#71817c
 }
 
-@media(max-width:760px){
+.revenueTotal{
+  font-size:30px;
+  font-weight:900;
+  color:#08704d;
+  margin:8px 0 16px
+}
 
+.feeBox{
+  background:#f7faf8;
+  border:1px solid #e2ebe7;
+  border-radius:14px;
+  padding:14px;
+  margin-top:16px
+}
+
+.feeRow{
+  display:grid;
+  grid-template-columns:1fr 180px auto;
+  gap:8px;
+  align-items:center
+}
+
+.feeRow input{
+  margin:0
+}
+
+.note{
+  font-size:12px;
+  color:#71817c;
+  line-height:1.5;
+  margin-top:8px
+}
+
+@media(max-width:800px){
   .stats{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr)
   }
 
   .lead{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1fr
   }
 
+  .feeRow{
+    grid-template-columns:1fr
+  }
 }
 
 @media(max-width:450px){
-
   .container{
-    padding:14px;
+    padding:14px
   }
 
   .lead{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr
   }
 
   .details,
   .fieldGrid{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr
   }
-
 }
-
 </style>
 </head>
 
 <body>
 
 <header class="header">
-
-  <div class="logo">
-    RinSaathi Advisory Services
-  </div>
-
-  <div class="subtitle">
-    OWNER / ADMIN DASHBOARD
-  </div>
-
-  <div class="welcome">
-    Welcome back, Admin 👋
-  </div>
-
-  <div class="admin-number">
-    Admin Mobile: 9319301096
-  </div>
-
+  <div class="logo">RinSaathi Advisory Services</div>
+  <div class="subtitle">OWNER / ADMIN DASHBOARD</div>
+  <div class="welcome">Welcome back, Admin 👋</div>
+  <div class="admin-number">Admin Mobile: 9319301096</div>
 </header>
 
-
 <main class="container">
-
-
-<!-- ================================
-     ADMIN LOGIN
-================================ -->
 
 <section id="loginBox" class="card login">
 
@@ -450,11 +428,10 @@ input{
     Login with the registered RinSaathi admin mobile number.
   </p>
 
-  <!-- FIXED: 10 DIGIT NUMBER -->
   <input
     id="phone"
     type="tel"
-    value="9319301096"
+    value="+919319301096"
     placeholder="+91XXXXXXXXXX"
   >
 
@@ -483,10 +460,6 @@ input{
 </section>
 
 
-<!-- ================================
-     DASHBOARD
-================================ -->
-
 <section id="dashboard" class="hidden">
 
   <div class="actions" style="margin:0 0 15px">
@@ -504,128 +477,86 @@ input{
 
   <div class="stats">
 
-
-    <!-- Revenue -->
-
     <div
       class="statCard"
-      onclick="showAllLeads()"
+      onclick="showStatusStage('New Lead')"
     >
-
-      <div class="statIcon">
-        💰
-      </div>
-
-      <div
-        class="statNumber"
-        id="revenue"
-      >
-        ₹0
-      </div>
-
-      <div class="statTitle">
-        Consultation Revenue
-      </div>
-
+      <div class="statIcon">🆕</div>
+      <div class="statNumber" id="newLeads">0</div>
+      <div class="statTitle">New Leads</div>
     </div>
 
 
-    <!-- New Leads -->
-
     <div
       class="statCard"
-      onclick="scrollToLeads()"
+      onclick="showStatusStage('Pending Consultation')"
     >
-
-      <div class="statIcon">
-        🆕
-      </div>
-
-      <div
-        class="statNumber"
-        id="newLeads"
-      >
-        0
-      </div>
-
-      <div class="statTitle">
-        New Leads
-      </div>
-
+      <div class="statIcon">📅</div>
+      <div class="statNumber" id="pending">0</div>
+      <div class="statTitle">Pending Consultation</div>
     </div>
 
 
-    <!-- Pending Consultations -->
-
     <div
       class="statCard"
-      onclick="openPendingConsultations()"
+      onclick="showStatusStage('Consultation Completed')"
     >
-
-      <div class="statIcon">
-        📅
-      </div>
-
-      <div
-        class="statNumber"
-        id="pending"
-      >
-        0
-      </div>
-
-      <div class="statTitle">
-        Pending Consultations
-      </div>
-
+      <div class="statIcon">✅</div>
+      <div class="statNumber" id="completed">0</div>
+      <div class="statTitle">Consultation Completed</div>
     </div>
 
 
-    <!-- Active Clients -->
+    <div
+      class="statCard"
+      onclick="showStatusStage('Active Advisory Client')"
+    >
+      <div class="statIcon">👥</div>
+      <div class="statNumber" id="clients">0</div>
+      <div class="statTitle">Active Leads</div>
+    </div>
+
 
     <div
       class="statCard"
-      onclick="showActiveClients()"
+      onclick="showStatusStage('Closed Lead')"
     >
-
-      <div class="statIcon">
-        👥
-      </div>
-
-      <div
-        class="statNumber"
-        id="clients"
-      >
-        0
-      </div>
-
-      <div class="statTitle">
-        Active Clients
-      </div>
-
+      <div class="statIcon">🔒</div>
+      <div class="statNumber" id="closedLeads">0</div>
+      <div class="statTitle">Closed Leads</div>
     </div>
 
+
+    <div
+      class="statCard"
+      onclick="openConsultationRevenue()"
+    >
+      <div class="statIcon">💳</div>
+      <div class="statNumber" id="revenue">₹0</div>
+      <div class="statTitle">Consultation Revenue</div>
+    </div>
+
+
+    <div
+      class="statCard"
+      onclick="openAdvisoryRevenue()"
+    >
+      <div class="statIcon">💰</div>
+      <div class="statNumber" id="advisoryRevenue">₹0</div>
+      <div class="statTitle">Advisory Fees</div>
+    </div>
 
   </div>
 
 
-  <!-- NEW LEADS -->
-
-  <section
-    class="section"
-    id="newLeadsSection"
-  >
+  <section class="section" id="newLeadsSection">
 
     <div class="sectionHeading">
 
-      <h2>
-        🔥 New Leads
-      </h2>
+      <h2>🔥 New Leads</h2>
 
-      <span
-        class="badge"
-        id="leadCount"
-      >
-        0 New
+      <span class="badge" id="leadCount">
+        0
       </span>
 
     </div>
@@ -635,62 +566,96 @@ input{
   </section>
 
 
-  <!-- RECENT PAYMENTS -->
+  <section class="section">
+
+    <div class="sectionHeading">
+
+      <h2>📌 Workflow</h2>
+
+      <span class="badge">
+        Fixed Flow
+      </span>
+
+    </div>
+
+    <div class="card">
+
+      <div style="font-size:13px;line-height:1.9;color:#52635d">
+
+        <b>Free Consultation</b>
+        →
+        <b>Pending Consultation</b>
+        →
+        <b>Consultation Completed</b>
+        →
+        <b>Active Lead</b>
+        →
+        <b>Closed Lead</b>
+
+        <br>
+
+        <b>Verified ₹499 Paid Consultation</b>
+        →
+        <b>Consultation Completed</b>
+        →
+        <b>Active Lead</b>
+        →
+        <b>Closed Lead</b>
+
+        <br>
+
+        <span style="color:#08704d;font-weight:700">
+          ₹499 consultation fee is separate from Advisory Fees.
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
 
   <section class="section">
 
     <div class="sectionHeading">
 
-      <h2>
-        💳 Recent Payments
-      </h2>
+      <h2>💳 Recent Verified Consultation Payments</h2>
 
     </div>
 
-    <div
-      class="card"
-      id="paymentContainer"
-    ></div>
+    <div class="card" id="paymentContainer"></div>
 
   </section>
-
 
 </section>
 
 </main>
 
 
-<!-- ================================
-     PENDING CONSULTATION MODAL
-================================ -->
+<!-- STATUS MODAL -->
 
-<div
-  class="modal"
-  id="pendingModal"
->
+<div class="modal" id="statusModal">
 
   <div class="modalBox">
 
     <button
       class="close"
-      onclick="closePending()"
+      onclick="closeStatusModal()"
     >
       ✕
     </button>
 
-    <h2>
-      📅 Pending Consultations
+    <h2 id="statusModalTitle">
+      Leads
     </h2>
 
     <p
       class="small"
-      style="margin-top:5px"
-    >
-      Tap a customer to see all of their pending consultation details.
-    </p>
+      id="statusModalSubtitle"
+    ></p>
 
     <div
-      id="pendingCustomerList"
+      id="statusList"
       style="margin-top:18px"
     ></div>
 
@@ -699,14 +664,81 @@ input{
 </div>
 
 
-<!-- ================================
-     CUSTOMER FULL DETAILS MODAL
-================================ -->
+<!-- CONSULTATION REVENUE MODAL -->
 
-<div
-  class="modal"
-  id="customerModal"
->
+<div class="modal" id="revenueModal">
+
+  <div class="modalBox">
+
+    <button
+      class="close"
+      onclick="closeRevenueModal()"
+    >
+      ✕
+    </button>
+
+    <h2>
+      💳 Consultation Revenue
+    </h2>
+
+    <p class="small">
+      Only verified ₹499 consultation payments are counted here.
+      Advisory fees are excluded.
+    </p>
+
+    <div
+      class="revenueTotal"
+      id="revenueModalTotal"
+    >
+      ₹0
+    </div>
+
+    <div id="revenueList"></div>
+
+  </div>
+
+</div>
+
+
+<!-- ADVISORY FEES MODAL -->
+
+<div class="modal" id="advisoryModal">
+
+  <div class="modalBox">
+
+    <button
+      class="close"
+      onclick="closeAdvisoryModal()"
+    >
+      ✕
+    </button>
+
+    <h2>
+      💰 Advisory Fees
+    </h2>
+
+    <p class="small">
+      Only the separate <b>advisoryFee</b> field is counted.
+      The ₹499 consultation fee is never added here.
+    </p>
+
+    <div
+      class="revenueTotal"
+      id="advisoryModalTotal"
+    >
+      ₹0
+    </div>
+
+    <div id="advisoryList"></div>
+
+  </div>
+
+</div>
+
+
+<!-- CUSTOMER DETAIL MODAL -->
+
+<div class="modal" id="customerModal">
 
   <div class="modalBox">
 
@@ -716,7 +748,6 @@ input{
     >
       ✕
     </button>
-
 
     <h2 id="customerName">
       Customer
@@ -730,71 +761,32 @@ input{
 
     <div class="details">
 
-
       <div class="detail">
-
-        <label>
-          Mobile
-        </label>
-
+        <label>Mobile</label>
         <strong id="customerMobile"></strong>
-
       </div>
 
-
       <div class="detail">
-
-        <label>
-          Payment
-        </label>
-
+        <label>Payment</label>
         <strong id="customerPayment"></strong>
-
       </div>
 
-
       <div class="detail">
-
-        <label>
-          Problem / Concern
-        </label>
-
-        <strong id="customerProblem"></strong>
-
-      </div>
-
-
-      <div class="detail">
-
-        <label>
-          Booking Date
-        </label>
-
-        <strong id="customerDate"></strong>
-
-      </div>
-
-
-      <div class="detail">
-
-        <label>
-          Status
-        </label>
-
+        <label>Workflow Status</label>
         <strong id="customerStatus"></strong>
-
       </div>
 
+      <div class="detail">
+        <label>Created</label>
+        <strong id="customerDate"></strong>
+      </div>
 
     </div>
 
 
     <div class="message">
 
-      <b>
-        Customer Message
-      </b>
-
+      <b>Customer Message</b>
       <br>
 
       <span id="customerMessage"></span>
@@ -802,17 +794,48 @@ input{
     </div>
 
 
-    <!-- ALL FORM DATA -->
-
     <div style="margin-top:18px">
 
       <h3 style="font-size:16px;color:#063f32">
-
         📋 Complete Form Details
-
       </h3>
 
       <div id="completeFormDetails"></div>
+
+    </div>
+
+
+    <div class="feeBox">
+
+      <b>💰 Advisory Fee</b>
+
+      <div class="feeRow">
+
+        <div class="small">
+          Consultation ₹499 is separate and must not be entered here.
+        </div>
+
+        <input
+          id="advisoryFeeInput"
+          type="number"
+          min="0"
+          step="1"
+          placeholder="Advisory fee ₹"
+        >
+
+        <button
+          class="goldBtn"
+          id="saveAdvisoryFee"
+        >
+          Save
+        </button>
+
+      </div>
+
+      <div
+        class="note"
+        id="currentAdvisoryFee"
+      ></div>
 
     </div>
 
@@ -832,12 +855,36 @@ input{
       <button
         class="goldBtn"
         id="completeConsultation"
+        style="display:none"
       >
         ✅ Mark Consultation Done
       </button>
 
-    </div>
+      <button
+        class="goldBtn"
+        id="moveToActiveClient"
+        style="display:none"
+      >
+        👤 Move to Active Leads
+      </button>
 
+      <button
+        class="secondary"
+        id="moveToClosed"
+        style="display:none"
+      >
+        🔒 Move to Closed Lead
+      </button>
+
+      <button
+        class="secondary"
+        id="reopenLead"
+        style="display:none"
+      >
+        ↩️ Reopen to Active
+      </button>
+
+    </div>
 
   </div>
 
@@ -846,100 +893,52 @@ input{
 
 <script type="module">
 
-
-/* ================================
-   FIREBASE IMPORTS
-================================ */
-
-import {
+import{
   initializeApp
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 
 
-import {
-
+import{
   getAuth,
-
   onAuthStateChanged,
-
   RecaptchaVerifier,
-
   signInWithPhoneNumber,
-
   signOut
-
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
 
-import {
-
+import{
   getFirestore,
-
   collection,
-
   getDocs,
-
-  query,
-
-  orderBy,
-
   doc,
-
-  updateDoc
-
+  updateDoc,
+  serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 
-/* ================================
-   FIREBASE CONFIG
-================================ */
-
 const firebaseConfig={
-
-  apiKey:
-  "AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
-
-  authDomain:
-  "rinsaathi-app.firebaseapp.com",
-
-  projectId:
-  "rinsaathi-app",
-
-  storageBucket:
-  "rinsaathi-app.firebasestorage.app",
-
-  messagingSenderId:
-  "156758734237",
-
-  appId:
-  "1:156758734237:web:b2daa2fb6e43a7bc192b74"
-
+  apiKey:"AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
+  authDomain:"rinsaathi-app.firebaseapp.com",
+  projectId:"rinsaathi-app",
+  storageBucket:"rinsaathi-app.firebasestorage.app",
+  messagingSenderId:"156758734237",
+  appId:"1:156758734237:web:b2daa2fb6e43a7bc192b74"
 };
 
 
-/* ================================
-   INITIALIZE FIREBASE
-================================ */
+const app=initializeApp(firebaseConfig);
 
-const app =
-initializeApp(firebaseConfig);
+const auth=getAuth(app);
 
-const auth =
-getAuth(app);
+const db=getFirestore(app);
 
-const db =
-getFirestore(app);
-
-
-/* ================================
-   VARIABLES
-================================ */
 
 let confirmationResult=null;
 
@@ -948,134 +947,76 @@ let recaptcha=null;
 let leads=[];
 
 
-/* ================================
-   HELPER
-================================ */
-
-const $=
-id=>document.getElementById(id);
+const ADMIN_PHONE="+919319301096";
 
 
-/* ================================
-   LOGIN MESSAGE
-================================ */
+const $=id=>document.getElementById(id);
 
-function msg(
-  text,
-  type="success"
-){
+
+function msg(t,type="success"){
 
   $("loginMsg").className=type;
 
-  $("loginMsg").textContent=text;
+  $("loginMsg").textContent=t;
 
 }
 
-
-/* ================================
-   RECAPTCHA
-================================ */
 
 function setupRecaptcha(){
 
   if(recaptcha)return;
 
-  recaptcha=
-    new RecaptchaVerifier(
-
-      auth,
-
-      "recaptcha-container",
-
-      {
-        size:"invisible"
-      }
-
-    );
+  recaptcha=new RecaptchaVerifier(
+    auth,
+    "recaptcha-container",
+    {
+      size:"invisible"
+    }
+  );
 
 }
 
 
-/* ================================
-   SEND OTP
-   FIXED PHONE VALIDATION
-================================ */
+function normalizePhone(v){
+
+  let d=String(v||"").replace(/\D/g,"");
+
+  if(
+    d.length===12 &&
+    d.startsWith("91")
+  ){
+    d=d.slice(2);
+  }
+
+  return /^[6-9]\d{9}$/.test(d)
+    ? "+91"+d
+    : null;
+
+}
+
 
 $("sendOtp").onclick=async()=>{
+
+  const phone=
+    normalizePhone(
+      $("phone").value
+    );
+
+  if(phone!==ADMIN_PHONE){
+
+    msg(
+      "Only the authorized RinSaathi Admin mobile number can login.",
+      "error"
+    );
+
+    return;
+
+  }
+
 
   try{
 
     setupRecaptcha();
-
-
-    /*
-      Accept both:
-
-      9319301096
-
-      and
-
-      +919319301096
-    */
-
-    const rawPhone=
-      $("phone").value.trim();
-
-
-    let digits=
-      rawPhone.replace(/\D/g,"");
-
-
-    /*
-      If user enters 12 digits
-      starting with 91,
-      remove country code.
-    */
-
-    if(
-      digits.length===12 &&
-      digits.startsWith("91")
-    ){
-
-      digits=
-        digits.substring(2);
-
-    }
-
-
-    /*
-      Validate Indian
-      10-digit mobile number.
-    */
-
-    if(
-      !/^[6-9]\d{9}$/.test(digits)
-    ){
-
-      msg(
-        "Please enter a valid 10-digit Indian mobile number.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    /*
-      Firebase always receives
-      +91XXXXXXXXXX
-    */
-
-    const phone=
-      "+91"+digits;
-
-
-    msg(
-      "Sending OTP...",
-      "success"
-    );
-
 
     confirmationResult=
       await signInWithPhoneNumber(
@@ -1084,39 +1025,28 @@ $("sendOtp").onclick=async()=>{
         recaptcha
       );
 
-
     $("otpArea")
       .classList
       .remove("hidden");
 
-
     msg(
-      "OTP sent to "+phone,
-      "success"
+      "OTP sent to "+phone
     );
-
 
   }catch(e){
 
     console.error(e);
 
-
     msg(
-      "OTP could not be sent. Check the number and Firebase Phone Authentication settings.",
+      "OTP could not be sent. Check Firebase Phone Authentication settings.",
       "error"
     );
 
-
     try{
-
-      if(recaptcha)
-        recaptcha.clear();
-
+      recaptcha?.clear();
     }catch(_){}
 
-
     recaptcha=null;
-
 
     setTimeout(
       setupRecaptcha,
@@ -1128,30 +1058,18 @@ $("sendOtp").onclick=async()=>{
 };
 
 
-/* ================================
-   VERIFY OTP
-================================ */
-
 $("verifyOtp").onclick=async()=>{
 
   try{
 
-    if(!confirmationResult){
-
-      msg(
-        "Please request OTP first.",
-        "error"
-      );
-
-      return;
-
-    }
-
+    if(!confirmationResult)
+      throw new Error("NO_OTP");
 
     await confirmationResult.confirm(
       $("otp").value.trim()
     );
 
+    confirmationResult=null;
 
   }catch(e){
 
@@ -1167,29 +1085,17 @@ $("verifyOtp").onclick=async()=>{
 };
 
 
-/* ================================
-   LOGOUT
-================================ */
-
 $("logout").onclick=
-()=>signOut(auth);
+  ()=>signOut(auth);
 
-
-/* ================================
-   REFRESH
-================================ */
 
 $("refresh").onclick=
-loadLeads;
+  loadLeads;
 
-
-/* ================================
-   AUTH STATE
-================================ */
 
 onAuthStateChanged(
   auth,
-  async(user)=>{
+  async user=>{
 
     if(!user){
 
@@ -1206,21 +1112,11 @@ onAuthStateChanged(
     }
 
 
-    const phone=
-      user.phoneNumber||"";
-
-
-    /*
-      ONLY THIS ADMIN NUMBER
-      IS AUTHORIZED.
-    */
-
     if(
-      phone!=="+919319301096"
+      user.phoneNumber!==ADMIN_PHONE
     ){
 
       await signOut(auth);
-
 
       msg(
         "This number is not authorized as the RinSaathi Admin.",
@@ -1236,7 +1132,6 @@ onAuthStateChanged(
       .classList
       .add("hidden");
 
-
     $("dashboard")
       .classList
       .remove("hidden");
@@ -1248,54 +1143,43 @@ onAuthStateChanged(
 );
 
 
-/* ================================
-   LOAD LEADS
-================================ */
-
 async function loadLeads(){
 
   try{
 
-    const q=
-      query(
+    const snap=
+      await getDocs(
         collection(
           db,
           "leads"
-        ),
-
-        orderBy(
-          "createdAt",
-          "desc"
         )
       );
-
-
-    const snap=
-      await getDocs(q);
 
 
     leads=
       snap.docs.map(
         d=>({
-
           id:d.id,
-
           ...d.data()
-
         })
       );
 
 
-    render();
+    leads.sort(
+      (a,b)=>
+        dateMs(b.createdAt)-
+        dateMs(a.createdAt)
+    );
 
+
+    render();
 
   }catch(e){
 
     console.error(e);
 
-
     alert(
-      "Could not load leads. Check Firestore Rules."
+      "Could not load leads. Check Firestore Rules and Admin authorization."
     );
 
   }
@@ -1303,538 +1187,860 @@ async function loadLeads(){
 }
 
 
-/* ================================
-   RENDER DASHBOARD
-================================ */
+function dateMs(v){
+
+  if(v?.toDate)
+    return v.toDate().getTime();
+
+  if(v instanceof Date)
+    return v.getTime();
+
+  const n=Date.parse(v);
+
+  return Number.isNaN(n)
+    ? 0
+    : n;
+
+}
+
+
+function isPaidConsultation(l){
+
+  return(
+    Number(l.amount||0)===499 &&
+    String(
+      l.paymentStatus||""
+    ).toUpperCase()==="VERIFIED"
+  );
+
+}
+
+
+function isFreeConsultation(l){
+
+  return(
+    l.freeConsultation===true ||
+    String(
+      l.payment||""
+    ).toUpperCase()==="FREE"
+  );
+
+}
+
+
+function stageOf(l){
+
+  const stored=
+    l.status||"New Lead";
+
+
+  if(
+    stored==="Closed Lead"
+  )
+    return "Closed Lead";
+
+
+  if(
+    stored==="Active Advisory Client"
+  )
+    return "Active Advisory Client";
+
+
+  if(
+    isPaidConsultation(l)
+  )
+    return "Consultation Completed";
+
+
+  if(
+    stored==="Consultation Completed"
+  )
+    return "Consultation Completed";
+
+
+  if(
+    isFreeConsultation(l)
+  )
+    return "Pending Consultation";
+
+
+  return stored;
+
+}
+
+
+function stageLabel(s){
+
+  return(
+    s==="Active Advisory Client"
+      ? "Active Lead"
+      : s
+  );
+
+}
+
+
+function esc(v){
+
+  return String(v??"")
+    .replace(
+      /[&<>"']/g,
+      c=>({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[c])
+    );
+
+}
+
+
+function formatDate(v){
+
+  if(v?.toDate){
+
+    return v
+      .toDate()
+      .toLocaleString(
+        "en-IN",
+        {
+          dateStyle:"medium",
+          timeStyle:"short"
+        }
+      );
+
+  }
+
+
+  if(v instanceof Date){
+
+    return v.toLocaleString(
+      "en-IN",
+      {
+        dateStyle:"medium",
+        timeStyle:"short"
+      }
+    );
+
+  }
+
+
+  if(v){
+
+    return new Date(v)
+      .toLocaleString(
+        "en-IN",
+        {
+          dateStyle:"medium",
+          timeStyle:"short"
+        }
+      );
+
+  }
+
+
+  return "Not available";
+
+}
+
+
+function prettyLabel(k){
+
+  return String(k)
+    .replace(
+      /([A-Z])/g,
+      " $1"
+    )
+    .replace(
+      /[_-]/g,
+      " "
+    )
+    .replace(
+      /\s+/g,
+      " "
+    )
+    .trim()
+    .replace(
+      /^./,
+      c=>c.toUpperCase()
+    );
+
+}
+
+
+function consultationRecords(){
+
+  return leads.filter(
+    isPaidConsultation
+  );
+
+}
+
+
+function advisoryRecords(){
+
+  return leads.filter(
+    l=>
+      Number(
+        l.advisoryFee||0
+      )>0
+  );
+
+}
+
 
 function render(){
 
-  let revenue=0;
-
-  let newCount=0;
-
-  let pending=0;
-
-  let clients=0;
+  const counts={
+    "New Lead":0,
+    "Pending Consultation":0,
+    "Consultation Completed":0,
+    "Active Advisory Client":0,
+    "Closed Lead":0
+  };
 
 
   leads.forEach(l=>{
 
-
-    /* REVENUE */
-
-    if(
-      l.payment==="PAID"
-    ){
-
-      revenue+=
-        Number(
-          l.amount||0
-        );
-
-    }
-
-
-    /* NEW LEADS */
+    const s=stageOf(l);
 
     if(
-      l.status==="New Lead"
+      counts[s]!==undefined
     ){
-
-      newCount++;
-
-    }
-
-
-    /* PENDING */
-
-    if(
-      l.status!=="Consultation Completed"
-    ){
-
-      pending++;
-
-    }
-
-
-    /* ACTIVE CLIENTS */
-
-    if(
-      l.status==="Active Advisory Client"
-    ){
-
-      clients++;
-
+      counts[s]++;
     }
 
   });
 
 
-  $("revenue")
-    .textContent=
+  const revenue=
+    consultationRecords()
+      .reduce(
+        (s,l)=>s+499,
+        0
+      );
+
+
+  const advisory=
+    advisoryRecords()
+      .reduce(
+        (s,l)=>
+          s+
+          Number(
+            l.advisoryFee||0
+          ),
+        0
+      );
+
+
+  $("newLeads").textContent=
+    counts["New Lead"];
+
+
+  $("pending").textContent=
+    counts["Pending Consultation"];
+
+
+  $("completed").textContent=
+    counts["Consultation Completed"];
+
+
+  $("clients").textContent=
+    counts["Active Advisory Client"];
+
+
+  $("closedLeads").textContent=
+    counts["Closed Lead"];
+
+
+  $("revenue").textContent=
     "₹"+
     revenue.toLocaleString(
       "en-IN"
     );
 
 
-  $("newLeads")
-    .textContent=
-    newCount;
+  $("advisoryRevenue").textContent=
+    "₹"+
+    advisory.toLocaleString(
+      "en-IN"
+    );
 
 
-  $("pending")
-    .textContent=
-    pending;
+  const newLeads=
+    leads.filter(
+      l=>
+        stageOf(l)==="New Lead"
+    );
 
 
-  $("clients")
-    .textContent=
-    clients;
+  $("leadCount").textContent=
+    newLeads.length+
+    " New";
 
-
-  $("leadCount")
-    .textContent=
-    newCount+" New";
-
-
-  /* ================================
-     LEAD CONTAINER
-  ================================= */
 
   $("leadContainer").innerHTML=
-
-    leads.length
-
-    ?
-
-    leads.map(l=>`
-
-      <div class="card lead">
-
-        <div>
-
-          <div class="name">
-
-            ${esc(
-              l.name||"Customer"
-            )}
-
-          </div>
-
-          <div class="small">
-
-            ${esc(
-              l.service||""
-            )}
-
-          </div>
-
-        </div>
+    newLeads.length
+      ?
+        newLeads
+          .map(
+            l=>leadCard(l)
+          )
+          .join("")
+      :
+        '<div class="card empty">No new leads right now.</div>';
 
 
-        <div>
+  const pays=
+    consultationRecords()
+      .slice(0,10);
 
-          <div
-            class="${
-              l.payment==="PAID"
-              ?"paid"
-              :"pendingPay"
-            }"
-          >
-
-            ₹${
-              Number(
-                l.amount||0
-              ).toLocaleString("en-IN")
-            }
-
-            • ${
-              esc(
-                l.payment||"PENDING"
-              )
-            }
-
-            ${
-              l.payment==="PAID"
-              ?"✅"
-              :""
-            }
-
-          </div>
-
-
-          <div class="small">
-
-            ${formatDate(
-              l.createdAt
-            )}
-
-          </div>
-
-        </div>
-
-
-        <div>
-
-          <span class="status">
-
-            ${esc(
-              l.status||"New Lead"
-            )}
-
-          </span>
-
-
-          <div class="small">
-
-            ${esc(
-              l.problem||""
-            )}
-
-          </div>
-
-        </div>
-
-
-        <div>
-
-          <button
-            class="primary"
-            onclick="openCustomer('${l.id}')"
-          >
-
-            View Details
-
-          </button>
-
-        </div>
-
-
-      </div>
-
-    `).join("")
-
-
-    :
-
-    `<div class="card">
-
-      No leads yet.
-      A customer enquiry will appear here automatically.
-
-    </div>`;
-
-
-  /* ================================
-     PAYMENT CONTAINER
-  ================================= */
 
   $("paymentContainer").innerHTML=
+    pays.length
+      ?
+        pays
+          .map(
+            l=>`
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #edf1ef">
 
-    leads.length
+                <div>
 
-    ?
+                  <strong>
+                    ${esc(l.name||"Customer")}
+                  </strong>
 
-    leads.map(l=>`
+                  <div class="small">
+                    ${esc(l.mobile||l.authPhone||"")}
+                    •
+                    ${formatDate(l.createdAt)}
+                  </div>
 
-      <div
-        style="
-          display:flex;
-          justify-content:space-between;
-          gap:12px;
-          padding:13px 0;
-          border-bottom:1px solid #edf1ef
-        "
-      >
+                </div>
 
-        <div>
+                <div class="paid">
+                  ₹499 ✅
+                </div>
 
-          <strong>
-
-            ${esc(
-              l.name||"Customer"
-            )}
-
-          </strong>
-
-          <div class="small">
-
-            ${formatDate(
-              l.createdAt
-            )}
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="${
-            l.payment==="PAID"
-            ?"paid"
-            :"pendingPay"
-          }"
-        >
-
-          ₹${
-            Number(
-              l.amount||0
-            ).toLocaleString("en-IN")
-          }
-
-          ${
-            l.payment==="PAID"
-            ?"✅"
-            :"⏳"
-          }
-
-        </div>
-
-
-      </div>
-
-    `).join("")
-
-
-    :
-
-    `<div class="small">
-
-      No payments recorded yet.
-
-    </div>`;
+              </div>
+            `
+          )
+          .join("")
+      :
+        '<div class="small">No verified ₹499 consultation payments yet.</div>';
 
 }
 
 
-/* ================================
-   PENDING CONSULTATIONS
-================================ */
+function leadCard(l){
 
-window.openPendingConsultations=
-function(){
+  const s=stageOf(l);
 
-  const pendingLeads=
-    leads.filter(
-      l=>
-        l.status!=="Consultation Completed"
-    );
+  const paid=
+    isPaidConsultation(l);
 
 
-  const groups={};
+  return`
+    <div class="card lead">
 
+      <div>
 
-  pendingLeads.forEach(l=>{
+        <div class="name">
+          ${esc(l.name||"Customer")}
+        </div>
 
-    const phone=
-      (l.mobile||"")
-      .replace(/\D/g,"");
-
-
-    const key=
-      (
-        phone||
-        l.name||
-        "unknown"
-      ).toLowerCase();
-
-
-    if(!groups[key]){
-
-      groups[key]={
-
-        name:
-          l.name||"Customer",
-
-        mobile:
-          (
+        <div class="small">
+          ${esc(l.service||"")}
+          •
+          ${esc(
             l.mobile||
             l.phone||
             l.authPhone||
             ""
-          ),
+          )}
+        </div>
 
-        leads:[]
-
-      };
-
-    }
+      </div>
 
 
-    groups[key]
-      .leads
-      .push(l);
+      <div>
 
-  });
+        <div
+          class="${paid?"paid":"pendingPay"}"
+        >
 
-
-  const customers=
-    Object.values(groups);
-
-
-  if(!customers.length){
-
-    $("pendingCustomerList")
-      .innerHTML=`
-
-        <div class="pendingEmpty">
-
-          ✅ No pending consultations right now.
+          ${
+            paid
+              ?
+                "₹499 • VERIFIED ✅"
+              :
+                (
+                  Number(l.amount||0)>0
+                    ?
+                      "₹"+
+                      Number(l.amount)
+                        .toLocaleString("en-IN")+
+                      " • "+
+                      esc(
+                        l.payment||
+                        "PENDING"
+                      )
+                    :
+                      "FREE Consultation"
+                )
+          }
 
         </div>
 
-      `;
 
-  }else{
+        <div class="small">
+          ${formatDate(l.createdAt)}
+        </div>
 
-    $("pendingCustomerList")
-      .innerHTML=
-
-      customers.map(
-        (c,index)=>`
-
-          <div class="pendingCustomer">
-
-            <div class="pendingCustomerTop">
-
-              <div>
-
-                <div
-                  class="pendingCustomerName"
-                >
-
-                  ${esc(c.name)}
-
-                </div>
+      </div>
 
 
-                <div
-                  class="pendingCustomerPhone"
-                >
+      <div>
 
-                  ${
-                    esc(
-                      c.mobile||
-                      "Mobile not available"
-                    )
-                  }
+        <span class="status">
+          ${esc(
+            stageLabel(s)
+          )}
+        </span>
 
-                </div>
+        <div class="small">
+          ${esc(
+            l.message||
+            l.problem||
+            ""
+          )}
+        </div>
 
-              </div>
-
-
-              <div class="pendingCount">
-
-                ${c.leads.length}
-
-                ${
-                  c.leads.length===1
-                  ?"Lead"
-                  :"Leads"
-                }
-
-              </div>
+      </div>
 
 
-            </div>
+      <div>
+
+        <button
+          class="primary"
+          onclick="openCustomer('${esc(l.id)}')"
+        >
+          View Details
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+}
 
 
-            <div
-              style="margin-top:12px"
-            >
+window.showStatusStage=
+function(status){
 
-              ${
-                c.leads.map(
-                  l=>`
-
-                    <div
-                      style="
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                        gap:10px;
-                        padding:10px 0;
-                        border-top:1px solid #e6ece9;
-                      "
-                    >
-
-                      <div>
-
-                        <b
-                          style="font-size:13px"
-                        >
-
-                          ${esc(
-                            l.service||
-                            "Consultation"
-                          )}
-
-                        </b>
+  const list=
+    leads.filter(
+      l=>
+        stageOf(l)===status
+    );
 
 
-                        <div class="small">
-
-                          ${formatDate(
-                            l.createdAt
-                          )}
-
-                        </div>
-
-                      </div>
+  $("statusModalTitle")
+    .textContent=
+      stageLabel(status);
 
 
-                      <button
-                        class="primary"
-                        onclick="openCustomer('${l.id}')"
-                      >
+  $("statusModalSubtitle")
+    .textContent=
+      status==="Pending Consultation"
+        ?
+          "Only customers who used the one-time free consultation appear here."
+        :
+      status==="Consultation Completed"
+        ?
+          "Verified ₹499 consultations come directly here; completed free consultations also appear here."
+        :
+          "Open a customer to see the complete form and available action.";
 
-                        Open
 
-                      </button>
+  $("statusList").innerHTML=
+    list.length
+      ?
+        list
+          .map(
+            l=>`
 
+              <div class="listItem">
+
+                <div class="listTop">
+
+                  <div>
+
+                    <div class="listName">
+                      ${esc(
+                        l.name||
+                        "Customer"
+                      )}
                     </div>
 
-                  `
-                ).join("")
-              }
+                    <div class="listMeta">
+                      ${esc(
+                        l.mobile||
+                        l.authPhone||
+                        "Mobile not available"
+                      )}
+                      •
+                      ${formatDate(
+                        l.createdAt
+                      )}
+                    </div>
 
-            </div>
+                  </div>
 
 
-          </div>
+                  <span class="status">
+                    ${esc(
+                      stageLabel(
+                        stageOf(l)
+                      )
+                    )}
+                  </span>
 
+                </div>
+
+
+                <div
+                  class="small"
+                  style="margin-top:10px"
+                >
+                  ${esc(
+                    l.service||""
+                  )}
+                </div>
+
+
+                <div class="small">
+
+                  ${esc(
+                    l.message||
+                    l.problem||
+                    "No concern provided."
+                  )}
+
+                </div>
+
+
+                <div
+                  class="actions"
+                  style="margin-top:10px"
+                >
+
+                  <button
+                    class="primary"
+                    onclick="openCustomer('${esc(l.id)}');closeStatusModal()"
+                  >
+                    View Complete Form
+                  </button>
+
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("")
+      :
         `
-      ).join("");
+          <div class="empty">
+            No customers in
+            ${esc(
+              stageLabel(status)
+            )}.
+          </div>
+        `;
 
-  }
 
-
-  $("pendingModal")
+  $("statusModal")
     .classList
     .add("active");
 
 };
 
 
-/* ================================
-   CLOSE PENDING
-================================ */
+window.closeStatusModal=
+()=>{
 
-window.closePending=
-function(){
-
-  $("pendingModal")
+  $("statusModal")
     .classList
     .remove("active");
 
 };
 
 
-/* ================================
-   CUSTOMER FULL DETAILS
-================================ */
+window.openConsultationRevenue=
+function(){
+
+  const records=
+    consultationRecords();
+
+
+  const groups={};
+
+
+  records.forEach(l=>{
+
+    const key=
+      l.mobile||
+      l.authPhone||
+      l.name||
+      l.id;
+
+
+    if(!groups[key]){
+
+      groups[key]={
+        name:l.name||"Customer",
+        mobile:
+          l.mobile||
+          l.authPhone||
+          "",
+        count:0,
+        total:0,
+        latest:l.createdAt
+      };
+
+    }
+
+
+    groups[key].count++;
+
+
+    groups[key].total+=499;
+
+
+    if(
+      dateMs(l.createdAt)>
+      dateMs(groups[key].latest)
+    ){
+
+      groups[key].latest=
+        l.createdAt;
+
+    }
+
+  });
+
+
+  const arr=
+    Object.values(groups)
+      .sort(
+        (a,b)=>
+          dateMs(b.latest)-
+          dateMs(a.latest)
+      );
+
+
+  const total=
+    records.length*499;
+
+
+  $("revenueModalTotal")
+    .textContent=
+      "₹"+
+      total.toLocaleString(
+        "en-IN"
+      );
+
+
+  $("revenueList").innerHTML=
+    arr.length
+      ?
+        arr
+          .map(
+            g=>`
+
+              <div class="listItem">
+
+                <div class="listTop">
+
+                  <div>
+
+                    <div class="listName">
+                      ${esc(g.name)}
+                    </div>
+
+                    <div class="listMeta">
+                      ${esc(g.mobile)}
+                    </div>
+
+                  </div>
+
+
+                  <b class="paid">
+                    ₹${g.total.toLocaleString("en-IN")}
+                  </b>
+
+                </div>
+
+
+                <div class="small">
+
+                  ${g.count}
+                  verified consultation payment
+                  ${g.count>1?"s":""}
+
+                  • Latest:
+                  ${formatDate(g.latest)}
+
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("")
+      :
+        `
+          <div class="empty">
+            No verified ₹499 consultation payments yet.
+          </div>
+        `;
+
+
+  $("revenueModal")
+    .classList
+    .add("active");
+
+};
+
+
+window.closeRevenueModal=
+()=>{
+
+  $("revenueModal")
+    .classList
+    .remove("active");
+
+};
+
+
+window.openAdvisoryRevenue=
+function(){
+
+  const records=
+    advisoryRecords();
+
+
+  const total=
+    records.reduce(
+      (s,l)=>
+        s+
+        Number(
+          l.advisoryFee||0
+        ),
+      0
+    );
+
+
+  $("advisoryModalTotal")
+    .textContent=
+      "₹"+
+      total.toLocaleString(
+        "en-IN"
+      );
+
+
+  $("advisoryList").innerHTML=
+    records.length
+      ?
+        records
+          .map(
+            l=>`
+
+              <div class="listItem">
+
+                <div class="listTop">
+
+                  <div>
+
+                    <div class="listName">
+                      ${esc(
+                        l.name||
+                        "Customer"
+                      )}
+                    </div>
+
+                    <div class="listMeta">
+
+                      ${esc(
+                        l.mobile||
+                        l.authPhone||
+                        ""
+                      )}
+
+                      •
+                      ${esc(
+                        l.service||
+                        ""
+                      )}
+
+                    </div>
+
+                  </div>
+
+
+                  <b class="paid">
+                    ₹${Number(
+                      l.advisoryFee
+                    ).toLocaleString(
+                      "en-IN"
+                    )}
+                  </b>
+
+                </div>
+
+
+                <div class="small">
+
+                  ${formatDate(
+                    l.updatedAt||
+                    l.createdAt
+                  )}
+
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("")
+      :
+        `
+          <div class="empty">
+            No advisory fees recorded yet.
+          </div>
+        `;
+
+
+  $("advisoryModal")
+    .classList
+    .add("active");
+
+};
+
+
+window.closeAdvisoryModal=
+()=>{
+
+  $("advisoryModal")
+    .classList
+    .remove("active");
+
+};
+
 
 window.openCustomer=
 function(id){
@@ -1850,232 +2056,347 @@ function(id){
 
   $("customerName")
     .textContent=
-    l.name||"Customer";
+      l.name||
+      "Customer";
 
 
   $("customerService")
     .textContent=
-    l.service||"";
+      l.service||
+      "";
 
 
   $("customerMobile")
     .textContent=
-    (
       l.mobile||
       l.phone||
       l.authPhone||
-      "Not provided"
-    );
+      "Not provided";
 
 
   $("customerPayment")
     .textContent=
-    "₹"+
-    Number(
-      l.amount||0
-    ).toLocaleString("en-IN")
-    +" — "+
-    (
-      l.payment||
-      "PENDING"
-    );
-
-
-  $("customerProblem")
-    .textContent=
-    l.problem||
-    "Not provided";
-
-
-  $("customerDate")
-    .textContent=
-    formatDate(
-      l.createdAt
-    );
+      isPaidConsultation(l)
+        ?
+          "₹499 — VERIFIED"
+        :
+          (
+            l.payment||
+            "FREE"
+          );
 
 
   $("customerStatus")
     .textContent=
-    l.status||
-    "New Lead";
+      stageLabel(
+        stageOf(l)
+      );
+
+
+  $("customerDate")
+    .textContent=
+      formatDate(
+        l.createdAt
+      );
 
 
   $("customerMessage")
     .textContent=
-    l.message||
-    l.problem||
-    "Not provided";
+      l.message||
+      l.problem||
+      "Not provided";
 
-
-  /* ================================
-     SHOW EVERY FORM FIELD
-  ================================= */
 
   const ignored=[
-
-    "name",
-
-    "mobile",
-
-    "service",
-
-    "amount",
-
-    "payment",
-
-    "problem",
-
-    "status",
-
-    "source",
-
+    "id",
     "createdAt",
-
-    "updatedAt"
-
+    "updatedAt",
+    "advisoryFee"
   ];
 
 
-  const fields=
+  const flat=[];
 
-    Object.keys(l)
 
-      .filter(
-        k=>
-          !ignored.includes(k) &&
-          k!=="id"
-      )
+  function flatten(v,label){
 
-      .filter(
-        k=>
-          l[k]!==undefined &&
-          l[k]!==null &&
-          String(l[k]).trim()!==""
+    if(
+      v===undefined||
+      v===null||
+      v===""
+    )
+      return;
+
+
+    if(v?.toDate){
+
+      flat.push([
+        label,
+        v.toDate()
+          .toLocaleString(
+            "en-IN"
+          )
+      ]);
+
+      return;
+
+    }
+
+
+    if(Array.isArray(v)){
+
+      v.forEach(
+        (x,i)=>
+          flatten(
+            x,
+            label+
+            " "+
+            (i+1)
+          )
       );
+
+      return;
+
+    }
+
+
+    if(typeof v==="object"){
+
+      Object.keys(v)
+        .forEach(
+          k=>
+            flatten(
+              v[k],
+              label+
+              " • "+
+              prettyLabel(k)
+            )
+        );
+
+      return;
+
+    }
+
+
+    flat.push([
+      label,
+      String(v)
+    ]);
+
+  }
+
+
+  Object.keys(l)
+    .forEach(
+      k=>{
+
+        if(
+          !ignored.includes(k)
+        ){
+
+          flatten(
+            l[k],
+            prettyLabel(k)
+          );
+
+        }
+
+      }
+    );
 
 
   $("completeFormDetails")
     .innerHTML=
+      flat.length
+        ?
+          `
+            <div class="fieldGrid">
 
-    fields.length
+              ${flat
+                .map(
+                  ([a,b])=>
+                    `
+                      <div class="field">
 
-    ?
+                        <label>
+                          ${esc(a)}
+                        </label>
 
-    `<div class="fieldGrid">`
+                        <div>
+                          ${esc(b)}
+                        </div>
 
-    +
+                      </div>
+                    `
+                )
+                .join("")}
 
-    fields.map(k=>`
-
-      <div class="field">
-
-        <label>
-
-          ${esc(
-            prettyLabel(k)
-          )}
-
-        </label>
-
-        <div>
-
-          ${esc(
-            formatValue(l[k])
-          )}
-
-        </div>
-
-      </div>
-
-    `).join("")
-
-    +
-
-    `</div>`
-
-    :
-
-    `<div
-      class="small"
-      style="margin-top:10px"
-    >
-
-      No additional form fields were saved for this lead.
-
-    </div>`;
+            </div>
+          `
+        :
+          `
+            <div
+              class="small"
+              style="margin-top:10px"
+            >
+              No additional form data was saved.
+            </div>
+          `;
 
 
-  /* ================================
-     CALL CUSTOMER
-  ================================= */
+  $("advisoryFeeInput")
+    .value=
+      l.advisoryFee??
+      "";
 
-  $("callCustomer").onclick=()=>{
 
-    if(
-      l.mobile||
-      l.phone||
-      l.authPhone
-    ){
+  $("currentAdvisoryFee")
+    .textContent=
+      l.advisoryFee
+        ?
+          "Current Advisory Fee: ₹"+
+          Number(
+            l.advisoryFee
+          ).toLocaleString(
+            "en-IN"
+          )
+        :
+          "No advisory fee recorded.";
 
-      location.href=
-        "tel:"+
-        String(
+
+  $("saveAdvisoryFee")
+    .onclick=
+      ()=>saveAdvisoryFee(
+        l.id
+      );
+
+
+  $("callCustomer")
+    .onclick=
+      ()=>{
+
+        const p=
           l.mobile||
           l.phone||
-          l.authPhone
-        )
-        .replace(/\s/g,"");
-
-    }
-
-  };
+          l.authPhone;
 
 
-  /* ================================
-     COMPLETE CONSULTATION
-  ================================= */
+        if(p){
 
-  $("completeConsultation").onclick=
-  async()=>{
-
-    try{
-
-      await updateDoc(
-
-        doc(
-          db,
-          "leads",
-          l.id
-        ),
-
-        {
-
-          status:
-            "Consultation Completed"
+          location.href=
+            "tel:"+
+            String(p)
+              .replace(
+                /\s/g,
+                ""
+              );
 
         }
 
-      );
+      };
 
 
-      closeCustomer();
+  [
+    "completeConsultation",
+    "moveToActiveClient",
+    "moveToClosed",
+    "reopenLead"
+  ]
+  .forEach(
+    id=>{
 
+      $(id).style.display=
+        "none";
 
-      await loadLeads();
-
-
-    }catch(e){
-
-      console.error(e);
-
-
-      alert(
-        "Could not update consultation status. Please try again."
-      );
+      $(id).onclick=
+        null;
 
     }
+  );
 
-  };
+
+  const s=
+    stageOf(l);
+
+
+  if(
+    s==="Pending Consultation"
+  ){
+
+    $("completeConsultation")
+      .style
+      .display=
+        "inline-block";
+
+
+    $("completeConsultation")
+      .onclick=
+        ()=>changeStatus(
+          l.id,
+          "Consultation Completed"
+        );
+
+  }
+
+
+  else if(
+    s==="Consultation Completed"
+  ){
+
+    $("moveToActiveClient")
+      .style
+      .display=
+        "inline-block";
+
+
+    $("moveToActiveClient")
+      .onclick=
+        ()=>changeStatus(
+          l.id,
+          "Active Advisory Client"
+        );
+
+  }
+
+
+  else if(
+    s==="Active Advisory Client"
+  ){
+
+    $("moveToClosed")
+      .style
+      .display=
+        "inline-block";
+
+
+    $("moveToClosed")
+      .onclick=
+        ()=>changeStatus(
+          l.id,
+          "Closed Lead"
+        );
+
+  }
+
+
+  else if(
+    s==="Closed Lead"
+  ){
+
+    $("reopenLead")
+      .style
+      .display=
+        "inline-block";
+
+
+    $("reopenLead")
+      .onclick=
+        ()=>changeStatus(
+          l.id,
+          "Active Advisory Client"
+        );
+
+  }
 
 
   $("customerModal")
@@ -2085,12 +2406,164 @@ function(id){
 };
 
 
-/* ================================
-   CLOSE CUSTOMER
-================================ */
+async function saveAdvisoryFee(id){
+
+  const raw=
+    $("advisoryFeeInput")
+      .value
+      .trim();
+
+
+  if(
+    raw!=="" &&
+    (
+      !Number.isFinite(
+        Number(raw)
+      ) ||
+      Number(raw)<0
+    )
+  ){
+
+    alert(
+      "Please enter a valid advisory fee."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "leads",
+        id
+      ),
+      {
+        advisoryFee:
+          raw===""
+            ? 0
+            : Number(raw),
+
+        updatedAt:
+          serverTimestamp()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    openCustomer(id);
+
+
+    alert(
+      "Advisory fee saved successfully."
+    );
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not save advisory fee. Please try again."
+    );
+
+  }
+
+}
+
+
+async function changeStatus(id,to){
+
+  const l=
+    leads.find(
+      x=>x.id===id
+    );
+
+
+  if(!l)return;
+
+
+  const from=
+    stageOf(l);
+
+
+  const allowed={
+    "New Lead":[
+      "Pending Consultation"
+    ],
+
+    "Pending Consultation":[
+      "Consultation Completed"
+    ],
+
+    "Consultation Completed":[
+      "Active Advisory Client"
+    ],
+
+    "Active Advisory Client":[
+      "Closed Lead"
+    ],
+
+    "Closed Lead":[
+      "Active Advisory Client"
+    ]
+  };
+
+
+  if(
+    !(allowed[from]||[])
+      .includes(to)
+  ){
+
+    alert(
+      "This workflow movement is not allowed."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "leads",
+        id
+      ),
+      {
+        status:to,
+        updatedAt:
+          serverTimestamp()
+      }
+    );
+
+
+    await loadLeads();
+
+
+    openCustomer(id);
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "Could not update the lead status. Please try again."
+    );
+
+  }
+
+}
+
 
 window.closeCustomer=
-function(){
+()=>{
 
   $("customerModal")
     .classList
@@ -2099,294 +2572,20 @@ function(){
 };
 
 
-/* ================================
-   FORMAT DATE
-================================ */
-
-function formatDate(ts){
-
-  if(ts?.toDate){
-
-    return ts
-      .toDate()
-      .toLocaleString(
-        "en-IN",
-        {
-          dateStyle:"medium",
-          timeStyle:"short"
-        }
-      );
-
-  }
-
-
-  return "Just now";
-
-}
-
-
-/* ================================
-   PRETTY LABEL
-================================ */
-
-function prettyLabel(key){
-
-  return String(key)
-
-    .replace(
-      /([A-Z])/g,
-      " $1"
-    )
-
-    .replace(
-      /[_-]/g,
-      " "
-    )
-
-    .replace(
-      /\s+/g,
-      " "
-    )
-
-    .trim()
-
-    .replace(
-      /^./,
-      c=>c.toUpperCase()
-    );
-
-}
-
-
-/* ================================
-   FORMAT VALUE
-================================ */
-
-function formatValue(value){
-
-  if(value?.toDate){
-
-    return value
-      .toDate()
-      .toLocaleString(
-        "en-IN"
-      );
-
-  }
-
-
-  if(Array.isArray(value)){
-
-    return value.join(", ");
-
-  }
-
-
-  if(typeof value==="object"){
-
-    try{
-
-      return JSON.stringify(
-        value
-      );
-
-    }catch(_){
-
-      return String(value);
-
-    }
-
-  }
-
-
-  return String(value);
-
-}
-
-
-/* ================================
-   ESCAPE HTML
-================================ */
-
-function esc(v){
-
-  return String(v??"")
-
-    .replace(
-      /[&<>"']/g,
-      c=>({
-
-        "&":"&amp;",
-
-        "<":"&lt;",
-
-        ">":"&gt;",
-
-        '"':"&quot;",
-
-        "'":"&#039;"
-
-      }[c])
-
-    );
-
-}
-
-
-/* ================================
-   SCROLL TO LEADS
-================================ */
-
 window.scrollToLeads=
-function(){
-
-  document
-    .getElementById(
-      "newLeadsSection"
-    )
-    ?.scrollIntoView({
-
-      behavior:"smooth",
-
-      block:"start"
-
-    });
-
-};
-
-
-/* ================================
-   SHOW ALL LEADS
-================================ */
-
-window.showAllLeads=
-function(){
-
-  scrollToLeads();
-
-};
-
-
-/* ================================
-   SHOW ACTIVE CLIENTS
-================================ */
-
-window.showActiveClients=
-function(){
-
-  const active=
-    leads.filter(
-      l=>
-        l.status===
-        "Active Advisory Client"
-    );
-
-
-  if(!active.length){
-
-    alert(
-      "No active clients yet."
-    );
-
-    return;
-
-  }
-
-
-  $("leadContainer")
-    .innerHTML=
-
-    active.map(l=>`
-
-      <div class="card lead">
-
-        <div>
-
-          <div class="name">
-
-            ${esc(
-              l.name||"Customer"
-            )}
-
-          </div>
-
-          <div class="small">
-
-            ${esc(
-              l.service||""
-            )}
-
-          </div>
-
-        </div>
-
-
-        <div>
-
-          <div class="paid">
-
-            ₹${
-              Number(
-                l.amount||0
-              ).toLocaleString("en-IN")
-            }
-
-          </div>
-
-          <div class="small">
-
-            ${formatDate(
-              l.createdAt
-            )}
-
-          </div>
-
-        </div>
-
-
-        <div>
-
-          <span class="status">
-
-            ${esc(
-              l.status
-            )}
-
-          </span>
-
-        </div>
-
-
-        <div>
-
-          <button
-            class="primary"
-            onclick="openCustomer('${l.id}')"
-          >
-
-            View Details
-
-          </button>
-
-        </div>
-
-
-      </div>
-
-    `).join("");
-
-
+()=>
   $("newLeadsSection")
-    .scrollIntoView({
-
+    ?.scrollIntoView({
       behavior:"smooth",
-
       block:"start"
-
     });
 
-}
 
+window.openPendingConsultations=
+()=>
+  showStatusStage(
+    "Pending Consultation"
+  );
 
 </script>
 
