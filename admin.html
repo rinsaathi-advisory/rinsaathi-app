@@ -4,123 +4,95 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#063f32">
-
 <title>RinSaathi Owner Dashboard</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
   background:#f3f6f4;
-  color:#17352e;
+  color:#17352e
 }
 
 .header{
   background:linear-gradient(135deg,#063f32,#0b5b49);
-  color:white;
-  padding:25px 18px 30px;
-  border-radius:0 0 28px 28px;
+  color:#fff;
+  padding:24px 18px 30px;
+  border-radius:0 0 28px 28px
 }
 
-.logo{
-  font-size:22px;
-  font-weight:800;
-}
-
-.subtitle{
-  font-size:12px;
-  opacity:.75;
-  margin-top:4px;
-  letter-spacing:.5px;
-}
-
-.welcome{
-  margin-top:24px;
-  font-size:27px;
-  font-weight:800;
-}
-
-.admin-number{
-  font-size:13px;
-  opacity:.8;
-  margin-top:5px;
-}
+.logo{font-size:22px;font-weight:800}
+.subtitle{font-size:12px;opacity:.75;margin-top:4px}
+.welcome{margin-top:22px;font-size:27px;font-weight:800}
+.admin-number{font-size:13px;opacity:.8;margin-top:5px}
 
 .container{
   max-width:1100px;
   margin:auto;
+  padding:18px
+}
+
+.card{
+  background:#fff;
+  border-radius:18px;
   padding:18px;
+  box-shadow:0 6px 20px rgba(0,0,0,.06)
 }
 
 .login{
   max-width:520px;
-  margin:30px auto;
+  margin:30px auto
+}
+
+.hidden{display:none!important}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:12px;
-  margin-top:-5px;
+  margin-top:0
 }
 
 .statCard{
-  background:white;
+  background:#fff;
   border-radius:18px;
   padding:18px;
   box-shadow:0 6px 20px rgba(0,0,0,.06);
-  cursor:pointer;
-  transition:.15s;
+  cursor:pointer
 }
 
-.statCard:active{
-  transform:scale(.98);
-}
-
-.statIcon{
-  font-size:24px;
-}
+.statIcon{font-size:24px}
 
 .statNumber{
-  font-size:26px;
-  font-weight:800;
-  margin-top:8px;
+  font-size:27px;
+  font-weight:900;
+  margin-top:8px
 }
 
 .statTitle{
   color:#71817c;
   font-size:12px;
-  margin-top:3px;
+  margin-top:3px
 }
 
-.card{
-  background:white;
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);
-}
-
-.section{
-  margin-top:25px;
-}
+.section{margin-top:25px}
 
 .sectionHeading{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:12px;
   gap:10px;
+  margin-bottom:12px
 }
 
-.sectionHeading h2{
-  font-size:19px;
-}
+.sectionHeading h2{font-size:19px}
 
 .badge{
   background:#e6f4ed;
@@ -128,37 +100,81 @@ body{
   padding:6px 11px;
   border-radius:20px;
   font-size:12px;
-  font-weight:700;
+  font-weight:800
 }
 
-.lead{
-  display:grid;
-  grid-template-columns:1.3fr 1fr 1fr auto;
-  gap:15px;
-  align-items:center;
-  margin-bottom:10px;
-}
-
-.name{
+button{
+  border:0;
+  border-radius:12px;
+  padding:10px 14px;
   font-weight:800;
+  cursor:pointer
+}
+
+.primary{
+  background:#063f32;
+  color:#fff
+}
+
+.secondary{
+  background:#edf3f0;
+  color:#063f32
+}
+
+.goldBtn{
+  background:#d8b45f;
+  color:#17352d
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #d2e2db;
+  border-radius:14px;
+  margin:8px 0;
+  font:inherit
+}
+
+.error{
+  color:#a33;
+  background:#fff0f0;
+  padding:12px;
+  border-radius:12px;
+  margin-top:10px
+}
+
+.success{
+  color:#08704d;
+  background:#e6f4ed;
+  padding:12px;
+  border-radius:12px;
+  margin-top:10px
 }
 
 .small{
   font-size:12px;
   color:#788681;
-  margin-top:4px;
+  margin-top:4px
 }
+
+.lead{
+  display:grid;
+  grid-template-columns:1.25fr 1fr 1fr auto;
+  gap:14px;
+  align-items:center;
+  margin-bottom:10px
+}
+
+.name{font-weight:800}
 
 .paid{
   color:#08704d;
-  font-size:13px;
-  font-weight:800;
+  font-weight:900
 }
 
 .pendingPay{
   color:#8a6500;
-  font-size:13px;
-  font-weight:800;
+  font-weight:800
 }
 
 .status{
@@ -168,168 +184,32 @@ body{
   background:#fff4d7;
   color:#8a6500;
   font-size:12px;
-  font-weight:700;
+  font-weight:800
+}
+
+.status.new{
+  background:#eaf2ff;
+  color:#315f99
 }
 
 .status.completed{
   background:#e6f4ed;
-  color:#08704d;
+  color:#08704d
 }
 
 .status.active{
-  background:#e4f0ff;
-  color:#185a9d;
+  background:#eee9ff;
+  color:#6142a5
 }
 
 .status.closed{
-  background:#eeeeee;
-  color:#555;
+  background:#eee;
+  color:#555
 }
 
-button{
-  border:0;
-  border-radius:12px;
-  padding:10px 14px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.primary{
-  background:#063f32;
-  color:white;
-}
-
-.secondary{
-  background:#edf3f0;
-  color:#063f32;
-}
-
-.goldBtn{
-  background:#d8b45f;
-  color:#17352d;
-}
-
-.actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  border:1px solid #d2e2db;
-  border-radius:14px;
-  margin:8px 0;
-  font:inherit;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.error{
-  color:#a33;
-  background:#fff0f0;
-  padding:12px;
-  border-radius:12px;
-  margin-top:10px;
-}
-
-.success{
-  color:#08704d;
-  background:#e6f4ed;
-  padding:12px;
-  border-radius:12px;
-  margin-top:10px;
-}
-
-.pipeline{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:8px;
-}
-
-.pipelineBox{
-  background:#f7faf8;
-  border:1px solid #e2ebe7;
-  border-radius:14px;
-  padding:12px;
-  text-align:center;
-}
-
-.pipelineBox b{
-  display:block;
-  font-size:13px;
-}
-
-.pipelineArrow{
-  color:#08704d;
-  font-size:18px;
-  font-weight:800;
-  margin-top:5px;
-}
-
-.paymentRow{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  padding:13px 0;
-  border-bottom:1px solid #edf1ef;
-}
-
-.paymentRow:last-child{
-  border-bottom:0;
-}
-
-.paymentName{
-  font-weight:800;
-}
-
-.paymentMeta{
-  font-size:11px;
-  color:#71817c;
-  margin-top:4px;
-}
-
-.revenueTotal{
-  background:#e6f4ed;
-  border-radius:15px;
-  padding:15px;
-  margin-bottom:12px;
-}
-
-.revenueTotal span{
-  display:block;
-  font-size:11px;
-  color:#71817c;
-}
-
-.revenueTotal strong{
-  display:block;
-  font-size:25px;
-  margin-top:4px;
-  color:#08704d;
-}
-
-.advisoryTotal{
-  background:#fff7e1;
-  border-radius:15px;
-  padding:15px;
-  margin-bottom:12px;
-}
-
-.advisoryTotal span{
-  display:block;
-  font-size:11px;
-  color:#7c6a35;
-}
-
-.advisoryTotal strong{
-  display:block;
-  font-size:25px;
-  margin-top:4px;
-  color:#8a6500;
+.status.pending{
+  background:#fff4d7;
+  color:#8a6500
 }
 
 .modal{
@@ -339,178 +219,217 @@ input{
   display:none;
   align-items:flex-end;
   justify-content:center;
-  z-index:1000;
+  z-index:1000
 }
 
-.modal.active{
-  display:flex;
-}
+.modal.active{display:flex}
 
 .modalBox{
-  background:white;
+  background:#fff;
   width:100%;
-  max-width:720px;
+  max-width:780px;
   padding:22px;
   border-radius:25px 25px 0 0;
-  max-height:88vh;
-  overflow:auto;
+  max-height:90vh;
+  overflow:auto
 }
 
 .close{
   float:right;
   background:#edf3f0;
-  padding:8px 11px;
+  padding:8px 11px
+}
+
+.listItem{
+  background:#f7faf8;
+  border:1px solid #e2ebe7;
+  border-radius:16px;
+  padding:15px;
+  margin-bottom:10px
+}
+
+.listTop{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start
+}
+
+.listName{
+  font-size:16px;
+  font-weight:800
+}
+
+.listMeta{
+  font-size:12px;
+  color:#71817c;
+  margin-top:4px
 }
 
 .details{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
-  margin:20px 0;
+  margin:20px 0
 }
 
 .detail{
   background:#f5f8f6;
   padding:13px;
-  border-radius:13px;
+  border-radius:13px
 }
 
 .detail label{
   display:block;
   color:#6d7c77;
   font-size:11px;
-  margin-bottom:4px;
+  margin-bottom:4px
 }
 
 .detail strong{
   font-size:14px;
-  word-break:break-word;
-}
-
-.message{
-  margin-top:12px;
-  padding:14px;
-  border-radius:14px;
-  background:#f5f8f6;
-  line-height:1.5;
+  word-break:break-word
 }
 
 .fieldGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:9px;
-  margin-top:12px;
+  margin-top:12px
 }
 
 .field{
-  background:white;
+  background:#fff;
   border-radius:11px;
   padding:10px;
-  border:1px solid #edf1ef;
+  border:1px solid #edf1ef
 }
 
 .field label{
   display:block;
   font-size:10px;
   color:#71817c;
-  margin-bottom:3px;
+  margin-bottom:3px
 }
 
 .field div{
   font-size:12px;
   line-height:1.4;
-  word-break:break-word;
+  word-break:break-word
 }
 
-.stageListItem{
+.feeBox{
   background:#f7faf8;
   border:1px solid #e2ebe7;
-  border-radius:15px;
-  padding:15px;
-  margin-top:10px;
+  border-radius:14px;
+  padding:14px;
+  margin-top:16px
 }
 
-.stageTop{
+.feeRow{
+  display:grid;
+  grid-template-columns:1fr 180px auto;
+  gap:8px;
+  align-items:center
+}
+
+.feeRow input{margin:0}
+
+.revenueTotal{
+  font-size:30px;
+  font-weight:900;
+  color:#08704d;
+  margin:8px 0 16px
+}
+
+.empty{
+  text-align:center;
+  padding:20px;
+  color:#71817c
+}
+
+.filterBar{
   display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
+  gap:7px;
+  overflow:auto;
+  padding-bottom:8px;
+  margin-bottom:12px
+}
+
+.filterBar button{white-space:nowrap}
+
+.filterBar .selected{
+  background:#063f32;
+  color:#fff
+}
+
+.paymentRow{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr auto;
   gap:10px;
+  align-items:center;
+  padding:13px 0;
+  border-bottom:1px solid #edf1ef
 }
 
-.stageName{
-  font-size:16px;
-  font-weight:800;
+.paymentAmount{
+  font-weight:900;
+  color:#08704d
 }
 
-.stagePhone{
-  font-size:11px;
+.note{
+  font-size:12px;
   color:#71817c;
-  margin-top:3px;
+  line-height:1.5;
+  margin-top:8px
 }
 
-@media(max-width:760px){
-
+@media(max-width:800px){
   .stats{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr)
   }
 
   .lead{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1fr
   }
 
-  .pipeline{
-    grid-template-columns:1fr;
+  .paymentRow{
+    grid-template-columns:1fr 1fr
   }
-
 }
 
 @media(max-width:450px){
+  .container{padding:14px}
 
-  .container{
-    padding:14px;
-  }
-
-  .lead{
-    grid-template-columns:1fr;
+  .lead,
+  .paymentRow{
+    grid-template-columns:1fr
   }
 
   .details,
   .fieldGrid{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr
   }
 
+  .feeRow{
+    grid-template-columns:1fr
+  }
 }
-
 </style>
 </head>
 
 <body>
 
 <header class="header">
-
-  <div class="logo">
-    RinSaathi Advisory Services
-  </div>
-
-  <div class="subtitle">
-    OWNER / ADMIN DASHBOARD
-  </div>
-
-  <div class="welcome">
-    Welcome back, Admin 👋
-  </div>
-
-  <div class="admin-number">
-    Admin Mobile: 9319301096
-  </div>
-
+  <div class="logo">RinSaathi Advisory Services</div>
+  <div class="subtitle">OWNER / ADMIN DASHBOARD</div>
+  <div class="welcome">Welcome back, Admin 👋</div>
+  <div class="admin-number">Admin Mobile: 9319301096</div>
 </header>
 
 <main class="container">
 
-<!-- =================================
-     ADMIN LOGIN
-================================= -->
+<!-- ================= LOGIN ================= -->
 
 <section id="loginBox" class="card login">
 
@@ -552,16 +471,14 @@ input{
 </section>
 
 
-<!-- =================================
-     DASHBOARD
-================================= -->
+<!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard" class="hidden">
 
   <div class="actions" style="margin:0 0 15px">
 
     <button class="secondary" id="refresh">
-      ↻ Refresh
+      ↻ Refresh All Data
     </button>
 
     <button class="secondary" id="logout">
@@ -571,87 +488,54 @@ input{
   </div>
 
 
-  <!-- =================================
-       STEP 1-7 SUMMARY
-  ================================= -->
+  <!-- ================= STATS ================= -->
 
   <div class="stats">
 
-    <div
-      class="statCard"
-      onclick="showStage('ALL')"
-    >
-      <div class="statIcon">📊</div>
+    <div class="statCard" onclick="setFilter('ALL')">
+      <div class="statIcon">👥</div>
       <div class="statNumber" id="allLeads">0</div>
       <div class="statTitle">All Leads</div>
     </div>
 
-
-    <div
-      class="statCard"
-      onclick="showStage('New Lead')"
-    >
+    <div class="statCard" onclick="showStatusStage('New Lead')">
       <div class="statIcon">🆕</div>
       <div class="statNumber" id="newLeads">0</div>
       <div class="statTitle">New Leads</div>
     </div>
 
-
-    <div
-      class="statCard"
-      onclick="showStage('Pending Consultation')"
-    >
+    <div class="statCard" onclick="showStatusStage('Pending Consultation')">
       <div class="statIcon">📅</div>
       <div class="statNumber" id="pending">0</div>
       <div class="statTitle">Pending Consultation</div>
     </div>
 
-
-    <div
-      class="statCard"
-      onclick="showStage('Consultation Completed')"
-    >
+    <div class="statCard" onclick="showStatusStage('Consultation Completed')">
       <div class="statIcon">✅</div>
       <div class="statNumber" id="completed">0</div>
       <div class="statTitle">Consultation Completed</div>
     </div>
 
-
-    <div
-      class="statCard"
-      onclick="showStage('Active Advisory Client')"
-    >
-      <div class="statIcon">👥</div>
+    <div class="statCard" onclick="showStatusStage('Active Advisory Client')">
+      <div class="statIcon">👤</div>
       <div class="statNumber" id="clients">0</div>
       <div class="statTitle">Active Leads</div>
     </div>
 
-
-    <div
-      class="statCard"
-      onclick="showStage('Closed Lead')"
-    >
+    <div class="statCard" onclick="showStatusStage('Closed Lead')">
       <div class="statIcon">🔒</div>
       <div class="statNumber" id="closedLeads">0</div>
       <div class="statTitle">Closed Leads</div>
     </div>
 
-
-    <div
-      class="statCard"
-      onclick="showConsultationRevenue()"
-    >
-      <div class="statIcon">💰</div>
+    <div class="statCard" onclick="openConsultationRevenue()">
+      <div class="statIcon">💳</div>
       <div class="statNumber" id="revenue">₹0</div>
       <div class="statTitle">Consultation Revenue</div>
     </div>
 
-
-    <div
-      class="statCard"
-      onclick="showAdvisoryFees()"
-    >
-      <div class="statIcon">💼</div>
+    <div class="statCard" onclick="openAdvisoryRevenue()">
+      <div class="statIcon">💰</div>
       <div class="statNumber" id="advisoryRevenue">₹0</div>
       <div class="statTitle">Advisory Fees</div>
     </div>
@@ -659,234 +543,175 @@ input{
   </div>
 
 
-  <!-- =================================
-       LEAD PIPELINE
-  ================================= -->
+  <!-- ================= LEADS ================= -->
 
   <section class="section">
 
     <div class="sectionHeading">
 
-      <h2>
-        📌 Lead Workflow
-      </h2>
+      <h2>📋 All Customer Leads</h2>
 
-      <span class="badge">
-        Controlled Flow
+      <span class="badge" id="leadCount">
+        0 Leads
       </span>
 
     </div>
 
-    <div class="card">
 
-      <div class="pipeline">
+    <div class="filterBar">
 
-        <div class="pipelineBox">
-          <b>🆕 New Lead</b>
-          <div class="pipelineArrow">↓</div>
-          Free consultation not used
-        </div>
-
-        <div class="pipelineBox">
-          <b>📅 Pending Consultation</b>
-          <div class="pipelineArrow">↓</div>
-          Free consultation used
-        </div>
-
-        <div class="pipelineBox">
-          <b>✅ Consultation Completed</b>
-          <div class="pipelineArrow">↓</div>
-          ₹499 consultation paid
-        </div>
-
-        <div class="pipelineBox">
-          <b>👥 Active Leads</b>
-          <div class="pipelineArrow">↓</div>
-          Admin decides
-        </div>
-
-        <div class="pipelineBox">
-          <b>🔒 Closed Leads</b>
-          Admin decides
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =================================
-       CUSTOMER LEADS
-  ================================= -->
-
-  <section
-    class="section"
-    id="leadSection"
-  >
-
-    <div class="sectionHeading">
-
-      <h2 id="leadHeading">
-        👥 All Customer Leads
-      </h2>
-
-      <span
-        class="badge"
-        id="leadCount"
+      <button
+        class="secondary selected"
+        data-filter="ALL"
+        onclick="setFilter('ALL',this)"
       >
-        0
-      </span>
+        All
+      </button>
+
+      <button
+        class="secondary"
+        data-filter="New Lead"
+        onclick="setFilter('New Lead',this)"
+      >
+        New
+      </button>
+
+      <button
+        class="secondary"
+        data-filter="Pending Consultation"
+        onclick="setFilter('Pending Consultation',this)"
+      >
+        Pending
+      </button>
+
+      <button
+        class="secondary"
+        data-filter="Consultation Completed"
+        onclick="setFilter('Consultation Completed',this)"
+      >
+        Completed
+      </button>
+
+      <button
+        class="secondary"
+        data-filter="Active Advisory Client"
+        onclick="setFilter('Active Advisory Client',this)"
+      >
+        Active
+      </button>
+
+      <button
+        class="secondary"
+        data-filter="Closed Lead"
+        onclick="setFilter('Closed Lead',this)"
+      >
+        Closed
+      </button>
 
     </div>
+
 
     <div id="leadContainer"></div>
 
   </section>
 
 
-  <!-- =================================
-       CONSULTATION REVENUE
-  ================================= -->
+  <!-- ================= WORKFLOW ================= -->
 
-  <section
-    class="section"
-    id="consultationRevenueSection"
-  >
+  <section class="section">
 
     <div class="sectionHeading">
-
-      <h2>
-        💰 Consultation Revenue
-      </h2>
-
-      <span class="badge">
-        ₹499 Consultation
-      </span>
-
+      <h2>🔄 Correct Workflow</h2>
     </div>
 
     <div class="card">
 
-      <div class="revenueTotal">
+      <div style="font-size:13px;line-height:1.9;color:#52635d">
 
-        <span>
-          Total Consultation Revenue
+        <b>New Lead</b>
+        =
+        First Free Consultation अभी तक use नहीं हुई
+
+        →
+
+        <b>Pending Consultation</b>
+        =
+        First Free Consultation use हो चुकी है
+
+        →
+
+        <b>Consultation Completed</b>
+        =
+        ₹499 paid/verified
+
+        →
+
+        <b>Active Lead</b>
+
+        →
+
+        <b>Closed Lead</b>
+
+        <br>
+
+        <span style="color:#08704d;font-weight:800">
+          All Leads का total हमेशा इन पाँच categories के total के बराबर रहेगा.
         </span>
 
-        <strong id="consultationRevenueTotal">
-          ₹0
-        </strong>
-
       </div>
-
-      <div id="consultationRevenueContainer"></div>
 
     </div>
 
   </section>
 
 
-  <!-- =================================
-       ADVISORY FEES
-  ================================= -->
-
-  <section
-    class="section"
-    id="advisoryFeesSection"
-  >
-
-    <div class="sectionHeading">
-
-      <h2>
-        💼 Advisory Fees
-      </h2>
-
-      <span class="badge">
-        Separate Revenue
-      </span>
-
-    </div>
-
-    <div class="card">
-
-      <div class="advisoryTotal">
-
-        <span>
-          Total Advisory Fees
-        </span>
-
-        <strong id="advisoryRevenueTotal">
-          ₹0
-        </strong>
-
-      </div>
-
-      <div id="advisoryFeesContainer"></div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =================================
-       RECENT PAYMENTS
-  ================================= -->
+  <!-- ================= PAYMENTS ================= -->
 
   <section class="section">
 
     <div class="sectionHeading">
 
-      <h2>
-        💳 Consultation Payments
-      </h2>
+      <h2>💳 Consultation Payments</h2>
+
+      <span class="badge" id="paymentCount">
+        0 Payments
+      </span>
 
     </div>
 
-    <div
-      class="card"
-      id="paymentContainer"
-    ></div>
+    <div class="card" id="paymentContainer"></div>
 
   </section>
-
 
 </section>
 
 </main>
 
 
-<!-- =================================
-     STAGE MODAL
-================================= -->
+<!-- ================= STATUS MODAL ================= -->
 
-<div
-  class="modal"
-  id="stageModal"
->
+<div class="modal" id="statusModal">
 
   <div class="modalBox">
 
     <button
       class="close"
-      onclick="closeStage()"
+      onclick="closeStatusModal()"
     >
       ✕
     </button>
 
-    <h2 id="stageModalTitle">
+    <h2 id="statusModalTitle">
       Leads
     </h2>
 
     <p
       class="small"
-      id="stageModalSubtitle"
-      style="margin-top:5px"
+      id="statusModalSubtitle"
     ></p>
 
     <div
-      id="stageModalList"
+      id="statusList"
       style="margin-top:18px"
     ></div>
 
@@ -895,14 +720,76 @@ input{
 </div>
 
 
-<!-- =================================
-     CUSTOMER DETAILS MODAL
-================================= -->
+<!-- ================= CONSULTATION REVENUE ================= -->
 
-<div
-  class="modal"
-  id="customerModal"
->
+<div class="modal" id="revenueModal">
+
+  <div class="modalBox">
+
+    <button
+      class="close"
+      onclick="closeRevenueModal()"
+    >
+      ✕
+    </button>
+
+    <h2>💳 Consultation Revenue</h2>
+
+    <p class="small">
+      Every verified ₹499 consultation payment is counted separately.
+      Same customer can appear multiple times.
+    </p>
+
+    <div
+      class="revenueTotal"
+      id="revenueModalTotal"
+    >
+      ₹0
+    </div>
+
+    <div id="revenueList"></div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= ADVISORY FEES ================= -->
+
+<div class="modal" id="advisoryModal">
+
+  <div class="modalBox">
+
+    <button
+      class="close"
+      onclick="closeAdvisoryModal()"
+    >
+      ✕
+    </button>
+
+    <h2>💰 Advisory Fees</h2>
+
+    <p class="small">
+      Advisory fees are separate from the ₹499 consultation fee.
+    </p>
+
+    <div
+      class="revenueTotal"
+      id="advisoryModalTotal"
+    >
+      ₹0
+    </div>
+
+    <div id="advisoryList"></div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= CUSTOMER DETAILS ================= -->
+
+<div class="modal" id="customerModal">
 
   <div class="modalBox">
 
@@ -936,34 +823,30 @@ input{
       </div>
 
       <div class="detail">
-        <label>Problem / Concern</label>
-        <strong id="customerProblem"></strong>
-      </div>
-
-      <div class="detail">
-        <label>Booking Date</label>
-        <strong id="customerDate"></strong>
-      </div>
-
-      <div class="detail">
-        <label>Status</label>
+        <label>Workflow Status</label>
         <strong id="customerStatus"></strong>
       </div>
 
       <div class="detail">
-        <label>Advisory Fee</label>
-        <strong id="customerAdvisoryFee"></strong>
+        <label>Created</label>
+        <strong id="customerDate"></strong>
       </div>
 
     </div>
 
 
-    <div class="message">
+    <div
+      class="message"
+      style="
+        margin-top:12px;
+        padding:14px;
+        border-radius:14px;
+        background:#f5f8f6;
+        line-height:1.5
+      "
+    >
 
-      <b>
-        Customer Message
-      </b>
-
+      <b>Customer Message</b>
       <br>
 
       <span id="customerMessage"></span>
@@ -973,7 +856,12 @@ input{
 
     <div style="margin-top:18px">
 
-      <h3 style="font-size:16px;color:#063f32">
+      <h3
+        style="
+          font-size:16px;
+          color:#063f32
+        "
+      >
         📋 Complete Form Details
       </h3>
 
@@ -981,6 +869,45 @@ input{
 
     </div>
 
+
+    <!-- ADVISORY FEE -->
+
+    <div class="feeBox">
+
+      <b>💰 Advisory Fee</b>
+
+      <div class="feeRow">
+
+        <div class="small">
+          ₹499 consultation fee is separate.
+        </div>
+
+        <input
+          id="advisoryFeeInput"
+          type="number"
+          min="0"
+          step="1"
+          placeholder="Advisory fee ₹"
+        >
+
+        <button
+          class="goldBtn"
+          id="saveAdvisoryFee"
+        >
+          Save
+        </button>
+
+      </div>
+
+      <div
+        class="note"
+        id="currentAdvisoryFee"
+      ></div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
 
     <div
       class="actions"
@@ -995,68 +922,35 @@ input{
       </button>
 
       <button
-        class="secondary"
-        id="movePending"
+        class="goldBtn"
+        id="completeConsultation"
+        style="display:none"
       >
-        📅 Move to Pending
+        ✅ Mark Consultation Done
       </button>
 
       <button
         class="goldBtn"
-        id="moveCompleted"
+        id="moveToActiveClient"
+        style="display:none"
       >
-        ✅ Move to Consultation Completed
-      </button>
-
-      <button
-        class="primary"
-        id="moveActive"
-      >
-        👥 Move to Active Leads
+        👤 Move to Active Leads
       </button>
 
       <button
         class="secondary"
-        id="moveClosed"
+        id="moveToClosed"
+        style="display:none"
       >
-        🔒 Move to Closed Leads
+        🔒 Move to Closed Lead
       </button>
 
       <button
         class="secondary"
-        id="moveBackActive"
+        id="reopenLead"
+        style="display:none"
       >
-        ↩ Move Back to Active
-      </button>
-
-    </div>
-
-
-    <div
-      style="margin-top:18px"
-      class="card"
-    >
-
-      <h3 style="font-size:15px">
-        💼 Advisory Fee
-      </h3>
-
-      <p class="small">
-        Advisory fee is separate from ₹499 consultation revenue.
-      </p>
-
-      <input
-        id="advisoryFeeInput"
-        type="number"
-        min="0"
-        placeholder="Enter advisory fee"
-      >
-
-      <button
-        class="goldBtn"
-        id="saveAdvisoryFee"
-      >
-        Save Advisory Fee
+        ↩️ Reopen to Active
       </button>
 
     </div>
@@ -1068,55 +962,37 @@ input{
 
 <script type="module">
 
+/* =========================================================
+   FIREBASE
+========================================================= */
 
-/* =================================
-   FIREBASE IMPORTS
-================================= */
-
-import {
+import{
   initializeApp
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 
-
-import {
-
+import{
   getAuth,
-
   onAuthStateChanged,
-
   RecaptchaVerifier,
-
   signInWithPhoneNumber,
-
   signOut
-
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-
-import {
-
+import{
   getFirestore,
-
   collection,
-
   getDocs,
-
   doc,
-
-  updateDoc
-
+  updateDoc,
+  serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-
-/* =================================
-   FIREBASE CONFIG
-================================= */
 
 const firebaseConfig={
 
@@ -1141,26 +1017,14 @@ const firebaseConfig={
 };
 
 
-/* =================================
-   INITIALIZE
-================================= */
+const app=initializeApp(firebaseConfig);
 
-const app=
-initializeApp(firebaseConfig);
+const auth=getAuth(app);
 
-const auth=
-getAuth(app);
+const db=getFirestore(app);
 
-const db=
-getFirestore(app);
+const ADMIN_PHONE="+919319301096";
 
-
-/* =================================
-   VARIABLES
-================================= */
-
-const ADMIN_PHONE=
-"+919319301096";
 
 let confirmationResult=null;
 
@@ -1168,29 +1032,22 @@ let recaptcha=null;
 
 let leads=[];
 
-let payments=[];
+let paymentEvents=[];
 
-let freeConsultations=[];
+let freeUsed=new Set();
 
-let currentCustomerId=null;
-
-
-/* =================================
-   HELPER
-================================= */
-
-const $=
-id=>document.getElementById(id);
+let activeFilter="ALL";
 
 
-/* =================================
+const $=id=>
+document.getElementById(id);
+
+
+/* =========================================================
    LOGIN MESSAGE
-================================= */
+========================================================= */
 
-function msg(
-  text,
-  type="success"
-){
+function msg(text,type="success"){
 
   $("loginMsg").className=type;
 
@@ -1199,273 +1056,605 @@ function msg(
 }
 
 
-/* =================================
-   RECAPTCHA
+/* =========================================================
+   HELPERS
+========================================================= */
 
-   SAME OLD LOGIN FLOW
-================================= */
+function esc(v){
 
-function setupRecaptcha(){
-
-  if(recaptcha)return;
-
-  recaptcha=
-    new RecaptchaVerifier(
-
-      auth,
-
-      "recaptcha-container",
-
-      {
-        size:"invisible"
-      }
-
+  return String(v??"")
+    .replace(
+      /[&<>"']/g,
+      c=>({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[c])
     );
 
 }
 
 
-/* =================================
-   SEND OTP
+function dateMs(v){
 
-   SAME OLD WORKING LOGIC
-================================= */
+  if(v?.toDate)
+    return v.toDate().getTime();
 
-$("sendOtp").onclick=async()=>{
+  if(v instanceof Date)
+    return v.getTime();
 
-  try{
+  if(v)
+    return Date.parse(v)||0;
 
-    setupRecaptcha();
+  return 0;
 
-    const rawPhone=
-      $("phone").value.trim();
-
-    let digits=
-      rawPhone.replace(/\D/g,"");
+}
 
 
-    if(
-      digits.length===12 &&
-      digits.startsWith("91")
-    ){
+function formatDate(v){
 
-      digits=
-        digits.substring(2);
+  if(v?.toDate){
 
-    }
-
-
-    if(
-      !/^[6-9]\d{9}$/.test(digits)
-    ){
-
-      msg(
-        "Please enter a valid 10-digit Indian mobile number.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    const phone=
-      "+91"+digits;
-
-
-    msg(
-      "Sending OTP...",
-      "success"
-    );
-
-
-    confirmationResult=
-      await signInWithPhoneNumber(
-        auth,
-        phone,
-        recaptcha
-      );
-
-
-    $("otpArea")
-      .classList
-      .remove("hidden");
-
-
-    msg(
-      "OTP sent to "+phone,
-      "success"
-    );
-
-
-  }catch(e){
-
-    console.error(e);
-
-
-    msg(
-      "OTP could not be sent. Check the number and Firebase Phone Authentication settings.",
-      "error"
-    );
-
-
-    try{
-
-      if(recaptcha)
-        recaptcha.clear();
-
-    }catch(_){}
-
-
-    recaptcha=null;
-
-
-    setTimeout(
-      setupRecaptcha,
-      100
+    return v.toDate().toLocaleString(
+      "en-IN",
+      {
+        dateStyle:"medium",
+        timeStyle:"short"
+      }
     );
 
   }
 
-};
+  if(v){
 
-
-/* =================================
-   VERIFY OTP
-================================= */
-
-$("verifyOtp").onclick=async()=>{
-
-  try{
-
-    if(!confirmationResult){
-
-      msg(
-        "Please request OTP first.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    await confirmationResult.confirm(
-      $("otp").value.trim()
-    );
-
-
-  }catch(e){
-
-    console.error(e);
-
-    msg(
-      "Invalid OTP. Please try again.",
-      "error"
+    return new Date(v).toLocaleString(
+      "en-IN",
+      {
+        dateStyle:"medium",
+        timeStyle:"short"
+      }
     );
 
   }
 
-};
+  return "Not available";
+
+}
 
 
-/* =================================
-   LOGOUT
-================================= */
+function normPhone(v){
 
-$("logout").onclick=
-()=>signOut(auth);
+  let d=String(v||"")
+    .replace(/\D/g,"");
 
+  if(
+    d.startsWith("91") &&
+    d.length===12
+  ){
 
-/* =================================
-   REFRESH
-================================= */
-
-$("refresh").onclick=
-loadAllData;
-
-
-/* =================================
-   AUTH STATE
-
-   SAME ADMIN NUMBER
-================================= */
-
-onAuthStateChanged(
-  auth,
-  async(user)=>{
-
-    if(!user){
-
-      $("loginBox")
-        .classList
-        .remove("hidden");
-
-      $("dashboard")
-        .classList
-        .add("hidden");
-
-      return;
-
-    }
-
-
-    const phone=
-      user.phoneNumber||"";
-
-
-    if(
-      phone!==ADMIN_PHONE
-    ){
-
-      await signOut(auth);
-
-
-      msg(
-        "This number is not authorized as the RinSaathi Admin.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    $("loginBox")
-      .classList
-      .add("hidden");
-
-
-    $("dashboard")
-      .classList
-      .remove("hidden");
-
-
-    await loadAllData();
+    d=d.slice(2);
 
   }
-);
+
+  return /^[6-9]\d{9}$/.test(d)
+    ? d
+    : "";
+
+}
 
 
-/* =================================
-   LOAD ALL DATA
+function num(v){
 
-   IMPORTANT:
-   Existing records are loaded
-   automatically.
-================================= */
+  if(typeof v==="number")
+    return v;
 
-async function loadAllData(){
+  const n=parseFloat(
+    String(v??"")
+      .replace(/[₹,\s]/g,"")
+  );
 
-  try{
+  return Number.isFinite(n)
+    ? n
+    : 0;
 
-    const leadSnap=
-      await getDocs(
-        collection(
-          db,
-          "leads"
+}
+
+
+function statusText(l){
+
+  return String(
+    l.status||""
+  ).trim();
+
+}
+
+
+/* =========================================================
+   PAYMENT DETECTION
+========================================================= */
+
+function paymentAmount(p){
+
+  for(
+    const k of [
+      "amount",
+      "paymentAmount",
+      "amountPaid",
+      "paidAmount",
+      "price",
+      "total",
+      "value"
+    ]
+  ){
+
+    const n=num(p?.[k]);
+
+    if(n>0)
+      return n;
+
+  }
+
+  return 0;
+
+}
+
+
+function paymentVerified(p){
+
+  const amount=paymentAmount(p);
+
+  if(amount!==499)
+    return false;
+
+  const vals=[
+    p?.paymentStatus,
+    p?.status,
+    p?.payment,
+    p?.payment_state
+  ]
+  .map(
+    x=>String(x??"")
+      .trim()
+      .toUpperCase()
+  );
+
+  return(
+    vals.includes("VERIFIED") ||
+    vals.includes("PAID") ||
+    vals.includes("SUCCESS") ||
+    vals.includes("SUCCESSFUL") ||
+    vals.includes("COMPLETED") ||
+    vals.includes("₹499")
+  );
+
+}
+
+
+function leadOwnPayment(l){
+
+  const amount=num(l?.amount);
+
+  const vals=[
+    l?.paymentStatus,
+    l?.status,
+    l?.payment
+  ]
+  .map(
+    x=>String(x??"")
+      .trim()
+      .toUpperCase()
+  );
+
+  return(
+    amount===499 &&
+    (
+      vals.includes("VERIFIED") ||
+      vals.includes("PAID") ||
+      vals.includes("SUCCESS") ||
+      vals.includes("SUCCESSFUL") ||
+      vals.includes("COMPLETED") ||
+      vals.includes("₹499")
+    )
+  );
+
+}
+
+
+function paymentIdentity(p){
+
+  return String(
+    p?.uid ||
+    p?.userId ||
+    p?.authPhone ||
+    p?.mobile ||
+    p?.phone ||
+    p?.phoneNumber ||
+    ""
+  ).trim();
+
+}
+
+
+function paymentDate(p){
+
+  return(
+    p?.paidAt ||
+    p?.createdAt ||
+    p?.paymentDate ||
+    p?.timestamp ||
+    p?.updatedAt
+  );
+
+}
+
+
+function leadPaid(l){
+
+  if(leadOwnPayment(l))
+    return true;
+
+  const uid=String(l.uid||"");
+
+  const phones=[
+    normPhone(l.mobile),
+    normPhone(l.phone),
+    normPhone(l.authPhone)
+  ];
+
+  return paymentEvents.some(
+    p=>
+      paymentVerified(p) &&
+      (
+        (
+          uid &&
+          String(
+            p.uid ||
+            p.userId ||
+            ""
+          )===uid
         )
-      );
+        ||
+        phones.some(
+          x=>
+            x &&
+            x===normPhone(
+              paymentIdentity(p)
+            )
+        )
+      )
+  );
+
+}
+
+
+/* =========================================================
+   FREE CONSULTATION DETECTION
+========================================================= */
+
+function freeWasUsed(l){
+
+  const uid=String(l.uid||"");
+
+  if(
+    uid &&
+    freeUsed.has(uid)
+  )
+    return true;
+
+  if(l.freeConsultation===true)
+    return true;
+
+  if(l.freeUsed===true)
+    return true;
+
+  if(l.consultationUsed===true)
+    return true;
+
+  return(
+    String(l.payment||"")
+      .trim()
+      .toUpperCase()==="FREE"
+  );
+
+}
+
+
+/* =========================================================
+   FINAL STAGE
+========================================================= */
+
+function stageOf(l){
+
+  const stored=statusText(l);
+
+  /*
+    Manual stages always remain preserved.
+  */
+
+  if(
+    stored==="Closed Lead"
+  )
+    return "Closed Lead";
+
+  if(
+    stored==="Active Advisory Client"
+  )
+    return "Active Advisory Client";
+
+
+  /*
+    ₹499 paid consultation
+    automatically becomes Completed.
+  */
+
+  if(
+    leadPaid(l)
+  )
+    return "Consultation Completed";
+
+
+  /*
+    Existing manually completed
+    records remain Completed.
+  */
+
+  if(
+    stored==="Consultation Completed"
+  )
+    return "Consultation Completed";
+
+
+  /*
+    Free consultation used
+    but ₹499 not paid.
+  */
+
+  if(
+    freeWasUsed(l)
+  )
+    return "Pending Consultation";
+
+
+  /*
+    Default
+  */
+
+  return "New Lead";
+
+}
+
+
+function stageClass(s){
+
+  if(s==="New Lead")
+    return "new";
+
+  if(s==="Pending Consultation")
+    return "pending";
+
+  if(s==="Consultation Completed")
+    return "completed";
+
+  if(s==="Active Advisory Client")
+    return "active";
+
+  return "closed";
+
+}
+
+
+function stageLabel(s){
+
+  if(
+    s==="Active Advisory Client"
+  )
+    return "Active Lead";
+
+  return s;
+
+}
+
+
+/* =========================================================
+   PAYMENT RECORDS
+========================================================= */
+
+function advisoryRecords(){
+
+  return leads.filter(
+    l=>num(l.advisoryFee)>0
+  );
+
+}
+
+
+function paymentDisplay(p){
+
+  return{
+
+    amount:
+      paymentAmount(p),
+
+    name:
+      p.name ||
+      p.customerName ||
+      p.userName ||
+      "Customer",
+
+    mobile:
+      p.mobile ||
+      p.phone ||
+      p.authPhone ||
+      p.phoneNumber ||
+      "",
+
+    date:
+      paymentDate(p),
+
+    id:
+      p.paymentId ||
+      p.transactionId ||
+      p.orderId ||
+      p.razorpayPaymentId ||
+      p.id ||
+      ""
+
+  };
+
+}
+
+
+function leadPaymentEvent(l){
+
+  if(!leadOwnPayment(l))
+    return null;
+
+  return{
+
+    ...l,
+
+    __leadPayment:true,
+
+    name:
+      l.name ||
+      "Customer",
+
+    mobile:
+      l.mobile ||
+      l.phone ||
+      l.authPhone ||
+      "",
+
+    amount:
+      num(l.amount),
+
+    date:
+      l.paidAt ||
+      l.paymentDate ||
+      l.createdAt,
+
+    id:
+      l.paymentId ||
+      l.transactionId ||
+      l.orderId ||
+      l.razorpayPaymentId ||
+      l.id
+
+  };
+
+}
+
+
+function allPayments(){
+
+  const out=[];
+
+  const seen=new Set();
+
+
+  /*
+    payments collection
+  */
+
+  paymentEvents
+    .filter(paymentVerified)
+    .forEach(p=>{
+
+      const x=paymentDisplay(p);
+
+      const key=
+        x.id
+          ? "ID:"+x.id
+          :
+          "P:"+
+          normPhone(x.mobile)+
+          "|"+
+          dateMs(x.date)+
+          "|"+
+          x.amount;
+
+      if(!seen.has(key)){
+
+        seen.add(key);
+
+        out.push(x);
+
+      }
+
+    });
+
+
+  /*
+    lead document payment
+  */
+
+  leads.forEach(l=>{
+
+    const x=leadPaymentEvent(l);
+
+    if(!x)
+      return;
+
+    const key=
+      x.id
+        ? "ID:"+x.id
+        :
+        "P:"+
+        normPhone(x.mobile)+
+        "|"+
+        dateMs(x.date)+
+        "|"+
+        x.amount;
+
+    if(!seen.has(key)){
+
+      seen.add(key);
+
+      out.push(x);
+
+    }
+
+  });
+
+
+  return out.sort(
+    (a,b)=>
+      dateMs(b.date)-
+      dateMs(a.date)
+  );
+
+}
+
+
+/* =========================================================
+   LOAD ALL DATA
+========================================================= */
+
+async function loadLeads(){
+
+  try{
+
+    const[
+      leadSnap,
+      freeSnap,
+      paySnap
+    ]=await Promise.all([
+
+      getDocs(
+        collection(db,"leads")
+      ),
+
+      getDocs(
+        collection(db,"freeConsultations")
+      ),
+
+      getDocs(
+        collection(db,"payments")
+      )
+
+    ]);
 
 
     leads=
@@ -1477,98 +1666,72 @@ async function loadAllData(){
       );
 
 
-    leads.sort(
-      (a,b)=>
-        getTime(b.createdAt)-
-        getTime(a.createdAt)
+    /*
+      Free consultation records
+    */
+
+    freeUsed=new Set(
+
+      freeSnap.docs
+        .filter(
+          d=>{
+
+            const data=d.data()||{};
+
+            return(
+              data.used===true ||
+              data.freeUsed===true ||
+              data.consultationUsed===true ||
+              data.completed===true ||
+              String(
+                data.status||""
+              )
+              .toUpperCase()
+              .match(
+                /USED|COMPLETED/
+              )
+            );
+
+          }
+        )
+        .map(d=>d.id)
+
     );
 
 
     /*
-      Payments collection.
-      If rules/data are available,
-      verified payments are included.
+      Payment records
     */
 
-    try{
-
-      const paymentSnap=
-        await getDocs(
-          collection(
-            db,
-            "payments"
-          )
-        );
-
-
-      payments=
-        paymentSnap.docs.map(
-          d=>({
-            id:d.id,
-            ...d.data()
-          })
-        );
-
-    }catch(e){
-
-      console.warn(
-        "Payments collection could not be loaded:",
-        e
+    paymentEvents=
+      paySnap.docs.map(
+        d=>({
+          id:d.id,
+          ...d.data()
+        })
       );
-
-      payments=[];
-
-    }
 
 
     /*
-      Free consultation records.
+      Newest first
     */
 
-    try{
-
-      const freeSnap=
-        await getDocs(
-          collection(
-            db,
-            "freeConsultations"
-          )
-        );
-
-
-      freeConsultations=
-        freeSnap.docs.map(
-          d=>({
-            id:d.id,
-            ...d.data()
-          })
-        );
-
-    }catch(e){
-
-      console.warn(
-        "Free consultation collection could not be loaded:",
-        e
-      );
-
-      freeConsultations=[];
-
-    }
+    leads.sort(
+      (a,b)=>
+        dateMs(b.createdAt)-
+        dateMs(a.createdAt)
+    );
 
 
     render();
 
+  }
+  catch(e){
 
-  }catch(e){
-
-    console.error(
-      "Firestore load error:",
-      e
-    );
-
+    console.error(e);
 
     alert(
-      "Could not load leads.\n\n"+
+      "Could not load Admin data.\n\n"+
       "Firestore error: "+
       (e?.code||"unknown")+
       "\n"+
@@ -1580,581 +1743,11 @@ async function loadAllData(){
 }
 
 
-/* =================================
-   TIME
-================================= */
-
-function getTime(value){
-
-  if(!value)return 0;
-
-  if(
-    value.toDate
-  ){
-
-    return value
-      .toDate()
-      .getTime();
-
-  }
-
-  const t=
-    new Date(value).getTime();
-
-  return isNaN(t)?0:t;
-
-}
-
-
-/* =================================
-   NORMALIZE PHONE
-================================= */
-
-function normalizePhone(value){
-
-  return String(
-    value||""
-  )
-  .replace(/\D/g,"")
-  .replace(/^91/,"");
-
-}
-
-
-/* =================================
-   FREE CONSULTATION USED
-================================= */
-
-function freeWasUsed(l){
-
-  const uid=
-    l.uid||
-    l.userId||
-    l.customerUid||
-    "";
-
-
-  const mobile=
-    normalizePhone(
-      l.mobile||
-      l.phone||
-      l.authPhone
-    );
-
-
-  /*
-    1. Direct lead fields
-  */
-
-  if(
-    l.freeConsultation===true ||
-    l.freeUsed===true ||
-    l.consultationUsed===true
-  ){
-
-    return true;
-
-  }
-
-
-  /*
-    2. Explicit FREE payment marker
-  */
-
-  if(
-    String(
-      l.payment||""
-    ).toUpperCase()==="FREE"
-  ){
-
-    return true;
-
-  }
-
-
-  /*
-    3. freeConsultations collection
-  */
-
-  return freeConsultations.some(
-    f=>{
-
-      const fUid=
-        f.uid||
-        f.userId||
-        f.id||
-        "";
-
-
-      const fMobile=
-        normalizePhone(
-          f.mobile||
-          f.phone||
-          f.authPhone
-        );
-
-
-      const used=
-        f.used===true ||
-        f.freeUsed===true ||
-        f.completed===true ||
-        f.consultationUsed===true ||
-        f.status==="USED" ||
-        f.status==="COMPLETED" ||
-        f.status==="used" ||
-        f.status==="completed";
-
-
-      if(
-        uid &&
-        fUid &&
-        uid===fUid
-      ){
-
-        return true;
-
-      }
-
-
-      if(
-        mobile &&
-        fMobile &&
-        mobile===fMobile
-      ){
-
-        return true;
-
-      }
-
-
-      return false;
-
-    }
-  );
-
-}
-
-
-/* =================================
-   AMOUNT
-================================= */
-
-function amountOf(obj){
-
-  const values=[
-
-    obj?.amount,
-
-    obj?.paymentAmount,
-
-    obj?.amountPaid,
-
-    obj?.paidAmount,
-
-    obj?.price,
-
-    obj?.total,
-
-    obj?.value
-
-  ];
-
-
-  for(
-    const v of values
-  ){
-
-    const n=
-      Number(
-        String(v??"")
-        .replace(/[₹,\s]/g,"")
-      );
-
-
-    if(
-      Number.isFinite(n) &&
-      n>0
-    ){
-
-      return n;
-
-    }
-
-  }
-
-
-  return 0;
-
-}
-
-
-/* =================================
-   PAYMENT STATUS
-================================= */
-
-function paymentStatus(obj){
-
-  return String(
-
-    obj?.paymentStatus||
-    obj?.status||
-    obj?.payment||
-    ""
-
-  )
-  .trim()
-  .toUpperCase();
-
-}
-
-
-/* =================================
-   VERIFIED ₹499 PAYMENT
-================================= */
-
-function isVerified499(obj){
-
-  const amount=
-    amountOf(obj);
-
-
-  const status=
-    paymentStatus(obj);
-
-
-  const goodStatus=[
-
-    "VERIFIED",
-    "PAID",
-    "SUCCESS",
-    "SUCCESSFUL",
-    "COMPLETED",
-    "PAYMENT_SUCCESS",
-    "CAPTURED"
-
-  ];
-
-
-  return(
-    amount===499 &&
-    goodStatus.includes(status)
-  );
-
-}
-
-
-/* =================================
-   PAYMENT BELONGS TO LEAD
-================================= */
-
-function paymentBelongsToLead(
-  payment,
-  lead
-){
-
-  const paymentUid=
-    payment.uid||
-    payment.userId||
-    payment.customerUid||
-    "";
-
-
-  const leadUid=
-    lead.uid||
-    lead.userId||
-    lead.customerUid||
-    "";
-
-
-  if(
-    paymentUid &&
-    leadUid &&
-    paymentUid===leadUid
-  ){
-
-    return true;
-
-  }
-
-
-  const paymentMobile=
-    normalizePhone(
-      payment.mobile||
-      payment.phone||
-      payment.authPhone
-    );
-
-
-  const leadMobile=
-    normalizePhone(
-      lead.mobile||
-      lead.phone||
-      lead.authPhone
-    );
-
-
-  if(
-    paymentMobile &&
-    leadMobile &&
-    paymentMobile===leadMobile
-  ){
-
-    return true;
-
-  }
-
-
-  const paymentName=
-    String(
-      payment.name||
-      ""
-    )
-    .trim()
-    .toLowerCase();
-
-
-  const leadName=
-    String(
-      lead.name||
-      ""
-    )
-    .trim()
-    .toLowerCase();
-
-
-  if(
-    paymentName &&
-    leadName &&
-    paymentName===leadName
-  ){
-
-    return true;
-
-  }
-
-
-  return false;
-
-}
-
-
-/* =================================
-   LEAD HAS VERIFIED ₹499
-================================= */
-
-function leadHasPaidConsultation(l){
-
-  /*
-    Direct lead payment
-  */
-
-  if(
-    isVerified499(l)
-  ){
-
-    return true;
-
-  }
-
-
-  /*
-    Existing lead format:
-    payment = PAID
-    amount = 499
-  */
-
-  if(
-    String(
-      l.payment||""
-    ).toUpperCase()==="PAID" &&
-    amountOf(l)===499
-  ){
-
-    return true;
-
-  }
-
-
-  /*
-    Search payments collection
-  */
-
-  return payments.some(
-    p=>
-      isVerified499(p) &&
-      paymentBelongsToLead(
-        p,
-        l
-      )
-  );
-
-}
-
-
-/* =================================
-   STAGE
-
-   EXACT REQUIRED FLOW
-================================= */
-
-function stageOf(l){
-
-  const stored=
-    String(
-      l.status||""
-    ).trim();
-
-
-  /*
-    ADMIN-CONTROLLED STAGES
-    remain where admin put them.
-  */
-
-  if(
-    stored==="Closed Lead"
-  ){
-
-    return "Closed Lead";
-
-  }
-
-
-  if(
-    stored==="Active Advisory Client"
-  ){
-
-    return "Active Advisory Client";
-
-  }
-
-
-  /*
-    PAYMENT ALWAYS MAKES
-    CONSULTATION COMPLETED.
-  */
-
-  if(
-    leadHasPaidConsultation(l)
-  ){
-
-    return "Consultation Completed";
-
-  }
-
-
-  /*
-    If old status says completed
-    but no payment data exists,
-    preserve it.
-  */
-
-  if(
-    stored==="Consultation Completed"
-  ){
-
-    return "Consultation Completed";
-
-  }
-
-
-  /*
-    Free consultation used
-    = Pending Consultation.
-  */
-
-  if(
-    freeWasUsed(l)
-  ){
-
-    return "Pending Consultation";
-
-  }
-
-
-  /*
-    Free consultation not used
-    = New Lead.
-  */
-
-  return "New Lead";
-
-}
-
-
-/* =================================
-   ADVISORY FEE
-
-   Consultation ₹499 is NOT
-   counted here.
-================================= */
-
-function advisoryFeeOf(l){
-
-  const values=[
-
-    l.advisoryFee,
-
-    l.advisoryFees,
-
-    l.advisory_fee,
-
-    l.advisory_fee_amount,
-
-    l.advisoryAmount,
-
-    l.advisoryFeeAmount,
-
-    l.consultancyFee,
-
-    l.consultancyFees,
-
-    l.serviceFee,
-
-    l.advisoryPayment,
-
-    l.advisoryPaymentAmount
-
-  ];
-
-
-  for(
-    const v of values
-  ){
-
-    const n=
-      Number(
-        String(v??"")
-        .replace(/[₹,\s]/g,"")
-      );
-
-
-    if(
-      Number.isFinite(n) &&
-      n>0
-    ){
-
-      return n;
-
-    }
-
-  }
-
-
-  return 0;
-
-}
-
-
-/* =================================
-   RENDER
-================================= */
+/* =========================================================
+   RENDER DASHBOARD
+========================================================= */
 
 function render(){
-
-  let consultationRevenue=0;
-
-  let advisoryRevenue=0;
-
 
   const counts={
 
@@ -2171,455 +1764,415 @@ function render(){
   };
 
 
-  leads.forEach(
-    l=>{
+  /*
+    Every lead gets exactly
+    one of five stages.
+  */
 
-      const stage=
-        stageOf(l);
+  leads.forEach(l=>{
 
+    counts[
+      stageOf(l)
+    ]++;
 
-      if(
-        counts[stage]!==undefined
-      ){
-
-        counts[stage]++;
-
-      }
+  });
 
 
-      /*
-        ONLY ₹499 verified
-        consultation revenue.
-      */
-
-      if(
-        leadHasPaidConsultation(l)
-      ){
-
-        consultationRevenue+=499;
-
-      }
-
-
-      /*
-        Advisory fees are
-        completely separate.
-      */
-
-      advisoryRevenue+=
-        advisoryFeeOf(l);
-
-    }
-  );
+  const pays=
+    allPayments();
 
 
   /*
-    If there are payment records
-    which are not represented in
-    leads, include them once.
+    Consultation Revenue
+    = ONLY verified ₹499
   */
 
-  const leadPaymentKeys=
-    new Set();
-
-
-  leads.forEach(
-    l=>{
-
-      if(
-        leadHasPaidConsultation(l)
-      ){
-
-        const key=
-          normalizePhone(
-            l.mobile||
-            l.phone||
-            l.authPhone
-          )
-          +"|"+
-          String(
-            l.uid||
-            l.userId||
-            ""
-          );
-
-        leadPaymentKeys.add(key);
-
-      }
-
-    }
-  );
+  const revenue=
+    pays.reduce(
+      (sum,p)=>
+        sum+num(p.amount),
+      0
+    );
 
 
   /*
-    Do NOT blindly add payment
-    records here because the lead
-    may already contain the same
-    ₹499 payment.
-
-    Payment records are used for
-    detecting completion and shown
-    separately below.
+    Advisory Revenue
+    = ONLY advisoryFee
   */
 
+  const advisory=
+    advisoryRecords()
+      .reduce(
+        (sum,l)=>
+          sum+num(l.advisoryFee),
+        0
+      );
 
-  $("allLeads")
-    .textContent=
+
+  $("allLeads").textContent=
     leads.length;
 
-
-  $("newLeads")
-    .textContent=
+  $("newLeads").textContent=
     counts["New Lead"];
 
-
-  $("pending")
-    .textContent=
+  $("pending").textContent=
     counts["Pending Consultation"];
 
-
-  $("completed")
-    .textContent=
+  $("completed").textContent=
     counts["Consultation Completed"];
 
-
-  $("clients")
-    .textContent=
+  $("clients").textContent=
     counts["Active Advisory Client"];
 
-
-  $("closedLeads")
-    .textContent=
+  $("closedLeads").textContent=
     counts["Closed Lead"];
 
-
-  $("revenue")
-    .textContent=
+  $("revenue").textContent=
     "₹"+
-    consultationRevenue
-      .toLocaleString("en-IN");
+    revenue.toLocaleString("en-IN");
 
-
-  $("advisoryRevenue")
-    .textContent=
+  $("advisoryRevenue").textContent=
     "₹"+
-    advisoryRevenue
-      .toLocaleString("en-IN");
+    advisory.toLocaleString("en-IN");
 
 
-  $("leadCount")
-    .textContent=
-    leads.length;
+  /*
+    Filter
+  */
+
+  const filtered=
+    activeFilter==="ALL"
+      ? leads
+      : leads.filter(
+          l=>
+            stageOf(l)===activeFilter
+        );
 
 
-  renderLeadList(
-    leads
-  );
+  $("leadCount").textContent=
+    filtered.length+
+    " Leads";
 
-
-  renderConsultationRevenue();
-
-
-  renderAdvisoryFees();
-
-
-  renderPayments();
-
-}
-
-
-/* =================================
-   RENDER LEAD LIST
-================================= */
-
-function renderLeadList(
-  list
-){
 
   $("leadContainer").innerHTML=
-
-    list.length
-
-    ?
-
-    list.map(
-      l=>{
-
-        const stage=
-          stageOf(l);
-
-
-        const amount=
-          amountOf(l);
+    filtered.length
+      ?
+      filtered
+        .map(leadCard)
+        .join("")
+      :
+      "<div class='card empty'>"+
+      "No leads in this category."+
+      "</div>";
 
 
-        const paid=
-          leadHasPaidConsultation(l);
+  /*
+    Payments
+  */
+
+  $("paymentCount").textContent=
+    pays.length+
+    " Payments";
 
 
-        const statusClass=
-          stage==="Consultation Completed"
-          ?"completed"
-          :
-          stage==="Active Advisory Client"
-          ?"active"
-          :
-          stage==="Closed Lead"
-          ?"closed"
-          :
-          "";
+  $("paymentContainer").innerHTML=
+    pays.length
 
+      ?
 
-        return `
+      pays.map(
+        p=>`
 
-          <div class="card lead">
+        <div class="paymentRow">
 
-            <div>
+          <div>
 
-              <div class="name">
+            <b>${esc(p.name)}</b>
 
-                ${esc(
-                  l.name||
-                  "Customer"
-                )}
-
-              </div>
-
-              <div class="small">
-
-                ${esc(
-                  l.service||
-                  "Consultation"
-                )}
-
-              </div>
-
-              <div class="small">
-
-                ${esc(
-                  l.mobile||
-                  l.phone||
-                  l.authPhone||
-                  ""
-                )}
-
-              </div>
-
-            </div>
-
-
-            <div>
-
-              <div
-                class="${
-                  paid
-                  ?"paid"
-                  :"pendingPay"
-                }"
-              >
-
-                ₹${
-                  amount.toLocaleString(
-                    "en-IN"
-                  )
-                }
-
-                ${
-                  paid
-                  ?" • ₹499 PAID ✅"
-                  :" • PENDING"
-                }
-
-              </div>
-
-
-              <div class="small">
-
-                ${formatDate(
-                  l.createdAt
-                )}
-
-              </div>
-
-            </div>
-
-
-            <div>
-
-              <span
-                class="status ${statusClass}"
-              >
-
-                ${esc(
-                  stage
-                )}
-
-              </span>
-
-
-              <div class="small">
-
-                ${esc(
-                  l.problem||
-                  l.message||
-                  ""
-                )}
-
-              </div>
-
-            </div>
-
-
-            <div>
-
-              <button
-                class="primary"
-                onclick="openCustomer('${safeId(l.id)}')"
-              >
-
-                View Details
-
-              </button>
-
+            <div class="small">
+              ${esc(
+                p.mobile||
+                "Mobile not available"
+              )}
             </div>
 
           </div>
 
-        `;
 
-      }
-    ).join("")
+          <div>
+
+            <div class="paymentAmount">
+
+              ₹${num(p.amount)
+                .toLocaleString("en-IN")}
+              ✅
+
+            </div>
+
+            <div class="small">
+              Verified Consultation
+            </div>
+
+          </div>
 
 
-    :
+          <div class="small">
 
-    `
+            ${formatDate(p.date)}
 
-      <div class="card">
+          </div>
 
-        No leads in this section.
 
-      </div>
+          <div class="small">
 
-    `;
+            ${esc(p.id||"")}
+
+          </div>
+
+        </div>
+
+        `
+      ).join("")
+
+      :
+
+      "<div class='empty'>"+
+      "No verified ₹499 consultation payments found."+
+      "</div>";
 
 }
 
 
-/* =================================
-   STAGE MODAL
-================================= */
+/* =========================================================
+   LEAD CARD
+========================================================= */
 
-window.showStage=
-function(stage){
+function leadCard(l){
 
-  let list;
+  const s=
+    stageOf(l);
 
+  const paid=
+    leadPaid(l);
 
-  if(
-    stage==="ALL"
-  ){
-
-    list=
-      leads;
-
-    $("stageModalTitle")
-      .textContent=
-      "All Customer Leads";
-
-    $("stageModalSubtitle")
-      .textContent=
-      "All leads across the complete workflow.";
-
-  }else{
-
-    list=
-      leads.filter(
-        l=>
-          stageOf(l)===stage
-      );
+  const amount=
+    leadOwnPayment(l)
+      ? num(l.amount)
+      : 0;
 
 
-    $("stageModalTitle")
-      .textContent=
-      stage;
+  return`
+
+    <div class="card lead">
+
+      <div>
+
+        <div class="name">
+          ${esc(l.name||"Customer")}
+        </div>
+
+        <div class="small">
+
+          ${esc(l.service||"")}
+          •
+          ${esc(
+            l.mobile||
+            l.phone||
+            l.authPhone||
+            ""
+          )}
+
+        </div>
+
+      </div>
 
 
-    if(
-      stage==="New Lead"
-    ){
+      <div>
 
-      $("stageModalSubtitle")
-        .textContent=
-        "Free consultation has not been used.";
+        <div
+          class="${paid?'paid':'pendingPay'}"
+        >
 
-    }
-    else if(
-      stage==="Pending Consultation"
-    ){
+          ${
+            paid
 
-      $("stageModalSubtitle")
-        .textContent=
-        "Free consultation has been used. ₹499 consultation payment is still pending.";
+              ?
 
-    }
-    else if(
-      stage==="Consultation Completed"
-    ){
+              "₹499 • VERIFIED ✅"
 
-      $("stageModalSubtitle")
-        .textContent=
-        "₹499 consultation payment has been verified.";
+              :
 
-    }
-    else if(
-      stage==="Active Advisory Client"
-    ){
+              (
+                amount
 
-      $("stageModalSubtitle")
-        .textContent=
-        "Active leads are controlled by Admin.";
+                  ?
 
-    }
-    else if(
-      stage==="Closed Lead"
-    ){
+                  "₹"+
+                  amount.toLocaleString("en-IN")+
+                  " • "+
+                  esc(l.payment||"PENDING")
 
-      $("stageModalSubtitle")
-        .textContent=
-        "Closed leads are controlled by Admin.";
+                  :
 
-    }
+                  "No consultation payment"
+              )
+          }
 
-  }
+        </div>
+
+        <div class="small">
+
+          ${formatDate(l.createdAt)}
+
+        </div>
+
+      </div>
 
 
-  $("stageModalList")
-    .innerHTML=
+      <div>
+
+        <span
+          class="status ${stageClass(s)}"
+        >
+
+          ${esc(stageLabel(s))}
+
+        </span>
+
+        <div class="small">
+
+          ${esc(
+            l.message||
+            l.problem||
+            l.mainConcern||
+            ""
+          )}
+
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <button
+          class="primary"
+          onclick="openCustomer('${esc(l.id)}')"
+        >
+          View Details
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+window.setFilter=
+function(f,btn){
+
+  activeFilter=f;
+
+
+  document
+    .querySelectorAll(
+      ".filterBar button"
+    )
+    .forEach(
+      b=>
+        b.classList.remove(
+          "selected"
+        )
+    );
+
+
+  if(btn)
+    btn.classList.add(
+      "selected"
+    );
+
+
+  render();
+
+};
+
+
+/* =========================================================
+   STATUS MODAL
+========================================================= */
+
+window.showStatusStage=
+function(status){
+
+  const list=
+    leads.filter(
+      l=>
+        stageOf(l)===status
+    );
+
+
+  $("statusModalTitle")
+    .textContent=
+    stageLabel(status);
+
+
+  $("statusModalSubtitle")
+    .textContent=
+
+      status==="New Lead"
+
+        ?
+
+        "First Free Consultation अभी तक use नहीं हुई."
+
+        :
+
+      status==="Pending Consultation"
+
+        ?
+
+        "First Free Consultation use हो चुकी है, लेकिन ₹499 paid consultation नहीं है."
+
+        :
+
+      status==="Consultation Completed"
+
+        ?
+
+        "₹499 consultation paid/verified."
+
+        :
+
+        "Open customer to see full details.";
+
+
+  $("statusList").innerHTML=
 
     list.length
 
-    ?
+      ?
 
-    list.map(
-      l=>`
+      list.map(
+        l=>`
 
-        <div class="stageListItem">
+        <div class="listItem">
 
-          <div class="stageTop">
+          <div class="listTop">
 
             <div>
 
-              <div class="stageName">
-
-                ${esc(
-                  l.name||
-                  "Customer"
-                )}
-
+              <div class="listName">
+                ${esc(l.name||"Customer")}
               </div>
 
-              <div class="stagePhone">
+              <div class="listMeta">
 
                 ${esc(
                   l.mobile||
@@ -2628,14 +2181,23 @@ function(stage){
                   "Mobile not available"
                 )}
 
+                •
+
+                ${formatDate(l.createdAt)}
+
               </div>
 
             </div>
 
-            <span class="status">
+
+            <span
+              class="status ${stageClass(stageOf(l))}"
+            >
 
               ${esc(
-                stageOf(l)
+                stageLabel(
+                  stageOf(l)
+                )
               )}
 
             </span>
@@ -2643,17 +2205,23 @@ function(stage){
           </div>
 
 
+          <div
+            class="small"
+            style="margin-top:10px"
+          >
+
+            ${esc(l.service||"")}
+
+          </div>
+
+
           <div class="small">
 
             ${esc(
-              l.service||
-              "Consultation"
-            )}
-
-            •
-
-            ${formatDate(
-              l.createdAt
+              l.message||
+              l.problem||
+              l.mainConcern||
+              "No concern provided."
             )}
 
           </div>
@@ -2666,58 +2234,266 @@ function(stage){
 
             <button
               class="primary"
-              onclick="openCustomer('${safeId(l.id)}')"
+              onclick="
+                openCustomer('${esc(l.id)}');
+                closeStatusModal();
+              "
             >
-
-              View Details
-
+              View Complete Form
             </button>
 
           </div>
 
         </div>
 
-      `
-    ).join("")
+        `
+      ).join("")
+
+      :
+
+      "<div class='empty'>"+
+      "No customers in this category."+
+      "</div>";
 
 
-    :
-
-    `
-
-      <div class="pendingEmpty">
-
-        No customers in this stage.
-
-      </div>
-
-    `;
-
-
-  $("stageModal")
-    .classList
-    .add("active");
+  $("statusModal")
+    .classList.add("active");
 
 };
 
 
-/* =================================
-   CLOSE STAGE
-================================= */
-
-window.closeStage=
+window.closeStatusModal=
 function(){
 
-  $("stageModal")
-    .classList
-    .remove("active");
+  $("statusModal")
+    .classList.remove("active");
 
 };
 
 
-/* =================================
-   OPEN CUSTOMER
-================================= */
+/* =========================================================
+   CONSULTATION REVENUE
+========================================================= */
+
+window.openConsultationRevenue=
+function(){
+
+  const records=
+    allPayments();
+
+
+  const total=
+    records.reduce(
+      (sum,p)=>
+        sum+num(p.amount),
+      0
+    );
+
+
+  $("revenueModalTotal")
+    .textContent=
+    "₹"+
+    total.toLocaleString("en-IN");
+
+
+  $("revenueList").innerHTML=
+
+    records.length
+
+      ?
+
+      records.map(
+        p=>`
+
+        <div class="listItem">
+
+          <div class="listTop">
+
+            <div>
+
+              <div class="listName">
+                ${esc(p.name)}
+              </div>
+
+              <div class="listMeta">
+                ${esc(
+                  p.mobile||
+                  "Mobile not available"
+                )}
+              </div>
+
+            </div>
+
+
+            <b class="paid">
+
+              ₹${num(p.amount)
+                .toLocaleString("en-IN")}
+
+            </b>
+
+          </div>
+
+
+          <div class="small">
+
+            ${formatDate(p.date)}
+
+            •
+
+            ${esc(
+              p.id||
+              "Payment record"
+            )}
+
+          </div>
+
+        </div>
+
+        `
+      ).join("")
+
+      :
+
+      "<div class='empty'>"+
+      "No verified consultation payments yet."+
+      "</div>";
+
+
+  $("revenueModal")
+    .classList.add("active");
+
+};
+
+
+window.closeRevenueModal=
+function(){
+
+  $("revenueModal")
+    .classList.remove("active");
+
+};
+
+
+/* =========================================================
+   ADVISORY REVENUE
+========================================================= */
+
+window.openAdvisoryRevenue=
+function(){
+
+  const records=
+    advisoryRecords();
+
+
+  const total=
+    records.reduce(
+      (sum,l)=>
+        sum+num(l.advisoryFee),
+      0
+    );
+
+
+  $("advisoryModalTotal")
+    .textContent=
+    "₹"+
+    total.toLocaleString("en-IN");
+
+
+  $("advisoryList").innerHTML=
+
+    records.length
+
+      ?
+
+      records.map(
+        l=>`
+
+        <div class="listItem">
+
+          <div class="listTop">
+
+            <div>
+
+              <div class="listName">
+
+                ${esc(
+                  l.name||
+                  "Customer"
+                )}
+
+              </div>
+
+              <div class="listMeta">
+
+                ${esc(
+                  l.mobile||
+                  l.authPhone||
+                  ""
+                )}
+
+                •
+
+                ${esc(
+                  l.service||
+                  ""
+                )}
+
+              </div>
+
+            </div>
+
+
+            <b class="paid">
+
+              ₹${num(
+                l.advisoryFee
+              ).toLocaleString("en-IN")}
+
+            </b>
+
+          </div>
+
+
+          <div class="small">
+
+            ${formatDate(
+              l.updatedAt||
+              l.createdAt
+            )}
+
+          </div>
+
+        </div>
+
+        `
+      ).join("")
+
+      :
+
+      "<div class='empty'>"+
+      "No advisory fees recorded yet."+
+      "</div>";
+
+
+  $("advisoryModal")
+    .classList.add("active");
+
+};
+
+
+window.closeAdvisoryModal=
+function(){
+
+  $("advisoryModal")
+    .classList.remove("active");
+
+};
+
+
+/* =========================================================
+   CUSTOMER FULL DETAILS
+========================================================= */
 
 window.openCustomer=
 function(id){
@@ -2728,14 +2504,11 @@ function(id){
     );
 
 
-  if(!l)return;
+  if(!l)
+    return;
 
 
-  currentCustomerId=
-    id;
-
-
-  const stage=
+  const s=
     stageOf(l);
 
 
@@ -2748,30 +2521,41 @@ function(id){
   $("customerService")
     .textContent=
     l.service||
-    "Consultation";
+    "";
 
 
-  $("customerMobile")
-    .textContent=
+  const mobile=
     l.mobile||
     l.phone||
     l.authPhone||
     "Not provided";
 
 
+  $("customerMobile")
+    .textContent=
+    mobile;
+
+
   $("customerPayment")
     .textContent=
-    leadHasPaidConsultation(l)
-    ?
-    "₹499 — VERIFIED / PAID"
-    :
-    "Pending";
+
+      leadPaid(l)
+
+        ?
+
+        "₹499 — VERIFIED"
+
+        :
+
+        (
+          l.payment||
+          "No consultation payment"
+        );
 
 
-  $("customerProblem")
+  $("customerStatus")
     .textContent=
-    l.problem||
-    "Not provided";
+    stageLabel(s);
 
 
   $("customerDate")
@@ -2781,204 +2565,457 @@ function(id){
     );
 
 
-  $("customerStatus")
-    .textContent=
-    stage;
-
-
-  $("customerAdvisoryFee")
-    .textContent=
-    advisoryFeeOf(l)>0
-    ?
-    "₹"+
-    advisoryFeeOf(l)
-      .toLocaleString("en-IN")
-    :
-    "Not added";
-
-
   $("customerMessage")
     .textContent=
-    l.message||
-    l.problem||
-    "Not provided";
+
+      l.message||
+      l.problem||
+      l.mainConcern||
+      "Not provided";
 
 
-  renderCompleteForm(
-    l
-  );
-
-
-  /*
-    Buttons according to
-    exact workflow.
-  */
-
-  $("movePending")
-    .classList
-    .toggle(
-      "hidden",
-      stage!=="New Lead"
-    );
-
-
-  $("moveCompleted")
-    .classList
-    .toggle(
-      "hidden",
-      stage!=="Pending Consultation"
-    );
-
-
-  $("moveActive")
-    .classList
-    .toggle(
-      "hidden",
-      stage!=="Consultation Completed"
-    );
-
-
-  $("moveClosed")
-    .classList
-    .toggle(
-      "hidden",
-      stage!=="Active Advisory Client"
-    );
-
-
-  $("moveBackActive")
-    .classList
-    .toggle(
-      "hidden",
-      stage!=="Closed Lead"
-    );
-
-
-  $("advisoryFeeInput")
-    .value=
-    advisoryFeeOf(l)||
-    "";
-
-
-  $("customerModal")
-    .classList
-    .add("active");
-
-};
-
-
-/* =================================
-   COMPLETE FORM DETAILS
-================================= */
-
-function renderCompleteForm(l){
+  /* =====================================================
+     COMPLETE FORM DETAILS
+  ===================================================== */
 
   const ignored=[
-
     "id",
-    "name",
-    "mobile",
-    "phone",
-    "authPhone",
-    "service",
-    "amount",
-    "payment",
-    "paymentStatus",
-    "problem",
-    "message",
-    "status",
-    "source",
     "createdAt",
     "updatedAt",
-    "uid",
-    "userId",
-    "customerUid"
-
+    "advisoryFee"
   ];
 
 
-  const fields=
-    Object.keys(l)
-      .filter(
-        k=>
-          !ignored.includes(k)
-      )
-      .filter(
-        k=>
-          l[k]!==undefined &&
-          l[k]!==null &&
-          String(l[k]).trim()!==""
+  const flat=[];
+
+
+  function flatten(
+    value,
+    label
+  ){
+
+    if(
+      value===undefined||
+      value===null||
+      value===""
+    )
+      return;
+
+
+    if(value?.toDate){
+
+      flat.push([
+        label,
+        value.toDate()
+          .toLocaleString("en-IN")
+      ]);
+
+      return;
+
+    }
+
+
+    if(Array.isArray(value)){
+
+      value.forEach(
+        (x,i)=>
+          flatten(
+            x,
+            label+" "+(i+1)
+          )
       );
+
+      return;
+
+    }
+
+
+    if(
+      typeof value==="object"
+    ){
+
+      Object.keys(value)
+        .forEach(
+          k=>
+            flatten(
+              value[k],
+              label+
+              " • "+
+              prettyLabel(k)
+            )
+        );
+
+      return;
+
+    }
+
+
+    flat.push([
+      label,
+      String(value)
+    ]);
+
+  }
+
+
+  function prettyLabel(k){
+
+    return String(k)
+
+      .replace(
+        /([A-Z])/g,
+        " $1"
+      )
+
+      .replace(
+        /[_-]/g,
+        " "
+      )
+
+      .replace(
+        /\s+/g,
+        " "
+      )
+
+      .trim()
+
+      .replace(
+        /^./,
+        c=>c.toUpperCase()
+      );
+
+  }
+
+
+  Object.keys(l)
+    .forEach(
+      k=>{
+
+        if(
+          !ignored.includes(k)
+        ){
+
+          flatten(
+            l[k],
+            prettyLabel(k)
+          );
+
+        }
+
+      }
+    );
 
 
   $("completeFormDetails")
     .innerHTML=
 
-    fields.length
+      flat.length
 
-    ?
+        ?
 
-    `<div class="fieldGrid">`
+        `
+        <div class="fieldGrid">
 
-    +
+          ${
+            flat.map(
+              ([a,b])=>
+              `
+              <div class="field">
 
-    fields.map(
-      k=>`
+                <label>
+                  ${esc(a)}
+                </label>
 
-        <div class="field">
+                <div>
+                  ${esc(b)}
+                </div>
 
-          <label>
-
-            ${esc(
-              prettyLabel(k)
-            )}
-
-          </label>
-
-          <div>
-
-            ${esc(
-              formatValue(l[k])
-            )}
-
-          </div>
+              </div>
+              `
+            ).join("")
+          }
 
         </div>
+        `
 
-      `
-    ).join("")
+        :
 
-    +
+        "<div class='small'>"+
+        "No additional form data was saved."+
+        "</div>";
 
-    `</div>`
 
-    :
+  /* =====================================================
+     ADVISORY FEE
+  ===================================================== */
 
-    `
+  $("advisoryFeeInput")
+    .value=
+    l.advisoryFee??"";
 
-      <div
-        class="small"
-        style="margin-top:10px"
-      >
 
-        No additional form fields were saved for this lead.
+  $("currentAdvisoryFee")
+    .textContent=
 
-      </div>
+      l.advisoryFee
 
-    `;
+        ?
+
+        "Current Advisory Fee: ₹"+
+        num(
+          l.advisoryFee
+        ).toLocaleString("en-IN")
+
+        :
+
+        "No advisory fee recorded.";
+
+
+  $("saveAdvisoryFee")
+    .onclick=
+    ()=>
+      saveAdvisoryFee(
+        l.id
+      );
+
+
+  /* =====================================================
+     CONTACT CUSTOMER
+  ===================================================== */
+
+  $("callCustomer")
+    .onclick=
+    ()=>{
+
+      const p=
+        l.mobile||
+        l.phone||
+        l.authPhone;
+
+
+      if(p){
+
+        location.href=
+          "tel:"+
+          String(p)
+            .replace(/\s/g,"");
+
+      }
+
+    };
+
+
+  /* =====================================================
+     WORKFLOW BUTTONS
+  ===================================================== */
+
+  [
+    "completeConsultation",
+    "moveToActiveClient",
+    "moveToClosed",
+    "reopenLead"
+  ]
+  .forEach(
+    x=>{
+
+      $(x).style.display=
+        "none";
+
+      $(x).onclick=
+        null;
+
+    }
+  );
+
+
+  /*
+    Pending → Completed
+  */
+
+  if(
+    s==="Pending Consultation"
+  ){
+
+    $("completeConsultation")
+      .style.display=
+      "inline-block";
+
+    $("completeConsultation")
+      .onclick=
+      ()=>
+        changeStatus(
+          l.id,
+          "Consultation Completed"
+        );
+
+  }
+
+
+  /*
+    Completed → Active
+  */
+
+  else if(
+    s==="Consultation Completed"
+  ){
+
+    $("moveToActiveClient")
+      .style.display=
+      "inline-block";
+
+    $("moveToActiveClient")
+      .onclick=
+      ()=>
+        changeStatus(
+          l.id,
+          "Active Advisory Client"
+        );
+
+  }
+
+
+  /*
+    Active → Closed
+  */
+
+  else if(
+    s==="Active Advisory Client"
+  ){
+
+    $("moveToClosed")
+      .style.display=
+      "inline-block";
+
+    $("moveToClosed")
+      .onclick=
+      ()=>
+        changeStatus(
+          l.id,
+          "Closed Lead"
+        );
+
+  }
+
+
+  /*
+    Closed → Active
+  */
+
+  else if(
+    s==="Closed Lead"
+  ){
+
+    $("reopenLead")
+      .style.display=
+      "inline-block";
+
+    $("reopenLead")
+      .onclick=
+      ()=>
+        changeStatus(
+          l.id,
+          "Active Advisory Client"
+        );
+
+  }
+
+
+  $("customerModal")
+    .classList.add("active");
+
+};
+
+
+window.closeCustomer=
+function(){
+
+  $("customerModal")
+    .classList.remove("active");
+
+};
+
+
+/* =========================================================
+   SAVE ADVISORY FEE
+========================================================= */
+
+async function saveAdvisoryFee(id){
+
+  const raw=
+    $("advisoryFeeInput")
+      .value
+      .trim();
+
+
+  if(
+    raw!=="" &&
+    (
+      !Number.isFinite(
+        Number(raw)
+      ) ||
+      Number(raw)<0
+    )
+  ){
+
+    alert(
+      "Please enter a valid advisory fee."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "leads",
+        id
+      ),
+      {
+
+        advisoryFee:
+          raw===""
+            ? 0
+            : Number(raw),
+
+        updatedAt:
+          serverTimestamp()
+
+      }
+    );
+
+
+    await loadLeads();
+
+    openCustomer(id);
+
+    alert(
+      "Advisory fee saved successfully."
+    );
+
+  }
+  catch(e){
+
+    alert(
+      "Could not save advisory fee.\n\n"+
+      (e?.message||e)
+    );
+
+  }
 
 }
 
 
-/* =================================
-   MOVE STATUS
+/* =========================================================
+   CHANGE STATUS
+========================================================= */
 
-   Admin-controlled after payment.
-================================= */
-
-async function moveCustomer(
+async function changeStatus(
   id,
-  newStatus
+  to
 ){
 
   const l=
@@ -2987,15 +3024,16 @@ async function moveCustomer(
     );
 
 
-  if(!l)return;
+  if(!l)
+    return;
 
 
-  const current=
+  const from=
     stageOf(l);
 
 
   /*
-    Only allowed transitions.
+    EXACT WORKFLOW
   */
 
   const allowed={
@@ -3024,14 +3062,12 @@ async function moveCustomer(
 
 
   if(
-    !(
-      allowed[current]||
-      []
-    ).includes(newStatus)
+    !(allowed[from]||[])
+      .includes(to)
   ){
 
     alert(
-      "This movement is not allowed from the current stage."
+      "This workflow movement is not allowed."
     );
 
     return;
@@ -3042,43 +3078,32 @@ async function moveCustomer(
   try{
 
     await updateDoc(
-
       doc(
         db,
         "leads",
         id
       ),
-
       {
 
-        status:
-          newStatus,
+        status:to,
 
         updatedAt:
-          new Date()
+          serverTimestamp()
 
       }
-
     );
 
 
-    closeCustomer();
+    await loadLeads();
 
+    openCustomer(id);
 
-    await loadAllData();
-
-
-  }catch(e){
-
-    console.error(e);
-
+  }
+  catch(e){
 
     alert(
       "Could not update customer status.\n\n"+
-      "Firestore error: "+
-      (e?.code||"unknown")+
-      "\n"+
-      (e?.message||String(e))
+      (e?.message||e)
     );
 
   }
@@ -3086,411 +3111,132 @@ async function moveCustomer(
 }
 
 
-/* =================================
-   MOVE BUTTONS
-================================= */
+/* =========================================================
+   ADMIN LOGIN
+   KEEPING EXISTING WORKING FLOW
+========================================================= */
 
-$("movePending").onclick=
-()=>moveCustomer(
-  currentCustomerId,
-  "Pending Consultation"
-);
+function setupRecaptcha(){
 
-
-$("moveCompleted").onclick=
-()=>moveCustomer(
-  currentCustomerId,
-  "Consultation Completed"
-);
-
-
-$("moveActive").onclick=
-()=>moveCustomer(
-  currentCustomerId,
-  "Active Advisory Client"
-);
-
-
-$("moveClosed").onclick=
-()=>moveCustomer(
-  currentCustomerId,
-  "Closed Lead"
-);
-
-
-$("moveBackActive").onclick=
-()=>moveCustomer(
-  currentCustomerId,
-  "Active Advisory Client"
-);
-
-
-/* =================================
-   CALL CUSTOMER
-================================= */
-
-$("callCustomer").onclick=
-()=>{
-
-  const l=
-    leads.find(
-      x=>x.id===currentCustomerId
-    );
-
-
-  if(!l)return;
-
-
-  const phone=
-    l.mobile||
-    l.phone||
-    l.authPhone||
-    "";
-
-
-  if(phone){
-
-    location.href=
-      "tel:"+
-      String(phone)
-        .replace(/\s/g,"");
-
-  }
-
-};
-
-
-/* =================================
-   CLOSE CUSTOMER
-================================= */
-
-window.closeCustomer=
-function(){
-
-  $("customerModal")
-    .classList
-    .remove("active");
-
-  currentCustomerId=null;
-
-};
-
-
-/* =================================
-   CONSULTATION REVENUE
-================================= */
-
-function renderConsultationRevenue(){
-
-  const paidLeads=
-    leads.filter(
-      l=>
-        leadHasPaidConsultation(l)
-    );
-
-
-  let total=
-    paidLeads.length*499;
-
-
-  $("consultationRevenueTotal")
-    .textContent=
-    "₹"+
-    total.toLocaleString(
-      "en-IN"
-    );
-
-
-  $("consultationRevenueContainer")
-    .innerHTML=
-
-    paidLeads.length
-
-    ?
-
-    paidLeads.map(
-      l=>`
-
-        <div class="paymentRow">
-
-          <div>
-
-            <div class="paymentName">
-
-              ${esc(
-                l.name||
-                "Customer"
-              )}
-
-            </div>
-
-            <div class="paymentMeta">
-
-              ${esc(
-                l.mobile||
-                l.phone||
-                l.authPhone||
-                ""
-              )}
-
-              •
-
-              ${formatDate(
-                l.createdAt
-              )}
-
-            </div>
-
-          </div>
-
-
-          <div class="paid">
-
-            ₹499 ✅
-
-          </div>
-
-        </div>
-
-      `
-    ).join("")
-
-
-    :
-
-    `
-
-      <div class="small">
-
-        No verified ₹499 consultation payments yet.
-
-      </div>
-
-    `;
-
-}
-
-
-/* =================================
-   SHOW CONSULTATION REVENUE
-================================= */
-
-window.showConsultationRevenue=
-function(){
-
-  $("consultationRevenueSection")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-
-};
-
-
-/* =================================
-   ADVISORY FEES
-================================= */
-
-function renderAdvisoryFees(){
-
-  const feeLeads=
-    leads.filter(
-      l=>
-        advisoryFeeOf(l)>0
-    );
-
-
-  const total=
-    feeLeads.reduce(
-      (
-        sum,
-        l
-      )=>
-        sum+
-        advisoryFeeOf(l),
-      0
-    );
-
-
-  $("advisoryRevenueTotal")
-    .textContent=
-    "₹"+
-    total.toLocaleString(
-      "en-IN"
-    );
-
-
-  $("advisoryFeesContainer")
-    .innerHTML=
-
-    feeLeads.length
-
-    ?
-
-    feeLeads.map(
-      l=>`
-
-        <div class="paymentRow">
-
-          <div>
-
-            <div class="paymentName">
-
-              ${esc(
-                l.name||
-                "Customer"
-              )}
-
-            </div>
-
-            <div class="paymentMeta">
-
-              ${esc(
-                stageOf(l)
-              )}
-
-              •
-
-              ${esc(
-                l.mobile||
-                l.phone||
-                l.authPhone||
-                ""
-              )}
-
-            </div>
-
-          </div>
-
-
-          <div
-            style="
-              color:#8a6500;
-              font-weight:800
-            "
-          >
-
-            ₹${
-              advisoryFeeOf(l)
-                .toLocaleString(
-                  "en-IN"
-                )
-            }
-
-          </div>
-
-        </div>
-
-      `
-    ).join("")
-
-
-    :
-
-    `
-
-      <div class="small">
-
-        No advisory fees recorded yet.
-
-      </div>
-
-    `;
-
-}
-
-
-/* =================================
-   SHOW ADVISORY FEES
-================================= */
-
-window.showAdvisoryFees=
-function(){
-
-  $("advisoryFeesSection")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-
-};
-
-
-/* =================================
-   SAVE ADVISORY FEE
-================================= */
-
-$("saveAdvisoryFee").onclick=
-async()=>{
-
-  if(!currentCustomerId)return;
-
-
-  const fee=
-    Number(
-      $("advisoryFeeInput")
-        .value
-    );
-
-
-  if(
-    !Number.isFinite(fee) ||
-    fee<0
-  ){
-
-    alert(
-      "Please enter a valid advisory fee."
-    );
-
+  if(recaptcha)
     return;
 
-  }
 
+  recaptcha=
+    new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        size:"invisible"
+      }
+    );
+
+}
+
+
+$("sendOtp").onclick=
+async()=>{
 
   try{
 
-    await updateDoc(
+    setupRecaptcha();
 
-      doc(
-        db,
-        "leads",
-        currentCustomerId
-      ),
 
-      {
+    const rawPhone=
+      $("phone")
+        .value
+        .trim();
 
-        advisoryFee:
-          fee,
 
-        updatedAt:
-          new Date()
+    let digits=
+      rawPhone
+        .replace(/\D/g,"");
 
-      }
 
+    if(
+      digits.length===12 &&
+      digits.startsWith("91")
+    ){
+
+      digits=
+        digits.substring(2);
+
+    }
+
+
+    if(
+      !/^[6-9]\d{9}$/.test(
+        digits
+      )
+    ){
+
+      msg(
+        "Please enter a valid 10-digit Indian mobile number.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const phone=
+      "+91"+
+      digits;
+
+
+    msg(
+      "Sending OTP...",
+      "success"
     );
 
 
-    alert(
-      "Advisory fee saved successfully."
+    confirmationResult=
+      await signInWithPhoneNumber(
+        auth,
+        phone,
+        recaptcha
+      );
+
+
+    $("otpArea")
+      .classList
+      .remove("hidden");
+
+
+    msg(
+      "OTP sent to "+
+      phone,
+      "success"
     );
 
-
-    await loadAllData();
-
-
-    openCustomer(
-      currentCustomerId
-    );
-
-
-  }catch(e){
+  }
+  catch(e){
 
     console.error(e);
 
 
-    alert(
-      "Could not save advisory fee.\n\n"+
-      (e?.message||String(e))
+    msg(
+      "OTP could not be sent. Check the number and Firebase Phone Authentication settings.",
+      "error"
+    );
+
+
+    try{
+
+      if(recaptcha)
+        recaptcha.clear();
+
+    }
+    catch(_){}
+
+
+    recaptcha=null;
+
+
+    setTimeout(
+      setupRecaptcha,
+      100
     );
 
   }
@@ -3498,445 +3244,110 @@ async()=>{
 };
 
 
-/* =================================
-   PAYMENT LIST
-================================= */
+$("verifyOtp").onclick=
+async()=>{
 
-function renderPayments(){
+  try{
 
-  /*
-    Show only verified ₹499
-    consultation payments here.
-  */
+    if(!confirmationResult){
 
-  const verified=[];
-
-  const seen=new Set();
-
-
-  leads.forEach(
-    l=>{
-
-      if(
-        leadHasPaidConsultation(l)
-      ){
-
-        const key=
-          normalizePhone(
-            l.mobile||
-            l.phone||
-            l.authPhone
-          )
-          +"|"+
-          String(
-            l.uid||
-            l.userId||
-            ""
-          )
-          +"|499";
-
-
-        if(
-          !seen.has(key)
-        ){
-
-          seen.add(key);
-
-          verified.push({
-
-            name:
-              l.name||
-              "Customer",
-
-            mobile:
-              l.mobile||
-              l.phone||
-              l.authPhone||
-              "",
-
-            amount:
-              499,
-
-            date:
-              l.createdAt,
-
-            paymentId:
-              l.paymentId||
-              l.razorpayPaymentId||
-              l.razorpay_payment_id||
-              ""
-
-          });
-
-        }
-
-      }
-
-    }
-  );
-
-
-  /*
-    Also include verified
-    payment records that may
-    not have lead.payment updated.
-  */
-
-  payments.forEach(
-    p=>{
-
-      if(
-        !isVerified499(p)
-      ){
-
-        return;
-
-      }
-
-
-      const mobile=
-        normalizePhone(
-          p.mobile||
-          p.phone||
-          p.authPhone
-        );
-
-
-      const key=
-        mobile+
-        "|" +
-        String(
-          p.uid||
-          p.userId||
-          ""
-        )+
-        "|499";
-
-
-      if(
-        seen.has(key)
-      ){
-
-        return;
-
-      }
-
-
-      seen.add(key);
-
-
-      verified.push({
-
-        name:
-          p.name||
-          "Customer",
-
-        mobile:
-          p.mobile||
-          p.phone||
-          p.authPhone||
-          "",
-
-        amount:
-          499,
-
-        date:
-          p.createdAt||
-          p.paidAt||
-          p.paymentDate,
-
-        paymentId:
-          p.paymentId||
-          p.razorpayPaymentId||
-          p.razorpay_payment_id||
-          p.id||
-          ""
-
-      });
-
-    }
-  );
-
-
-  verified.sort(
-    (a,b)=>
-      getTime(b.date)-
-      getTime(a.date)
-  );
-
-
-  $("paymentContainer")
-    .innerHTML=
-
-    verified.length
-
-    ?
-
-    verified.map(
-      p=>`
-
-        <div class="paymentRow">
-
-          <div>
-
-            <div class="paymentName">
-
-              ${esc(
-                p.name
-              )}
-
-            </div>
-
-            <div class="paymentMeta">
-
-              ${esc(
-                p.mobile||
-                "Mobile not available"
-              )}
-
-              •
-
-              ${formatDate(
-                p.date
-              )}
-
-              ${
-                p.paymentId
-                ?
-                " • ID: "+
-                esc(p.paymentId)
-                :
-                ""
-              }
-
-            </div>
-
-          </div>
-
-
-          <div class="paid">
-
-            ₹499 ✅
-
-          </div>
-
-        </div>
-
-      `
-    ).join("")
-
-
-    :
-
-    `
-
-      <div class="small">
-
-        No verified ₹499 consultation payments yet.
-
-      </div>
-
-    `;
-
-}
-
-
-/* =================================
-   DATE FORMAT
-================================= */
-
-function formatDate(ts){
-
-  if(
-    ts?.toDate
-  ){
-
-    return ts
-      .toDate()
-      .toLocaleString(
-        "en-IN",
-        {
-          dateStyle:"medium",
-          timeStyle:"short"
-        }
+      msg(
+        "Please request OTP first.",
+        "error"
       );
+
+      return;
+
+    }
+
+
+    await confirmationResult.confirm(
+      $("otp")
+        .value
+        .trim()
+    );
+
+  }
+  catch(e){
+
+    console.error(e);
+
+    msg(
+      "Invalid OTP. Please try again.",
+      "error"
+    );
 
   }
 
+};
 
-  if(ts){
 
-    const d=
-      new Date(ts);
+/* =========================================================
+   LOGOUT / REFRESH
+========================================================= */
+
+$("logout").onclick=
+()=>signOut(auth);
+
+
+$("refresh").onclick=
+loadLeads;
+
+
+/* =========================================================
+   AUTH CHECK
+========================================================= */
+
+onAuthStateChanged(
+  auth,
+  async user=>{
+
+    if(!user){
+
+      $("loginBox")
+        .classList
+        .remove("hidden");
+
+      $("dashboard")
+        .classList
+        .add("hidden");
+
+      return;
+
+    }
 
 
     if(
-      !isNaN(
-        d.getTime()
-      )
+      user.phoneNumber!==
+      ADMIN_PHONE
     ){
 
-      return d.toLocaleString(
-        "en-IN",
-        {
-          dateStyle:"medium",
-          timeStyle:"short"
-        }
+      await signOut(auth);
+
+      msg(
+        "This number is not authorized as the RinSaathi Admin.",
+        "error"
       );
+
+      return;
 
     }
 
-  }
+
+    $("loginBox")
+      .classList
+      .add("hidden");
 
 
-  return "Just now";
-
-}
-
-
-/* =================================
-   PRETTY LABEL
-================================= */
-
-function prettyLabel(key){
-
-  return String(key)
-
-    .replace(
-      /([A-Z])/g,
-      " $1"
-    )
-
-    .replace(
-      /[_-]/g,
-      " "
-    )
-
-    .replace(
-      /\s+/g,
-      " "
-    )
-
-    .trim()
-
-    .replace(
-      /^./,
-      c=>
-        c.toUpperCase()
-    );
-
-}
+    $("dashboard")
+      .classList
+      .remove("hidden");
 
 
-/* =================================
-   FORMAT VALUE
-================================= */
-
-function formatValue(value){
-
-  if(
-    value?.toDate
-  ){
-
-    return value
-      .toDate()
-      .toLocaleString(
-        "en-IN"
-      );
+    await loadLeads();
 
   }
-
-
-  if(
-    Array.isArray(value)
-  ){
-
-    return value.join(
-      ", "
-    );
-
-  }
-
-
-  if(
-    typeof value==="object"
-  ){
-
-    try{
-
-      return JSON.stringify(
-        value
-      );
-
-    }catch(_){
-
-      return String(
-        value
-      );
-
-    }
-
-  }
-
-
-  return String(
-    value
-  );
-
-}
-
-
-/* =================================
-   ESCAPE HTML
-================================= */
-
-function esc(v){
-
-  return String(
-    v??""
-  )
-
-  .replace(
-    /[&<>"']/g,
-    c=>
-      ({
-
-        "&":"&amp;",
-
-        "<":"&lt;",
-
-        ">":"&gt;",
-
-        '"':"&quot;",
-
-        "'":"&#039;"
-
-      }[c])
-
-  );
-
-}
-
-
-/* =================================
-   SAFE ID
-================================= */
-
-function safeId(value){
-
-  return String(
-    value||""
-  )
-  .replace(
-    /\\/g,
-    "\\\\"
-  )
-  .replace(
-    /'/g,
-    "\\'"
-  );
-
-}
+);
 
 </script>
 
