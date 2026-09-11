@@ -660,7 +660,7 @@ from
 
 
 const firebaseConfig={
-  apiKey:"AIzaSyCP0TMQjJ4nlofmVkmIS9G5aAAkFafHMV4",
+  apiKey:"AIzaSyCP0TMQj4nlofmVkmISN9G5aAAkFafHMV4",
   authDomain:"rinsaathi-app.firebaseapp.com",
   projectId:"rinsaathi-app",
   storageBucket:"rinsaathi-app.firebasestorage.app",
@@ -680,6 +680,12 @@ let recaptcha=null;
 
 let leads=[];
 let paymentEvents=[];
+
+/*
+  Stores UID values for customers who have
+  already used their one-time free consultation.
+*/
+let freeConsultationUsers=new Set();
 
 let activeFilter="ALL";
 
@@ -1104,30 +1110,63 @@ function statusText(l){
 }
 
 
-function stageOf(l){
-
-  const stored=statusText(l);
-
-  if(stored==="Closed Lead")
-    return "Closed Lead";
-
-  if(stored==="Active Advisory Client")
-    return "Active Advisory Client";
-
-  if(leadPaid(l))
-    return "Consultation Completed";
-
-  if(stored==="Consultation Completed")
-    return "Consultation Completed";
+function hasUsedFreeConsultation(l){
 
   if(
-    l.freeConsultation===true ||
+    l.freeConsultation===true
+  ){
+    return true;
+  }
+
+
+  if(
     String(l.payment||"")
       .trim()
       .toUpperCase()==="FREE"
   ){
-    return "Pending Consultation";
+    return true;
   }
+
+
+  const uid=String(l.uid||"").trim();
+
+  if(
+    uid &&
+    freeConsultationUsers.has(uid)
+  ){
+    return true;
+  }
+
+
+  return false;
+
+}
+
+
+function stageOf(l){
+
+  const stored=statusText(l);
+
+
+  if(stored==="Closed Lead")
+    return "Closed Lead";
+
+
+  if(stored==="Active Advisory Client")
+    return "Active Advisory Client";
+
+
+  if(leadPaid(l))
+    return "Consultation Completed";
+
+
+  if(stored==="Consultation Completed")
+    return "Consultation Completed";
+
+
+  if(hasUsedFreeConsultation(l))
+    return "Pending Consultation";
+
 
   /*
     Preserve legacy statuses.
@@ -1136,8 +1175,10 @@ function stageOf(l){
   if(stored==="Final Consultation")
     return "Final Consultation";
 
+
   if(stored==="Consultation Approved")
     return "Consultation Approved";
+
 
   return "New Lead";
 
@@ -1205,7 +1246,8 @@ async function loadLeads(){
 
     const [
       leadSnap,
-      paySnap
+      paySnap,
+      freeSnap
     ]=await Promise.all([
 
       getDocs(
@@ -1214,6 +1256,10 @@ async function loadLeads(){
 
       getDocs(
         collection(db,"payments")
+      ),
+
+      getDocs(
+        collection(db,"freeConsultations")
       )
 
     ]);
@@ -1233,6 +1279,37 @@ async function loadLeads(){
         ...d.data()
       })
     );
+
+
+    /*
+      Build a quick UID set from the
+      one-time free consultation records.
+    */
+    freeConsultationUsers=new Set();
+
+    freeSnap.docs.forEach(d=>{
+
+      const data=d.data()||{};
+
+      const uid=String(
+        data.uid||
+        d.id||
+        ""
+      ).trim();
+
+      const used=
+        data.used===true ||
+        data.freeConsultation===true ||
+        data.type==="one_time_free_consultation";
+
+      if(
+        uid &&
+        used
+      ){
+        freeConsultationUsers.add(uid);
+      }
+
+    });
 
 
     leads.sort(
