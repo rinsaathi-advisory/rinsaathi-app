@@ -426,7 +426,6 @@ Admin Mobile: 9319301096
 
 </header>
 
-
 <main class="container">
 
 <section id="loginBox" class="card login">
@@ -440,7 +439,7 @@ Login with the registered RinSaathi admin mobile number.
 <input
 id="phone"
 type="tel"
-value="+919319301096"
+value="9319301096"
 placeholder="+91XXXXXXXXXX"
 >
 
@@ -468,7 +467,6 @@ Verify OTP
 
 </section>
 
-
 <section id="dashboard" class="hidden">
 
 <div class="actions" style="margin:0 0 15px">
@@ -483,9 +481,7 @@ Logout
 
 </div>
 
-
 <div class="stats">
-
 
 <div class="statCard"
 onclick="setFilter('ALL')">
@@ -503,7 +499,6 @@ All Leads
 
 </div>
 
-
 <div class="statCard"
 onclick="showStatusStage('New Lead')">
 
@@ -519,7 +514,6 @@ New Leads
 </div>
 
 </div>
-
 
 <div class="statCard"
 onclick="showStatusStage('Pending Consultation')">
@@ -537,7 +531,6 @@ Pending Consultation
 
 </div>
 
-
 <div class="statCard"
 onclick="showStatusStage('Consultation Completed')">
 
@@ -553,7 +546,6 @@ Consultation Completed
 </div>
 
 </div>
-
 
 <div class="statCard"
 onclick="showStatusStage('Active Advisory Client')">
@@ -571,7 +563,6 @@ Active Leads
 
 </div>
 
-
 <div class="statCard"
 onclick="showStatusStage('Closed Lead')">
 
@@ -588,7 +579,6 @@ Closed Leads
 
 </div>
 
-
 <div class="statCard"
 onclick="openConsultationRevenue()">
 
@@ -604,7 +594,6 @@ Consultation Revenue
 </div>
 
 </div>
-
 
 <div class="statCard"
 onclick="openAdvisoryRevenue()">
@@ -624,7 +613,6 @@ Advisory Fees
 
 </div>
 
-
 <section class="section">
 
 <div class="sectionHeading">
@@ -639,7 +627,6 @@ id="leadCount">
 </span>
 
 </div>
-
 
 <div class="filterBar">
 
@@ -687,11 +674,9 @@ Closed
 
 </div>
 
-
 <div id="leadContainer"></div>
 
 </section>
-
 
 <section class="section">
 
@@ -702,7 +687,6 @@ Closed
 </h2>
 
 </div>
-
 
 <div class="card">
 
@@ -746,7 +730,6 @@ All Leads का total हमेशा इन पाँच categories के tot
 
 </section>
 
-
 <section class="section">
 
 <div class="sectionHeading">
@@ -768,11 +751,9 @@ id="paymentContainer">
 
 </section>
 
-
 </section>
 
 </main>
-
 
 <!-- STATUS MODAL -->
 
@@ -802,7 +783,6 @@ style="margin-top:18px">
 </div>
 
 </div>
-
 
 <!-- REVENUE MODAL -->
 
@@ -839,7 +819,6 @@ id="revenueModalTotal">
 
 </div>
 
-
 <!-- ADVISORY MODAL -->
 
 <div class="modal"
@@ -874,7 +853,6 @@ id="advisoryModalTotal">
 
 </div>
 
-
 <!-- CUSTOMER MODAL -->
 
 <div class="modal"
@@ -896,7 +874,6 @@ Customer
 id="customerService">
 </div>
 
-
 <div class="details">
 
 <div class="detail">
@@ -909,7 +886,6 @@ Mobile
 
 </div>
 
-
 <div class="detail">
 
 <label>
@@ -920,7 +896,6 @@ Payment
 
 </div>
 
-
 <div class="detail">
 
 <label>
@@ -930,7 +905,6 @@ Workflow Status
 <strong id="customerStatus"></strong>
 
 </div>
-
 
 <div class="detail">
 
@@ -943,7 +917,6 @@ Created
 </div>
 
 </div>
-
 
 <div
 style="margin-top:12px;
@@ -962,7 +935,6 @@ Customer Message
 
 </div>
 
-
 <div style="margin-top:18px">
 
 <h3
@@ -975,7 +947,6 @@ style="font-size:16px;color:#063f32">
 <div id="completeFormDetails"></div>
 
 </div>
-
 
 <div class="feeBox">
 
@@ -1013,7 +984,6 @@ id="currentAdvisoryFee">
 </div>
 
 </div>
-
 
 <div
 class="actions"
@@ -1059,7 +1029,6 @@ style="display:none">
 
 </div>
 
-
 <script type="module">
 
 import{
@@ -1067,7 +1036,6 @@ initializeApp
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-
 
 import{
 getAuth,
@@ -1078,7 +1046,6 @@ signOut
 }
 from
 "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-
 
 import{
 getFirestore,
@@ -1121,20 +1088,13 @@ const auth=getAuth(app);
 
 const db=getFirestore(app);
 
-
 const ADMIN_PHONE="+919319301096";
 
-
 let confirmationResult=null;
-
 let recaptcha=null;
-
 let leads=[];
-
 let paymentEvents=[];
-
 let freeUsed=new Set();
-
 let activeFilter="ALL";
 
 
@@ -1293,7 +1253,6 @@ paymentAmount(p);
 if(amount!==499)
 return false;
 
-
 const values=[
 p?.paymentStatus,
 p?.status,
@@ -1321,7 +1280,6 @@ return true;
 
 }
 
-
 return false;
 
 }
@@ -1343,7 +1301,6 @@ String(x??"")
 .trim()
 .toUpperCase()
 );
-
 
 return(
 amount===499 &&
@@ -1402,10 +1359,8 @@ return true;
 
 }
 
-
 const uid=
 String(l.uid||"");
-
 
 const phones=[
 normPhone(l.mobile),
@@ -1413,13 +1368,11 @@ normPhone(l.phone),
 normPhone(l.authPhone)
 ];
 
-
 return paymentEvents.some(
 p=>{
 
 if(!paymentVerified(p))
 return false;
-
 
 const pUid=
 String(
@@ -1428,12 +1381,10 @@ p.userId ||
 ""
 );
 
-
 const pPhone=
 normPhone(
 paymentIdentity(p)
 );
-
 
 if(
 uid &&
@@ -1445,7 +1396,6 @@ return true;
 
 }
 
-
 if(
 pPhone &&
 phones.some(
@@ -1456,7 +1406,6 @@ x=>x && x===pPhone
 return true;
 
 }
-
 
 return false;
 
@@ -1475,12 +1424,6 @@ function freeWasUsed(l){
 const uid=
 String(l.uid||"");
 
-
-/*
-FIRST PRIORITY:
-freeConsultations collection
-*/
-
 if(
 uid &&
 freeUsed.has(uid)
@@ -1490,11 +1433,6 @@ return true;
 
 }
 
-
-/*
-OLD CUSTOMER APP DATA
-*/
-
 if(
 l.freeConsultation===true
 ){
@@ -1502,7 +1440,6 @@ l.freeConsultation===true
 return true;
 
 }
-
 
 if(
 String(l.payment||"")
@@ -1513,7 +1450,6 @@ String(l.payment||"")
 return true;
 
 }
-
 
 return false;
 
@@ -1531,11 +1467,6 @@ String(
 l.status||""
 ).trim();
 
-
-/*
-1. CLOSED
-*/
-
 if(
 stored==="Closed Lead"
 ){
@@ -1543,11 +1474,6 @@ stored==="Closed Lead"
 return "Closed Lead";
 
 }
-
-
-/*
-2. ACTIVE
-*/
 
 if(
 stored==="Active Advisory Client"
@@ -1557,11 +1483,6 @@ return "Active Advisory Client";
 
 }
 
-
-/*
-3. PAID CONSULTATION
-*/
-
 if(
 leadPaid(l)
 ){
@@ -1569,11 +1490,6 @@ leadPaid(l)
 return "Consultation Completed";
 
 }
-
-
-/*
-4. MANUALLY COMPLETED
-*/
 
 if(
 stored==="Consultation Completed"
@@ -1583,11 +1499,6 @@ return "Consultation Completed";
 
 }
 
-
-/*
-5. FREE CONSULTATION USED
-*/
-
 if(
 freeWasUsed(l)
 ){
@@ -1595,11 +1506,6 @@ freeWasUsed(l)
 return "Pending Consultation";
 
 }
-
-
-/*
-6. NOT USED
-*/
 
 return "New Lead";
 
@@ -1679,7 +1585,6 @@ function leadPaymentEvent(l){
 if(!leadOwnPayment(l))
 return null;
 
-
 return{
 
 ...l,
@@ -1716,13 +1621,6 @@ l.id
 }
 
 
-/*
-EVERY PAYMENT REMAINS SEPARATE.
-
-Same customer paying 3 times
-= 3 payment rows.
-*/
-
 function allPayments(){
 
 const out=[];
@@ -1730,17 +1628,12 @@ const out=[];
 const seen=new Set();
 
 
-/*
-PAYMENTS COLLECTION
-*/
-
 paymentEvents
 .filter(paymentVerified)
 .forEach(p=>{
 
 const x=
 paymentDisplay(p);
-
 
 const key=
 x.id
@@ -1752,7 +1645,6 @@ normPhone(x.mobile)+
 dateMs(x.date)+
 "|"+
 x.amount;
-
 
 if(
 !seen.has(key)
@@ -1767,19 +1659,13 @@ out.push(x);
 });
 
 
-/*
-OLD LEAD PAYMENT RECORDS
-*/
-
 leads.forEach(l=>{
 
 const x=
 leadPaymentEvent(l);
 
-
 if(!x)
 return;
-
 
 const key=
 x.id
@@ -1791,7 +1677,6 @@ normPhone(x.mobile)+
 dateMs(x.date)+
 "|"+
 x.amount;
-
 
 if(
 !seen.has(key)
@@ -1850,10 +1735,6 @@ db,
 ]);
 
 
-/*
-ALL CUSTOMER LEADS
-*/
-
 leads=
 leadSnap.docs.map(d=>({
 
@@ -1862,10 +1743,6 @@ id:d.id,
 
 }));
 
-
-/*
-FIRST FREE CONSULTATION STATUS
-*/
 
 freeUsed=
 new Set(
@@ -1882,10 +1759,6 @@ d=>d.id
 );
 
 
-/*
-ALL PAYMENT RECORDS
-*/
-
 paymentEvents=
 paySnap.docs.map(d=>({
 
@@ -1895,16 +1768,11 @@ id:d.id,
 }));
 
 
-/*
-LATEST FIRST
-*/
-
 leads.sort(
 (a,b)=>
 dateMs(b.createdAt)-
 dateMs(a.createdAt)
 );
-
 
 render();
 
@@ -1950,10 +1818,6 @@ const counts={
 };
 
 
-/*
-EVERY LEAD GETS ONE STAGE
-*/
-
 leads.forEach(l=>{
 
 const stage=
@@ -1964,17 +1828,9 @@ counts[stage]++;
 });
 
 
-/*
-CONSULTATION PAYMENTS
-*/
-
 const payments=
 allPayments();
 
-
-/*
-TOTAL CONSULTATION REVENUE
-*/
 
 const revenue=
 payments.reduce(
@@ -1984,10 +1840,6 @@ sum+num(p.amount),
 );
 
 
-/*
-ADVISORY FEES
-*/
-
 const advisory=
 leads.reduce(
 (sum,l)=>
@@ -1995,10 +1847,6 @@ sum+num(l.advisoryFee),
 0
 );
 
-
-/*
-DASHBOARD COUNTS
-*/
 
 $("allLeads").textContent=
 leads.length;
@@ -2031,10 +1879,6 @@ advisory.toLocaleString(
 );
 
 
-/*
-CUSTOMER LIST
-*/
-
 const filtered=
 activeFilter==="ALL"
 ?leads
@@ -2058,10 +1902,6 @@ filtered
 :
 "<div class='card empty'>No leads in this category.</div>";
 
-
-/*
-PAYMENT LIST
-*/
 
 $("paymentCount").textContent=
 payments.length+
@@ -2094,7 +1934,6 @@ p.mobile||
 
 </div>
 
-
 <div>
 
 <div class="paymentAmount">
@@ -2111,13 +1950,11 @@ Verified Consultation
 
 </div>
 
-
 <div class="small">
 
 ${formatDate(p.date)}
 
 </div>
-
 
 <div class="small">
 
@@ -2184,7 +2021,6 @@ l.authPhone||
 
 </div>
 
-
 <div>
 
 <div class="${
@@ -2227,7 +2063,6 @@ l.createdAt
 
 </div>
 
-
 <div>
 
 <span
@@ -2251,7 +2086,6 @@ l.mainConcern||
 </div>
 
 </div>
-
 
 <div>
 
@@ -2283,7 +2117,6 @@ btn
 
 activeFilter=f;
 
-
 document
 .querySelectorAll(
 ".filterBar button"
@@ -2295,7 +2128,6 @@ b.classList.remove(
 )
 );
 
-
 if(btn){
 
 btn.classList.add(
@@ -2303,7 +2135,6 @@ btn.classList.add(
 );
 
 }
-
 
 render();
 
@@ -2409,7 +2240,6 @@ l.createdAt
 
 </div>
 
-
 <span
 class="status ${stageClass(stageOf(l))}">
 
@@ -2423,7 +2253,6 @@ stageOf(l)
 
 </div>
 
-
 <div
 class="small"
 style="margin-top:10px">
@@ -2435,7 +2264,6 @@ l.service||
 
 </div>
 
-
 <div class="small">
 
 ${esc(
@@ -2446,7 +2274,6 @@ l.mainConcern||
 )}
 
 </div>
-
 
 <div
 class="actions"
@@ -2544,7 +2371,6 @@ p.mobile||
 
 </div>
 
-
 <b class="paid">
 
 ₹${num(p.amount)
@@ -2553,7 +2379,6 @@ p.mobile||
 </b>
 
 </div>
-
 
 <div class="small">
 
@@ -2665,7 +2490,6 @@ l.service||
 
 </div>
 
-
 <b class="paid">
 
 ₹${num(
@@ -2677,7 +2501,6 @@ l.advisoryFee
 </b>
 
 </div>
-
 
 <div class="small">
 
@@ -2975,22 +2798,19 @@ l.advisoryFee
 "No advisory fee recorded.";
 
 
-$("saveAdvisoryFee")
-.onclick=
+$("saveAdvisoryFee").onclick=
 ()=>
 saveAdvisoryFee(
 l.id
 );
 
 
-$("callCustomer")
-.onclick=()=>{
+$("callCustomer").onclick=()=>{
 
 const p=
 l.mobile||
 l.phone||
 l.authPhone;
-
 
 if(p){
 
@@ -3042,7 +2862,6 @@ l.id,
 
 }
 
-
 else if(
 s==="Consultation Completed"
 ){
@@ -3062,7 +2881,6 @@ l.id,
 
 }
 
-
 else if(
 s==="Active Advisory Client"
 ){
@@ -3081,7 +2899,6 @@ l.id,
 );
 
 }
-
 
 else if(
 s==="Closed Lead"
@@ -3300,7 +3117,7 @@ alert(
 
 
 /* =====================================
-LOGIN — UNCHANGED FLOW
+LOGIN — FIXED WORKING FLOW
 ===================================== */
 
 function setupRecaptcha(){
@@ -3320,18 +3137,74 @@ size:"invisible"
 }
 
 
-$("sendOtp")
-.onclick=
+$("sendOtp").onclick=
 async()=>{
 
 try{
 
 setupRecaptcha();
 
-const phone=
+
+const rawPhone=
 $("phone")
 .value
 .trim();
+
+
+let digits=
+rawPhone.replace(
+/\D/g,
+""
+);
+
+
+/*
+Accept both:
+
+9319301096
+
+and
+
+919319301096
+*/
+
+if(
+digits.length===12 &&
+digits.startsWith("91")
+){
+
+digits=
+digits.substring(2);
+
+}
+
+
+/*
+Validate Indian mobile number
+*/
+
+if(
+!/^[6-9]\d{9}$/.test(digits)
+){
+
+msg(
+"Please enter a valid 10-digit Indian mobile number.",
+"error"
+);
+
+return;
+
+}
+
+
+const phone=
+"+91"+digits;
+
+
+msg(
+"Sending OTP...",
+"success"
+);
 
 
 confirmationResult=
@@ -3343,14 +3216,14 @@ recaptcha
 
 
 $("otpArea")
-.classList.remove(
+.classList
+.remove(
 "hidden"
 );
 
 
 msg(
-"OTP sent to "+
-phone,
+"OTP sent to "+phone,
 "success"
 );
 
@@ -3387,11 +3260,22 @@ setupRecaptcha,
 };
 
 
-$("verifyOtp")
-.onclick=
+$("verifyOtp").onclick=
 async()=>{
 
 try{
+
+if(!confirmationResult){
+
+msg(
+"Please request OTP first.",
+"error"
+);
+
+return;
+
+}
+
 
 await confirmationResult.confirm(
 $("otp")
@@ -3399,9 +3283,11 @@ $("otp")
 .trim()
 );
 
+
 }catch(e){
 
 console.error(e);
+
 
 msg(
 "Invalid OTP. Please try again.",
@@ -3413,13 +3299,11 @@ msg(
 };
 
 
-$("logout")
-.onclick=
+$("logout").onclick=
 ()=>signOut(auth);
 
 
-$("refresh")
-.onclick=
+$("refresh").onclick=
 loadLeads;
 
 
@@ -3471,7 +3355,6 @@ $("loginBox")
 .add(
 "hidden"
 );
-
 
 $("dashboard")
 .classList
