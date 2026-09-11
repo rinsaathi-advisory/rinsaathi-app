@@ -450,6 +450,7 @@ input{
     Login with the registered RinSaathi admin mobile number.
   </p>
 
+  <!-- FIXED: 10 DIGIT NUMBER -->
   <input
     id="phone"
     type="tel"
@@ -504,6 +505,8 @@ input{
   <div class="stats">
 
 
+    <!-- Revenue -->
+
     <div
       class="statCard"
       onclick="showAllLeads()"
@@ -526,6 +529,8 @@ input{
 
     </div>
 
+
+    <!-- New Leads -->
 
     <div
       class="statCard"
@@ -550,6 +555,8 @@ input{
     </div>
 
 
+    <!-- Pending Consultations -->
+
     <div
       class="statCard"
       onclick="openPendingConsultations()"
@@ -572,6 +579,8 @@ input{
 
     </div>
 
+
+    <!-- Active Clients -->
 
     <div
       class="statCard"
@@ -600,8 +609,8 @@ input{
 
 
   <!-- =================================
-       STEP 1
-       ================================= -->
+       STEP 1 — NEW LEAD
+  ================================= -->
 
   <section
     class="section"
@@ -629,8 +638,8 @@ input{
 
 
   <!-- =================================
-       STEP 2
-       ================================= -->
+       STEP 2 — PENDING CONSULTATION
+  ================================= -->
 
   <section class="section">
 
@@ -644,7 +653,7 @@ input{
 
     <div class="card">
 
-      <!-- Data will be added here later -->
+      <!-- Data will be added here -->
 
     </div>
 
@@ -652,8 +661,8 @@ input{
 
 
   <!-- =================================
-       STEP 3
-       ================================= -->
+       STEP 3 — CONSULTATION COMPLETED
+  ================================= -->
 
   <section class="section">
 
@@ -667,7 +676,7 @@ input{
 
     <div class="card">
 
-      <!-- Data will be added here later -->
+      <!-- Data will be added here -->
 
     </div>
 
@@ -675,8 +684,8 @@ input{
 
 
   <!-- =================================
-       STEP 4
-       ================================= -->
+       STEP 4 — ACTIVE LEADS
+  ================================= -->
 
   <section class="section">
 
@@ -690,7 +699,7 @@ input{
 
     <div class="card">
 
-      <!-- Data will be added here later -->
+      <!-- Data will be added here -->
 
     </div>
 
@@ -698,8 +707,8 @@ input{
 
 
   <!-- =================================
-       STEP 5
-       ================================= -->
+       STEP 5 — CLOSED LEADS
+  ================================= -->
 
   <section class="section">
 
@@ -713,7 +722,7 @@ input{
 
     <div class="card">
 
-      <!-- Data will be added here later -->
+      <!-- Data will be added here -->
 
     </div>
 
@@ -721,8 +730,8 @@ input{
 
 
   <!-- =================================
-       STEP 6
-       ================================= -->
+       STEP 6 — CONSULTATIONS REVENUE
+  ================================= -->
 
   <section class="section">
 
@@ -734,17 +743,18 @@ input{
 
     </div>
 
-    <div
-      class="card"
-      id="paymentContainer"
-    ></div>
+    <div class="card">
+
+      <!-- Data will be added here -->
+
+    </div>
 
   </section>
 
 
   <!-- =================================
-       STEP 7
-       ================================= -->
+       STEP 7 — ADVISORY FEES
+  ================================= -->
 
   <section class="section">
 
@@ -758,7 +768,7 @@ input{
 
     <div class="card">
 
-      <!-- Data will be added here later -->
+      <!-- Data will be added here -->
 
     </div>
 
@@ -911,6 +921,8 @@ input{
 
     </div>
 
+
+    <!-- ALL FORM DATA -->
 
     <div style="margin-top:18px">
 
@@ -1106,7 +1118,7 @@ function setupRecaptcha(){
 
 /* ================================
    SEND OTP
-   LOGIN UNCHANGED
+   FIXED PHONE VALIDATION
 ================================ */
 
 $("sendOtp").onclick=async()=>{
@@ -1116,6 +1128,16 @@ $("sendOtp").onclick=async()=>{
     setupRecaptcha();
 
 
+    /*
+      Accept both:
+
+      9319301096
+
+      and
+
+      +919319301096
+    */
+
     const rawPhone=
       $("phone").value.trim();
 
@@ -1123,6 +1145,12 @@ $("sendOtp").onclick=async()=>{
     let digits=
       rawPhone.replace(/\D/g,"");
 
+
+    /*
+      If user enters 12 digits
+      starting with 91,
+      remove country code.
+    */
 
     if(
       digits.length===12 &&
@@ -1134,6 +1162,11 @@ $("sendOtp").onclick=async()=>{
 
     }
 
+
+    /*
+      Validate Indian
+      10-digit mobile number.
+    */
 
     if(
       !/^[6-9]\d{9}$/.test(digits)
@@ -1148,6 +1181,11 @@ $("sendOtp").onclick=async()=>{
 
     }
 
+
+    /*
+      Firebase always receives
+      +91XXXXXXXXXX
+    */
 
     const phone=
       "+91"+digits;
@@ -1292,6 +1330,11 @@ onAuthStateChanged(
       user.phoneNumber||"";
 
 
+    /*
+      ONLY THIS ADMIN NUMBER
+      IS AUTHORIZED.
+    */
+
     if(
       phone!=="+919319301096"
     ){
@@ -1398,6 +1441,8 @@ function render(){
   leads.forEach(l=>{
 
 
+    /* REVENUE */
+
     if(
       l.payment==="PAID"
     ){
@@ -1410,6 +1455,8 @@ function render(){
     }
 
 
+    /* NEW LEADS */
+
     if(
       l.status==="New Lead"
     ){
@@ -1419,6 +1466,8 @@ function render(){
     }
 
 
+    /* PENDING */
+
     if(
       l.status!=="Consultation Completed"
     ){
@@ -1427,6 +1476,8 @@ function render(){
 
     }
 
+
+    /* ACTIVE CLIENTS */
 
     if(
       l.status==="Active Advisory Client"
@@ -1466,6 +1517,10 @@ function render(){
     .textContent=
     newCount+" New";
 
+
+  /* ================================
+     LEAD CONTAINER
+  ================================= */
 
   $("leadContainer").innerHTML=
 
@@ -1591,81 +1646,87 @@ function render(){
     </div>`;
 
 
+  /* ================================
+     PAYMENT CONTAINER
+  ================================= */
 
-  $("paymentContainer").innerHTML=
+  $("paymentContainer") &&
+  (
+    $("paymentContainer").innerHTML=
 
-    leads.length
+      leads.length
 
-    ?
+      ?
 
-    leads.map(l=>`
+      leads.map(l=>`
 
-      <div
-        style="
-          display:flex;
-          justify-content:space-between;
-          gap:12px;
-          padding:13px 0;
-          border-bottom:1px solid #edf1ef
-        "
-      >
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            gap:12px;
+            padding:13px 0;
+            border-bottom:1px solid #edf1ef
+          "
+        >
 
-        <div>
+          <div>
 
-          <strong>
+            <strong>
 
-            ${esc(
-              l.name||"Customer"
-            )}
+              ${esc(
+                l.name||"Customer"
+              )}
 
-          </strong>
+            </strong>
 
-          <div class="small">
+            <div class="small">
 
-            ${formatDate(
-              l.createdAt
-            )}
+              ${formatDate(
+                l.createdAt
+              )}
+
+            </div>
 
           </div>
 
+
+          <div
+            class="${
+              l.payment==="PAID"
+              ?"paid"
+              :"pendingPay"
+            }"
+          >
+
+            ₹${
+              Number(
+                l.amount||0
+              ).toLocaleString("en-IN")
+            }
+
+            ${
+              l.payment==="PAID"
+              ?"✅"
+              :"⏳"
+            }
+
+          </div>
+
+
         </div>
 
-
-        <div
-          class="${
-            l.payment==="PAID"
-            ?"paid"
-            :"pendingPay"
-          }"
-        >
-
-          ₹${
-            Number(
-              l.amount||0
-            ).toLocaleString("en-IN")
-          }
-
-          ${
-            l.payment==="PAID"
-            ?"✅"
-            :"⏳"
-          }
-
-        </div>
+      `).join("")
 
 
-      </div>
+      :
 
-    `).join("")
+      `<div class="small">
 
+        No payments recorded yet.
 
-    :
-
-    `<div class="small">
-
-      No payments recorded yet.
-
-    </div>`;
+      </div>`
+  );
 
 }
 
@@ -1969,17 +2030,30 @@ function(id){
     "Not provided";
 
 
+  /* ================================
+     SHOW EVERY FORM FIELD
+  ================================= */
+
   const ignored=[
 
     "name",
+
     "mobile",
+
     "service",
+
     "amount",
+
     "payment",
+
     "problem",
+
     "status",
+
     "source",
+
     "createdAt",
+
     "updatedAt"
 
   ];
@@ -2054,6 +2128,10 @@ function(id){
     </div>`;
 
 
+  /* ================================
+     CALL CUSTOMER
+  ================================= */
+
   $("callCustomer").onclick=()=>{
 
     if(
@@ -2075,6 +2153,10 @@ function(id){
 
   };
 
+
+  /* ================================
+     COMPLETE CONSULTATION
+  ================================= */
 
   $("completeConsultation").onclick=
   async()=>{
