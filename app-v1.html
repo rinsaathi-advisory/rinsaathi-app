@@ -1319,6 +1319,8 @@ import {
 
 import {
   getAuth,
+  setPersistence,
+  browserLocalPersistence,
   RecaptchaVerifier,
   signInWithPhoneNumber,
   onAuthStateChanged,
@@ -1370,6 +1372,11 @@ const app =
 
 const auth =
   getAuth(app);
+
+await setPersistence(
+  auth,
+  browserLocalPersistence
+);
 
 const db =
   getFirestore(app);
