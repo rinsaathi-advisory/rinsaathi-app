@@ -872,57 +872,29 @@ a customer's actual App consultation/payment state.
 
 function stageOf(l){
 
-  /*
-    APP DATA HAS PRIORITY
+  const stored=statusText(l);
 
-    ₹499 verified
-    => Consultation Completed
-  */
+  if(leadPaid(l)){
 
-  if(
-    leadPaid(l)
-  )
+    if(
+      stored==="Active Advisory Client"
+    )
+      return "Active Advisory Client";
+
+    if(
+      stored==="Closed Lead"
+    )
+      return "Closed Lead";
+
     return "Consultation Completed";
-
-
-  /*
-    Free consultation used
-    => Pending Consultation
-  */
+  }
 
   if(
     freeWasUsed(l)
   )
     return "Pending Consultation";
 
-
-  /*
-    No newer App consultation state.
-    Preserve existing manual workflow status.
-  */
-
-  const stored=statusText(l);
-
-
-  if(
-    stored==="Active Advisory Client"
-  )
-    return "Active Advisory Client";
-
-
-  if(
-    stored==="Closed Lead"
-  )
-    return "Closed Lead";
-
-
-  /*
-    Nothing used yet
-    => New Lead
-  */
-
   return "New Lead";
-
 }
 
 
