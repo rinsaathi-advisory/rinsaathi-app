@@ -187,6 +187,22 @@ body{
   padding:22px;
 }
 
+#home{
+  position:relative;
+  padding-top:48px;
+}
+
+.refreshBtn{
+  position:absolute;
+  top:0;
+  right:0;
+  width:auto;
+  margin-top:0;
+  padding:10px 14px;
+  border-radius:12px;
+  font-size:13px;
+}
+  
 .title{
   font-size:21px;
   font-weight:800;
@@ -770,6 +786,14 @@ body{
 
 <div id="home">
 
+<button
+  class="btn btnGreen refreshBtn"
+  onclick="window.location.reload()">
+
+  ↻ Refresh
+
+</button>
+
   <div
     id="freeStatusBox"
     class="firstInquiry">
@@ -1262,17 +1286,7 @@ body{
 
 </div>
 
-
-<button
-
-  class="btn btnGreen"
-
-  onclick="window.location.reload()">
-
-  ↻ Refresh
-
-</button>
-  
+ 
 <button
   class="logoutBtn"
   onclick="logoutUser()">
