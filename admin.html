@@ -871,32 +871,17 @@ a customer's actual App consultation/payment state.
 
 function stageOf(l){
 
-  const stored =
-    statusText(l);
-
-
-  /* MANUAL CLOSED */
-
-  if(
-    stored ===
-    "Closed Lead"
-  )
-    return "Closed Lead";
-
-
-  /* MANUAL ACTIVE */
-
-  if(
-    stored ===
-    "Active Advisory Client"
-  )
-    return "Active Advisory Client";
-
-
   /*
-    ₹499 payment received /
-    verified
+    APP DATA IS THE SOURCE OF TRUTH
+
+    ₹499 verified
     => Consultation Completed
+
+    Free consultation used
+    => Pending Consultation
+
+    Nothing used yet
+    => New Lead
   */
 
   if(
@@ -905,32 +890,11 @@ function stageOf(l){
     return "Consultation Completed";
 
 
-  /*
-    First consultation already used
-    => Pending Consultation
-  */
-
   if(
     freeWasUsed(l)
   )
     return "Pending Consultation";
 
-
-  /*
-    Existing completed status
-  */
-
-  if(
-    stored ===
-    "Consultation Completed"
-  )
-    return "Consultation Completed";
-
-
-  /*
-    Nothing used yet
-    => New Lead
-  */
 
   return "New Lead";
 
