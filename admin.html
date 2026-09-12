@@ -874,6 +874,18 @@ function stageOf(l){
 
   const stored=statusText(l);
 
+   if(
+
+    stored==="Active Advisory Client" ||
+
+    stored==="Closed Lead"
+
+  ){
+
+    return stored;
+
+   }
+
  if(leadPaid(l)){
   return "Consultation Completed";
 }
