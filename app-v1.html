@@ -956,6 +956,7 @@ body{
   </div>
 
 
+  <!-- PERSONALIZED CONSULTATION -->
   <div class="package">
 
     <h3>
@@ -987,6 +988,7 @@ body{
   </div>
 
 
+  <!-- ADVISORY PLANS -->
   <div class="title">
     Advisory Plans
   </div>
@@ -995,13 +997,13 @@ body{
     class="firstInquiryText"
     style="margin-bottom:14px;text-align:left;">
 
-    Select a plan below to know more about the support and process.
+    Select a plan below to know more about the
+    support and process.
 
   </div>
 
 
   <!-- 1 MONTH ADVISORY -->
-
   <div class="package">
 
     <h3>
@@ -1009,8 +1011,8 @@ body{
     </h3>
 
     <p>
-      Focused advisory support for your current loan,
-      EMI, debt and credit-related situation.
+      Focused advisory support for your current
+      loan, EMI, debt and credit-related situation.
     </p>
 
     <button
@@ -1025,7 +1027,6 @@ body{
 
 
   <!-- 3 MONTH ADVISORY -->
-
   <div class="package">
 
     <h3>
@@ -1049,7 +1050,6 @@ body{
 
 
   <!-- 6 MONTH ADVISORY -->
-
   <div class="package">
 
     <h3>
@@ -1071,6 +1071,112 @@ body{
 
   </div>
 
+
+</div>
+
+
+<!-- ADVISORY SUCCESS -->
+<div id="advisorySuccess" class="hidden">
+
+  <div class="advisorySuccessBox">
+
+    <div class="advisorySuccessIcon">
+      ✓
+    </div>
+
+    <h2 id="advisorySuccessTitle">
+      Your Advisory Plan is Enrolled
+    </h2>
+
+    <p id="advisorySuccessText">
+      Your advisor is ready to work with you.
+      You do not have to manage your financial situation alone.
+      RinSaathi is here to support you with practical advisory guidance.
+    </p>
+
+    <div class="advisorySuccessNote">
+      Your advisory support is now active for this plan.
+    </div>
+
+    <button
+      class="btn btnGold"
+      onclick="openRinSaathiChat()">
+
+      Connect with RinSaathi
+
+    </button>
+
+    <button
+      class="btn btnGreen"
+      onclick="goHome()">
+
+      Back to Advisory Plans
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ADVISORY DETAILS -->
+<div id="advisoryDetails">
+
+  <div
+    class="back"
+    onclick="goHome()">
+
+    ← Back
+
+  </div>
+
+
+  <div class="advisoryDetailBox">
+
+    <h2 id="advisoryDetailTitle">
+      Details of One Month Advisory
+    </h2>
+
+    <p id="advisoryDetailDescription"></p>
+
+    <ul
+      id="advisoryDetailList"
+      class="advisoryList">
+    </ul>
+
+
+    <div class="advisoryPricing">
+
+      <div
+        id="advisoryOldPrice"
+        class="advisoryOldPrice">
+      </div>
+
+      <div
+        id="advisoryOfferPrice"
+        class="advisoryOfferPrice">
+      </div>
+
+      <div
+        id="advisorySave"
+        class="advisorySave">
+      </div>
+
+
+      <button
+        id="advisoryPayButton"
+        class="btn btnGold"
+        onclick="payForAdvisory()">
+
+        Pay for Advisory Plan
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
   <div class="notice">
 
@@ -3171,22 +3277,26 @@ function unlockPaidContent(showAlert=true){
 }
 
 
-/* ADVISORY PLANS */
-
-let currentAdvisoryPlan = "";
+/* =========================================================
+   ADVISORY PLANS
+   ========================================================= */
 
 const advisoryPlans = {
 
   "1_MONTH": {
 
-    title: "Details of One Month Advisory",
+    title:
+      "Details of One Month Advisory",
+
+    successTitle:
+      "Your One Month Advisory Plan is Enrolled",
 
     description:
-      "Personalised advisory support focused on understanding and managing your current loan and debt situation.",
+      "Focused advisory support for customers who need practical guidance with their current loan, EMI, debt and credit-related situation.",
 
     points: [
 
-      "Personalized loan & debt situation assessment.",
+      "Personalized loan and debt situation assessment.",
 
       "Practical guidance for EMI-related difficulties.",
 
@@ -3202,25 +3312,32 @@ const advisoryPlans = {
 
     ],
 
-    oldPrice: "Original Price: ₹2,499",
+    oldPrice:
+      "Original Price: ₹2,499",
 
-    price: "₹1,999",
+    price:
+      "₹1,999",
 
-    save: "You Save ₹500"
+    save:
+      "You Save ₹500"
 
   },
 
 
   "3_MONTH": {
 
-    title: "Details of Three Month Advisory",
+    title:
+      "Details of Three Month Advisory",
+
+    successTitle:
+      "Your Three Month Advisory Plan is Enrolled",
 
     description:
-      "Continued advisory support for customers who need structured planning and regular guidance as their financial situation develops.",
+      "Structured advisory support with ongoing guidance for loans, EMIs, recovery communication, debt planning and credit profile.",
 
     points: [
 
-      "In-depth loan & debt situation assessment.",
+      "In-depth loan and debt situation assessment.",
 
       "Structured plan for multiple loans and EMIs.",
 
@@ -3238,18 +3355,25 @@ const advisoryPlans = {
 
     ],
 
-    oldPrice: "Original Price: ₹5,999",
+    oldPrice:
+      "Original Price: ₹5,999",
 
-    price: "₹4,999",
+    price:
+      "₹4,999",
 
-    save: "You Save ₹1,000"
+    save:
+      "You Save ₹1,000"
 
   },
 
 
   "6_MONTH": {
 
-    title: "Details of Six Month Advisory",
+    title:
+      "Details of Six Month Advisory",
+
+    successTitle:
+      "Your Six Month Advisory Plan is Enrolled",
 
     description:
       "Comprehensive long-term advisory support for customers who need ongoing debt planning, reviews and strategic guidance.",
@@ -3276,89 +3400,272 @@ const advisoryPlans = {
 
     ],
 
-    oldPrice: "Original Price: ₹9,999",
+    oldPrice:
+      "Original Price: ₹9,999",
 
-    price: "₹7,999",
+    price:
+      "₹7,999",
 
-    save: "You Save ₹2,000"
+    save:
+      "You Save ₹2,000"
 
   }
 
 };
 
 
-window.openAdvisoryDetails = function(plan){
+function getAdvisoryOrderKey(uid){
 
-  if(!requireConsultationPayment()) return;
+  return "rinsaathi_advisory_order_" + uid;
 
-  const data = advisoryPlans[plan];
+}
+
+
+function getAdvisoryPlanKey(uid){
+
+  return "rinsaathi_advisory_plan_" + uid;
+
+}
+
+
+function getAdvisoryPaidKey(uid){
+
+  return "rinsaathi_advisory_paid_" + uid;
+
+}
+
+
+function showAdvisorySuccess(
+  planKey,
+  showAlert = false
+){
+
+  const data =
+    advisoryPlans[planKey];
 
   if(!data) return;
 
-  currentAdvisoryPlan = plan;
+
+  currentAdvisoryPlan =
+    planKey;
+
+
+  const home =
+    document.getElementById("home");
+
+  const guidance =
+    document.getElementById("guidance");
+
+  const formSection =
+    document.getElementById("formSection");
+
+  const advisoryDetails =
+    document.getElementById("advisoryDetails");
+
+  const advisorySuccess =
+    document.getElementById("advisorySuccess");
+
+
+  if(home)
+    home.classList.add("hidden");
+
+  if(guidance)
+    guidance.classList.add("hidden");
+
+  if(formSection)
+    formSection.classList.add("hidden");
+
+  if(advisoryDetails)
+    advisoryDetails.style.display = "none";
+
+  if(advisorySuccess)
+    advisorySuccess.style.display = "block";
+
+
+  const title =
+    document.getElementById(
+      "advisorySuccessTitle"
+    );
+
+  const text =
+    document.getElementById(
+      "advisorySuccessText"
+    );
+
+
+  if(title){
+
+    title.innerText =
+      data.successTitle;
+
+  }
+
+
+  if(text){
+
+    text.innerText =
+      "Your advisor is ready to work with you. You do not have to manage your financial situation alone. RinSaathi is here to support you with practical advisory guidance for your selected plan.";
+
+  }
+
+
+  window.scrollTo(0,0);
+
+
+  /*
+     No form.
+     No WhatsApp form.
+     Only success page.
+  */
+
+}
+
+
+window.openAdvisoryDetails =
+function(plan){
+
+  if(!requireConsultationPayment())
+    return;
+
+
+  const data =
+    advisoryPlans[plan];
+
+  if(!data)
+    return;
+
+
+  const user =
+    auth.currentUser;
+
+
+  if(user){
+
+    const activePaid =
+      localStorage.getItem(
+        getAdvisoryPaidKey(user.uid)
+      ) === "true";
+
+
+    const activePlan =
+      localStorage.getItem(
+        getAdvisoryPlanKey(user.uid)
+      );
+
+
+    if(
+      activePaid &&
+      activePlan === plan
+    ){
+
+      showAdvisorySuccess(
+        plan,
+        false
+      );
+
+      return;
+
+    }
+
+  }
+
+
+  currentAdvisoryPlan =
+    plan;
+
 
   document
     .getElementById("home")
     .classList
     .add("hidden");
 
+
   document
     .getElementById("guidance")
     .classList
     .add("hidden");
+
 
   document
     .getElementById("formSection")
     .classList
     .add("hidden");
 
+
+  document
+    .getElementById("advisorySuccess")
+    .style
+    .display = "none";
+
+
   document
     .getElementById("advisoryDetails")
     .style
     .display = "block";
 
+
   document
     .getElementById("advisoryDetailTitle")
-    .innerText = data.title;
+    .innerText =
+      data.title;
+
 
   document
     .getElementById("advisoryDetailDescription")
-    .innerText = data.description;
+    .innerText =
+      data.description;
+
 
   document
     .getElementById("advisoryDetailList")
     .innerHTML =
       data.points
-        .map(point => `<li>${point}</li>`)
+        .map(
+          point =>
+            `<li>${point}</li>`
+        )
         .join("");
+
 
   document
     .getElementById("advisoryOldPrice")
-    .innerText = data.oldPrice;
+    .innerText =
+      data.oldPrice;
+
 
   document
     .getElementById("advisoryOfferPrice")
-    .innerText = data.price;
+    .innerText =
+      data.price;
+
 
   document
     .getElementById("advisorySave")
-    .innerText = data.save;
+    .innerText =
+      data.save;
+
 
   document
     .getElementById("advisoryPayButton")
     .innerText =
       `Pay ${data.price} for Advisory Plan`;
 
+
   window.scrollTo(0,0);
 
 };
 
 
-window.payForAdvisory = async function(){
+window.payForAdvisory =
+async function(){
 
-  if(!requireConsultationPayment()) return;
+  if(!requireConsultationPayment())
+    return;
 
-  const user = auth.currentUser;
+
+  const user =
+    auth.currentUser;
+
 
   if(!user){
 
@@ -3370,8 +3677,12 @@ window.payForAdvisory = async function(){
 
   }
 
+
   const plan =
-    advisoryPlans[currentAdvisoryPlan];
+    advisoryPlans[
+      currentAdvisoryPlan
+    ];
+
 
   if(!plan){
 
@@ -3383,6 +3694,7 @@ window.payForAdvisory = async function(){
 
   }
 
+
   try{
 
     const button =
@@ -3390,14 +3702,28 @@ window.payForAdvisory = async function(){
         "advisoryPayButton"
       );
 
+
     if(button){
 
-      button.disabled = true;
+      button.disabled =
+        true;
 
       button.innerText =
         "Creating secure payment...";
 
     }
+
+
+    localStorage.setItem(
+
+      getAdvisoryPlanKey(
+        user.uid
+      ),
+
+      currentAdvisoryPlan
+
+    );
+
 
     const result =
       await createCashfreeOrder({
@@ -3405,18 +3731,22 @@ window.payForAdvisory = async function(){
         advisoryPlan:
           currentAdvisoryPlan
 
-      });
+    });
+
 
     const data =
       result?.data || {};
+
 
     const paymentSessionId =
       data.paymentSessionId ||
       data.payment_session_id;
 
+
     const orderId =
       data.orderId ||
       data.order_id;
+
 
     if(!paymentSessionId){
 
@@ -3426,19 +3756,21 @@ window.payForAdvisory = async function(){
 
     }
 
+
     if(orderId){
 
       localStorage.setItem(
-        "rinsaathi_advisory_order_" + user.uid,
-        String(orderId)
-      );
 
-      localStorage.setItem(
-        "rinsaathi_advisory_plan_" + user.uid,
-        currentAdvisoryPlan
+        getAdvisoryOrderKey(
+          user.uid
+        ),
+
+        String(orderId)
+
       );
 
     }
+
 
     if(button){
 
@@ -3446,6 +3778,7 @@ window.payForAdvisory = async function(){
         "Opening secure Cashfree payment...";
 
     }
+
 
     await cashfree.checkout({
 
@@ -3457,6 +3790,7 @@ window.payForAdvisory = async function(){
 
     });
 
+
   }catch(error){
 
     console.error(
@@ -3464,19 +3798,23 @@ window.payForAdvisory = async function(){
       error
     );
 
+
     const button =
       document.getElementById(
         "advisoryPayButton"
       );
 
+
     if(button){
 
-      button.disabled = false;
+      button.disabled =
+        false;
 
       button.innerText =
         `Pay ${plan.price} for Advisory Plan`;
 
     }
+
 
     alert(
       "Unable to open payment. Please try again."
