@@ -560,6 +560,73 @@ body{
 
 }
 
+/* ============================= */
+/* ADVISORY DETAILS */
+/* ============================= */
+
+#advisoryDetails{
+  display:none;
+}
+
+.advisoryDetailBox{
+  background:linear-gradient(
+    145deg,
+    #073f32,
+    #0d604c
+  );
+
+  color:white;
+
+  border-radius:22px;
+
+  padding:22px;
+
+  margin-top:18px;
+}
+
+.advisoryDetailBox h2{
+  font-size:22px;
+  line-height:1.25;
+  color:white;
+}
+
+.advisoryDetailBox p{
+  font-size:13px;
+  line-height:1.55;
+  margin-top:10px;
+  opacity:.9;
+}
+
+.advisoryList{
+  margin:16px 0 0 20px;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.advisoryPricing{
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.18);
+}
+
+.advisoryOldPrice{
+  font-size:14px;
+  text-decoration:line-through;
+  opacity:.7;
+}
+
+.advisoryOfferPrice{
+  font-size:30px;
+  font-weight:900;
+  color:#e2bc65;
+  margin-top:3px;
+}
+
+.advisorySave{
+  font-size:12px;
+  font-weight:800;
+  margin-top:3px;
+}
 </style>
 
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
@@ -940,108 +1007,431 @@ body{
   </div>
 
 
-  <div class="package">
+  <div class="title">
+  Advisory Plans
+</div>
 
-    <h3>
-      1 Month Advisory
-    </h3>
+<div class="firstInquiryText" style="margin-bottom:14px;text-align:left;">
+  Select a plan below to know more about the support and process.
+</div>
 
-    <p>
-      Focused guidance for customers who need practical
-      support with their current loan, EMI, debt or credit situation.
-    </p>
+<div class="package">
+  <h3>1 Month Advisory</h3>
 
-    <div class="oldPlanPrice">
-      ₹2,499
-    </div>
+  <p>
+    Focused advisory support for your current loan, EMI, debt and credit-related situation.
+  </p>
 
-    <div class="price">
-      ₹1,999
-    </div>
+  <button
+    class="btn btnGold"
+    onclick="openAdvisoryDetails('1_MONTH')">
 
-    <div class="savePlan">
-      Save ₹500
-    </div>
+    Select to Know More
 
-    <button
-      class="btn btnGold"
-      onclick="openForm('1 Month Advisory')">
+  </button>
+</div>
 
-      Select to Know More
 
-    </button>
+<div class="package">
+  <h3>3 Month Advisory</h3>
 
+  <p>
+    Continued advisory support with structured debt planning, repayment guidance and regular review.
+  </p>
+
+  <button
+    class="btn btnGold"
+    onclick="openAdvisoryDetails('3_MONTH')">
+
+    Select to Know More
+
+  </button>
+</div>
+
+
+<div class="package">
+  <h3>6 Month Advisory</h3>
+
+  <p>
+    Long-term advisory support with comprehensive debt planning, ongoing guidance and strategy reviews.
+  </p>
+
+  <button
+    class="btn btnGold"
+    onclick="openAdvisoryDetails('6_MONTH')">
+
+    Select to Know More
+
+  </button>
+</div>
+
+
+<div id="advisoryDetails">
+
+  <div class="back" onclick="goHome()">
+    ← Back
   </div>
 
+  <div class="advisoryDetailBox">
 
-  <div class="package">
+    <h2 id="advisoryDetailTitle">
+      Details of One Month Advisory
+    </h2>
 
-    <h3>
-      3 Month Advisory
-    </h3>
+    <p id="advisoryDetailDescription"></p>
 
-    <p>
-      Longer-term guidance for customers who need continued
-      support, structured debt planning and regular advisory.
-    </p>
+    <ul
+      id="advisoryDetailList"
+      class="advisoryList">
+    </ul>
 
-    <div class="oldPlanPrice">
-      ₹5,999
+    <div class="advisoryPricing">
+
+      <div
+        id="advisoryOldPrice"
+        class="advisoryOldPrice">
+      </div>
+
+      <div
+        id="advisoryOfferPrice"
+        class="advisoryOfferPrice">
+      </div>
+
+      <div
+        id="advisorySave"
+        class="advisorySave">
+      </div>
+
+      <button
+        id="advisoryPayButton"
+        class="btn btnGold"
+        onclick="payForAdvisory()">
+
+        Pay ₹1,999 for Advisory Plan
+
+      </button>
+
     </div>
-
-    <div class="price">
-      ₹4,999
-    </div>
-
-    <div class="savePlan">
-      Save ₹1,000
-    </div>
-
-    <button
-      class="btn btnGold"
-      onclick="openForm('3 Month Advisory')">
-
-      Select to Know More
-
-    </button>
-
-  </div>
-
-
-  <div class="package">
-
-    <h3>
-      6 Month Advisory
-    </h3>
-
-    <p>
-      Extended advisory support for structured debt planning,
-      ongoing guidance and longer-term financial decision support.
-    </p>
-
-    <div class="oldPlanPrice">
-      ₹9,999
-    </div>
-
-    <div class="price">
-      ₹7,999
-    </div>
-
-    <div class="savePlan">
-      Save ₹2,000
-    </div>
-
-    <button
-      class="btn btnGold"
-      onclick="openForm('6 Month Advisory')">
-
-      Select to Know More
-
-    </button>
 
   </div>
 
 </div>
+
+
+/* ADVISORY PLANS */
+
+let currentAdvisoryPlan = "";
+
+const advisoryPlans = {
+
+  "1_MONTH": {
+
+    title: "Details of One Month Advisory",
+
+    description:
+      "Personalised advisory support focused on understanding and managing your current loan and debt situation.",
+
+    points: [
+
+      "Personalized loan & debt situation assessment.",
+
+      "Practical guidance for EMI-related difficulties.",
+
+      "Recovery calls and communication handling guidance.",
+
+      "CIBIL and credit-report understanding.",
+
+      "Clear guidance on available options.",
+
+      "Basic debt-management planning.",
+
+      "Focused one-month advisory support."
+
+    ],
+
+    oldPrice: "Original Price: ₹2,499",
+
+    price: "₹1,999",
+
+    save: "You Save ₹500"
+
+  },
+
+
+  "3_MONTH": {
+
+    title: "Details of Three Month Advisory",
+
+    description:
+      "Continued advisory support for customers who need structured planning and regular guidance as their financial situation develops.",
+
+    points: [
+
+      "In-depth loan & debt situation assessment.",
+
+      "Structured plan for multiple loans and EMIs.",
+
+      "Personalized repayment and debt-management guidance.",
+
+      "Ongoing recovery communication guidance.",
+
+      "CIBIL and credit-profile guidance.",
+
+      "Regular review of changing financial situation.",
+
+      "Practical guidance as the situation develops.",
+
+      "Continued advisory support."
+
+    ],
+
+    oldPrice: "Original Price: ₹5,999",
+
+    price: "₹4,999",
+
+    save: "You Save ₹1,000"
+
+  },
+
+
+  "6_MONTH": {
+
+    title: "Details of Six Month Advisory",
+
+    description:
+      "Comprehensive long-term advisory support for customers who need ongoing debt planning, reviews and strategic guidance.",
+
+    points: [
+
+      "Comprehensive analysis of overall debt situation.",
+
+      "Long-term personalized debt-management strategy.",
+
+      "Strategic guidance for multiple loans and EMIs.",
+
+      "Ongoing support as financial situation changes.",
+
+      "Regular reviews and strategy adjustments.",
+
+      "Detailed CIBIL and credit-profile guidance.",
+
+      "Guidance to evaluate available debt-management options.",
+
+      "Continuous advisory support for better-informed decisions.",
+
+      "Long-term planning for a more manageable debt journey."
+
+    ],
+
+    oldPrice: "Original Price: ₹9,999",
+
+    price: "₹7,999",
+
+    save: "You Save ₹2,000"
+
+  }
+
+};
+
+
+window.openAdvisoryDetails = function(plan){
+
+  if(!requireConsultationPayment()) return;
+
+  const data = advisoryPlans[plan];
+
+  if(!data) return;
+
+  currentAdvisoryPlan = plan;
+
+  document
+    .getElementById("home")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("guidance")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("formSection")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("advisoryDetails")
+    .style
+    .display = "block";
+
+  document
+    .getElementById("advisoryDetailTitle")
+    .innerText = data.title;
+
+  document
+    .getElementById("advisoryDetailDescription")
+    .innerText = data.description;
+
+  document
+    .getElementById("advisoryDetailList")
+    .innerHTML =
+      data.points
+        .map(point => `<li>${point}</li>`)
+        .join("");
+
+  document
+    .getElementById("advisoryOldPrice")
+    .innerText = data.oldPrice;
+
+  document
+    .getElementById("advisoryOfferPrice")
+    .innerText = data.price;
+
+  document
+    .getElementById("advisorySave")
+    .innerText = data.save;
+
+  document
+    .getElementById("advisoryPayButton")
+    .innerText =
+      `Pay ${data.price} for Advisory Plan`;
+
+  window.scrollTo(0,0);
+
+};
+
+
+window.payForAdvisory = async function(){
+
+  if(!requireConsultationPayment()) return;
+
+  const user = auth.currentUser;
+
+  if(!user){
+
+    alert(
+      "Please login again before making the payment."
+    );
+
+    return;
+
+  }
+
+  const plan =
+    advisoryPlans[currentAdvisoryPlan];
+
+  if(!plan){
+
+    alert(
+      "Please select an Advisory Plan first."
+    );
+
+    return;
+
+  }
+
+  try{
+
+    const button =
+      document.getElementById(
+        "advisoryPayButton"
+      );
+
+    if(button){
+
+      button.disabled = true;
+
+      button.innerText =
+        "Creating secure payment...";
+
+    }
+
+    const result =
+      await createCashfreeOrder({
+
+        advisoryPlan:
+          currentAdvisoryPlan
+
+      });
+
+    const data =
+      result?.data || {};
+
+    const paymentSessionId =
+      data.paymentSessionId ||
+      data.payment_session_id;
+
+    const orderId =
+      data.orderId ||
+      data.order_id;
+
+    if(!paymentSessionId){
+
+      throw new Error(
+        "Advisory payment session could not be created."
+      );
+
+    }
+
+    if(orderId){
+
+      localStorage.setItem(
+        "rinsaathi_advisory_order_" + user.uid,
+        String(orderId)
+      );
+
+      localStorage.setItem(
+        "rinsaathi_advisory_plan_" + user.uid,
+        currentAdvisoryPlan
+      );
+
+    }
+
+    if(button){
+
+      button.innerText =
+        "Opening secure Cashfree payment...";
+
+    }
+
+    await cashfree.checkout({
+
+      paymentSessionId:
+        paymentSessionId,
+
+      redirectTarget:
+        "_self"
+
+    });
+
+  }catch(error){
+
+    console.error(
+      "ADVISORY CASHFREE PAYMENT ERROR:",
+      error
+    );
+
+    const button =
+      document.getElementById(
+        "advisoryPayButton"
+      );
+
+    if(button){
+
+      button.disabled = false;
+
+      button.innerText =
+        `Pay ${plan.price} for Advisory Plan`;
+
+    }
+
+    alert(
+      "Unable to open payment. Please try again."
+    );
+
+  }
+
+};
 
 
 <div class="notice">
