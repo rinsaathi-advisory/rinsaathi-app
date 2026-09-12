@@ -675,6 +675,7 @@ body{
         class="loginInput otpInput"
         type="tel"
         inputmode="numeric"
+        autocomplete="one-time-code"
         maxlength="6"
         placeholder="Enter OTP">
 
@@ -686,6 +687,14 @@ body{
         Verify OTP
 
       </button>
+
+      <div
+  class="loginMessage"
+  style="margin-top:10px;">
+
+  Didn't receive OTP? Check your Spam/Blocked messages folder.
+
+</div>
 
       <button
         class="loginBtn secondaryBtn"
@@ -1635,7 +1644,7 @@ async function(){
       "block";
 
     setLoginMessage(
-      "OTP sent successfully. Please check your SMS.",
+      "OTP sent successfully. Please check your SMS, including Spam/Blocked messages.",
       "success"
     );
 
