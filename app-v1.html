@@ -2987,7 +2987,7 @@ async function verifyReturnedCashfreePayment(){
         Unlock everything immediately.
       */
 
-      unlockPaidContent(true);
+      unlockPaidContent(Boolean(returnedOrderId));
 
 
       /*
