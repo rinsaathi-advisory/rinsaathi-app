@@ -871,42 +871,68 @@ a customer's actual App consultation/payment state.
 
 function stageOf(l){
 
-const stored=statusText(l);
+  const stored =
+    statusText(l);
 
 
-/* PAID ALWAYS WINS */
+  /* MANUAL CLOSED */
 
-if(leadPaid(l))
-return"Consultation Completed";
-
-
-/* FREE CONSULTATION USED */
-
-if(freeWasUsed(l))
-return"Pending Consultation";
+  if(
+    stored ===
+    "Closed Lead"
+  )
+    return "Closed Lead";
 
 
-/* EXISTING MANUAL COMPLETED */
+  /* MANUAL ACTIVE */
 
-if(stored==="Consultation Completed")
-return"Consultation Completed";
-
-
-/* EXISTING MANUAL ACTIVE */
-
-if(stored==="Active Advisory Client")
-return"Active Advisory Client";
+  if(
+    stored ===
+    "Active Advisory Client"
+  )
+    return "Active Advisory Client";
 
 
-/* EXISTING MANUAL CLOSED */
+  /*
+    ₹499 payment received /
+    verified
+    => Consultation Completed
+  */
 
-if(stored==="Closed Lead")
-return"Closed Lead";
+  if(
+    leadPaid(l)
+  )
+    return "Consultation Completed";
 
 
-/* DEFAULT */
+  /*
+    First consultation already used
+    => Pending Consultation
+  */
 
-return"New Lead";
+  if(
+    freeWasUsed(l)
+  )
+    return "Pending Consultation";
+
+
+  /*
+    Existing completed status
+  */
+
+  if(
+    stored ===
+    "Consultation Completed"
+  )
+    return "Consultation Completed";
+
+
+  /*
+    Nothing used yet
+    => New Lead
+  */
+
+  return "New Lead";
 
 }
 
@@ -1132,6 +1158,109 @@ id:d.id,
 ...d.data()
 })
 );
+
+
+/* LINK FREE CONSULTATION RECORDS WITH LEADS */
+
+const existingUids =
+  new Set(
+    leads
+      .map(
+        l=>String(l.uid||"").trim()
+      )
+      .filter(Boolean)
+  );
+
+freeSnap.docs.forEach(d=>{
+
+  const data =
+    d.data() || {};
+
+  const uid =
+    String(
+      data.uid ||
+      d.id ||
+      ""
+    ).trim();
+
+  if(!uid)
+    return;
+
+  /*
+    If this customer already has
+    an actual lead document,
+    do not create another one.
+  */
+
+  if(existingUids.has(uid))
+    return;
+
+  /*
+    Login/free-consultation record
+    exists but no lead yet.
+    Show as New Lead.
+  */
+
+  leads.push({
+
+    id:
+      "free_"+uid,
+
+    uid:
+      uid,
+
+    name:
+      data.name ||
+      "Customer",
+
+    mobile:
+      data.phone ||
+      data.mobile ||
+      data.authPhone ||
+      "",
+
+    phone:
+      data.phone ||
+      data.mobile ||
+      data.authPhone ||
+      "",
+
+    authPhone:
+      data.phone ||
+      data.mobile ||
+      data.authPhone ||
+      "",
+
+    service:
+      data.service ||
+      "",
+
+    message:
+      data.message ||
+      "",
+
+    freeConsultation:
+      data.used === true,
+
+    payment:
+      data.used === true
+        ? "FREE"
+        : "",
+
+    status:
+      "New Lead",
+
+    source:
+      data.type ||
+      "RinSaathi App",
+
+    createdAt:
+      data.createdAt ||
+      null
+
+  });
+
+});
 
 
 /*
