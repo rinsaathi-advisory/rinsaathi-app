@@ -480,6 +480,7 @@ import{
 getFirestore,
 collection,
 getDocs,
+getDocsFromServer,
 doc,
 updateDoc,
 serverTimestamp
@@ -872,16 +873,10 @@ a customer's actual App consultation/payment state.
 function stageOf(l){
 
   /*
-    APP DATA IS THE SOURCE OF TRUTH
+    APP DATA HAS PRIORITY
 
     ₹499 verified
     => Consultation Completed
-
-    Free consultation used
-    => Pending Consultation
-
-    Nothing used yet
-    => New Lead
   */
 
   if(
@@ -890,11 +885,41 @@ function stageOf(l){
     return "Consultation Completed";
 
 
+  /*
+    Free consultation used
+    => Pending Consultation
+  */
+
   if(
     freeWasUsed(l)
   )
     return "Pending Consultation";
 
+
+  /*
+    No newer App consultation state.
+    Preserve existing manual workflow status.
+  */
+
+  const stored=statusText(l);
+
+
+  if(
+    stored==="Active Advisory Client"
+  )
+    return "Active Advisory Client";
+
+
+  if(
+    stored==="Closed Lead"
+  )
+    return "Closed Lead";
+
+
+  /*
+    Nothing used yet
+    => New Lead
+  */
 
   return "New Lead";
 
@@ -1101,15 +1126,15 @@ freeSnap,
 paySnap
 ]=await Promise.all([
 
-getDocs(
+getDocsFromServer(
 collection(db,"leads")
 ),
 
-getDocs(
+getDocsFromServer(
 collection(db,"freeConsultations")
 ),
 
-getDocs(
+getDocsFromServer(
 collection(db,"payments")
 )
 
@@ -2374,8 +2399,45 @@ $("logout").onclick=()=>
 signOut(auth);
 
 
-$("refresh").onclick=
-loadLeads;
+$("refresh").onclick=async()=>{
+
+  const btn=$("refresh");
+
+  btn.disabled=true;
+  btn.textContent="↻ Refreshing...";
+
+  try{
+
+    await loadLeads();
+
+    btn.textContent="✓ Data Refreshed";
+
+    setTimeout(
+      ()=>{
+        btn.textContent="↻ Refresh All Data";
+        btn.disabled=false;
+      },
+      1200
+    );
+
+  }
+  catch(e){
+
+    btn.textContent="↻ Refresh All Data";
+    btn.disabled=false;
+
+    console.error(e);
+
+    alert(
+      "Could not refresh Admin data.\n\n"+
+      (e?.message||String(e))
+    );
+
+     throw e;
+     
+  }
+
+};
 
 
 onAuthStateChanged(
