@@ -560,27 +560,16 @@ body{
 
 }
 
-/* ============================= */
 /* ADVISORY DETAILS */
-/* ============================= */
-
 #advisoryDetails{
   display:none;
 }
 
 .advisoryDetailBox{
-  background:linear-gradient(
-    145deg,
-    #073f32,
-    #0d604c
-  );
-
+  background:linear-gradient(145deg,#073f32,#0d604c);
   color:white;
-
   border-radius:22px;
-
   padding:22px;
-
   margin-top:18px;
 }
 
@@ -1002,75 +991,123 @@ body{
     Advisory Plans
   </div>
 
-  <div class="firstInquiryText" style="margin-bottom:14px;text-align:left;">
+  <div
+    class="firstInquiryText"
+    style="margin-bottom:14px;text-align:left;">
+
     Select a plan below to know more about the support and process.
+
   </div>
 
 
-  <div class="title">
-  Advisory Plans
-</div>
+  <!-- 1 MONTH ADVISORY -->
 
-<div class="firstInquiryText" style="margin-bottom:14px;text-align:left;">
-  Select a plan below to know more about the support and process.
-</div>
+  <div class="package">
 
-<div class="package">
-  <h3>1 Month Advisory</h3>
+    <h3>
+      1 Month Advisory
+    </h3>
 
-  <p>
-    Focused advisory support for your current loan, EMI, debt and credit-related situation.
-  </p>
+    <p>
+      Focused advisory support for your current loan,
+      EMI, debt and credit-related situation.
+    </p>
+
+    <button
+      class="btn btnGold"
+      onclick="openAdvisoryDetails('1_MONTH')">
+
+      Select to Know More
+
+    </button>
+
+  </div>
+
+
+  <!-- 3 MONTH ADVISORY -->
+
+  <div class="package">
+
+    <h3>
+      3 Month Advisory
+    </h3>
+
+    <p>
+      Continued advisory support with structured
+      debt planning, repayment guidance and regular review.
+    </p>
+
+    <button
+      class="btn btnGold"
+      onclick="openAdvisoryDetails('3_MONTH')">
+
+      Select to Know More
+
+    </button>
+
+  </div>
+
+
+  <!-- 6 MONTH ADVISORY -->
+
+  <div class="package">
+
+    <h3>
+      6 Month Advisory
+    </h3>
+
+    <p>
+      Long-term advisory support with comprehensive
+      debt planning, ongoing guidance and strategy reviews.
+    </p>
+
+    <button
+      class="btn btnGold"
+      onclick="openAdvisoryDetails('6_MONTH')">
+
+      Select to Know More
+
+    </button>
+
+  </div>
+
+
+  <div class="notice">
+
+    <b>Important:</b>
+
+    RinSaathi Advisory Services is an independent advisory
+    and guidance service. We are not a bank, lender or loan provider
+    and do not guarantee loan approval, settlement or any specific outcome.
+
+  </div>
+
 
   <button
-    class="btn btnGold"
-    onclick="openAdvisoryDetails('1_MONTH')">
+    class="logoutBtn"
+    onclick="logoutUser()">
 
-    Select to Know More
+    Logout
 
   </button>
+
 </div>
 
 
-<div class="package">
-  <h3>3 Month Advisory</h3>
-
-  <p>
-    Continued advisory support with structured debt planning, repayment guidance and regular review.
-  </p>
-
-  <button
-    class="btn btnGold"
-    onclick="openAdvisoryDetails('3_MONTH')">
-
-    Select to Know More
-
-  </button>
-</div>
-
-
-<div class="package">
-  <h3>6 Month Advisory</h3>
-
-  <p>
-    Long-term advisory support with comprehensive debt planning, ongoing guidance and strategy reviews.
-  </p>
-
-  <button
-    class="btn btnGold"
-    onclick="openAdvisoryDetails('6_MONTH')">
-
-    Select to Know More
-
-  </button>
-</div>
-
+<!-- ================================================= -->
+<!-- ADVISORY DETAILS — OUTSIDE HOME -->
+<!-- ================================================= -->
 
 <div id="advisoryDetails">
 
-  <div class="back" onclick="goHome()">
+  <div
+    class="back"
+    onclick="goHome()">
+
     ← Back
+
   </div>
+
 
   <div class="advisoryDetailBox">
 
@@ -1078,12 +1115,16 @@ body{
       Details of One Month Advisory
     </h2>
 
-    <p id="advisoryDetailDescription"></p>
+
+    <p id="advisoryDetailDescription">
+    </p>
+
 
     <ul
       id="advisoryDetailList"
       class="advisoryList">
     </ul>
+
 
     <div class="advisoryPricing">
 
@@ -1092,15 +1133,18 @@ body{
         class="advisoryOldPrice">
       </div>
 
+
       <div
         id="advisoryOfferPrice"
         class="advisoryOfferPrice">
       </div>
 
+
       <div
         id="advisorySave"
         class="advisorySave">
       </div>
+
 
       <button
         id="advisoryPayButton"
@@ -4227,25 +4271,86 @@ function buildServiceForm(service){
 
 /* HOME */
 
+/* HOME */
+
 window.goHome =
 function(){
 
-  document.getElementById(
-    "guidance"
-  ).classList.add("hidden");
+  /*
+    Hide Advisory Details first.
+    Advisory Details is outside #home.
+  */
 
-  document.getElementById(
-    "formSection"
-  ).classList.add("hidden");
+  const advisoryDetails =
+    document.getElementById(
+      "advisoryDetails"
+    );
 
-  document.getElementById(
-    "home"
-  ).classList.remove("hidden");
+  if(advisoryDetails){
+
+    advisoryDetails.style.display =
+      "none";
+
+  }
+
+
+  /*
+    Hide Guidance.
+  */
+
+  const guidance =
+    document.getElementById(
+      "guidance"
+    );
+
+  if(guidance){
+
+    guidance.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  /*
+    Hide Form Section.
+  */
+
+  const formSection =
+    document.getElementById(
+      "formSection"
+    );
+
+  if(formSection){
+
+    formSection.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  /*
+    Show Home.
+  */
+
+  const home =
+    document.getElementById(
+      "home"
+    );
+
+  if(home){
+
+    home.classList.remove(
+      "hidden"
+    );
+
+  }
 
 
   /*
     Paid user:
-    hide payment section and show unlocked content.
+    show unlocked content.
   */
 
   if(
@@ -4264,6 +4369,7 @@ function(){
 
     }
 
+
     const paidConsultationSection =
       document.getElementById(
         "paidConsultationSection"
@@ -4275,6 +4381,7 @@ function(){
         "none";
 
     }
+
 
     const lockedMessage =
       document.getElementById(
@@ -4290,10 +4397,19 @@ function(){
 
   }else{
 
+    /*
+      Free / unpaid user:
+      keep existing consultation UI.
+    */
+
     updateConsultationUI();
 
   }
 
+
+  /*
+    Scroll back to top.
+  */
 
   window.scrollTo(
     0,
