@@ -2463,44 +2463,8 @@ $("logout").onclick=()=>
 signOut(auth);
 
 
-$("refresh").onclick=async()=>{
-
-  const btn=$("refresh");
-
-  btn.disabled=true;
-  btn.textContent="↻ Refreshing...";
-
-  try{
-
-    await loadLeads();
-
-    btn.textContent="✓ Data Refreshed";
-
-    setTimeout(
-      ()=>{
-        btn.textContent="↻ Refresh All Data";
-        btn.disabled=false;
-      },
-      1200
-    );
-
-  }
-  catch(e){
-
-    btn.textContent="↻ Refresh All Data";
-    btn.disabled=false;
-
-    console.error(e);
-
-    alert(
-      "Could not refresh Admin data.\n\n"+
-      (e?.message||String(e))
-    );
-
-     throw e;
-     
-  }
-
+$("refresh").onclick=()=>{
+  window.location.reload();
 };
 
 
