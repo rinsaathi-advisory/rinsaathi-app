@@ -565,6 +565,15 @@ body{
   display:none;
 }
 
+/* ADVISORY DETAILS */
+#advisoryDetails{
+  display:none;
+}
+
+#advisorySuccess{
+  display:none;
+}
+
 .advisoryDetailBox{
   background:linear-gradient(145deg,#073f32,#0d604c);
   color:white;
@@ -1074,6 +1083,92 @@ body{
 
 </div>
 
+
+<!-- =========================================================
+     ADVISORY SUCCESS
+     ========================================================= -->
+
+<div id="advisorySuccess" style="display:none;">
+
+  <div
+    class="back"
+    onclick="goHome()">
+
+    ← Back
+
+  </div>
+
+  <div class="advisoryDetailBox">
+
+    <h2 id="advisorySuccessTitle">
+    </h2>
+
+    <p id="advisorySuccessText">
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     ADVISORY DETAILS
+     ========================================================= -->
+
+<div id="advisoryDetails" style="display:none;">
+
+  <div
+    class="back"
+    onclick="goHome()">
+
+    ← Back
+
+  </div>
+
+  <div class="advisoryDetailBox">
+
+    <h2 id="advisoryDetailTitle">
+    </h2>
+
+    <p id="advisoryDetailDescription">
+    </p>
+
+    <ul
+      id="advisoryDetailList"
+      class="advisoryList">
+    </ul>
+
+    <div class="advisoryPricing">
+
+      <div
+        id="advisoryOldPrice"
+        class="advisoryOldPrice">
+      </div>
+
+      <div
+        id="advisoryOfferPrice"
+        class="advisoryOfferPrice">
+      </div>
+
+      <div
+        id="advisorySave"
+        class="advisorySave">
+      </div>
+
+      <button
+        id="advisoryPayButton"
+        class="btn btnGold"
+        onclick="payForAdvisory()">
+
+        Pay for Advisory Plan
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 <div id="guidance" class="hidden">
 
