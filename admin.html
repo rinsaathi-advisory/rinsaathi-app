@@ -1123,7 +1123,8 @@ try{
 const[
 leadSnap,
 freeSnap,
-paySnap
+paySnap,
+userSnap 
 ]=await Promise.all([
 
 getDocsFromServer(
@@ -1136,8 +1137,12 @@ collection(db,"freeConsultations")
 
 getDocsFromServer(
 collection(db,"payments")
-)
+),
 
+getDocsFromServer(
+  collection(db,"users")
+)
+   
 ]);
 
 
@@ -1160,6 +1165,104 @@ const existingUids =
       .filter(Boolean)
   );
 
+userSnap.docs.forEach(d=>{
+
+  const uid =
+    String(d.id||"").trim();
+
+  if(uid)
+    existingUids.add(uid);
+
+});
+
+
+/*
+  SHOW EVERY APP USER WHO HAS LOGGED IN
+
+  Login creates users/{uid}.
+  If no actual lead document exists yet,
+  create an in-memory Admin row.
+*/
+
+userSnap.docs.forEach(d=>{
+
+  const data =
+    d.data() || {};
+
+  const uid =
+    String(
+      data.uid ||
+      d.id ||
+      ""
+    ).trim();
+
+  if(!uid)
+    return;
+
+  /*
+    If an actual lead already exists,
+    do not duplicate this customer.
+  */
+
+  const hasLead =
+    leads.some(
+      l=>String(l.uid||"").trim()===uid
+    );
+
+  if(hasLead)
+    return;
+
+  leads.push({
+
+    id:
+      "user_"+uid,
+
+    uid:
+      uid,
+
+    name:
+      data.name ||
+      "Customer",
+
+    mobile:
+      data.phone ||
+      "",
+
+    phone:
+      data.phone ||
+      "",
+
+    authPhone:
+      data.phone ||
+      "",
+
+    service:
+      "",
+
+    message:
+      "",
+
+    freeConsultation:
+      false,
+
+    payment:
+      "",
+
+    status:
+      "New Lead",
+
+    source:
+      "RinSaathi App",
+
+    createdAt:
+      data.lastLoginAt ||
+      data.createdAt ||
+      null
+
+  });
+
+});
+   
 freeSnap.docs.forEach(d=>{
 
   const data =
