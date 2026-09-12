@@ -2186,6 +2186,14 @@ setupRecaptcha();
 const phone=
 $("phone").value.trim();
 
+const phone =
+
+phoneInput.startsWith("+")
+
+  ? phoneInput
+
+  : "+91" + phoneInput;
+
 
 confirmationResult=
 await signInWithPhoneNumber(
