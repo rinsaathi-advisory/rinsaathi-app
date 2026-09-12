@@ -1337,6 +1337,7 @@ import {
   getFirestore,
   doc,
   getDoc,
+  setDoc,
   collection,
   writeBatch,
   serverTimestamp
@@ -2333,6 +2334,44 @@ function updateConsultationUI(){
 }
 
 
+/* APP USER REGISTRY */
+
+async function registerLoggedInUser(user){
+
+  try{
+
+    await setDoc(
+      doc(db,"users",user.uid),
+      {
+        uid:
+          user.uid,
+
+        phone:
+          user.phoneNumber || "",
+
+        createdAt:
+          user.metadata?.creationTime || "",
+
+        lastLoginAt:
+          serverTimestamp()
+      },
+      {
+        merge:true
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "USER REGISTRY SAVE ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
 /* AUTH STATE */
 
 onAuthStateChanged(
@@ -2356,6 +2395,8 @@ onAuthStateChanged(
 
       mainApp.style.display =
         "block";
+
+      registerLoggedInUser(user);
 
 
       /*
