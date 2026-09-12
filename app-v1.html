@@ -690,12 +690,31 @@ body{
 
       <div
   class="loginMessage"
-  style="margin-top:10px;">
+  style="margin-top:10px; font-weight:700; color:#53635e;">
 
   Didn't receive OTP? Check your Spam/Blocked messages folder.
 
 </div>
 
+  <div
+  id="resendTimer"
+  class="loginMessage"
+  style="margin-top:8px; font-weight:700; color:#16704f;">
+
+  Resend OTP in 30 seconds
+
+</div>
+
+<button
+  id="resendOtpBtn"
+  class="loginBtn"
+  style="display:none;"
+  onclick="resendOTP()">
+
+  Resend OTP
+
+</button>
+      
       <button
         class="loginBtn secondaryBtn"
         onclick="backToPhone()">
@@ -1359,6 +1378,10 @@ const cashfree =
 
 let confirmationResult = null;
 
+let resendTimer = null;
+
+let resendSeconds = 30;
+
 let recaptchaVerifier = null;
 
 let recaptchaWidgetId = null;
@@ -1572,6 +1595,85 @@ function resetRecaptcha(){
 }
 
 
+ /* OTP RESEND TIMER */
+
+function startResendTimer(){
+
+  clearInterval(resendTimer);
+
+  resendSeconds = 30;
+
+  const timer =
+    document.getElementById("resendTimer");
+
+  const resendButton =
+    document.getElementById("resendOtpBtn");
+
+  if(timer){
+
+    timer.style.display = "block";
+    timer.innerText =
+      "Resend OTP in " + resendSeconds + " seconds";
+
+  }
+
+  if(resendButton){
+
+    resendButton.style.display = "none";
+
+  }
+
+  resendTimer =
+    setInterval(function(){
+
+      resendSeconds--;
+
+      if(timer){
+
+        timer.innerText =
+          "Resend OTP in " + resendSeconds + " seconds";
+
+      }
+
+      if(resendSeconds <= 0){
+
+        clearInterval(resendTimer);
+
+        if(timer){
+
+          timer.style.display = "none";
+
+        }
+
+        if(resendButton){
+
+          resendButton.style.display = "block";
+
+        }
+
+      }
+
+    },1000);
+
+}
+
+
+/* RESEND OTP */
+
+window.resendOTP =
+async function(){
+
+  if(resendSeconds > 0){
+
+    return;
+
+  }
+
+  await sendOTP();
+
+};
+
+
 /* SEND OTP */
 
 window.sendOTP =
@@ -1656,6 +1758,8 @@ async function(){
       "success"
     );
 
+    startResendTimer();
+    
   }catch(error){
 
     console.error(
