@@ -5294,6 +5294,31 @@ I understand that RinSaathi provides advisory and guidance services and does not
 
 let deferredInstallPrompt = null;
 
+const installButton =
+  document.getElementById("installAppBtn");
+
+if(installButton){
+
+  const isIOS =
+    /iphone|ipad|ipod/i.test(
+      navigator.userAgent
+    );
+
+  const isStandalone =
+    window.navigator.standalone === true ||
+    window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches;
+
+  if(!isStandalone){
+
+    installButton.style.display =
+      "block";
+
+  }
+
+}
+  
 window.addEventListener(
   "beforeinstallprompt",
   function(event){
