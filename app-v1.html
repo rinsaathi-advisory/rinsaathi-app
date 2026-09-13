@@ -2390,13 +2390,33 @@ onAuthStateChanged(
 
     if(user){
 
-      loginScreen.style.display =
-        "none";
+  const userRef =
+    doc(db,"users",user.uid);
 
-      mainApp.style.display =
-        "block";
+  const userSnap =
+    await getDoc(userRef);
 
-      registerLoggedInUser(user);
+  if(
+    userSnap.exists() &&
+    userSnap.data()?.blocked === true
+  ){
+
+    alert(
+      "Your RinSaathi account has been blocked by the administrator."
+    );
+
+    await signOut(auth);
+
+    return;
+  }
+
+  loginScreen.style.display =
+    "none";
+
+  mainApp.style.display =
+    "block";
+
+  registerLoggedInUser(user);
 
 
       /*
