@@ -169,6 +169,12 @@ input{width:100%;padding:14px;border:1px solid #d2e2db;border-radius:14px;margin
 <div class="statTitle">Closed Leads</div>
 </div>
 
+<div class="statCard" onclick="showUserAccounts()">
+  <div class="statIcon">👥</div>
+  <div class="statNumber" id="userAccountsTopCount">0</div>
+  <div class="statTitle">User Accounts</div>
+</div>
+
 <div class="statCard" onclick="openConsultationRevenue()">
 <div class="statIcon">💳</div>
 <div class="statNumber" id="revenue">₹0</div>
@@ -183,6 +189,17 @@ input{width:100%;padding:14px;border:1px solid #d2e2db;border-radius:14px;margin
 
 </div>
 
+
+<section class="section" id="userAccountsSection">
+
+  <div class="sectionHeading">
+    <h2>👥 User Accounts</h2>
+    <span class="badge" id="userAccountCount">0 Accounts</span>
+  </div>
+
+  <div class="card" id="userAccountContainer"></div>
+
+</section>
 
 <section class="section">
 
@@ -220,18 +237,6 @@ onclick="setFilter('Closed Lead',this)">Closed</button>
 </div>
 
 <div id="leadContainer"></div>
-
-</section>
-
-
-<section class="section">
-
-  <div class="sectionHeading">
-    <h2>👥 User Accounts</h2>
-    <span class="badge" id="userAccountCount">0 Accounts</span>
-  </div>
-
-  <div class="card" id="userAccountContainer"></div>
 
 </section>
 
@@ -1521,6 +1526,20 @@ ${esc(p.id||"")}
 "<div class='empty'>No verified ₹499 consultation payments found.</div>";
 
 }
+
+
+window.showUserAccounts=function(){
+
+  const section=$("userAccountsSection");
+
+  if(section){
+    section.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  }
+
+};
 
 
 function renderUserAccounts(){
