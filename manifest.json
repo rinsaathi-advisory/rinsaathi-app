@@ -1,7 +1,7 @@
 {
   "name": "RinSaathi Advisory Services",
   "short_name": "RinSaathi",
-  "start_url": "./",
+  "start_url": "./app-v1.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#063f32",
