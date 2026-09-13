@@ -197,6 +197,13 @@ input{width:100%;padding:14px;border:1px solid #d2e2db;border-radius:14px;margin
     <span class="badge" id="userAccountCount">0 Accounts</span>
   </div>
 
+  <button
+  type="button"
+  onclick="closeUserAccounts()"
+  style="border:0;background:#fde7e7;color:#a52a2a;border-radius:50%;width:42px;height:42px;font-size:24px;font-weight:800;cursor:pointer;">
+  ×
+</button>
+  
   <div class="card" id="userAccountContainer"></div>
 
 </section>
@@ -1589,20 +1596,24 @@ window.showUserAccounts=function(){
   if(!section)
     return;
 
-  if(section.style.display==="none"){
+  section.style.display="block";
 
-    section.style.display="block";
+  section.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
 
-    section.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+};
 
-  }else{
 
-    section.style.display="none";
+window.closeUserAccounts=function(){
 
-  }
+  const section=$("userAccountsSection");
+
+  if(!section)
+    return;
+
+  section.style.display="none";
 
 };
 
