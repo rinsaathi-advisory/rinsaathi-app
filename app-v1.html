@@ -5,6 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#063f32">
+<link rel="manifest" href="./manifest.json">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="RinSaathi">
+<link rel="apple-touch-icon" href="./logo.png">
 
 <title>RinSaathi Advisory Services</title>
 
@@ -201,6 +207,12 @@ body{
   padding:10px 14px;
   border-radius:12px;
   font-size:13px;
+}
+
+  .installBtn{
+  background:#063f32;
+  color:white;
+  border:1px solid #d8b45f;
 }
   
 .title{
@@ -800,6 +812,16 @@ body{
 
 </button>
 
+  <button
+  id="installAppBtn"
+  class="btn installBtn"
+  style="display:none;"
+  onclick="installRinSaathi()">
+
+  📲 Install RinSaathi App
+
+</button>
+  
   <div
     id="freeStatusBox"
     class="firstInquiry">
@@ -5268,6 +5290,164 @@ I understand that RinSaathi provides advisory and guidance services and does not
 }
 
 
+/* RINSAATHI APP INSTALL */
+
+let deferredInstallPrompt = null;
+
+window.addEventListener(
+  "beforeinstallprompt",
+  function(event){
+
+    event.preventDefault();
+
+    deferredInstallPrompt = event;
+
+    const installButton =
+      document.getElementById("installAppBtn");
+
+    if(installButton){
+
+      installButton.style.display =
+        "block";
+
+    }
+
+  }
+);
+
+
+window.installRinSaathi =
+async function(){
+
+  const installButton =
+    document.getElementById("installAppBtn");
+
+  /* iPhone / iPad */
+
+  const isIOS =
+    /iphone|ipad|ipod/i.test(
+      navigator.userAgent
+    );
+
+  const isStandalone =
+    window.navigator.standalone === true ||
+    window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches;
+
+  if(isStandalone){
+
+    if(installButton){
+
+      installButton.style.display =
+        "none";
+
+    }
+
+    return;
+
+  }
+
+
+  if(isIOS){
+
+    alert(
+      "To install RinSaathi on your iPhone:\n\n" +
+      "1. Open RinSaathi in Safari.\n" +
+      "2. Tap the Share button.\n" +
+      "3. Select 'Add to Home Screen'.\n" +
+      "4. Tap 'Add'."
+    );
+
+    return;
+
+  }
+
+
+  /* Android / supported browsers */
+
+  if(deferredInstallPrompt){
+
+    deferredInstallPrompt.prompt();
+
+    const result =
+      await deferredInstallPrompt.userChoice;
+
+    if(
+      result &&
+      result.outcome === "accepted"
+    ){
+
+      deferredInstallPrompt = null;
+
+      if(installButton){
+
+        installButton.style.display =
+          "none";
+
+      }
+
+    }
+
+    return;
+
+  }
+
+
+  alert(
+    "To install RinSaathi, open your browser menu and select 'Add to Home screen' or 'Install app'."
+  );
+
+};
+
+
+window.addEventListener(
+  "appinstalled",
+  function(){
+
+    deferredInstallPrompt = null;
+
+    const installButton =
+      document.getElementById("installAppBtn");
+
+    if(installButton){
+
+      installButton.style.display =
+        "none";
+
+    }
+
+  }
+);
+
+
+if(
+  "serviceWorker" in navigator
+){
+
+  window.addEventListener(
+    "load",
+    function(){
+
+      navigator.serviceWorker.register(
+        "./service-worker.js"
+      ).catch(
+        function(error){
+
+          console.error(
+            "Service Worker registration failed:",
+            error
+          );
+
+        }
+      );
+
+    }
+  );
+
+}
+
+  
 /* START RECAPTCHA */
 
 createRecaptcha();
