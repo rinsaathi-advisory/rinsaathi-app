@@ -510,6 +510,7 @@ getDocs,
 getDocsFromServer,
 doc,
 updateDoc,
+setDoc,
 serverTimestamp
 }from"https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
@@ -2538,16 +2539,19 @@ window.toggleUserBlock=async function(uid,currentlyBlocked){
 
   try{
 
-    await updateDoc(
-      doc(db,"users",uid),
-      {
-        blocked:!currentlyBlocked,
-        blockedAt:
-          currentlyBlocked
-            ?null
-            :serverTimestamp()
-      }
-    );
+    await setDoc(
+  doc(db,"users",uid),
+  {
+    blocked:!currentlyBlocked,
+    blockedAt:
+      currentlyBlocked
+        ?null
+        :serverTimestamp()
+  },
+  {
+    merge:true
+  }
+);
 
     await loadLeads();
 
