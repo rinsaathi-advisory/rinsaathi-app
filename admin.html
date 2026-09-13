@@ -190,7 +190,7 @@ input{width:100%;padding:14px;border:1px solid #d2e2db;border-radius:14px;margin
 </div>
 
 
-<section class="section" id="userAccountsSection">
+<section class="section" id="userAccountsSection" style="display:none;">
 
   <div class="sectionHeading">
     <h2>👥 User Accounts</h2>
@@ -1586,11 +1586,22 @@ window.showUserAccounts=function(){
 
   const section=$("userAccountsSection");
 
-  if(section){
+  if(!section)
+    return;
+
+  if(section.style.display==="none"){
+
+    section.style.display="block";
+
     section.scrollIntoView({
       behavior:"smooth",
       block:"start"
     });
+
+  }else{
+
+    section.style.display="none";
+
   }
 
 };
