@@ -1151,7 +1151,47 @@ userSnap.docs.forEach(d=>{
     accountMap.set(uid,{
       id:uid,
       uid:uid,
-      name:data.name||"Customer",
+      name:
+  data.name &&
+  String(data.name).trim().toLowerCase()!=="customer"
+    ? data.name
+    : (
+        leadSnap.docs
+          .map(x=>x.data()||{})
+          .find(x=>
+            String(x.uid||"").trim()===uid &&
+            x.name &&
+            String(x.name).trim().toLowerCase()!=="customer"
+          )?.name ||
+
+        paySnap.docs
+          .map(x=>x.data()||{})
+          .find(x=>
+            (
+              String(x.uid||x.userId||"").trim()===uid ||
+              normPhone(
+                x.mobile||
+                x.phone||
+                x.authPhone||
+                x.phoneNumber||
+                ""
+              )===normPhone(data.phone)
+            ) &&
+            x.name &&
+            String(x.name).trim().toLowerCase()!=="customer"
+          )?.name ||
+
+        freeSnap.docs
+          .map(x=>x.data()||{})
+          .find(x=>
+            String(x.uid||"").trim()===uid &&
+            x.name &&
+            String(x.name).trim().toLowerCase()!=="customer"
+          )?.name ||
+
+        "Customer"
+      ),
+      
       phone:data.phone||"",
       blocked:data.blocked===true
     });
