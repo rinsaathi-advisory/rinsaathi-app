@@ -1128,14 +1128,64 @@ getDocsFromServer(
 ]);
 
 
-userAccounts=userSnap.docs
-  .map(d=>({
-    id:d.id,
-    ...d.data()
-  }))
-  .filter(u=>
-    normPhone(u.phone)!==normPhone(ADMIN_PHONE)
-  );
+const accountMap=new Map();
+
+userSnap.docs.forEach(d=>{
+
+  const data=d.data()||{};
+  const uid=String(data.uid||d.id||"").trim();
+
+  if(
+    uid &&
+    normPhone(data.phone)!==normPhone(ADMIN_PHONE)
+  ){
+
+    accountMap.set(uid,{
+      id:uid,
+      uid:uid,
+      name:data.name||"Customer",
+      phone:data.phone||"",
+      blocked:data.blocked===true
+    });
+
+  }
+
+});
+
+leadSnap.docs.forEach(d=>{
+
+  const data=d.data()||{};
+  const uid=String(data.uid||"").trim();
+
+  if(
+    uid &&
+    normPhone(data.mobile||data.phone||data.authPhone)!==
+    normPhone(ADMIN_PHONE)
+  ){
+
+    if(!accountMap.has(uid)){
+
+      accountMap.set(uid,{
+        id:uid,
+        uid:uid,
+        name:data.name||"Customer",
+        phone:
+          data.mobile||
+          data.phone||
+          data.authPhone||
+          "",
+        blocked:false
+      });
+
+    }
+
+  }
+
+});
+
+userAccounts=[
+  ...accountMap.values()
+];
 
 
 leads=leadSnap.docs.map(
