@@ -226,6 +226,18 @@ onclick="setFilter('Closed Lead',this)">Closed</button>
 
 <section class="section">
 
+  <div class="sectionHeading">
+    <h2>👥 User Accounts</h2>
+    <span class="badge" id="userAccountCount">0 Accounts</span>
+  </div>
+
+  <div class="card" id="userAccountContainer"></div>
+
+</section>
+
+
+<section class="section">
+
 <div class="sectionHeading">
 <h2>🔄 Correct Workflow</h2>
 </div>
@@ -514,6 +526,7 @@ let leads=[];
 let paymentEvents=[];
 let freeUsed=new Set();
 let activeFilter="ALL";
+let userAccounts=[];
 
 const $=id=>document.getElementById(id);
 
@@ -1110,6 +1123,12 @@ getDocsFromServer(
 ]);
 
 
+userAccounts=userSnap.docs.map(d=>({
+  id:d.id,
+  ...d.data()
+}));
+
+
 leads=leadSnap.docs.map(
 d=>({
 id:d.id,
@@ -1458,6 +1477,8 @@ filtered.map(leadCard).join("")
 :
 "<div class='card empty'>No leads in this category.</div>";
 
+renderUserAccounts();
+
 
 $("paymentCount").textContent=
 pays.length+" Payments";
@@ -1499,6 +1520,67 @@ ${esc(p.id||"")}
 :
 "<div class='empty'>No verified ₹499 consultation payments found.</div>";
 
+}
+
+
+function renderUserAccounts(){
+
+  const box=$("userAccountContainer");
+
+  $("userAccountCount").textContent=
+    userAccounts.length+" Accounts";
+
+  if(!userAccounts.length){
+    box.innerHTML=
+      "<div class='empty'>No user accounts found.</div>";
+    return;
+  }
+
+  box.innerHTML=userAccounts.map(u=>{
+
+    const blocked=u.blocked===true;
+
+    return `
+      <div class="listItem">
+
+        <div class="listTop">
+
+          <div>
+            <div class="listName">
+              ${esc(u.name||"Customer")}
+            </div>
+
+            <div class="listMeta">
+              Mobile: ${esc(u.phone||"Not available")}
+            </div>
+
+            <div class="listMeta">
+              UID: ${esc(u.uid||u.id)}
+            </div>
+
+            <div style="margin-top:8px">
+              <span class="status ${blocked?"closed":"completed"}">
+                ${blocked?"BLOCKED":"ACTIVE"}
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <button
+              class="${blocked?"primary":"danger"}"
+              onclick="toggleUserBlock('${esc(u.id)}',${blocked})">
+
+              ${blocked?"Unblock Account":"Block Account"}
+
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
 }
 
 
@@ -2343,6 +2425,50 @@ alert(
 }
 
 }
+
+
+window.toggleUserBlock=async function(uid,currentlyBlocked){
+
+  const ok=confirm(
+    currentlyBlocked
+      ?"Are you sure you want to unblock this account?"
+      :"Are you sure you want to block this account?"
+  );
+
+  if(!ok)
+    return;
+
+  try{
+
+    await updateDoc(
+      doc(db,"users",uid),
+      {
+        blocked:!currentlyBlocked,
+        blockedAt:
+          currentlyBlocked
+            ?null
+            :serverTimestamp()
+      }
+    );
+
+    await loadLeads();
+
+    alert(
+      currentlyBlocked
+        ?"Account unblocked successfully."
+        :"Account blocked successfully."
+    );
+
+  }catch(e){
+
+    alert(
+      "Could not update account.\n\n"+
+      (e?.message||e)
+    );
+
+  }
+
+};
 
 
 function setupRecaptcha(){
