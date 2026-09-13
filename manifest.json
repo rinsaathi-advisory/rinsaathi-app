@@ -1,0 +1,16 @@
+{
+  "name": "RinSaathi Advisory Services",
+  "short_name": "RinSaathi",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#063f32",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
