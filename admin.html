@@ -109,7 +109,10 @@ input{width:100%;padding:14px;border:1px solid #d2e2db;border-radius:14px;margin
 
 <div id="recaptcha-container"></div>
 
-<button class="primary" id="sendOtp">Send OTP</button>
+<div class="actions">
+  <button class="primary" id="sendOtp">Send OTP</button>
+  <button class="secondary" type="button" onclick="window.location.reload()">↻ Refresh</button>
+</div>
 
 <div id="otpArea" class="hidden">
 <input id="otp" inputmode="numeric" placeholder="Enter OTP">
