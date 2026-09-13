@@ -702,6 +702,18 @@ body{
   ↻ Refresh
 </button>
 
+<button
+  id="installAppBtnLogin"
+  class="loginBtn secondaryBtn"
+  style="display:block;"
+  onclick="installRinSaathi()">
+
+  📲 Install RinSaathi App
+
+</button>
+
+<div id="otpSection">
+
     <div id="otpSection">
 
       <input
@@ -5420,8 +5432,11 @@ async function(){
 
 
   alert(
-    "To install RinSaathi: Tap the three dots (⋮) on the right side of your Chrome browser, then select 'Install app' or 'Add to Home screen'."
-  );
+  "How to install?\n\n" +
+  "1. Tap the three dots (⋮) on the right side of your browser.\n" +
+  "2. Find and select 'Install app' or 'Add to Home Screen'.\n" +
+  "3. Tap 'Install' or 'Add to Home Screen' to complete the installation."
+);
 
 };
 
