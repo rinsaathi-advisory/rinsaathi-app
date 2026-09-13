@@ -1128,10 +1128,14 @@ getDocsFromServer(
 ]);
 
 
-userAccounts=userSnap.docs.map(d=>({
-  id:d.id,
-  ...d.data()
-}));
+userAccounts=userSnap.docs
+  .map(d=>({
+    id:d.id,
+    ...d.data()
+  }))
+  .filter(u=>
+    normPhone(u.phone)!==normPhone(ADMIN_PHONE)
+  );
 
 
 leads=leadSnap.docs.map(
@@ -1548,6 +1552,9 @@ function renderUserAccounts(){
 
   $("userAccountCount").textContent=
     userAccounts.length+" Accounts";
+
+  $("userAccountsTopCount").textContent =
+  userAccounts.length;
 
   if(!userAccounts.length){
     box.innerHTML=
