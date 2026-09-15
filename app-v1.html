@@ -2402,7 +2402,115 @@ if(!appVisitorId){
 
 }
 
-async function trackAppEvent(
+/* APP TRAFFIC SOURCE */
+
+function detectAppTrafficSource(){
+
+  const saved =
+    localStorage.getItem("rinsaathiTrafficSource");
+
+  if(saved){
+    return saved;
+  }
+
+  const params =
+    new URLSearchParams(window.location.search);
+
+  let source =
+    params.get("utm_source") ||
+    params.get("source") ||
+    "";
+
+  source =
+    String(source)
+      .trim()
+      .toLowerCase();
+
+  let detected = "";
+
+  if(
+    source==="instagram" ||
+    source==="ig"
+  ){
+    detected="Instagram";
+  }
+  else if(
+    source==="facebook" ||
+    source==="fb"
+  ){
+    detected="Facebook";
+  }
+  else if(
+    source==="whatsapp" ||
+    source==="wa"
+  ){
+    detected="WhatsApp";
+  }
+  else if(source==="google"){
+    detected="Google";
+  }
+  else if(source==="youtube"){
+    detected="YouTube";
+  }
+  else if(source==="linkedin"){
+    detected="LinkedIn";
+  }
+  else if(
+    source==="twitter" ||
+    source==="x"
+  ){
+    detected="X";
+  }
+
+  if(!detected){
+
+    const ref =
+      String(
+        document.referrer || ""
+      ).toLowerCase();
+
+    if(ref.includes("instagram.com")){
+      detected="Instagram";
+    }
+    else if(ref.includes("facebook.com")){
+      detected="Facebook";
+    }
+    else if(ref.includes("whatsapp.com")){
+      detected="WhatsApp";
+    }
+    else if(ref.includes("google.")){
+      detected="Google";
+    }
+    else if(ref.includes("youtube.com")){
+      detected="YouTube";
+    }
+    else if(ref.includes("linkedin.com")){
+      detected="LinkedIn";
+    }
+    else if(
+      ref.includes("twitter.com") ||
+      ref.includes("x.com")
+    ){
+      detected="X";
+    }
+  }
+
+  if(!detected){
+    detected="Direct";
+  }
+
+  localStorage.setItem(
+    "rinsaathiTrafficSource",
+    detected
+  );
+
+  return detected;
+}
+
+const appTrafficSource =
+  detectAppTrafficSource();
+  
+  async function trackAppEvent(
   eventName,
   extraData={}
 ){
@@ -2432,6 +2540,9 @@ async function trackAppEvent(
 
         createdAt:
           serverTimestamp(),
+
+         source:
+         appTrafficSource,
 
         ...extraData
       }
