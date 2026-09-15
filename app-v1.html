@@ -1371,6 +1371,7 @@ import {
   getDoc,
   setDoc,
   collection,
+  addDoc,
   writeBatch,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
@@ -1976,6 +1977,10 @@ async function(){
       otp
     );
 
+    await trackAppEvent(
+  "login_success"
+);
+    
     setLoginMessage(
       "Login successful!",
       "success"
@@ -2366,6 +2371,75 @@ function updateConsultationUI(){
 }
 
 
+/* APP VISITOR ANALYTICS */
+
+let appVisitorId =
+  localStorage.getItem("rinsaathiVisitorId");
+
+if(!appVisitorId){
+
+  appVisitorId =
+    "visitor_" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .substring(2,10);
+
+  localStorage.setItem(
+    "rinsaathiVisitorId",
+    appVisitorId
+  );
+
+}
+
+async function trackAppEvent(
+  eventName,
+  extraData={}
+){
+
+  try{
+
+    const user =
+      auth.currentUser;
+
+    await addDoc(
+      collection(
+        db,
+        "appAnalytics"
+      ),
+      {
+        visitorId:
+          appVisitorId,
+
+        event:
+          eventName,
+
+        uid:
+          user?.uid || "",
+
+        phone:
+          user?.phoneNumber || "",
+
+        createdAt:
+          serverTimestamp(),
+
+        ...extraData
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "APP ANALYTICS ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
 /* APP USER REGISTRY */
 
 async function registerLoggedInUser(user){
@@ -2501,7 +2575,10 @@ onAuthStateChanged(
 
       mainApp.style.display =
         "none";
-
+      
+      await trackAppEvent(
+  "app_visitor"
+);
       freeConsultationUsed =
         false;
 
@@ -2584,7 +2661,7 @@ function(){
 
 /* FREE CONSULTATION FORM */
 
-function openFreeConsultationForm(){
+async function openFreeConsultationForm(){
 
   if(!consultationStatusChecked){
 
@@ -2611,6 +2688,14 @@ function openFreeConsultationForm(){
   currentService =
     "Free Consultation";
 
+  await trackAppEvent(
+  "consultation_started",
+  {
+    consultationType:
+      "Free Consultation"
+  }
+);
+  
   document.getElementById(
     "home"
   ).classList.add("hidden");
@@ -5070,7 +5155,8 @@ async function saveFreeConsultationAndContinue(){
 
     await batch.commit();
 
-
+    await trackAppEvent("consultation_submitted");
+    
     freeConsultationUsed =
       true;
 
