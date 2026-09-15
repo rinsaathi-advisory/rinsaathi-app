@@ -269,12 +269,6 @@ All Time
       <div class="statTitle">Login Attempts</div>
     </div>
 
-    <div class="statCard">
-      <div class="statIcon">📨</div>
-      <div class="statNumber" id="analyticsOtpSent">0</div>
-      <div class="statTitle">OTP Sent</div>
-    </div>
-
    <div class="statCard" onclick="toggleLoginSuccessDetails()">
    <div class="statIcon">✅</div>
    <div class="statNumber" id="analyticsLoginSuccess">0</div>
@@ -1837,11 +1831,6 @@ function renderAppAnalytics(){
     ).length;
 
 
-  const otpSent=
-    events.filter(
-      e=>e.event==="otp_sent"
-    ).length;
-
 
   const loginSuccess=
     events.filter(
@@ -1875,10 +1864,6 @@ function renderAppAnalytics(){
 
   $("analyticsLoginAttempts").textContent=
     loginAttempts;
-
-
-  $("analyticsOtpSent").textContent=
-    otpSent;
 
 
   $("analyticsLoginSuccess").textContent=
@@ -2142,10 +2127,10 @@ function renderLoginAttemptDetails(){
     events.map(
       (e,index)=>{
 
-        const visitorId=
-          String(
-            e.visitorId||""
-          ).trim();
+        const phone=
+         String(
+          e.phone||""
+        ).trim();
 
         return `
 
@@ -2168,25 +2153,16 @@ function renderLoginAttemptDetails(){
                  )}
                 </div>
 
-               <div class="listMeta">
-                Source:
-                ${esc(
-                analyticsSource(e)
-                 )}
-                 </div>
-
-                ${
-                  visitorId
-                  ?
-                  `<div class="listMeta">
-                    Visitor:
-                    ${esc(
-                      visitorId.slice(0,8)
-                    )}
-                  </div>`
-                  :
-                  ""
-                }
+               ${
+               phone
+               ?
+              `<div class="listMeta">
+               Mobile:
+              ${esc(phone)}
+             </div>`
+              :
+             ""
+           }
 
               </div>
 
