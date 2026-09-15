@@ -275,7 +275,11 @@ All Time
       <div class="statTitle">OTP Sent</div>
     </div>
 
-    <div class="statCard">
+   <div class="statCard" onclick="toggleLoginSuccessDetails()">
+   <div class="statIcon">✅</div>
+   <div class="statNumber" id="analyticsLoginSuccess">0</div>
+   <div class="statTitle">Login Successful</div>
+  </div>
       <div class="statIcon">✅</div>
       <div class="statNumber" id="analyticsLoginSuccess">0</div>
       <div class="statTitle">Login Successful</div>
@@ -317,6 +321,28 @@ All Time
 
   </div>
 
+   <div class="card"
+     id="loginSuccessAnalyticsContainer"
+     style="display:none;margin-top:12px;">
+
+  <div class="sectionHeading">
+
+    <h3>✅ Login Successful Details</h3>
+
+    <button
+      type="button"
+      class="close"
+      onclick="closeLoginSuccessDetails()"
+      style="float:none;">
+      ✕
+    </button>
+
+  </div>
+
+  <div id="loginSuccessAnalyticsList"></div>
+
+</div>
+    
   <div id="loginAttemptAnalyticsList"></div>
 
 </div>
@@ -1988,7 +2014,25 @@ function renderAppAnalytics(){
     .join("");
 
 
-  box.innerHTML=rows;
+  box.innerHTML=`
+
+  <div class="sectionHeading">
+
+    <h3>👥 App Visitor Details</h3>
+
+    <button
+      type="button"
+      class="close"
+      onclick="closeAppVisitorDetails()"
+      style="float:none;">
+      ✕
+    </button>
+
+  </div>
+
+  ${rows}
+
+`;
 
 }
 
@@ -2166,7 +2210,180 @@ window.toggleLoginAttemptDetails=function(){
 };
 
 
-window.closeLoginAttemptDetails=function(){
+ function renderLoginSuccessDetails(){
+
+  const box=
+    $("loginSuccessAnalyticsList");
+
+  if(!box)
+    return;
+
+  const range=
+    getAnalyticsDateRange(
+      analyticsDateFilter
+    );
+
+  const events=
+    (appAnalytics||[])
+      .filter(e=>{
+
+        const t=
+          dateMs(e.createdAt);
+
+        return t>=range.start &&
+               t<range.end &&
+               e.event==="login_success";
+
+      })
+      .sort(
+        (a,b)=>
+          dateMs(a.createdAt)-
+          dateMs(b.createdAt)
+      );
+
+  if(!events.length){
+
+    box.innerHTML=
+      "<div class='empty'>" +
+      "No successful logins found for this period." +
+      "</div>";
+
+    return;
+  }
+
+  const rows=
+    events.map(
+      (e,index)=>{
+
+        const visitorId=
+          String(
+            e.visitorId||""
+          ).trim();
+
+        const uid=
+          String(
+            e.uid||""
+          ).trim();
+
+        const phone=
+          String(
+            e.phone||""
+          ).trim();
+
+        return `
+
+          <div class="listItem">
+
+            <div class="listTop">
+
+              <div>
+
+                <div class="listName">
+                  Login Successful ${index+1}
+                </div>
+
+                <div class="listMeta">
+                  Login Successful:
+                  ${esc(
+                    formatDate(
+                      e.createdAt
+                    )
+                  )}
+                </div>
+
+                ${
+                  visitorId
+                  ?
+                  `<div class="listMeta">
+                    Visitor:
+                    ${esc(visitorId.slice(0,8))}
+                  </div>`
+                  :
+                  ""
+                }
+
+                ${
+                  uid
+                  ?
+                  `<div class="listMeta">
+                    UID:
+                    ${esc(uid)}
+                  </div>`
+                  :
+                  ""
+                }
+
+                ${
+                  phone
+                  ?
+                  `<div class="listMeta">
+                    Mobile:
+                    ${esc(phone)}
+                  </div>`
+                  :
+                  ""
+                }
+
+              </div>
+
+              <span class="status completed">
+                LOGIN SUCCESS
+              </span>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
+
+  box.innerHTML=rows;
+
+}
+
+  window.toggleLoginSuccessDetails=function(){
+
+  const section=
+    $("loginSuccessAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  if(section.style.display==="block"){
+
+    section.style.display="none";
+
+    return;
+  }
+
+  renderLoginSuccessDetails();
+
+  section.style.display="block";
+
+  section.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+};
+
+
+window.closeLoginSuccessDetails=function(){
+
+  const section=
+    $("loginSuccessAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  section.style.display="none";
+
+};
+  
+  window.closeLoginAttemptDetails=function(){
 
   const section=
     $("loginAttemptAnalyticsContainer");
@@ -2207,6 +2424,16 @@ if(
   renderLoginAttemptDetails();
 }
 
+  const loginSuccessDetails=
+  $("loginSuccessAnalyticsContainer");
+
+if(
+  loginSuccessDetails &&
+  loginSuccessDetails.style.display==="block"
+){
+  renderLoginSuccessDetails();
+}
+  
 };
 
   
