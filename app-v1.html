@@ -1774,7 +1774,12 @@ async function(){
 
   }
 
-  await trackAppEvent("login_attempt");
+  await trackAppEvent(
+  "login_attempt",
+  {
+    phone: "+91" + phone
+  }
+);
   
   try{
     
@@ -1822,8 +1827,6 @@ async function(){
       "phoneSection"
     ).style.display =
       "none";
-
-    await trackAppEvent("otp_sent");
 
     document.getElementById(
       "phoneSection"
