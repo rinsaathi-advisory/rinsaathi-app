@@ -1752,6 +1752,19 @@ async function loadAppAnalytics(){
 }
 
 
+function analyticsSource(e){
+
+  const source =
+    String(
+      e?.source ||
+      e?.trafficSource ||
+      ""
+    ).trim();
+
+  return source || "Unknown";
+}
+
+  
 function renderAppAnalytics(){
 
   const range=getAnalyticsDateRange(
@@ -1993,6 +2006,13 @@ function renderAppAnalytics(){
                   ${esc(loginText)}
                 </div>
 
+                <div class="listMeta">
+                Source:
+                ${esc(
+               analyticsSource(v.visit)
+               )}
+              </div>
+              
               </div>
 
               <span class="status ${
@@ -2140,13 +2160,20 @@ function renderLoginAttemptDetails(){
                 </div>
 
                 <div class="listMeta">
-                  Login Attempt:
-                  ${esc(
-                    formatDate(
-                      e.createdAt
-                    )
-                  )}
+                 Login Attempt:
+                ${esc(
+                formatDate(
+                 e.createdAt
+                  )
+                 )}
                 </div>
+
+               <div class="listMeta">
+                Source:
+                ${esc(
+                analyticsSource(e)
+                 )}
+                 </div>
 
                 ${
                   visitorId
@@ -2289,6 +2316,18 @@ window.toggleLoginAttemptDetails=function(){
                       e.createdAt
                     )
                   )}
+                </div>
+
+                <div class="listMeta">
+
+                Source:
+
+                ${esc(
+
+               analyticsSource(e)
+
+                )}
+
                 </div>
 
                 ${
