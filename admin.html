@@ -257,13 +257,13 @@ All Time
   
   <div class="stats">
 
-    <div class="statCard">
+    <div class="statCard" onclick="toggleAppVisitorDetails()">
       <div class="statIcon">👥</div>
       <div class="statNumber" id="analyticsVisitors">0</div>
       <div class="statTitle">App Visitors</div>
     </div>
 
-    <div class="statCard">
+    <div class="statCard" onclick="toggleLoginAttemptDetails()">
       <div class="statIcon">📱</div>
       <div class="statNumber" id="analyticsLoginAttempts">0</div>
       <div class="statTitle">Login Attempts</div>
@@ -295,8 +295,32 @@ All Time
 
   </div>
 
-  <div class="card" id="visitorAnalyticsContainer"></div>
+  <div class="card" id="visitorAnalyticsContainer"
+     style="display:none;">
+</div>
 
+  <div class="card"
+     id="loginAttemptAnalyticsContainer"
+     style="display:none;margin-top:12px;">
+
+  <div class="sectionHeading">
+
+    <h3>📱 Login Attempt Details</h3>
+
+    <button
+      type="button"
+      class="close"
+      onclick="closeLoginAttemptDetails()"
+      style="float:none;">
+      ✕
+    </button>
+
+  </div>
+
+  <div id="loginAttemptAnalyticsList"></div>
+
+</div>
+  
 </section>
   
 <section class="section">
@@ -1895,10 +1919,10 @@ function renderAppAnalytics(){
       }
     )
     .sort(
-      (a,b)=>
-        dateMs(b.visit.createdAt)-
-        dateMs(a.visit.createdAt)
-    );
+  (a,b)=>
+    dateMs(a.visit.createdAt)-
+    dateMs(b.visit.createdAt)
+);
 
 
   const rows=
@@ -1968,7 +1992,193 @@ function renderAppAnalytics(){
 
 }
 
+  
+window.toggleAppVisitorDetails=function(){
 
+  const section=
+    $("visitorAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  if(section.style.display==="block"){
+
+    section.style.display="none";
+
+    return;
+  }
+
+  section.style.display="block";
+
+  section.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+};
+
+
+window.closeAppVisitorDetails=function(){
+
+  const section=
+    $("visitorAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  section.style.display="none";
+
+};
+
+
+function renderLoginAttemptDetails(){
+
+  const box=
+    $("loginAttemptAnalyticsList");
+
+  if(!box)
+    return;
+
+  const range=
+    getAnalyticsDateRange(
+      analyticsDateFilter
+    );
+
+  const events=
+    (appAnalytics||[])
+      .filter(e=>{
+
+        const t=
+          dateMs(e.createdAt);
+
+        return t>=range.start &&
+               t<range.end &&
+               e.event==="login_attempt";
+
+      })
+      .sort(
+        (a,b)=>
+          dateMs(a.createdAt)-
+          dateMs(b.createdAt)
+      );
+
+
+  if(!events.length){
+
+    box.innerHTML=
+      "<div class='empty'>" +
+      "No login attempts found for this period." +
+      "</div>";
+
+    return;
+  }
+
+
+  const rows=
+    events.map(
+      (e,index)=>{
+
+        const visitorId=
+          String(
+            e.visitorId||""
+          ).trim();
+
+        return `
+
+          <div class="listItem">
+
+            <div class="listTop">
+
+              <div>
+
+                <div class="listName">
+                  Login Attempt ${index+1}
+                </div>
+
+                <div class="listMeta">
+                  Login Attempt:
+                  ${esc(
+                    formatDate(
+                      e.createdAt
+                    )
+                  )}
+                </div>
+
+                ${
+                  visitorId
+                  ?
+                  `<div class="listMeta">
+                    Visitor:
+                    ${esc(
+                      visitorId.slice(0,8)
+                    )}
+                  </div>`
+                  :
+                  ""
+                }
+
+              </div>
+
+              <span class="status new">
+                LOGIN ATTEMPT
+              </span>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
+
+
+  box.innerHTML=rows;
+
+}
+
+
+window.toggleLoginAttemptDetails=function(){
+
+  const section=
+    $("loginAttemptAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  if(section.style.display==="block"){
+
+    section.style.display="none";
+
+    return;
+  }
+
+  renderLoginAttemptDetails();
+
+  section.style.display="block";
+
+  section.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+};
+
+
+window.closeLoginAttemptDetails=function(){
+
+  const section=
+    $("loginAttemptAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  section.style.display="none";
+
+};
+
+  
 window.setAnalyticsFilter=function(filter,btn){
 
   analyticsDateFilter=filter;
@@ -1985,7 +2195,18 @@ window.setAnalyticsFilter=function(filter,btn){
     btn.classList.add("selected");
   }
 
-  renderAppAnalytics();
+ renderAppAnalytics();
+
+const loginDetails=
+  $("loginAttemptAnalyticsContainer");
+
+if(
+  loginDetails &&
+  loginDetails.style.display==="block"
+){
+  renderLoginAttemptDetails();
+}
+
 };
 
   
