@@ -1704,150 +1704,267 @@ async function loadAppAnalytics(){
 
 function renderAppAnalytics(){
 
-  const events=appAnalytics||[];
+  const range=getAnalyticsDateRange(
+    analyticsDateFilter
+  );
+
+  const events=(appAnalytics||[]).filter(e=>{
+
+    const t=dateMs(e.createdAt);
+
+    return t>=range.start &&
+           t<range.end;
+  });
+
+
+  /*
+    APP VISITORS
+
+    Only app_visitor events are used
+    to create visitor records.
+
+    Same visitorId = same visitor.
+  */
+
+  const visitorMap=new Map();
+
+  events
+    .filter(e=>e.event==="app_visitor")
+    .forEach(e=>{
+
+      const visitorId=
+        String(e.visitorId||"").trim();
+
+      if(!visitorId)
+        return;
+
+      const existing=
+        visitorMap.get(visitorId);
+
+      if(
+        !existing ||
+        dateMs(e.createdAt) <
+        dateMs(existing.createdAt)
+      ){
+
+        visitorMap.set(
+          visitorId,
+          e
+        );
+
+      }
+
+    });
+
 
   const uniqueVisitors=
-    new Set(
-      events
-        .map(e=>String(e.visitorId||"").trim())
-        .filter(Boolean)
-    ).size;
+    visitorMap.size;
+
+
+  /*
+    OTHER ANALYTICS
+
+    These remain event counts,
+    exactly according to the selected date filter.
+  */
 
   const loginAttempts=
     events.filter(
       e=>e.event==="login_attempt"
     ).length;
 
+
   const otpSent=
     events.filter(
       e=>e.event==="otp_sent"
     ).length;
+
 
   const loginSuccess=
     events.filter(
       e=>e.event==="login_success"
     ).length;
 
+
   const consultationStarted=
     events.filter(
       e=>e.event==="consultation_started"
     ).length;
+
 
   const consultationSubmitted=
     events.filter(
       e=>e.event==="consultation_submitted"
     ).length;
 
+
+  /*
+    UPDATE ANALYTICS CARDS
+  */
+
   $("analyticsVisitors").textContent=
     uniqueVisitors;
+
 
   $("analyticsTotal").textContent=
     uniqueVisitors+" Visitors";
 
+
   $("analyticsLoginAttempts").textContent=
     loginAttempts;
+
 
   $("analyticsOtpSent").textContent=
     otpSent;
 
+
   $("analyticsLoginSuccess").textContent=
     loginSuccess;
 
+
   $("analyticsConsultationStarted").textContent=
     consultationStarted;
+
 
   $("analyticsConsultationSubmitted").textContent=
     consultationSubmitted;
 
 
-  const authenticated=
-    events
-      .filter(
-        e=>
-          e.uid||
-          e.phone||
-          e.name
-      )
-      .sort(
-        (a,b)=>
-          dateMs(b.createdAt)-
-          dateMs(a.createdAt)
-      );
+  /*
+    VISITOR DETAILS
 
+    For every app visitor show:
+
+    Visitor 1
+    App Visit date + time
+
+    If the same visitor later logs in,
+    show Login Successful date + time.
+
+    No name/mobile is shown for anonymous
+    app visitors.
+  */
 
   const box=
     $("visitorAnalyticsContainer");
 
-  if(!authenticated.length){
+
+  if(!visitorMap.size){
 
     box.innerHTML=
-      "<div class='empty'>No authenticated visitor details available yet.</div>";
+      "<div class='empty'>No app visitors found for this period.</div>";
 
     return;
   }
 
 
-  const seen=new Set();
+  const visitors=
+    Array.from(
+      visitorMap.entries()
+    )
+    .map(
+      ([visitorId,visit])=>{
 
-  const rows=[];
+        const loginEvents=
+          events
+            .filter(
+              e=>
+                e.event==="login_success" &&
+                String(e.visitorId||"").trim()===
+                visitorId
+            )
+            .sort(
+              (a,b)=>
+                dateMs(a.createdAt)-
+                dateMs(b.createdAt)
+            );
 
-  authenticated.forEach(e=>{
 
-    const key=
-      String(
-        e.uid||
-        e.phone||
-        e.visitorId||
-        ""
-      ).trim();
+        const login=
+          loginEvents.length
+            ? loginEvents[0]
+            : null;
 
-    if(!key||seen.has(key))
-      return;
 
-    seen.add(key);
+        return{
+          visitorId,
+          visit,
+          login
+        };
 
-    rows.push(`
-      <div class="listItem">
+      }
+    )
+    .sort(
+      (a,b)=>
+        dateMs(b.visit.createdAt)-
+        dateMs(a.visit.createdAt)
+    );
 
-        <div class="listTop">
 
-          <div>
+  const rows=
+    visitors.map(
+      (v,index)=>{
 
-            <div class="listName">
-              ${esc(e.name||"Customer")}
-            </div>
+        const loginText=
+          v.login
+            ? formatDate(v.login.createdAt)
+            : "Not logged in yet";
 
-            <div class="listMeta">
-              Mobile:
-              ${esc(e.phone||"Not available")}
-            </div>
 
-            <div class="listMeta">
-              UID:
-              ${esc(e.uid||"Not available")}
+        const loginStatus=
+          v.login
+            ? "LOGIN SUCCESS"
+            : "APP VISIT";
+
+
+        return `
+
+          <div class="listItem">
+
+            <div class="listTop">
+
+              <div>
+
+                <div class="listName">
+                  Visitor ${index+1}
+                </div>
+
+                <div class="listMeta">
+                  App Visit:
+                  ${esc(
+                    formatDate(
+                      v.visit.createdAt
+                    )
+                  )}
+                </div>
+
+                <div class="listMeta">
+                  Login Successful:
+                  ${esc(loginText)}
+                </div>
+
+              </div>
+
+              <span class="status ${
+                v.login
+                  ? "completed"
+                  : "new"
+              }">
+                ${loginStatus}
+              </span>
+
             </div>
 
           </div>
 
-          <span class="status completed">
-            LOGIN SUCCESS
-          </span>
+        `;
 
-        </div>
-
-        <div class="small">
-          Last Activity:
-          ${formatDate(e.createdAt)}
-        </div>
-
-      </div>
-    `);
-
-  });
+      }
+    )
+    .join("");
 
 
-  box.innerHTML=
-    rows.join("");
+  box.innerHTML=rows;
 
 }
 
