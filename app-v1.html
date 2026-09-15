@@ -1823,13 +1823,6 @@ async function(){
     ).style.display =
       "none";
 
-        confirmationResult =
-      await signInWithPhoneNumber(
-        auth,
-        "+91" + phone,
-        recaptchaVerifier
-      );
-
     await trackAppEvent("otp_sent");
 
     document.getElementById(
