@@ -208,6 +208,57 @@ input{width:100%;padding:14px;border:1px solid #d2e2db;border-radius:14px;margin
 
 </section>
 
+<section class="section" id="visitorAnalyticsSection">
+
+  <div class="sectionHeading">
+    <h2>📊 Visitor Analytics</h2>
+    <span class="badge" id="analyticsTotal">0 Visitors</span>
+  </div>
+
+  <div class="stats">
+
+    <div class="statCard">
+      <div class="statIcon">👥</div>
+      <div class="statNumber" id="analyticsVisitors">0</div>
+      <div class="statTitle">App Visitors</div>
+    </div>
+
+    <div class="statCard">
+      <div class="statIcon">📱</div>
+      <div class="statNumber" id="analyticsLoginAttempts">0</div>
+      <div class="statTitle">Login Attempts</div>
+    </div>
+
+    <div class="statCard">
+      <div class="statIcon">📨</div>
+      <div class="statNumber" id="analyticsOtpSent">0</div>
+      <div class="statTitle">OTP Sent</div>
+    </div>
+
+    <div class="statCard">
+      <div class="statIcon">✅</div>
+      <div class="statNumber" id="analyticsLoginSuccess">0</div>
+      <div class="statTitle">Login Successful</div>
+    </div>
+
+    <div class="statCard">
+      <div class="statIcon">📝</div>
+      <div class="statNumber" id="analyticsConsultationStarted">0</div>
+      <div class="statTitle">Consultation Started</div>
+    </div>
+
+    <div class="statCard">
+      <div class="statIcon">📋</div>
+      <div class="statNumber" id="analyticsConsultationSubmitted">0</div>
+      <div class="statTitle">Consultation Submitted</div>
+    </div>
+
+  </div>
+
+  <div class="card" id="visitorAnalyticsContainer"></div>
+
+</section>
+  
 <section class="section">
 
 <div class="sectionHeading">
@@ -511,6 +562,7 @@ getDocsFromServer,
 doc,
 updateDoc,
 setDoc,
+addDoc,
 serverTimestamp
 }from"https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
@@ -540,7 +592,8 @@ let paymentEvents=[];
 let freeUsed=new Set();
 let activeFilter="ALL";
 let userAccounts=[];
-
+let appAnalytics=[];
+  
 const $=id=>document.getElementById(id);
 
 
@@ -1493,6 +1546,189 @@ alert(
 }
 
 
+async function loadAppAnalytics(){
+
+  try{
+
+    const snap =
+      await getDocsFromServer(
+        collection(db,"appAnalytics")
+      );
+
+    appAnalytics =
+      snap.docs.map(d=>({
+        id:d.id,
+        ...d.data()
+      }));
+
+    renderAppAnalytics();
+
+  }catch(e){
+
+    console.error(
+      "Analytics could not be loaded:",
+      e
+    );
+
+    appAnalytics=[];
+
+    renderAppAnalytics();
+
+  }
+
+}
+
+
+function renderAppAnalytics(){
+
+  const events=appAnalytics||[];
+
+  const uniqueVisitors=
+    new Set(
+      events
+        .map(e=>String(e.visitorId||"").trim())
+        .filter(Boolean)
+    ).size;
+
+  const loginAttempts=
+    events.filter(
+      e=>e.event==="login_attempt"
+    ).length;
+
+  const otpSent=
+    events.filter(
+      e=>e.event==="otp_sent"
+    ).length;
+
+  const loginSuccess=
+    events.filter(
+      e=>e.event==="login_success"
+    ).length;
+
+  const consultationStarted=
+    events.filter(
+      e=>e.event==="consultation_started"
+    ).length;
+
+  const consultationSubmitted=
+    events.filter(
+      e=>e.event==="consultation_submitted"
+    ).length;
+
+  $("analyticsVisitors").textContent=
+    uniqueVisitors;
+
+  $("analyticsTotal").textContent=
+    uniqueVisitors+" Visitors";
+
+  $("analyticsLoginAttempts").textContent=
+    loginAttempts;
+
+  $("analyticsOtpSent").textContent=
+    otpSent;
+
+  $("analyticsLoginSuccess").textContent=
+    loginSuccess;
+
+  $("analyticsConsultationStarted").textContent=
+    consultationStarted;
+
+  $("analyticsConsultationSubmitted").textContent=
+    consultationSubmitted;
+
+
+  const authenticated=
+    events
+      .filter(
+        e=>
+          e.uid||
+          e.phone||
+          e.name
+      )
+      .sort(
+        (a,b)=>
+          dateMs(b.createdAt)-
+          dateMs(a.createdAt)
+      );
+
+
+  const box=
+    $("visitorAnalyticsContainer");
+
+  if(!authenticated.length){
+
+    box.innerHTML=
+      "<div class='empty'>No authenticated visitor details available yet.</div>";
+
+    return;
+  }
+
+
+  const seen=new Set();
+
+  const rows=[];
+
+  authenticated.forEach(e=>{
+
+    const key=
+      String(
+        e.uid||
+        e.phone||
+        e.visitorId||
+        ""
+      ).trim();
+
+    if(!key||seen.has(key))
+      return;
+
+    seen.add(key);
+
+    rows.push(`
+      <div class="listItem">
+
+        <div class="listTop">
+
+          <div>
+
+            <div class="listName">
+              ${esc(e.name||"Customer")}
+            </div>
+
+            <div class="listMeta">
+              Mobile:
+              ${esc(e.phone||"Not available")}
+            </div>
+
+            <div class="listMeta">
+              UID:
+              ${esc(e.uid||"Not available")}
+            </div>
+
+          </div>
+
+          <span class="status completed">
+            LOGIN SUCCESS
+          </span>
+
+        </div>
+
+        <div class="small">
+          Last Activity:
+          ${formatDate(e.createdAt)}
+        </div>
+
+      </div>
+    `);
+
+  });
+
+
+  box.innerHTML=
+    rows.join("");
+
+}
+
+  
 function render(){
 
 const counts={
@@ -2780,6 +3016,8 @@ $("dashboard")
 
 
 await loadLeads();
+  
+await loadAppAnalytics();
 
 }
 );
