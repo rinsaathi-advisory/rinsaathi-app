@@ -1774,8 +1774,10 @@ async function(){
 
   }
 
+  await trackAppEvent("login_attempt");
+  
   try{
-
+    
     if(sendButton){
 
       sendButton.disabled =
@@ -1821,6 +1823,20 @@ async function(){
     ).style.display =
       "none";
 
+        confirmationResult =
+      await signInWithPhoneNumber(
+        auth,
+        "+91" + phone,
+        recaptchaVerifier
+      );
+
+    await trackAppEvent("otp_sent");
+
+    document.getElementById(
+      "phoneSection"
+    ).style.display =
+      "none";
+    
     document.getElementById(
       "otpSection"
     ).style.display =
@@ -2576,9 +2592,18 @@ onAuthStateChanged(
       mainApp.style.display =
         "none";
       
-      await trackAppEvent(
-  "app_visitor"
-);
+      if(!localStorage.getItem("rinsaathiVisitorTracked")){
+
+        await trackAppEvent(
+          "app_visitor"
+        );
+
+        localStorage.setItem(
+          "rinsaathiVisitorTracked",
+          "true"
+        );
+
+      }
       freeConsultationUsed =
         false;
 
