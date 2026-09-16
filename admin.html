@@ -1949,7 +1949,6 @@ function renderTrafficSourceAnalytics(
             Keyword:0,
             Other:0,
             Total:0,
-            details:new Map()
           }
         );
 
@@ -1964,31 +1963,9 @@ function renderTrafficSourceAnalytics(
           visit
         );
 
-      const detail=
-        analyticsSourceDetail(
-          visit
-        );
-
-
-      row[sourceType]++;
+           row[sourceType]++;
       row.Total++;
 
-
-      if(detail){
-
-        const detailKey=
-          sourceType+
-          "||"+
-          detail;
-
-        row.details.set(
-          detailKey,
-          (row.details.get(
-            detailKey
-          )||0)+1
-        );
-
-      }
 
     }
   );
@@ -2005,37 +1982,7 @@ function renderTrafficSourceAnalytics(
     .map(
       row=>{
 
-        const details=
-          Array.from(
-            row.details.entries()
-          )
-          .map(
-            ([key,count])=>{
-
-              const parts=
-                key.split("||");
-
-              return `
-                <div class="sourceDetailRow">
-                  <span>
-                    ${esc(parts[0])}
-                    ${
-                      parts[1]
-                      ? " — "+esc(parts[1])
-                      : ""
-                    }
-                  </span>
-                  <span class="sourceDetailCount">
-                    ${count}
-                  </span>
-                </div>
-              `;
-
-            }
-          )
-          .join("");
-
-
+    
         return `
           <div class="sourceDay">
 
@@ -2072,24 +2019,7 @@ function renderTrafficSourceAnalytics(
 
             </div>
 
-            ${
-              details
-              ?
-              `
-              <div class="sourceDetails">
-
-                <div class="sourceDetailsTitle">
-                  🔎 Source Details
-                </div>
-
-                ${details}
-
-              </div>
-              `
-              :
-              ""
-            }
-
+            
           </div>
         `;
 
