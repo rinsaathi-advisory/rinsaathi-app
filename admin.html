@@ -212,7 +212,7 @@ input{width:100%;padding:14px;border:1px solid #d2e2db;border-radius:14px;margin
 
 <div class="stats">
 
-<div class="statCard" onclick="setFilter('ALL')">
+<div class="statCard" onclick="showAllLeads()">
 <div class="statIcon">👥</div>
 <div class="statNumber" id="allLeads">0</div>
 <div class="statTitle">All Leads</div>
@@ -423,11 +423,26 @@ All Time
   
 </section>
   
-<section class="section">
+<section class="section" id="allCustomerLeadsSection" style="display:none;">
 
 <div class="sectionHeading">
+
 <h2>📋 All Customer Leads</h2>
+
+<div style="display:flex;align-items:center;gap:10px;">
+
 <span class="badge" id="leadCount">0 Leads</span>
+
+<button
+  type="button"
+  class="close"
+  onclick="closeAllLeads()"
+  style="float:none;">
+  ✕
+</button>
+
+</div>
+
 </div>
 
 <div class="filterBar">
@@ -3122,6 +3137,55 @@ View Details
 }
 
 
+window.showAllLeads=function(){
+
+  const section=
+    $("allCustomerLeadsSection");
+
+  if(!section)
+    return;
+
+  activeFilter="ALL";
+
+  document
+    .querySelectorAll(".filterBar button")
+    .forEach(
+      b=>b.classList.remove("selected")
+    );
+
+  const allBtn=
+    document.querySelector(
+      '.filterBar button[data-filter="ALL"]'
+    );
+
+  if(allBtn)
+    allBtn.classList.add("selected");
+
+  section.style.display="block";
+
+  render();
+
+  section.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+};
+
+
+window.closeAllLeads=function(){
+
+  const section=
+    $("allCustomerLeadsSection");
+
+  if(!section)
+    return;
+
+  section.style.display="none";
+
+};
+
+  
 window.setFilter=function(f,btn){
 
 activeFilter=f;
