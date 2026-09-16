@@ -372,27 +372,30 @@ All Time
      style="display:none;margin-top:12px;">
   </div>
   
-  <div class="card"
-     id="loginAttemptAnalyticsContainer"
-     style="display:none;margin-top:12px;">
+  <div class="modal"
+  id="loginAttemptAnalyticsContainer">
 
-  <div class="sectionHeading">
+  <div class="modalBox">
 
-    <h3>📱 Login Attempt Details</h3>
+    <div class="sectionHeading">
 
-    <button
-      type="button"
-      class="close"
-      onclick="closeLoginAttemptDetails()"
-      style="float:none;">
-      ✕
-    </button>
+      <h3>📱 Login Attempt Details</h3>
+
+      <button
+        type="button"
+        class="close"
+        onclick="closeLoginAttemptDetails()"
+        style="float:none;">
+        ✕
+      </button>
+
+    </div>
+
+    <div id="loginAttemptAnalyticsList"></div>
 
   </div>
 
-     <div id="loginAttemptAnalyticsList"></div>
-
-  </div>
+</div>
   
    <div class="card"
      id="loginSuccessAnalyticsContainer"
@@ -2541,21 +2544,9 @@ window.toggleLoginAttemptDetails=function(){
   if(!section)
     return;
 
-  if(section.style.display==="block"){
-
-    section.style.display="none";
-
-    return;
-  }
-
   renderLoginAttemptDetails();
 
-  section.style.display="block";
-
-  section.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+  section.classList.add("active");
 
 };
 
@@ -2753,7 +2744,7 @@ window.closeLoginSuccessDetails=function(){
   if(!section)
     return;
 
-  section.style.display="none";
+  section.classList.remove("active");
 
 };
 
