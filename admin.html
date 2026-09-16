@@ -354,18 +354,6 @@ All Time
    <div class="statTitle">Login Successful</div>
   </div>
       
-    <div class="statCard">
-      <div class="statIcon">📝</div>
-      <div class="statNumber" id="analyticsConsultationStarted">0</div>
-      <div class="statTitle">Consultation Started</div>
-    </div>
-
-     <div class="statCard"
-      <div class="statIcon">📋</div>
-      <div class="statNumber" id="analyticsConsultationSubmitted">0</div>
-      <div class="statTitle">Consultation Submitted</div>
-    </div>
-
     <div class="statCard" onclick="toggleTrafficSourceAnalytics()">
       <div class="statIcon">📈</div>
       <div class="statNumber" id="analyticsSourceTotal">0</div>
@@ -2245,14 +2233,6 @@ function renderAppAnalytics(){
 
   $("analyticsLoginSuccess").textContent=
     loginSuccess;
-
-
-  $("analyticsConsultationStarted").textContent=
-    consultationStarted;
-
-
-  $("analyticsConsultationSubmitted").textContent=
-    consultationSubmitted;
 
 
     $("analyticsSourceTotal").textContent=
