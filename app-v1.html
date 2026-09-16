@@ -2512,6 +2512,28 @@ function detectAppTrafficSource(){
 
 const appTrafficSource =
   detectAppTrafficSource();
+
+  function detectAppTrafficSourceDetail(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const detail =
+    params.get("utm_campaign") ||
+    params.get("utm_content") ||
+    params.get("utm_term") ||
+    params.get("keyword") ||
+    params.get("search_term") ||
+    "";
+
+  return String(detail || "").trim();
+}
+
+
+const appTrafficSourceDetail =
+  detectAppTrafficSourceDetail();
   
   async function trackAppEvent(
   eventName,
@@ -2545,9 +2567,12 @@ const appTrafficSource =
           serverTimestamp(),
 
          source:
-         appTrafficSource,
+      appTrafficSource,
 
-        ...extraData
+     sourceDetail:
+      appTrafficSourceDetail,
+
+    ...extraData
       }
     );
 
