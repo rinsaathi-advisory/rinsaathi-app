@@ -397,25 +397,28 @@ All Time
 
 </div>
   
-   <div class="card"
-     id="loginSuccessAnalyticsContainer"
-     style="display:none;margin-top:12px;">
+   <div class="modal"
+  id="loginSuccessAnalyticsContainer">
 
-  <div class="sectionHeading">
+  <div class="modalBox">
 
-    <h3>✅ Login Successful Details</h3>
+    <div class="sectionHeading">
 
-    <button
-      type="button"
-      class="close"
-      onclick="closeLoginSuccessDetails()"
-      style="float:none;">
-      ✕
-    </button>
+      <h3>✅ Login Successful Details</h3>
+
+      <button
+        type="button"
+        class="close"
+        onclick="closeLoginSuccessDetails()"
+        style="float:none;">
+        ✕
+      </button>
+
+    </div>
+
+    <div id="loginSuccessAnalyticsList"></div>
 
   </div>
-
-  <div id="loginSuccessAnalyticsList"></div>
 
 </div>
     
@@ -2697,7 +2700,7 @@ window.toggleLoginAttemptDetails=function(){
 
 }
 
-  window.toggleLoginSuccessDetails=function(){
+ window.toggleLoginSuccessDetails=function(){
 
   const section=
     $("loginSuccessAnalyticsContainer");
@@ -2705,21 +2708,9 @@ window.toggleLoginAttemptDetails=function(){
   if(!section)
     return;
 
-  if(section.style.display==="block"){
-
-    section.style.display="none";
-
-    return;
-  }
-
   renderLoginSuccessDetails();
 
-  section.style.display="block";
-
-  section.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+  section.classList.add("active");
 
 };
 
@@ -2732,7 +2723,7 @@ window.closeLoginSuccessDetails=function(){
   if(!section)
     return;
 
-  section.style.display="none";
+  section.classList.remove("active");
 
 };
   
