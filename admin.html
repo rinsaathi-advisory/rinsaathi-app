@@ -364,8 +364,7 @@ All Time
 
   </div>
 
-  <div class="card" id="visitorAnalyticsContainer"
-     style="display:none;">
+  <div class="modal" id="visitorAnalyticsContainer">
 </div>
 
     <div class="card"
@@ -2332,21 +2331,25 @@ function renderAppAnalytics(){
 
   box.innerHTML=`
 
-  <div class="sectionHeading">
+  <div class="modalBox">
 
-    <h3>👥 App Visitor Details</h3>
+    <div class="sectionHeading">
 
-    <button
-      type="button"
-      class="close"
-      onclick="closeAppVisitorDetails()"
-      style="float:none;">
-      ✕
-    </button>
+      <h3>👥 App Visitor Details</h3>
+
+      <button
+        type="button"
+        class="close"
+        onclick="closeAppVisitorDetails()"
+        style="float:none;">
+        ✕
+      </button>
+
+    </div>
+
+    ${rows}
 
   </div>
-
-  ${rows}
 
 `;
 
@@ -2361,19 +2364,9 @@ window.toggleAppVisitorDetails=function(){
   if(!section)
     return;
 
-  if(section.style.display==="block"){
+  renderAppAnalytics();
 
-    section.style.display="none";
-
-    return;
-  }
-
-  section.style.display="block";
-
-  section.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+  section.classList.add("active");
 
 };
 
@@ -2386,7 +2379,7 @@ window.closeAppVisitorDetails=function(){
   if(!section)
     return;
 
-  section.style.display="none";
+  section.classList.remove("active");
 
 };
 
