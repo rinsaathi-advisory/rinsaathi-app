@@ -75,6 +75,85 @@ input{width:100%;padding:14px;border:1px solid #d2e2db;border-radius:14px;margin
 .paymentAmount{font-weight:900;color:#08704d}
 .note{font-size:12px;color:#71817c;line-height:1.5;margin-top:8px}
 
+.sourceDay{
+  background:#f7faf8;
+  border:1px solid #e2ebe7;
+  border-radius:16px;
+  padding:15px;
+  margin-bottom:12px;
+}
+
+.sourceDayTitle{
+  font-size:15px;
+  font-weight:900;
+  color:#063f32;
+  margin-bottom:12px;
+}
+
+.sourceGrid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+
+.sourceItem{
+  background:#fff;
+  border:1px solid #edf1ef;
+  border-radius:12px;
+  padding:10px;
+}
+
+.sourceItem label{
+  display:block;
+  font-size:10px;
+  color:#71817c;
+  margin-bottom:4px;
+}
+
+.sourceItem strong{
+  font-size:17px;
+  color:#063f32;
+}
+
+.sourceDetails{
+  margin-top:12px;
+  padding:12px;
+  background:#fff;
+  border-radius:12px;
+  border:1px solid #e2ebe7;
+}
+
+.sourceDetailsTitle{
+  font-size:12px;
+  font-weight:900;
+  color:#063f32;
+  margin-bottom:7px;
+}
+
+.sourceDetailRow{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:5px 0;
+  border-bottom:1px solid #edf1ef;
+  font-size:12px;
+}
+
+.sourceDetailRow:last-child{
+  border-bottom:0;
+}
+
+.sourceDetailCount{
+  font-weight:900;
+  color:#08704d;
+}
+
+@media(max-width:800px){
+  .sourceGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+  
 @media(max-width:800px){
 .stats{grid-template-columns:repeat(2,1fr)}
 .lead{grid-template-columns:1fr 1fr}
@@ -281,11 +360,19 @@ All Time
       <div class="statTitle">Consultation Started</div>
     </div>
 
-    <div class="statCard">
+     <div class="statCard"
       <div class="statIcon">📋</div>
       <div class="statNumber" id="analyticsConsultationSubmitted">0</div>
       <div class="statTitle">Consultation Submitted</div>
     </div>
+
+    <div class="statCard" onclick="toggleTrafficSourceAnalytics()">
+      <div class="statIcon">📈</div>
+      <div class="statNumber" id="analyticsSourceTotal">0</div>
+      <div class="statTitle">Traffic Sources</div>
+    </div>
+
+  </div>
 
   </div>
 
@@ -293,6 +380,11 @@ All Time
      style="display:none;">
 </div>
 
+    <div class="card"
+     id="trafficSourceAnalyticsContainer"
+     style="display:none;margin-top:12px;">
+  </div>
+  
   <div class="card"
      id="loginAttemptAnalyticsContainer"
      style="display:none;margin-top:12px;">
@@ -1758,6 +1850,291 @@ function analyticsSource(e){
   return source || "Unknown";
 }
 
+
+function analyticsSourceType(e){
+
+  const source=
+    analyticsSource(e)
+      .toLowerCase()
+      .trim();
+
+  if(
+    source.includes("facebook") ||
+    source==="fb"
+  ){
+    return "Facebook";
+  }
+
+  if(
+    source.includes("instagram") ||
+    source==="ig"
+  ){
+    return "Instagram";
+  }
+
+  if(
+    source.includes("keyword") ||
+    source.includes("search")
+  ){
+    return "Keyword";
+  }
+
+  return "Other";
+}
+
+
+function analyticsSourceDetail(e){
+
+  const detail=
+    e?.sourceDetail ||
+    e?.trafficSourceDetail ||
+    e?.keyword ||
+    e?.searchKeyword ||
+    e?.search_term ||
+    e?.utmCampaign ||
+    e?.campaign ||
+    "";
+
+  return String(detail||"").trim();
+}
+
+
+function analyticsDayKey(v){
+
+  const d=
+    new Date(dateMs(v));
+
+  if(
+    !Number.isFinite(d.getTime())
+  ){
+    return "Unknown";
+  }
+
+  return d.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+}
+
+
+function renderTrafficSourceAnalytics(
+  events,
+  visitorMap
+){
+
+  const box=
+    $("trafficSourceAnalyticsContainer");
+
+  if(!box)
+    return;
+
+
+  const daily=
+    new Map();
+
+
+  visitorMap.forEach(
+    visit=>{
+
+      const dateKey=
+        analyticsDayKey(
+          visit.createdAt
+        );
+
+      if(
+        !daily.has(dateKey)
+      ){
+
+        daily.set(
+          dateKey,
+          {
+            dateKey,
+            time:dateMs(
+              visit.createdAt
+            ),
+            Facebook:0,
+            Instagram:0,
+            Keyword:0,
+            Other:0,
+            Total:0,
+            details:new Map()
+          }
+        );
+
+      }
+
+
+      const row=
+        daily.get(dateKey);
+
+      const sourceType=
+        analyticsSourceType(
+          visit
+        );
+
+      const detail=
+        analyticsSourceDetail(
+          visit
+        );
+
+
+      row[sourceType]++;
+      row.Total++;
+
+
+      if(detail){
+
+        const detailKey=
+          sourceType+
+          "||"+
+          detail;
+
+        row.details.set(
+          detailKey,
+          (row.details.get(
+            detailKey
+          )||0)+1
+        );
+
+      }
+
+    }
+  );
+
+
+  const rows=
+    Array.from(
+      daily.values()
+    )
+    .sort(
+      (a,b)=>
+        b.time-a.time
+    )
+    .map(
+      row=>{
+
+        const details=
+          Array.from(
+            row.details.entries()
+          )
+          .map(
+            ([key,count])=>{
+
+              const parts=
+                key.split("||");
+
+              return `
+                <div class="sourceDetailRow">
+                  <span>
+                    ${esc(parts[0])}
+                    ${
+                      parts[1]
+                      ? " — "+esc(parts[1])
+                      : ""
+                    }
+                  </span>
+                  <span class="sourceDetailCount">
+                    ${count}
+                  </span>
+                </div>
+              `;
+
+            }
+          )
+          .join("");
+
+
+        return `
+          <div class="sourceDay">
+
+            <div class="sourceDayTitle">
+              📅 ${esc(row.dateKey)}
+            </div>
+
+            <div class="sourceGrid">
+
+              <div class="sourceItem">
+                <label>Facebook</label>
+                <strong>${row.Facebook}</strong>
+              </div>
+
+              <div class="sourceItem">
+                <label>Instagram</label>
+                <strong>${row.Instagram}</strong>
+              </div>
+
+              <div class="sourceItem">
+                <label>Keyword</label>
+                <strong>${row.Keyword}</strong>
+              </div>
+
+              <div class="sourceItem">
+                <label>Other</label>
+                <strong>${row.Other}</strong>
+              </div>
+
+              <div class="sourceItem">
+                <label>Total</label>
+                <strong>${row.Total}</strong>
+              </div>
+
+            </div>
+
+            ${
+              details
+              ?
+              `
+              <div class="sourceDetails">
+
+                <div class="sourceDetailsTitle">
+                  🔎 Source Details
+                </div>
+
+                ${details}
+
+              </div>
+              `
+              :
+              ""
+            }
+
+          </div>
+        `;
+
+      }
+    )
+    .join("");
+
+
+  box.innerHTML=`
+
+    <div class="sectionHeading">
+
+      <h3>📈 Traffic Source Analytics</h3>
+
+      <button
+        type="button"
+        class="close"
+        onclick="closeTrafficSourceAnalytics()"
+        style="float:none;">
+        ✕
+      </button>
+
+    </div>
+
+    ${
+      rows ||
+      "<div class='empty'>No traffic source data found for this period.</div>"
+    }
+
+  `;
+
+}
+
   
 function renderAppAnalytics(){
 
@@ -1878,6 +2255,15 @@ function renderAppAnalytics(){
     consultationSubmitted;
 
 
+    $("analyticsSourceTotal").textContent=
+    uniqueVisitors;
+
+  renderTrafficSourceAnalytics(
+    events,
+    visitorMap
+  );
+
+  
   /*
     VISITOR DETAILS
 
@@ -2080,6 +2466,49 @@ window.closeAppVisitorDetails=function(){
 };
 
 
+window.toggleTrafficSourceAnalytics=function(){
+
+  const section=
+    $("trafficSourceAnalyticsContainer");
+
+  if(!section)
+    return;
+
+
+  if(
+    section.style.display==="block"
+  ){
+
+    section.style.display="none";
+
+    return;
+
+  }
+
+
+  section.style.display="block";
+
+  section.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+};
+
+
+window.closeTrafficSourceAnalytics=function(){
+
+  const section=
+    $("trafficSourceAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  section.style.display="none";
+
+};
+
+  
 function renderLoginAttemptDetails(){
 
   const box=
