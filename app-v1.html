@@ -831,6 +831,52 @@ body{
   📲 Install RinSaathi App
 
 </button>
+
+  <!-- TESTING / PRODUCTION ACCOUNT SWITCH -->
+
+<div
+  id="accountModeBox"
+  style="
+    display:none;
+    margin:12px 0;
+    padding:14px;
+    border:1px solid rgba(0,0,0,0.12);
+    border-radius:12px;
+    text-align:center;
+    background:#ffffff;
+  ">
+
+  <div
+    id="accountModeTitle"
+    style="
+      font-weight:700;
+      font-size:15px;
+      margin-bottom:6px;
+    ">
+    Production Server
+  </div>
+
+  <div
+    id="accountModeText"
+    style="
+      font-size:12px;
+      margin-bottom:10px;
+      opacity:0.75;
+    ">
+    This is the production account.
+  </div>
+
+  <button
+    id="accountModeSwitchBtn"
+    class="btn"
+    type="button"
+    onclick="window.toggleAccountMode()">
+
+    Switch to Testing Account
+
+  </button>
+
+</div>
   
   <div
     id="freeStatusBox"
@@ -1483,6 +1529,106 @@ function getCashfreePaidKey(uid){
 }
 
 
+  /* TESTING ACCOUNT MODE */
+
+const TESTING_PHONE = "9992871096";
+
+let accountMode = "production";
+
+
+function normalizeAccountPhone(phone){
+
+  return String(phone || "")
+    .replace(/\D/g,"")
+    .slice(-10);
+
+}
+
+
+function isTestingAccountAllowed(){
+
+  const user = auth.currentUser;
+
+  if(!user){
+    return false;
+  }
+
+  return normalizeAccountPhone(
+    user.phoneNumber
+  ) === TESTING_PHONE;
+
+}
+
+
+function getActiveAccountMode(){
+
+  if(!isTestingAccountAllowed()){
+
+    return "production";
+
+  }
+
+  return accountMode === "testing"
+    ? "testing"
+    : "production";
+
+}
+
+
+function loadAccountMode(user){
+
+  if(
+    normalizeAccountPhone(
+      user?.phoneNumber
+    ) !== TESTING_PHONE
+  ){
+
+    accountMode = "production";
+
+    return;
+
+  }
+
+  const savedMode =
+    localStorage.getItem(
+      "rinsaathi_account_mode_" + user.uid
+    );
+
+  accountMode =
+    savedMode === "testing"
+      ? "testing"
+      : "production";
+
+}
+
+
+window.toggleAccountMode =
+function(){
+
+  if(!isTestingAccountAllowed()){
+
+    accountMode = "production";
+
+    return;
+
+  }
+
+  accountMode =
+    getActiveAccountMode() === "testing"
+      ? "production"
+      : "testing";
+
+  localStorage.setItem(
+    "rinsaathi_account_mode_" +
+    auth.currentUser.uid,
+    accountMode
+  );
+
+  location.reload();
+
+};
+
+  
 /* RESTORE VERIFIED PAYMENT FROM FIRESTORE */
 
 async function restoreVerifiedPayment(){
@@ -2092,6 +2238,83 @@ async function(){
 };
 
 
+  /* TESTING / PRODUCTION ACCOUNT UI */
+
+function updateAccountModeUI(){
+
+  const box =
+    document.getElementById(
+      "accountModeBox"
+    );
+
+  const title =
+    document.getElementById(
+      "accountModeTitle"
+    );
+
+  const text =
+    document.getElementById(
+      "accountModeText"
+    );
+
+  const button =
+    document.getElementById(
+      "accountModeSwitchBtn"
+    );
+
+
+  if(!box){
+    return;
+  }
+
+
+  /* Only 9992871096 can see this UI */
+
+  if(!isTestingAccountAllowed()){
+
+    box.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  box.style.display =
+    "block";
+
+
+  const mode =
+    getActiveAccountMode();
+
+
+  if(mode === "testing"){
+
+    title.innerText =
+      "Testing Server";
+
+    text.innerText =
+      "This is the testing account.";
+
+    button.innerText =
+      "Switch to Production Account";
+
+  }else{
+
+    title.innerText =
+      "Production Server";
+
+    text.innerText =
+      "This is the production account.";
+
+    button.innerText =
+      "Switch to Testing Account";
+
+  }
+
+}
+
+  
 /* CHECK ONE-TIME FREE CONSULTATION */
 
 async function checkFreeConsultationStatus(){
@@ -2672,7 +2895,10 @@ onAuthStateChanged(
 
   await registerLoggedInUser(user);
 
+  loadAccountMode(user);
+  updateAccountModeUI();
 
+      
       /*
         IMPORTANT:
         First check whether this exact Firebase user
