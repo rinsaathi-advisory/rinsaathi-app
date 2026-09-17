@@ -831,87 +831,6 @@ body{
   📲 Install RinSaathi App
 
 </button>
-
-
-  <div
-  id="accountModeBox"
-  style="
-    display:none;
-    margin:14px 0;
-    padding:12px;
-    border:1px solid #e2e9e5;
-    border-radius:14px;
-    background:#f8faf9;
-    text-align:center;
-  "
->
-  <div
-    id="accountModeLabel"
-    style="
-      font-size:13px;
-      font-weight:800;
-      color:#063f32;
-      margin-bottom:8px;
-    "
-  >
-    Production Account
-  </div>
-
-  <button
-    id="accountModeButton"
-    class="btn btnGold"
-    onclick="toggleAccountMode()"
-  >
-    Switch to Testing Account
-  </button>
-</div>
-  
-  <div
-    id="accountModeLabel"
-    style="
-      font-size:13px;
-      font-weight:800;
-      color:#063f32;
-      margin-bottom:8px;
-    "
-  >
-    Production Account
-  </div>
-
-  <button
-    id="accountModeButton"
-    class="btn btnGold"
-    onclick="toggleAccountMode()"
-  >
-    Switch to Testing Account
-  </button>
-
-</div>
-  <div
-    id="accountModeLabel"
-    style="
-      font-size:13px;
-      font-weight:800;
-      color:#063f32;
-      margin-bottom:8px;
-    "
-  >
-    Production Account
-  </div>
-
-  <button
-    id="accountModeButton"
-    class="btn btnGold"
-    onclick="toggleAccountMode()"
-  >
-    Switch to Testing Account
-  </button>
-
-</div>
-    
-  📲 Install RinSaathi App
-
-</button>
   
   <div
     id="freeStatusBox"
@@ -1066,28 +985,22 @@ body{
       </p>
 
       <div
-  id="paidPriceArea"
-  class="hidden">
+        id="paidPriceArea"
+        class="hidden">
 
-  <div
-    id="consultationOldPrice"
-    class="oldPrice">
-    Original Price: ₹999
-  </div>
+        <div class="oldPrice">
+          Original Price: ₹999
+        </div>
 
-  <div
-    id="consultationOfferPrice"
-    class="offerPrice">
-    ₹499
-  </div>
+        <div class="offerPrice">
+          ₹499
+        </div>
 
-  <div
-    id="consultationSaveText"
-    class="saveText">
-    You Save ₹500
-  </div>
+        <div class="saveText">
+          You Save ₹500
+        </div>
 
-</div>
+      </div>
 
       <button
         id="consultationMainButton"
@@ -1552,175 +1465,6 @@ let consultationPaid = false;
 
 let freeConsultationUsed = false;
 
-
-/* TESTING / PRODUCTION ACCOUNT */
-
-const TESTING_PHONE = "9992871096";
-
-let accountMode = "production";
-
-function normalizeAccountPhone(phone){
-
-  return String(phone || "")
-
-    .replace(/\D/g,"")
-
-    .slice(-10);
-
-}
-
-function isTestingAccountAllowed(){
-
-  const user = auth.currentUser;
-
-  if(!user){
-
-    return false;
-
-  }
-
-  return (
-
-    normalizeAccountPhone(
-
-      user.phoneNumber
-
-    ) === TESTING_PHONE
-
-  );
-
-}
-
-function getActiveAccountMode(){
-
-  if(
-
-    !isTestingAccountAllowed()
-
-  ){
-
-    return "production";
-
-  }
-
-  return accountMode === "testing"
-
-    ? "testing"
-
-    : "production";
-
-}
-
-function setAccountMode(mode){
-
-  if(
-
-    mode === "testing" &&
-
-    !isTestingAccountAllowed()
-
-  ){
-
-    accountMode = "production";
-
-    return;
-
-  }
-
-  accountMode =
-
-    mode === "testing"
-
-      ? "testing"
-
-      : "production";
-
-  localStorage.setItem(
-
-    "rinsaathi_account_mode_" +
-
-    auth.currentUser.uid,
-
-    accountMode
-
-  );
-
-}
-
-function loadAccountMode(user){
-
-  if(
-
-    normalizeAccountPhone(
-
-      user?.phoneNumber
-
-    ) !== TESTING_PHONE
-
-  ){
-
-    accountMode = "production";
-
-    return;
-
-  }
-
-  const savedMode =
-
-    localStorage.getItem(
-
-      "rinsaathi_account_mode_" +
-
-      user.uid
-
-    );
-
-  accountMode =
-
-    savedMode === "testing"
-
-      ? "testing"
-
-      : "production";
-
-}
-
-function getConsultationAmount(){
-
-  return getActiveAccountMode() === "testing"
-
-    ? 1
-
-    : 499;
-
-}
-
-function getAdvisoryAmount(planKey){
-
-  if(
-
-    getActiveAccountMode() === "testing"
-
-  ){
-
-    return 1;
-
-  }
-
-  const prices = {
-
-    "1_MONTH": 1999,
-
-    "3_MONTH": 4999,
-
-    "6_MONTH": 7999
-
-  };
-
-  return prices[planKey] || 0;
-
-}
-  
 let consultationStatusChecked = false;
 
 
@@ -1728,24 +1472,13 @@ let consultationStatusChecked = false;
 
 function getCashfreeOrderKey(uid){
 
-  return (
-    "rinsaathi_cashfree_order_id_" +
-    uid +
-    "_" +
-    getActiveAccountMode()
-  );
+  return "rinsaathi_cashfree_order_id_" + uid;
 
 }
 
-
 function getCashfreePaidKey(uid){
 
-  return (
-    "rinsaathi_cashfree_paid_" +
-    uid +
-    "_" +
-    getActiveAccountMode()
-  );
+  return "rinsaathi_cashfree_paid_" + uid;
 
 }
 
@@ -2414,7 +2147,6 @@ async function checkFreeConsultationStatus(){
     consultationStatusChecked =
       true;
 
-    
     updateConsultationUI();
 
   }catch(error){
@@ -2449,94 +2181,6 @@ async function checkFreeConsultationStatus(){
 }
 
 
-  function updateAccountModeUI(){
-
-  const box =
-    document.getElementById(
-      "accountModeBox"
-    );
-
-  const label =
-    document.getElementById(
-      "accountModeLabel"
-    );
-
-  const button =
-    document.getElementById(
-      "accountModeButton"
-    );
-
-  if(!box || !label || !button){
-    return;
-  }
-
-  if(!isTestingAccountAllowed()){
-
-    box.style.display =
-      "none";
-
-    return;
-  }
-
-  box.style.display =
-    "block";
-
-  if(
-    getActiveAccountMode() ===
-    "testing"
-  ){
-
-    label.innerText =
-      "Testing Account";
-
-    button.innerText =
-      "Switch to Production Account";
-
-  }else{
-
-    label.innerText =
-      "Production Account";
-
-    button.innerText =
-      "Switch to Testing Account";
-
-  }
-}
-
-
-window.toggleAccountMode =
-function(){
-
-  if(!isTestingAccountAllowed()){
-
-    accountMode =
-      "production";
-
-    return;
-  }
-
-  if(
-    getActiveAccountMode() ===
-    "testing"
-  ){
-
-    setAccountMode(
-      "production"
-    );
-
-  }else{
-
-    setAccountMode(
-      "testing"
-    );
-
-  }
-
-  location.reload();
-
-};
-
-  
 /* UPDATE UI */
 
 function updateConsultationUI(){
@@ -2572,26 +2216,6 @@ function updateConsultationUI(){
     );
 
 
-   const consultationOldPrice =
-  document.getElementById(
-    "consultationOldPrice"
-  );
-
-const consultationOfferPrice =
-  document.getElementById(
-    "consultationOfferPrice"
-  );
-
-const consultationSaveText =
-  document.getElementById(
-    "consultationSaveText"
-  );
-
-const testingMode =
-  getActiveAccountMode() ===
-  "testing";
-
-  
   if(!consultationStatusChecked){
 
     return;
@@ -2701,12 +2325,10 @@ const testingMode =
 
     if(button){
 
-  button.innerText =
-    testingMode
-      ? "Pay ₹1 & Get Consultation"
-      : "Pay ₹499 & Get Consultation";
+      button.innerText =
+        "Pay ₹499 & Get Consultation";
 
-}
+    }
 
   }else{
 
@@ -2749,42 +2371,6 @@ const testingMode =
 
     }
 
-    if(testingMode){
-
-  if(consultationOldPrice){
-    consultationOldPrice.style.display =
-      "none";
-  }
-
-  if(consultationOfferPrice){
-    consultationOfferPrice.innerText =
-      "₹1";
-  }
-
-  if(consultationSaveText){
-    consultationSaveText.style.display =
-      "none";
-  }
-
-}else{
-
-  if(consultationOldPrice){
-    consultationOldPrice.style.display =
-      "block";
-  }
-
-  if(consultationOfferPrice){
-    consultationOfferPrice.innerText =
-      "₹499";
-  }
-
-  if(consultationSaveText){
-    consultationSaveText.style.display =
-      "block";
-  }
-
-}
-    
     if(button){
 
       button.innerText =
@@ -3086,10 +2672,7 @@ onAuthStateChanged(
 
   await registerLoggedInUser(user);
 
-  loadAccountMode(user);
-updateAccountModeUI();
 
-      
       /*
         IMPORTANT:
         First check whether this exact Firebase user
@@ -3365,10 +2948,7 @@ async function startConsultationPayment(){
     }
 
     const result =
-  await createCashfreeOrder({
-    accountMode:
-      getActiveAccountMode()
-  });
+      await createCashfreeOrder({});
 
     const data =
       result?.data || {};
@@ -4231,36 +3811,21 @@ const advisoryPlans = {
 
 function getAdvisoryOrderKey(uid){
 
-  return (
-    "rinsaathi_advisory_order_" +
-    uid +
-    "_" +
-    getActiveAccountMode()
-  );
+  return "rinsaathi_advisory_order_" + uid;
 
 }
 
 
 function getAdvisoryPlanKey(uid){
 
-  return (
-    "rinsaathi_advisory_plan_" +
-    uid +
-    "_" +
-    getActiveAccountMode()
-  );
+  return "rinsaathi_advisory_plan_" + uid;
 
 }
 
 
 function getAdvisoryPaidKey(uid){
 
-  return (
-    "rinsaathi_advisory_paid_" +
-    uid +
-    "_" +
-    getActiveAccountMode()
-  );
+  return "rinsaathi_advisory_paid_" + uid;
 
 }
 
@@ -4361,21 +3926,6 @@ function(plan){
   const data =
     advisoryPlans[plan];
 
-  const displayPrice =
-  getAdvisoryAmount(plan);
-
-const displayOldPrice =
-  getActiveAccountMode() ===
-  "testing"
-    ? ""
-    : data.oldPrice;
-
-const displaySave =
-  getActiveAccountMode() ===
-  "testing"
-    ? ""
-    : data.save;
-  
   if(!data)
     return;
 
@@ -4473,27 +4023,27 @@ const displaySave =
 
 
   document
-  .getElementById("advisoryOldPrice")
-  .innerText =
-    displayOldPrice;
+    .getElementById("advisoryOldPrice")
+    .innerText =
+      data.oldPrice;
 
 
   document
-  .getElementById("advisoryOfferPrice")
-  .innerText =
-    "₹" + displayPrice.toLocaleString("en-IN");
+    .getElementById("advisoryOfferPrice")
+    .innerText =
+      data.price;
 
 
   document
-  .getElementById("advisorySave")
-  .innerText =
-    displaySave;
+    .getElementById("advisorySave")
+    .innerText =
+      data.save;
 
 
   document
-  .getElementById("advisoryPayButton")
-  .innerText =
-  `Pay ₹${displayPrice.toLocaleString("en-IN")} for Advisory Plan`;
+    .getElementById("advisoryPayButton")
+    .innerText =
+      `Pay ${data.price} for Advisory Plan`;
 
 
   window.scrollTo(0,0);
@@ -4570,16 +4120,13 @@ async function(){
     );
 
 
-   const result =
-  await createCashfreeOrder({
+    const result =
+      await createCashfreeOrder({
 
-    advisoryPlan:
-      currentAdvisoryPlan,
+        advisoryPlan:
+          currentAdvisoryPlan
 
-    accountMode:
-      getActiveAccountMode()
-
-  });
+    });
 
 
     const data =
