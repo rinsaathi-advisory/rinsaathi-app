@@ -828,7 +828,12 @@ body{
   style="display:none;"
   onclick="installRinSaathi()">
 
-  <div
+  📲 Install RinSaathi App
+
+</button>
+
+
+<div
   id="accountModeBox"
   style="
     display:none;
@@ -841,6 +846,60 @@ body{
   "
 >
 
+  <div
+  id="accountModeBox"
+  style="
+    display:none;
+    margin:14px 0;
+    padding:12px;
+    border:1px solid #e2e9e5;
+    border-radius:14px;
+    background:#f8faf9;
+    text-align:center;
+  "
+>
+  <div
+    id="accountModeLabel"
+    style="
+      font-size:13px;
+      font-weight:800;
+      color:#063f32;
+      margin-bottom:8px;
+    "
+  >
+    Production Account
+  </div>
+
+  <button
+    id="accountModeButton"
+    class="btn btnGold"
+    onclick="toggleAccountMode()"
+  >
+    Switch to Testing Account
+  </button>
+</div>
+  
+  <div
+    id="accountModeLabel"
+    style="
+      font-size:13px;
+      font-weight:800;
+      color:#063f32;
+      margin-bottom:8px;
+    "
+  >
+    Production Account
+  </div>
+
+  <button
+    id="accountModeButton"
+    class="btn btnGold"
+    onclick="toggleAccountMode()"
+  >
+    Switch to Testing Account
+  </button>
+
+</div>
   <div
     id="accountModeLabel"
     style="
