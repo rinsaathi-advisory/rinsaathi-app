@@ -1545,9 +1545,7 @@ function normalizeAccountPhone(phone){
 }
 
 
-function isTestingAccountAllowed(){
-
-  const user = auth.currentUser;
+function isTestingAccountAllowed(user = auth.currentUser){
 
   if(!user){
     return false;
@@ -2240,7 +2238,7 @@ async function(){
 
   /* TESTING / PRODUCTION ACCOUNT UI */
 
-function updateAccountModeUI(){
+function updateAccountModeUI(user){
 
   const box =
     document.getElementById(
@@ -2270,7 +2268,7 @@ function updateAccountModeUI(){
 
   /* Only 9992871096 can see this UI */
 
-  if(!isTestingAccountAllowed()){
+  if(!isTestingAccountAllowed(user)){
 
     box.style.display =
       "none";
@@ -2896,7 +2894,7 @@ onAuthStateChanged(
   await registerLoggedInUser(user);
 
   loadAccountMode(user);
-  updateAccountModeUI();
+  updateAccountModeUI(user);
 
       
       /*
