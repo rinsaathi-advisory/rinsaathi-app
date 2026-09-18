@@ -876,6 +876,30 @@ body{
 
   </button>
 
+    <button
+
+    id="factoryResetBtn"
+
+    class="btn"
+
+    type="button"
+
+    onclick="window.factoryDataReset()"
+
+    style="
+
+      margin-top:10px;
+
+      background:#fff;
+
+      color:#b3261e;
+
+      border:1px solid #e2b8b5;
+
+    ">
+
+    🔄 Factory Data Reset
+      
 </div>
   
   <div
@@ -1485,6 +1509,26 @@ const verifyCashfreePayment =
     "verifyCashfreePayment"
   );
 
+
+  /* FACTORY DATA RESET FUNCTION
+
+   Backend function will be connected later.
+
+   No reset is executed from this code yet.
+
+*/
+
+const factoryDataResetCallable =
+
+  httpsCallable(
+
+    functions,
+
+    "factoryDataReset"
+
+  )
+
+  
 const cashfree =
   Cashfree({
     mode:"production"
@@ -2256,26 +2300,49 @@ function updateAccountModeUI(user){
     );
 
   const button =
-    document.getElementById(
-      "accountModeSwitchBtn"
-    );
+  document.getElementById(
+    "accountModeSwitchBtn"
+  );
+
+const factoryResetBtn =
+  document.getElementById(
+    "factoryResetBtn"
+  );
 
 
-  if(!box){
-    return;
-  }
+if(!box){
+  return;
+}
 
 
-  /* Only 9992871096 can see this UI */
+/* Factory Reset is only for 9992871096 */
 
-  if(!isTestingAccountAllowed(user)){
+if(factoryResetBtn){
 
-    box.style.display =
-      "none";
+  factoryResetBtn.style.display =
+    "none";
 
-    return;
+}
 
-  }
+
+/* Only 9992871096 can see this UI */
+
+if(!isTestingAccountAllowed(user)){
+
+  box.style.display =
+    "none";
+
+  return;
+
+}
+
+
+if(factoryResetBtn){
+
+  factoryResetBtn.style.display =
+    "block";
+
+}
 
 
   box.style.display =
@@ -2311,6 +2378,114 @@ function updateAccountModeUI(user){
   }
 
 }
+
+
+  /* FACTORY DATA RESET — BACKEND WILL BE CONNECTED LATER */
+
+window.factoryDataReset =
+
+async function(){
+
+  const user =
+
+    auth.currentUser;
+
+  /* No logged-in user */
+
+  if(!user){
+
+    alert(
+
+      "Please login first."
+
+    );
+
+    return;
+
+  }
+
+  /* Only 9992871096 is allowed */
+
+  if(!isTestingAccountAllowed(user)){
+
+    alert(
+
+      "Factory Data Reset is not available for this account."
+
+    );
+
+    return;
+
+  }
+
+  const mode =
+
+    getActiveAccountMode();
+
+  const modeName =
+
+    mode === "testing"
+
+      ? "Testing"
+
+      : "Production";
+
+   const resetRequest = {
+  environment: mode,
+  environmentName: modeName,
+  uid: user.uid,
+  phone: user.phoneNumber || ""
+};
+  
+  const confirmed =
+
+    confirm(
+
+      "⚠️ FACTORY DATA RESET\\n\\n" +
+
+      "Environment: " +
+
+      modeName +
+
+      "\\n\\n" +
+
+      "This will reset ONLY your test account's " +
+
+      "customer-side consultation and access state.\\n\\n" +
+
+      "Admin data, existing leads, payments, " +
+
+      "consultation records and analytics will NOT be deleted.\\n\\n" +
+
+      "Do you want to continue?"
+
+    );
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+  /* 
+
+     IMPORTANT:
+
+     No Firebase data is changed here yet.
+
+     Secure backend reset will be connected later.
+
+  */
+
+  alert(
+
+    "Factory Reset is ready for backend setup.\\n\\n" +
+
+    "No data has been changed yet."
+
+  );
+
+};
 
   
 /* CHECK ONE-TIME FREE CONSULTATION */
