@@ -1737,6 +1737,9 @@ async function restoreVerifiedPayment(){
 
   try{
 
+    const resetAt =
+      await getFactoryResetAt(user);
+
     const paymentRef =
       doc(
         db,
@@ -1749,21 +1752,43 @@ async function restoreVerifiedPayment(){
         paymentRef
       );
 
-    if(snapshot.exists()){
+    if(!snapshot.exists()){
+      return;
+    }
 
-      const paymentData =
-        snapshot.data();
+    const paymentData =
+      snapshot.data();
 
-      if(
-        paymentData.status === "PAID" &&
-        paymentData.verified === true
-      ){
+    if(
+      paymentData.status !== "PAID" ||
+      paymentData.verified !== true
+    ){
 
-        unlockPaidContent(false);
-
-      }
+      return;
 
     }
+
+    const verifiedAt =
+      paymentData.verifiedAt || null;
+
+    /*
+      If Factory Reset happened after
+      this payment was verified, this old
+      payment must NOT restore access.
+    */
+
+    if(
+      resetAt &&
+      verifiedAt &&
+      new Date(verifiedAt).getTime()
+        <= new Date(resetAt).getTime()
+    ){
+
+      return;
+
+    }
+
+    unlockPaidContent(false);
 
   }catch(error){
 
@@ -1771,11 +1796,6 @@ async function restoreVerifiedPayment(){
       "PAYMENT RESTORE ERROR:",
       error
     );
-
-    /*
-      Do not change the existing free-consultation
-      behaviour if payment-state reading fails.
-    */
 
   }
 
@@ -2655,9 +2675,7 @@ async function checkFreeConsultationStatus(){
     auth.currentUser;
 
   if(!user){
-
     return;
-
   }
 
   consultationStatusChecked =
@@ -2675,6 +2693,9 @@ async function checkFreeConsultationStatus(){
 
   try{
 
+    const resetAt =
+      await getFactoryResetAt(user);
+
     const freeRef =
       doc(
         db,
@@ -2687,15 +2708,78 @@ async function checkFreeConsultationStatus(){
         freeRef
       );
 
-    if(snapshot.exists()){
-
-      freeConsultationUsed =
-        true;
-
-    }else{
+    if(!snapshot.exists()){
 
       freeConsultationUsed =
         false;
+
+    }else{
+
+      const freeData =
+        snapshot.data();
+
+      const createdAt =
+        freeData?.createdAt;
+
+      /*
+        If the free consultation record
+        was created BEFORE or AT the Factory Reset,
+        treat it as old historical state.
+
+        Therefore the user gets a fresh
+        First Consultation Free state.
+      */
+
+      if(
+        resetAt &&
+        createdAt
+      ){
+
+        let createdTime = null;
+
+        if(
+          typeof createdAt.toDate ===
+          "function"
+        ){
+
+          createdTime =
+            createdAt.toDate();
+
+        }else{
+
+          createdTime =
+            new Date(createdAt);
+
+        }
+
+        const resetTime =
+          new Date(resetAt);
+
+        freeConsultationUsed =
+          createdTime.getTime()
+            > resetTime.getTime();
+
+      }else if(resetAt){
+
+        /*
+          Reset exists but old record has
+          no usable timestamp.
+          Treat it as pre-reset state.
+        */
+
+        freeConsultationUsed =
+          false;
+
+      }else{
+
+        /*
+          Normal existing behaviour.
+        */
+
+        freeConsultationUsed =
+          true;
+
+      }
 
     }
 
@@ -3229,30 +3313,7 @@ onAuthStateChanged(
 
   loadAccountMode(user);
   updateAccountModeUI(user);
-
-      
-      /*
-        IMPORTANT:
-        First check whether this exact Firebase user
-        already has a previously verified Cashfree payment
-        saved on this device.
-      */
-
-      const paidKey =
-        getCashfreePaidKey(
-          user.uid
-        );
-
-      const previouslyPaid =
-        localStorage.getItem(
-          paidKey
-        ) === "true";
-
-      if(previouslyPaid){
-
-        unlockPaidContent(false);
-
-      }
+  
 
       /*
         Restore a verified ₹499 payment from Firestore
