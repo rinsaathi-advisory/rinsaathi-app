@@ -1526,7 +1526,7 @@ const factoryDataResetCallable =
 
     "factoryDataReset"
 
-  )
+  );
 
   
 const cashfree =
@@ -1669,6 +1669,59 @@ function(){
   location.reload();
 
 };
+
+
+ /* FACTORY RESET STATE */
+
+async function getFactoryResetAt(user){
+
+  if(!user){
+    return null;
+  }
+
+  try{
+
+    const resetRef =
+      doc(
+        db,
+        "factoryResetState",
+        user.uid
+      );
+
+    const snapshot =
+      await getDoc(resetRef);
+
+    if(!snapshot.exists()){
+      return null;
+    }
+
+    const data =
+      snapshot.data();
+
+    const environment =
+      getActiveAccountMode();
+
+    const resetData =
+      data?.[environment];
+
+    if(!resetData?.active){
+      return null;
+    }
+
+    return resetData.resetAt || null;
+
+  }catch(error){
+
+    console.error(
+      "FACTORY RESET STATE ERROR:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
 
   
 /* RESTORE VERIFIED PAYMENT FROM FIRESTORE */
@@ -2463,27 +2516,133 @@ async function(){
 
   if(!confirmed){
 
-    return;
+  return;
+
+}
+
+try{
+
+  /*
+    Secure backend reset.
+    This does NOT delete historical data.
+  */
+
+  const result =
+    await factoryDataResetCallable({
+      environment: mode
+    });
+
+  const data =
+    result?.data;
+
+  if(!data?.success){
+
+    throw new Error(
+      "Factory Reset was not completed by the server."
+    );
 
   }
 
-  /* 
-
-     IMPORTANT:
-
-     No Firebase data is changed here yet.
-
-     Secure backend reset will be connected later.
-
+  /*
+    RESET CURRENT APP STATE ONLY
+    --------------------------------
+    Firebase Auth session stays active.
+    No signOut().
+    No OTP.
+    No re-login.
   */
 
-  alert(
+  consultationPaid =
+    false;
 
-    "Factory Reset is ready for backend setup.\n\n" +
+  freeConsultationUsed =
+    false;
 
-    "No data has been changed yet."
+  consultationStatusChecked =
+    false;
 
+  currentService =
+    "";
+
+  currentAdvisoryPlan =
+    "";
+
+  /*
+    Remove only customer-side local access state.
+    Historical Firestore records are untouched.
+  */
+
+  localStorage.removeItem(
+    getCashfreePaidKey(
+      user.uid
+    )
   );
+
+  localStorage.removeItem(
+    getCashfreeOrderKey(
+      user.uid
+    )
+  );
+
+  localStorage.removeItem(
+    getAdvisoryPaidKey(
+      user.uid
+    )
+  );
+
+  localStorage.removeItem(
+    getAdvisoryPlanKey(
+      user.uid
+    )
+  );
+
+  localStorage.removeItem(
+    getAdvisoryOrderKey(
+      user.uid
+    )
+  );
+
+  /*
+    Bring the currently logged-in app
+    back to the normal customer home state.
+  */
+
+  updateConsultationUI();
+
+  goHome();
+
+  alert(
+    "✅ Factory Data Reset Completed.\n\n" +
+
+    "Environment: " +
+    modeName +
+
+    "\n\n" +
+
+    "Your app has been reset to the " +
+    "\"First Consultation Free\" state.\n\n" +
+
+    "You are still logged in.\n" +
+    "No OTP or re-login is required.\n\n" +
+
+    "Existing Admin data, Leads, Payments, " +
+    "Consultation records and Analytics were not deleted."
+  );
+
+}catch(error){
+
+  console.error(
+    "FACTORY RESET ERROR:",
+    error
+  );
+
+  alert(
+    "Factory Data Reset failed.\n\n" +
+    (error?.message ||
+      "Please try again.")
+  );
+
+}
 
 };
 
