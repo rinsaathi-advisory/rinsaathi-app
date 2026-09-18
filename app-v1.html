@@ -1572,6 +1572,12 @@ function getCashfreePaidKey(uid){
 
 }
 
+function getCashfreeOrderCreatedKey(uid){
+
+  return "rinsaathi_cashfree_order_created_at_" + uid;
+
+}
+
 
   /* TESTING ACCOUNT MODE */
 
@@ -1772,19 +1778,37 @@ async function restoreVerifiedPayment(){
       paymentData.verifiedAt || null;
 
     /*
-      If Factory Reset happened after
-      this payment was verified, this old
-      payment must NOT restore access.
+      After Factory Reset, an old payment must
+      NEVER restore consultation access.
+
+      If a reset exists, a valid post-reset
+      verifiedAt is mandatory.
     */
 
-    if(
-      resetAt &&
-      verifiedAt &&
-      new Date(verifiedAt).getTime()
-        <= new Date(resetAt).getTime()
-    ){
+    if(resetAt){
 
-      return;
+      if(!verifiedAt){
+        return;
+      }
+
+      const verifiedTime =
+        typeof verifiedAt.toDate ===
+        "function"
+          ? verifiedAt.toDate().getTime()
+          : new Date(verifiedAt).getTime();
+
+      const resetTime =
+        new Date(resetAt).getTime();
+
+      if(
+        !Number.isFinite(verifiedTime) ||
+        !Number.isFinite(resetTime) ||
+        verifiedTime <= resetTime
+      ){
+
+        return;
+
+      }
 
     }
 
@@ -2605,6 +2629,12 @@ try{
   );
 
   localStorage.removeItem(
+  getCashfreeOrderCreatedKey(
+    user.uid
+  )
+);
+  
+  localStorage.removeItem(
     getAdvisoryPaidKey(
       user.uid
     )
@@ -2627,7 +2657,7 @@ try{
     back to the normal customer home state.
   */
 
-  updateConsultationUI();
+    await checkFreeConsultationStatus();
 
   goHome();
 
@@ -3590,14 +3620,21 @@ async function startConsultationPayment(){
 
     if(orderId){
 
-      localStorage.setItem(
-        getCashfreeOrderKey(
-          user.uid
-        ),
-        String(orderId)
-      );
+  localStorage.setItem(
+    getCashfreeOrderKey(
+      user.uid
+    ),
+    String(orderId)
+  );
 
-    }
+  localStorage.setItem(
+    getCashfreeOrderCreatedKey(
+      user.uid
+    ),
+    new Date().toISOString()
+  );
+
+}
 
     if(status){
 
@@ -3665,16 +3702,61 @@ async function verifyReturnedCashfreePayment(){
       window.location.search
     );
 
-  const returnedOrderId =
+    const returnedOrderId =
     params.get("order_id") ||
     params.get("orderId");
 
-  const savedOrderId =
+  const resetAt =
+    await getFactoryResetAt(user);
+
+  const pendingOrderCreatedAt =
     localStorage.getItem(
-      getCashfreeOrderKey(
+      getCashfreeOrderCreatedKey(
         user.uid
       )
     );
+
+  const savedOrderId =
+    resetAt
+      ? null
+      : localStorage.getItem(
+          getCashfreeOrderKey(
+            user.uid
+          )
+        );
+
+  /*
+    A returned Cashfree order is accepted after
+    Factory Reset only when THIS DEVICE created
+    that order after the reset.
+
+    This prevents an old/stale payment return URL
+    from restoring access after a reset.
+  */
+
+  if(returnedOrderId && resetAt){
+
+    const orderCreatedTime =
+      pendingOrderCreatedAt
+        ? new Date(
+            pendingOrderCreatedAt
+          ).getTime()
+        : NaN;
+
+    const resetTime =
+      new Date(resetAt).getTime();
+
+    if(
+      !Number.isFinite(orderCreatedTime) ||
+      !Number.isFinite(resetTime) ||
+      orderCreatedTime <= resetTime
+    ){
+
+      return;
+
+    }
+
+  }
 
   const orderId =
     returnedOrderId ||
@@ -3682,34 +3764,25 @@ async function verifyReturnedCashfreePayment(){
 
   if(!orderId){
 
-    /*
-      No new Cashfree return order.
-      If this exact user was already paid,
-      restore the paid UI from the saved state.
-    */
+  /*
+    No Cashfree return order is available.
+    Any valid paid state has already been handled
+    by restoreVerifiedPayment().
+  */
 
-    if(
-      consultationPaid === true ||
-      localStorage.getItem(
-        getCashfreePaidKey(
-          user.uid
-        )
-      ) === "true"
-    ){
+  if(consultationPaid === true){
 
-      unlockPaidContent(false);
+    if(consultationStatusChecked){
 
-      if(consultationStatusChecked){
-
-        updateConsultationUI();
-
-      }
+      updateConsultationUI();
 
     }
 
-    return;
-
   }
+
+  return;
+
+}
 
   const status =
     document.getElementById(
@@ -4009,24 +4082,15 @@ async function verifyReturnedCashfreePayment(){
         as paid earlier, keep everything unlocked.
       */
 
-      if(
-        consultationPaid === true ||
-        localStorage.getItem(
-          getCashfreePaidKey(
-            user.uid
-          )
-        ) === "true"
-      ){
+      if(consultationPaid === true){
 
-        unlockPaidContent(false);
+  if(consultationStatusChecked){
 
-        if(consultationStatusChecked){
+    updateConsultationUI();
 
-          updateConsultationUI();
+  }
 
-        }
-
-      }else{
+}else{
 
         if(status){
 
@@ -4058,28 +4122,15 @@ async function verifyReturnedCashfreePayment(){
       because of a temporary verification error.
     */
 
-    const previouslyPaid =
-      localStorage.getItem(
-        getCashfreePaidKey(
-          user.uid
-        )
-      ) === "true";
+    if(consultationPaid === true){
 
+  if(consultationStatusChecked){
 
-    if(
-      consultationPaid === true ||
-      previouslyPaid
-    ){
+    updateConsultationUI();
 
-      unlockPaidContent(false);
+  }
 
-      if(consultationStatusChecked){
-
-        updateConsultationUI();
-
-      }
-
-    }else{
+}else{
 
       if(status){
 
@@ -4128,45 +4179,20 @@ async function verifyReturnedCashfreePayment(){
 function requireConsultationPayment(){
 
   /*
-    First check the live state.
+    Paid access is granted only by the live state.
+    restoreVerifiedPayment() and successful Cashfree
+    verification are responsible for setting this state.
+
+    Do NOT restore access directly from localStorage.
+    Factory Reset intentionally removes customer-side
+    local access state.
   */
 
-  if(
-    consultationPaid === true
-  ){
+  if(consultationPaid === true){
 
     return true;
 
   }
-
-
-  /*
-    Also check the saved verified state
-    for this exact Firebase user.
-  */
-
-  const user =
-    auth.currentUser;
-
-  if(user){
-
-    const previouslyPaid =
-      localStorage.getItem(
-        getCashfreePaidKey(
-          user.uid
-        )
-      ) === "true";
-
-    if(previouslyPaid){
-
-      unlockPaidContent(false);
-
-      return true;
-
-    }
-
-  }
-
 
   alert(
     "Please complete the ₹499 consultation payment first."
