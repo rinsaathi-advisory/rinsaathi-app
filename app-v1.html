@@ -925,7 +925,9 @@ body{
   </div>
 
 
-  <div class="section">
+    <div
+    id="consultationOptionsSection"
+    class="section">
 
     <div class="title">
       How can we help you?
@@ -2852,6 +2854,8 @@ async function checkFreeConsultationStatus(){
 
 /* UPDATE UI */
 
+/* UPDATE UI */
+
 function updateConsultationUI(){
 
   const title =
@@ -2884,6 +2888,26 @@ function updateConsultationUI(){
       "paidPriceArea"
     );
 
+  const consultationOptionsSection =
+    document.getElementById(
+      "consultationOptionsSection"
+    );
+
+  const paidConsultationSection =
+    document.getElementById(
+      "paidConsultationSection"
+    );
+
+  const lockedMessage =
+    document.getElementById(
+      "lockedMessage"
+    );
+
+  const paidContent =
+    document.getElementById(
+      "paidContent"
+    );
+
 
   if(!consultationStatusChecked){
 
@@ -2893,12 +2917,64 @@ function updateConsultationUI(){
 
 
   /*
-    IMPORTANT:
-    A successfully verified ₹499 payment
-    always takes priority over free-consultation status.
+    =====================================================
+    STATE 1 — ₹499 PAYMENT VERIFIED
+    =====================================================
   */
 
   if(consultationPaid === true){
+
+    /*
+      Six consultation options:
+      SHOW
+    */
+
+    if(consultationOptionsSection){
+
+      consultationOptionsSection.style.display =
+        "block";
+
+    }
+
+
+    /*
+      ₹499 payment section:
+      HIDE
+    */
+
+    if(paidConsultationSection){
+
+      paidConsultationSection.style.display =
+        "none";
+
+    }
+
+
+    /*
+      Locked message:
+      HIDE
+    */
+
+    if(lockedMessage){
+
+      lockedMessage.style.display =
+        "none";
+
+    }
+
+
+    /*
+      Advisory Plans:
+      SHOW
+    */
+
+    if(paidContent){
+
+      paidContent.style.display =
+        "block";
+
+    }
+
 
     if(title){
 
@@ -2913,7 +2989,7 @@ function updateConsultationUI(){
     if(text){
 
       text.innerText =
-        "Your amount has been received. Now you can access all the benefits of your paid consultation.";
+        "Your amount has been received. Now you can access your consultation and Advisory Plans.";
 
     }
 
@@ -2942,7 +3018,7 @@ function updateConsultationUI(){
     if(button){
 
       button.innerText =
-        "Get Paid Consultation";
+        "Consultation Unlocked";
 
     }
 
@@ -2951,7 +3027,65 @@ function updateConsultationUI(){
   }
 
 
+  /*
+    =====================================================
+    STATE 2 — FREE CONSULTATION ALREADY USED
+    =====================================================
+  */
+
   if(freeConsultationUsed){
+
+    /*
+      Six consultation options:
+      HIDE
+    */
+
+    if(consultationOptionsSection){
+
+      consultationOptionsSection.style.display =
+        "none";
+
+    }
+
+
+    /*
+      Advisory Plans:
+      HIDE
+    */
+
+    if(paidContent){
+
+      paidContent.style.display =
+        "none";
+
+    }
+
+
+    /*
+      ₹499 payment section:
+      SHOW
+    */
+
+    if(paidConsultationSection){
+
+      paidConsultationSection.style.display =
+        "block";
+
+    }
+
+
+    /*
+      Locked message:
+      SHOW
+    */
+
+    if(lockedMessage){
+
+      lockedMessage.style.display =
+        "block";
+
+    }
+
 
     if(title){
 
@@ -2999,53 +3133,112 @@ function updateConsultationUI(){
 
     }
 
-  }else{
+    return;
 
-    if(title){
+  }
 
-      title.innerText =
-        "✓ FIRST CONSULTATION FREE";
 
-      title.className =
-        "firstInquiryBadge";
+  /*
+    =====================================================
+    STATE 3 — FIRST CONSULTATION FREE
+    =====================================================
+  */
 
-    }
+  /*
+    Six consultation options:
+    SHOW
+  */
 
-    if(text){
+  if(consultationOptionsSection){
 
-      text.innerText =
-        "Your first consultation is completely free. Select any of the options below and share your situation.";
+    consultationOptionsSection.style.display =
+      "block";
 
-    }
+  }
 
-    if(offerBadge){
 
-      offerBadge.innerText =
-        "FREE FIRST CONSULTATION";
+  /*
+    Advisory Plans:
+    HIDE
+  */
 
-    }
+  if(paidContent){
 
-    if(offerDescription){
+    paidContent.style.display =
+      "none";
 
-      offerDescription.innerText =
-        "Your first consultation is completely free. Share your situation and receive practical guidance.";
+  }
 
-    }
 
-    if(paidPriceArea){
+  /*
+    ₹499 payment section:
+    SHOW
+  */
 
-      paidPriceArea.classList.add(
-        "hidden"
-      );
+  if(paidConsultationSection){
 
-    }
+    paidConsultationSection.style.display =
+      "block";
 
-    if(button){
+  }
 
-      button.innerText =
-        "Start Free Consultation";
 
-    }
+  /*
+    Locked message:
+    HIDE
+  */
+
+  if(lockedMessage){
+
+    lockedMessage.style.display =
+      "none";
+
+  }
+
+
+  if(title){
+
+    title.innerText =
+      "✓ FIRST CONSULTATION FREE";
+
+    title.className =
+      "firstInquiryBadge";
+
+  }
+
+  if(text){
+
+    text.innerText =
+      "Your first consultation is completely free. Select any of the options below and share your situation.";
+
+  }
+
+  if(offerBadge){
+
+    offerBadge.innerText =
+      "FREE FIRST CONSULTATION";
+
+  }
+
+  if(offerDescription){
+
+    offerDescription.innerText =
+      "Your first consultation is completely free. Share your situation and receive practical guidance.";
+
+  }
+
+  if(paidPriceArea){
+
+    paidPriceArea.classList.add(
+      "hidden"
+    );
+
+  }
+
+  if(button){
+
+    button.innerText =
+      "Start Free Consultation";
 
   }
 
