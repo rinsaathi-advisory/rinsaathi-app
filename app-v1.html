@@ -1564,6 +1564,12 @@ function getFactoryResetStateKey(uid){
 
 }
 
+  function getFactoryResetIdKey(uid){
+
+  return "rinsaathi_factory_reset_id_" + uid;
+
+}
+
   
   /* TESTING ACCOUNT MODE */
 
@@ -1694,12 +1700,13 @@ async function restoreVerifiedPayment(){
       : "";
 
   if(
-    factoryResetState === "fresh"
-  ){
+  factoryResetState === "fresh" ||
+  factoryResetState === "free_used"
+){
 
-    return;
+  return;
 
-  }
+}
 
 
   const paymentRef =
@@ -2550,6 +2557,28 @@ async function(){
   exactly like a brand-new customer.
 */
 
+const factoryResetId =
+
+  (
+
+    typeof crypto !== "undefined" &&
+
+    typeof crypto.randomUUID === "function"
+
+  )
+
+    ? crypto.randomUUID()
+
+    : String(Date.now()) +
+
+      "_" +
+
+      Math.random()
+
+        .toString(36)
+
+        .slice(2);
+    
 localStorage.setItem(
   getFactoryResetStateKey(
     user.uid
@@ -2652,20 +2681,36 @@ async function checkFreeConsultationStatus(){
       : "";
 
   if(
-    factoryResetState === "fresh"
-  ){
+  factoryResetState === "fresh"
+){
 
-    freeConsultationUsed =
-      false;
+  freeConsultationUsed =
+    false;
 
-    consultationStatusChecked =
-      true;
+  consultationStatusChecked =
+    true;
 
-    updateConsultationUI();
+  updateConsultationUI();
 
-    return;
+  return;
 
-  }
+}
+
+if(
+  factoryResetState === "free_used"
+){
+
+  freeConsultationUsed =
+    true;
+
+  consultationStatusChecked =
+    true;
+
+  updateConsultationUI();
+
+  return;
+
+}
 
 
   const freeRef =
@@ -3247,6 +3292,7 @@ const factoryResetState =
 
 const previouslyPaid =
   factoryResetState !== "fresh" &&
+  factoryResetState !== "free_used" &&
   localStorage.getItem(
     paidKey
   ) === "true";
@@ -3931,6 +3977,16 @@ if(
   localStorage.removeItem(
 
     getFactoryResetStateKey(
+
+      user.uid
+
+    )
+
+  );
+
+  localStorage.removeItem(
+
+    getFactoryResetIdKey(
 
       user.uid
 
@@ -5861,12 +5917,41 @@ async function saveFreeConsultationAndContinue(){
     );
 
 
-  const freeRef =
-    doc(
-      db,
-      "freeConsultations",
-      user.uid
-    );
+  const factoryResetState =
+  getActiveAccountMode() === "testing"
+    ? localStorage.getItem(
+        getFactoryResetStateKey(
+          user.uid
+        )
+      )
+    : "";
+
+const factoryResetId =
+  getActiveAccountMode() === "testing"
+    ? localStorage.getItem(
+        getFactoryResetIdKey(
+          user.uid
+        )
+      )
+    : "";
+
+const freeRef =
+  (
+    factoryResetState === "fresh" &&
+    factoryResetId
+  )
+    ? doc(
+        db,
+        "testingFreeConsultations",
+        user.uid,
+        "resets",
+        factoryResetId
+      )
+    : doc(
+        db,
+        "freeConsultations",
+        user.uid
+      );
 
 
   try{
@@ -5878,27 +5963,28 @@ async function saveFreeConsultationAndContinue(){
 
 
     batch.set(
-      freeRef,
-      {
+  freeRef,
+  {
+    uid:
+      user.uid,
 
-        uid:
-          user.uid,
+    phone:
+      user.phoneNumber ||
+      "+91" + phone,
 
-        phone:
-          user.phoneNumber ||
-          "+91" + phone,
+    used:
+      true,
 
-        used:
-          true,
+    type:
+      "one_time_free_consultation",
 
-        type:
-          "one_time_free_consultation",
+    resetId:
+      factoryResetId || "",
 
-        createdAt:
-          serverTimestamp()
-
-      }
-    );
+    createdAt:
+      serverTimestamp()
+  }
+);
 
 
     batch.set(
