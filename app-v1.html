@@ -1765,11 +1765,13 @@ async function restoreVerifiedPayment(){
 
 
   const paymentRef =
-    doc(
-      db,
-      "payments",
-      user.uid
-    );
+  doc(
+    db,
+    getActiveAccountMode() === "testing"
+      ? "testingPayments"
+      : "payments",
+    user.uid
+  );
 
     const snapshot =
       await getDoc(
@@ -2812,11 +2814,13 @@ if(
 
 
   const freeRef =
-    doc(
-      db,
-      "freeConsultations",
-      user.uid
-    );
+  doc(
+    db,
+    getActiveAccountMode() === "testing"
+      ? "testingFreeConsultations"
+      : "freeConsultations",
+    user.uid
+  );
 
     const snapshot =
       await getDoc(
@@ -3014,12 +3018,65 @@ function updateConsultationUI(){
 
     }
 
+    const paidPrice =
+  paidPriceArea
+    ? paidPriceArea.querySelector(".offerPrice")
+    : null;
+
+const oldPrice =
+  paidPriceArea
+    ? paidPriceArea.querySelector(".oldPrice")
+    : null;
+
+const saveText =
+  paidPriceArea
+    ? paidPriceArea.querySelector(".saveText")
+    : null;
+
+if(getActiveAccountMode() === "testing"){
+
+  if(oldPrice){
+    oldPrice.innerText =
+      "Testing Price";
+  }
+
+  if(paidPrice){
+    paidPrice.innerText =
+      "₹1";
+  }
+
+  if(saveText){
+    saveText.innerText =
+      "Testing Mode";
+  }
+
+}else{
+
+  if(oldPrice){
+    oldPrice.innerText =
+      "Original Price: ₹999";
+  }
+
+  if(paidPrice){
+    paidPrice.innerText =
+      "₹499";
+  }
+
+  if(saveText){
+    saveText.innerText =
+      "You Save ₹500";
+  }
+
+}
+    
     if(button){
 
-      button.innerText =
-        "Pay ₹499 & Get Consultation";
+  button.innerText =
+    getActiveAccountMode() === "testing"
+      ? "Pay ₹1 & Get Consultation"
+      : "Pay ₹499 & Get Consultation";
 
-    }
+}
 
   }else{
 
@@ -4809,28 +4866,39 @@ function(plan){
         .join("");
 
 
-  document
-    .getElementById("advisoryOldPrice")
-    .innerText =
-      data.oldPrice;
+  const testingMode =
+  getActiveAccountMode() === "testing";
+
+document
+  .getElementById("advisoryOldPrice")
+  .innerText =
+    testingMode
+      ? "Testing Price"
+      : data.oldPrice;
 
 
-  document
-    .getElementById("advisoryOfferPrice")
-    .innerText =
-      data.price;
+document
+  .getElementById("advisoryOfferPrice")
+  .innerText =
+    testingMode
+      ? "₹1"
+      : data.price;
 
 
-  document
-    .getElementById("advisorySave")
-    .innerText =
-      data.save;
+document
+  .getElementById("advisorySave")
+  .innerText =
+    testingMode
+      ? "Testing Mode"
+      : data.save;
 
 
-  document
-    .getElementById("advisoryPayButton")
-    .innerText =
-      `Pay ${data.price} for Advisory Plan`;
+document
+  .getElementById("advisoryPayButton")
+  .innerText =
+    testingMode
+      ? "Pay ₹1 for Advisory Plan"
+      : `Pay ${data.price} for Advisory Plan`;
 
 
   window.scrollTo(0,0);
@@ -6098,17 +6166,23 @@ const factoryResetId =
     : "";
 
 const freeRef =
-  (
-    factoryResetState === "fresh" &&
-    factoryResetId
-  )
-    ? doc(
-        db,
-        "testingFreeConsultations",
-        user.uid,
-        "resets",
+  getActiveAccountMode() === "testing"
+    ? (
+        factoryResetState === "fresh" &&
         factoryResetId
       )
+        ? doc(
+            db,
+            "testingFreeConsultations",
+            user.uid,
+            "resets",
+            factoryResetId
+          )
+        : doc(
+            db,
+            "testingFreeConsultations",
+            user.uid
+          )
     : doc(
         db,
         "freeConsultations",
