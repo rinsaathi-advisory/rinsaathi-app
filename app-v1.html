@@ -6037,12 +6037,14 @@ async function saveFreeConsultationAndContinue(){
 
 
   const leadRef =
-    doc(
-      collection(
-        db,
-        "leads"
-      )
-    );
+  getActiveAccountMode() === "testing"
+    ? null
+    : doc(
+        collection(
+          db,
+          "leads"
+        )
+      );
 
 
   const testingState =
@@ -6128,39 +6130,43 @@ const freeRef =
 );
 
 
-    batch.set(
-      leadRef,
-      {
+    if(leadRef){
 
-        uid:
-          user.uid,
+  batch.set(
+    leadRef,
+    {
 
-        phone:
-          user.phoneNumber ||
-          "+91" + phone,
+      uid:
+        user.uid,
 
-        name:
-          name,
+      phone:
+        user.phoneNumber ||
+        "+91" + phone,
 
-        service:
-          "Free Consultation",
+      name:
+        name,
 
-        source:
-          "one_time_free_consultation",
+      service:
+        "Free Consultation",
 
-        status:
-          "New",
+      source:
+        "one_time_free_consultation",
 
-        message:
-          message ||
-          "",
+      status:
+        "New",
 
-        createdAt:
-          serverTimestamp()
+      message:
+        message ||
+        "",
 
-      }
+      createdAt:
+        serverTimestamp()
 
-    );
+    }
+
+  );
+
+}
 
 
     await batch.commit();
