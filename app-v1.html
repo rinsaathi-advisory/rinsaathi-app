@@ -876,29 +876,24 @@ body{
 
   </button>
 
-    <button
+        <button
+      id="factoryResetBtn"
+      class="btn"
+      type="button"
+      onclick="window.factoryDataReset()"
+      style="
+        display:none;
+        margin-top:10px;
+        background:#fff;
+        color:#b3261e;
+        border:1px solid #e2b8b5;
+      ">
 
-    id="factoryResetBtn"
+      🔄 Factory Data Reset
 
-    class="btn"
+    </button>
 
-    type="button"
-
-    onclick="window.factoryDataReset()"
-
-    style="
-
-      margin-top:10px;
-
-      background:#fff;
-
-      color:#b3261e;
-
-      border:1px solid #e2b8b5;
-
-    ">
-
-    🔄 Factory Data Reset
+</div>
       
 </div>
   
@@ -2529,13 +2524,7 @@ async function(){
 
       : "Production";
 
-   const resetRequest = {
-  environment: mode,
-  environmentName: modeName,
-  uid: user.uid,
-  phone: user.phoneNumber || ""
-};
-  
+   
   const confirmed =
 
     confirm(
