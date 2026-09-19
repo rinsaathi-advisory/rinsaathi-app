@@ -1563,7 +1563,56 @@ id:d.id,
 })
 );
 
+const testingUids =
+  new Set(
+    userSnap.docs
+      .filter(d =>
+        normPhone(
+          d.data()?.phone ||
+          d.data()?.mobile ||
+          d.data()?.authPhone ||
+          ""
+        ) === "9992871096"
+      )
+      .map(d =>
+        String(
+          d.data()?.uid ||
+          d.id ||
+          ""
+        ).trim()
+      )
+      .filter(Boolean)
+  );
 
+userAccounts =
+  userAccounts.filter(
+    u =>
+      !testingUids.has(
+        String(u.uid || "").trim()
+      ) &&
+      normPhone(
+        u.phone ||
+        u.mobile ||
+        u.authPhone ||
+        ""
+      ) !== "9992871096"
+  );
+
+leads =
+  leads.filter(
+    l =>
+      !testingUids.has(
+        String(l.uid || "").trim()
+      ) &&
+      normPhone(
+        l.phone ||
+        l.mobile ||
+        l.authPhone ||
+        ""
+      ) !== "9992871096"
+  );
+
+  
 /* LINK FREE CONSULTATION RECORDS WITH LEADS */
 
 const existingUids =
@@ -1789,8 +1838,68 @@ id:d.id,
 );
 
 
+/* HIDE TESTING ACCOUNT FROM ADMIN */
+
+leads =
+  leads.filter(
+    l =>
+      !testingUids.has(
+        String(l.uid || "").trim()
+      ) &&
+      normPhone(
+        l.phone ||
+        l.mobile ||
+        l.authPhone ||
+        ""
+      ) !== "9992871096"
+  );
+
+userAccounts =
+  userAccounts.filter(
+    u =>
+      !testingUids.has(
+        String(u.uid || "").trim()
+      ) &&
+      normPhone(
+        u.phone ||
+        u.mobile ||
+        u.authPhone ||
+        ""
+      ) !== "9992871096"
+  );
+
+freeUsed =
+  new Set(
+    [...freeUsed].filter(
+      uid =>
+        !testingUids.has(
+          String(uid || "").trim()
+        )
+    )
+  );
+
+paymentEvents =
+  paymentEvents.filter(
+    p =>
+      !testingUids.has(
+        String(
+          p.uid ||
+          p.userId ||
+          ""
+        ).trim()
+      ) &&
+      normPhone(
+        p.phone ||
+        p.mobile ||
+        p.authPhone ||
+        p.phoneNumber ||
+        ""
+      ) !== "9992871096"
+  );
+
+
 leads.sort(
-(a,b)=>dateMs(b.createdAt)-dateMs(a.createdAt)
+  (a,b)=>dateMs(b.createdAt)-dateMs(a.createdAt)
 );
 
 
@@ -1823,12 +1932,22 @@ async function loadAppAnalytics(){
       );
 
     appAnalytics =
-      snap.docs.map(d=>({
-        id:d.id,
-        ...d.data()
-      }));
+  snap.docs
+    .map(d=>({
+      id:d.id,
+      ...d.data()
+    }))
+    .filter(e =>
+      normPhone(
+        e.phone ||
+        e.mobile ||
+        e.authPhone ||
+        e.phoneNumber ||
+        ""
+      ) !== "9992871096"
+    );
 
-    renderAppAnalytics();
+renderAppAnalytics();
 
   }catch(e){
 
