@@ -1548,13 +1548,19 @@ let consultationStatusChecked = false;
 
 function getCashfreeOrderKey(uid){
 
-  return "rinsaathi_cashfree_order_id_" + uid;
+  return "rinsaathi_cashfree_order_id_" +
+    getActiveAccountMode() +
+    "_" +
+    uid;
 
 }
 
 function getCashfreePaidKey(uid){
 
-  return "rinsaathi_cashfree_paid_" + uid;
+  return "rinsaathi_cashfree_paid_" +
+    getActiveAccountMode() +
+    "_" +
+    uid;
 
 }
 
@@ -3656,7 +3662,10 @@ async function startConsultationPayment(){
     }
 
     const result =
-      await createCashfreeOrder({});
+  await createCashfreeOrder({
+    accountMode:
+      getActiveAccountMode()
+  });
 
     const data =
       result?.data || {};
@@ -4580,21 +4589,30 @@ const advisoryPlans = {
 
 function getAdvisoryOrderKey(uid){
 
-  return "rinsaathi_advisory_order_" + uid;
+  return "rinsaathi_advisory_order_" +
+    getActiveAccountMode() +
+    "_" +
+    uid;
 
 }
 
 
 function getAdvisoryPlanKey(uid){
 
-  return "rinsaathi_advisory_plan_" + uid;
+  return "rinsaathi_advisory_plan_" +
+    getActiveAccountMode() +
+    "_" +
+    uid;
 
 }
 
 
 function getAdvisoryPaidKey(uid){
 
-  return "rinsaathi_advisory_paid_" + uid;
+  return "rinsaathi_advisory_paid_" +
+    getActiveAccountMode() +
+    "_" +
+    uid;
 
 }
 
@@ -4890,12 +4908,15 @@ async function(){
 
 
     const result =
-      await createCashfreeOrder({
+  await createCashfreeOrder({
 
-        advisoryPlan:
-          currentAdvisoryPlan
+    advisoryPlan:
+      currentAdvisoryPlan,
 
-    });
+    accountMode:
+      getActiveAccountMode()
+
+});
 
 
     const data =
