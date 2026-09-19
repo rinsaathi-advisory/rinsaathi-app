@@ -3836,36 +3836,16 @@ async function verifyReturnedCashfreePayment(){
 */
 
 const savedOrderId =
-  getActiveAccountMode() === "testing"
-    ? null
-    : localStorage.getItem(
-        getCashfreeOrderKey(
-          user.uid
-        )
-      );
+  localStorage.getItem(
+    getCashfreeOrderKey(
+      user.uid
+    )
+  );
 
 const orderId =
   returnedOrderId ||
   savedOrderId;
 
-  if(
-  getActiveAccountMode() === "testing" &&
-  testingState?.state === "fresh"
-){
-
-  return;
-
-}
-
-if(
-  getActiveAccountMode() === "testing" &&
-  testingState?.state === "free_used"
-){
-
-  return;
-
-}
-  
   if(!orderId){
 
     /*
