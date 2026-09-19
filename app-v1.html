@@ -1558,7 +1558,13 @@ function getCashfreePaidKey(uid){
 
 }
 
+function getFactoryResetStateKey(uid){
 
+  return "rinsaathi_factory_reset_state_" + uid;
+
+}
+
+  
   /* TESTING ACCOUNT MODE */
 
 const TESTING_PHONE = "9992871096";
@@ -1670,12 +1676,38 @@ async function restoreVerifiedPayment(){
 
   try{
 
-    const paymentRef =
-      doc(
-        db,
-        "payments",
-        user.uid
-      );
+  /*
+    TESTING FACTORY RESET OVERRIDE
+
+    Do not restore an old paid state after
+    Factory Data Reset. The Testing account
+    must start from the new-customer flow.
+  */
+
+  const factoryResetState =
+    getActiveAccountMode() === "testing"
+      ? localStorage.getItem(
+          getFactoryResetStateKey(
+            user.uid
+          )
+        )
+      : "";
+
+  if(
+    factoryResetState === "fresh"
+  ){
+
+    return;
+
+  }
+
+
+  const paymentRef =
+    doc(
+      db,
+      "payments",
+      user.uid
+    );
 
     const snapshot =
       await getDoc(
@@ -2512,6 +2544,21 @@ async function(){
 
 
     /*
+  TESTING FACTORY RESET STATE
+
+  After reset, Testing account behaves
+  exactly like a brand-new customer.
+*/
+
+localStorage.setItem(
+  getFactoryResetStateKey(
+    user.uid
+  ),
+  "fresh"
+);
+
+    
+    /*
       Re-check Testing consultation state
       from Firebase after reset.
     */
@@ -2587,12 +2634,46 @@ async function checkFreeConsultationStatus(){
 
   try{
 
-    const freeRef =
-      doc(
-        db,
-        "freeConsultations",
-        user.uid
-      );
+  /*
+    TESTING FACTORY RESET OVERRIDE
+
+    After Factory Reset, ignore the old
+    freeConsultations record and start
+    this Testing account as a new customer.
+  */
+
+  const factoryResetState =
+    getActiveAccountMode() === "testing"
+      ? localStorage.getItem(
+          getFactoryResetStateKey(
+            user.uid
+          )
+        )
+      : "";
+
+  if(
+    factoryResetState === "fresh"
+  ){
+
+    freeConsultationUsed =
+      false;
+
+    consultationStatusChecked =
+      true;
+
+    updateConsultationUI();
+
+    return;
+
+  }
+
+
+  const freeRef =
+    doc(
+      db,
+      "freeConsultations",
+      user.uid
+    );
 
     const snapshot =
       await getDoc(
@@ -3151,20 +3232,30 @@ onAuthStateChanged(
       */
 
       const paidKey =
-        getCashfreePaidKey(
+  getCashfreePaidKey(
+    user.uid
+  );
+
+const factoryResetState =
+  getActiveAccountMode() === "testing"
+    ? localStorage.getItem(
+        getFactoryResetStateKey(
           user.uid
-        );
+        )
+      )
+    : "";
 
-      const previouslyPaid =
-        localStorage.getItem(
-          paidKey
-        ) === "true";
+const previouslyPaid =
+  factoryResetState !== "fresh" &&
+  localStorage.getItem(
+    paidKey
+  ) === "true";
 
-      if(previouslyPaid){
+if(previouslyPaid){
 
-        unlockPaidContent(false);
+  unlockPaidContent(false);
 
-      }
+}
 
       /*
         Restore a verified ₹499 payment from Firestore
@@ -3824,12 +3915,38 @@ async function verifyReturnedCashfreePayment(){
         "true"
       );
 
-
+      
       /*
-        Unlock everything immediately.
-      */
 
-      unlockPaidContent(Boolean(returnedOrderId));
+  Testing Factory Reset flow is now complete.
+
+*/
+
+if(
+
+  getActiveAccountMode() === "testing"
+
+){
+
+  localStorage.removeItem(
+
+    getFactoryResetStateKey(
+
+      user.uid
+
+    )
+
+  );
+
+}
+
+/*
+
+  Unlock everything immediately.
+
+*/
+
+unlockPaidContent(Boolean(returnedOrderId));
 
 
       /*
@@ -5580,14 +5697,53 @@ function(){
 
   }else{
 
-    /*
-      Free / unpaid user:
-      keep existing consultation UI.
-    */
+  /*
+    Free / unpaid user:
+    hide any previously unlocked advisory content.
+  */
 
-    updateConsultationUI();
+  const paidContent =
+    document.getElementById(
+      "paidContent"
+    );
+
+  if(paidContent){
+
+    paidContent.style.display =
+      "none";
 
   }
+
+
+  const paidConsultationSection =
+    document.getElementById(
+      "paidConsultationSection"
+    );
+
+  if(paidConsultationSection){
+
+    paidConsultationSection.style.display =
+      "block";
+
+  }
+
+
+  const lockedMessage =
+    document.getElementById(
+      "lockedMessage"
+    );
+
+  if(lockedMessage){
+
+    lockedMessage.style.display =
+      "block";
+
+  }
+
+
+  updateConsultationUI();
+
+}
 
 
   /*
@@ -5783,6 +5939,45 @@ async function saveFreeConsultationAndContinue(){
     await batch.commit();
 
     await trackAppEvent("consultation_submitted");
+
+
+    /*
+
+  Testing Factory Reset flow has now
+
+  completed its free consultation.
+
+*/
+
+if(
+
+  getActiveAccountMode() === "testing" &&
+
+  localStorage.getItem(
+
+    getFactoryResetStateKey(
+
+      user.uid
+
+    )
+
+  ) === "fresh"
+
+){
+
+  localStorage.setItem(
+
+    getFactoryResetStateKey(
+
+      user.uid
+
+    ),
+
+    "free_used"
+
+  );
+
+}
     
     freeConsultationUsed =
       true;
