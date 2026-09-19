@@ -2391,11 +2391,7 @@ function updateAccountModeUI(user){
 
   /* Only 9992871096 can see this UI */
 
-  if(
-  normalizeAccountPhone(
-    user?.phoneNumber
-  ) !== TESTING_PHONE
-){
+  if(!isTestingAccountAllowed(user)){
 
   box.style.display =
     "none";
