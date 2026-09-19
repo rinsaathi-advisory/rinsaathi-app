@@ -876,25 +876,6 @@ body{
 
   </button>
 
-        <button
-      id="factoryResetBtn"
-      class="btn"
-      type="button"
-      onclick="window.factoryDataReset()"
-      style="
-        display:none;
-        margin-top:10px;
-        background:#fff;
-        color:#b3261e;
-        border:1px solid #e2b8b5;
-      ">
-
-      🔄 Factory Data Reset
-
-    </button>
-
-</div>
-      
 </div>
   
   <div
@@ -920,9 +901,7 @@ body{
   </div>
 
 
-    <div
-    id="consultationOptionsSection"
-    class="section">
+  <div class="section">
 
     <div class="title">
       How can we help you?
@@ -1506,26 +1485,6 @@ const verifyCashfreePayment =
     "verifyCashfreePayment"
   );
 
-
-  /* FACTORY DATA RESET FUNCTION
-
-   Backend function will be connected later.
-
-   No reset is executed from this code yet.
-
-*/
-
-const factoryDataResetCallable =
-
-  httpsCallable(
-
-    functions,
-
-    "factoryDataReset"
-
-  );
-
-  
 const cashfree =
   Cashfree({
     mode:"production"
@@ -1566,12 +1525,6 @@ function getCashfreeOrderKey(uid){
 function getCashfreePaidKey(uid){
 
   return "rinsaathi_cashfree_paid_" + uid;
-
-}
-
-function getCashfreeOrderCreatedKey(uid){
-
-  return "rinsaathi_cashfree_order_created_at_" + uid;
 
 }
 
@@ -1673,59 +1626,6 @@ function(){
 
 };
 
-
- /* FACTORY RESET STATE */
-
-async function getFactoryResetAt(user){
-
-  if(!user){
-    return null;
-  }
-
-  try{
-
-    const resetRef =
-      doc(
-        db,
-        "factoryResetState",
-        user.uid
-      );
-
-    const snapshot =
-      await getDoc(resetRef);
-
-    if(!snapshot.exists()){
-      return null;
-    }
-
-    const data =
-      snapshot.data();
-
-    const environment =
-      getActiveAccountMode();
-
-    const resetData =
-      data?.[environment];
-
-    if(!resetData?.active){
-      return null;
-    }
-
-    return resetData.resetAt || null;
-
-  }catch(error){
-
-    console.error(
-      "FACTORY RESET STATE ERROR:",
-      error
-    );
-
-    return null;
-
-  }
-
-}
-
   
 /* RESTORE VERIFIED PAYMENT FROM FIRESTORE */
 
@@ -1740,9 +1640,6 @@ async function restoreVerifiedPayment(){
 
   try{
 
-    const resetAt =
-      await getFactoryResetAt(user);
-
     const paymentRef =
       doc(
         db,
@@ -1755,61 +1652,21 @@ async function restoreVerifiedPayment(){
         paymentRef
       );
 
-    if(!snapshot.exists()){
-      return;
-    }
+    if(snapshot.exists()){
 
-    const paymentData =
-      snapshot.data();
-
-    if(
-      paymentData.status !== "PAID" ||
-      paymentData.verified !== true
-    ){
-
-      return;
-
-    }
-
-    const verifiedAt =
-      paymentData.verifiedAt || null;
-
-    /*
-      After Factory Reset, an old payment must
-      NEVER restore consultation access.
-
-      If a reset exists, a valid post-reset
-      verifiedAt is mandatory.
-    */
-
-    if(resetAt){
-
-      if(!verifiedAt){
-        return;
-      }
-
-      const verifiedTime =
-        typeof verifiedAt.toDate ===
-        "function"
-          ? verifiedAt.toDate().getTime()
-          : new Date(verifiedAt).getTime();
-
-      const resetTime =
-        new Date(resetAt).getTime();
+      const paymentData =
+        snapshot.data();
 
       if(
-        !Number.isFinite(verifiedTime) ||
-        !Number.isFinite(resetTime) ||
-        verifiedTime <= resetTime
+        paymentData.status === "PAID" &&
+        paymentData.verified === true
       ){
 
-        return;
+        unlockPaidContent(false);
 
       }
 
     }
-
-    unlockPaidContent(false);
 
   }catch(error){
 
@@ -1817,6 +1674,11 @@ async function restoreVerifiedPayment(){
       "PAYMENT RESTORE ERROR:",
       error
     );
+
+    /*
+      Do not change the existing free-consultation
+      behaviour if payment-state reading fails.
+    */
 
   }
 
@@ -2394,49 +2256,26 @@ function updateAccountModeUI(user){
     );
 
   const button =
-  document.getElementById(
-    "accountModeSwitchBtn"
-  );
-
-const factoryResetBtn =
-  document.getElementById(
-    "factoryResetBtn"
-  );
+    document.getElementById(
+      "accountModeSwitchBtn"
+    );
 
 
-if(!box){
-  return;
-}
+  if(!box){
+    return;
+  }
 
 
-/* Factory Reset is only for 9992871096 */
+  /* Only 9992871096 can see this UI */
 
-if(factoryResetBtn){
+  if(!isTestingAccountAllowed(user)){
 
-  factoryResetBtn.style.display =
-    "none";
+    box.style.display =
+      "none";
 
-}
+    return;
 
-
-/* Only 9992871096 can see this UI */
-
-if(!isTestingAccountAllowed(user)){
-
-  box.style.display =
-    "none";
-
-  return;
-
-}
-
-
-if(factoryResetBtn){
-
-  factoryResetBtn.style.display =
-    "block";
-
-}
+  }
 
 
   box.style.display =
@@ -2473,220 +2312,6 @@ if(factoryResetBtn){
 
 }
 
-
-  /* FACTORY DATA RESET — BACKEND WILL BE CONNECTED LATER */
-
-window.factoryDataReset =
-
-async function(){
-
-  const user =
-
-    auth.currentUser;
-
-  /* No logged-in user */
-
-  if(!user){
-
-    alert(
-
-      "Please login first."
-
-    );
-
-    return;
-
-  }
-
-  /* Only 9992871096 is allowed */
-
-  if(!isTestingAccountAllowed(user)){
-
-    alert(
-
-      "Factory Data Reset is not available for this account."
-
-    );
-
-    return;
-
-  }
-
-  const mode =
-
-    getActiveAccountMode();
-
-  const modeName =
-
-    mode === "testing"
-
-      ? "Testing"
-
-      : "Production";
-
-   
-  const confirmed =
-
-    confirm(
-
-      "⚠️ FACTORY DATA RESET\n\n" +
-
-      "Environment: " +
-
-      modeName +
-
-      "\n\n" +
-
-      "This will reset ONLY your test account's " +
-
-      "customer-side consultation and access state.\n\n" +
-
-      "Admin data, existing leads, payments, " +
-
-      "consultation records and analytics will NOT be deleted.\n\n" +
-
-      "Do you want to continue?"
-
-    );
-
-  if(!confirmed){
-
-  return;
-
-}
-
-try{
-
-  /*
-    Secure backend reset.
-    This does NOT delete historical data.
-  */
-
-  const result =
-    await factoryDataResetCallable({
-      environment: mode
-    });
-
-  const data =
-    result?.data;
-
-  if(!data?.success){
-
-    throw new Error(
-      "Factory Reset was not completed by the server."
-    );
-
-  }
-
-  /*
-    RESET CURRENT APP STATE ONLY
-    --------------------------------
-    Firebase Auth session stays active.
-    No signOut().
-    No OTP.
-    No re-login.
-  */
-
-  consultationPaid =
-    false;
-
-  freeConsultationUsed =
-    false;
-
-  consultationStatusChecked =
-    false;
-
-  currentService =
-    "";
-
-  currentAdvisoryPlan =
-    "";
-
-  /*
-    Remove only customer-side local access state.
-    Historical Firestore records are untouched.
-  */
-
-  localStorage.removeItem(
-    getCashfreePaidKey(
-      user.uid
-    )
-  );
-
-  localStorage.removeItem(
-    getCashfreeOrderKey(
-      user.uid
-    )
-  );
-
-  localStorage.removeItem(
-  getCashfreeOrderCreatedKey(
-    user.uid
-  )
-);
-  
-  localStorage.removeItem(
-    getAdvisoryPaidKey(
-      user.uid
-    )
-  );
-
-  localStorage.removeItem(
-    getAdvisoryPlanKey(
-      user.uid
-    )
-  );
-
-  localStorage.removeItem(
-    getAdvisoryOrderKey(
-      user.uid
-    )
-  );
-
-  /*
-    Bring the currently logged-in app
-    back to the normal customer home state.
-  */
-
-    await checkFreeConsultationStatus();
-
-  goHome();
-
-  alert(
-    "✅ Factory Data Reset Completed.\n\n" +
-
-    "Environment: " +
-    modeName +
-
-    "\n\n" +
-
-    "Your app has been reset to the " +
-    "\"First Consultation Free\" state.\n\n" +
-
-    "You are still logged in.\n" +
-    "No OTP or re-login is required.\n\n" +
-
-    "Existing Admin data, Leads, Payments, " +
-    "Consultation records and Analytics were not deleted."
-  );
-
-}catch(error){
-
-  console.error(
-    "FACTORY RESET ERROR:",
-    error
-  );
-
-  alert(
-    "Factory Data Reset failed.\n\n" +
-    (error?.message ||
-      "Please try again.")
-  );
-
-}
-
-};
-
   
 /* CHECK ONE-TIME FREE CONSULTATION */
 
@@ -2696,7 +2321,9 @@ async function checkFreeConsultationStatus(){
     auth.currentUser;
 
   if(!user){
+
     return;
+
   }
 
   consultationStatusChecked =
@@ -2714,9 +2341,6 @@ async function checkFreeConsultationStatus(){
 
   try{
 
-    const resetAt =
-      await getFactoryResetAt(user);
-
     const freeRef =
       doc(
         db,
@@ -2729,78 +2353,15 @@ async function checkFreeConsultationStatus(){
         freeRef
       );
 
-    if(!snapshot.exists()){
+    if(snapshot.exists()){
 
       freeConsultationUsed =
-        false;
+        true;
 
     }else{
 
-      const freeData =
-        snapshot.data();
-
-      const createdAt =
-        freeData?.createdAt;
-
-      /*
-        If the free consultation record
-        was created BEFORE or AT the Factory Reset,
-        treat it as old historical state.
-
-        Therefore the user gets a fresh
-        First Consultation Free state.
-      */
-
-      if(
-        resetAt &&
-        createdAt
-      ){
-
-        let createdTime = null;
-
-        if(
-          typeof createdAt.toDate ===
-          "function"
-        ){
-
-          createdTime =
-            createdAt.toDate();
-
-        }else{
-
-          createdTime =
-            new Date(createdAt);
-
-        }
-
-        const resetTime =
-          new Date(resetAt);
-
-        freeConsultationUsed =
-          createdTime.getTime()
-            > resetTime.getTime();
-
-      }else if(resetAt){
-
-        /*
-          Reset exists but old record has
-          no usable timestamp.
-          Treat it as pre-reset state.
-        */
-
-        freeConsultationUsed =
-          false;
-
-      }else{
-
-        /*
-          Normal existing behaviour.
-        */
-
-        freeConsultationUsed =
-          true;
-
-      }
+      freeConsultationUsed =
+        false;
 
     }
 
@@ -2843,8 +2404,6 @@ async function checkFreeConsultationStatus(){
 
 /* UPDATE UI */
 
-/* UPDATE UI */
-
 function updateConsultationUI(){
 
   const title =
@@ -2877,26 +2436,6 @@ function updateConsultationUI(){
       "paidPriceArea"
     );
 
-  const consultationOptionsSection =
-    document.getElementById(
-      "consultationOptionsSection"
-    );
-
-  const paidConsultationSection =
-    document.getElementById(
-      "paidConsultationSection"
-    );
-
-  const lockedMessage =
-    document.getElementById(
-      "lockedMessage"
-    );
-
-  const paidContent =
-    document.getElementById(
-      "paidContent"
-    );
-
 
   if(!consultationStatusChecked){
 
@@ -2906,64 +2445,12 @@ function updateConsultationUI(){
 
 
   /*
-    =====================================================
-    STATE 1 — ₹499 PAYMENT VERIFIED
-    =====================================================
+    IMPORTANT:
+    A successfully verified ₹499 payment
+    always takes priority over free-consultation status.
   */
 
   if(consultationPaid === true){
-
-    /*
-      Six consultation options:
-      SHOW
-    */
-
-    if(consultationOptionsSection){
-
-      consultationOptionsSection.style.display =
-        "block";
-
-    }
-
-
-    /*
-      ₹499 payment section:
-      HIDE
-    */
-
-    if(paidConsultationSection){
-
-      paidConsultationSection.style.display =
-        "none";
-
-    }
-
-
-    /*
-      Locked message:
-      HIDE
-    */
-
-    if(lockedMessage){
-
-      lockedMessage.style.display =
-        "none";
-
-    }
-
-
-    /*
-      Advisory Plans:
-      SHOW
-    */
-
-    if(paidContent){
-
-      paidContent.style.display =
-        "block";
-
-    }
-
 
     if(title){
 
@@ -2978,7 +2465,7 @@ function updateConsultationUI(){
     if(text){
 
       text.innerText =
-        "Your amount has been received. Now you can access your consultation and Advisory Plans.";
+        "Your amount has been received. Now you can access all the benefits of your paid consultation.";
 
     }
 
@@ -3007,7 +2494,7 @@ function updateConsultationUI(){
     if(button){
 
       button.innerText =
-        "Consultation Unlocked";
+        "Get Paid Consultation";
 
     }
 
@@ -3016,65 +2503,7 @@ function updateConsultationUI(){
   }
 
 
-  /*
-    =====================================================
-    STATE 2 — FREE CONSULTATION ALREADY USED
-    =====================================================
-  */
-
   if(freeConsultationUsed){
-
-    /*
-      Six consultation options:
-      HIDE
-    */
-
-    if(consultationOptionsSection){
-
-      consultationOptionsSection.style.display =
-        "none";
-
-    }
-
-
-    /*
-      Advisory Plans:
-      HIDE
-    */
-
-    if(paidContent){
-
-      paidContent.style.display =
-        "none";
-
-    }
-
-
-    /*
-      ₹499 payment section:
-      SHOW
-    */
-
-    if(paidConsultationSection){
-
-      paidConsultationSection.style.display =
-        "block";
-
-    }
-
-
-    /*
-      Locked message:
-      SHOW
-    */
-
-    if(lockedMessage){
-
-      lockedMessage.style.display =
-        "block";
-
-    }
-
 
     if(title){
 
@@ -3122,112 +2551,53 @@ function updateConsultationUI(){
 
     }
 
-    return;
+  }else{
 
-  }
+    if(title){
 
+      title.innerText =
+        "✓ FIRST CONSULTATION FREE";
 
-  /*
-    =====================================================
-    STATE 3 — FIRST CONSULTATION FREE
-    =====================================================
-  */
+      title.className =
+        "firstInquiryBadge";
 
-  /*
-    Six consultation options:
-    SHOW
-  */
+    }
 
-  if(consultationOptionsSection){
+    if(text){
 
-    consultationOptionsSection.style.display =
-      "block";
+      text.innerText =
+        "Your first consultation is completely free. Select any of the options below and share your situation.";
 
-  }
+    }
 
+    if(offerBadge){
 
-  /*
-    Advisory Plans:
-    HIDE
-  */
+      offerBadge.innerText =
+        "FREE FIRST CONSULTATION";
 
-  if(paidContent){
+    }
 
-    paidContent.style.display =
-      "none";
+    if(offerDescription){
 
-  }
+      offerDescription.innerText =
+        "Your first consultation is completely free. Share your situation and receive practical guidance.";
 
+    }
 
-  /*
-    ₹499 payment section:
-    SHOW
-  */
+    if(paidPriceArea){
 
-  if(paidConsultationSection){
+      paidPriceArea.classList.add(
+        "hidden"
+      );
 
-    paidConsultationSection.style.display =
-      "block";
+    }
 
-  }
+    if(button){
 
+      button.innerText =
+        "Start Free Consultation";
 
-  /*
-    Locked message:
-    HIDE
-  */
-
-  if(lockedMessage){
-
-    lockedMessage.style.display =
-      "none";
-
-  }
-
-
-  if(title){
-
-    title.innerText =
-      "✓ FIRST CONSULTATION FREE";
-
-    title.className =
-      "firstInquiryBadge";
-
-  }
-
-  if(text){
-
-    text.innerText =
-      "Your first consultation is completely free. Select any of the options below and share your situation.";
-
-  }
-
-  if(offerBadge){
-
-    offerBadge.innerText =
-      "FREE FIRST CONSULTATION";
-
-  }
-
-  if(offerDescription){
-
-    offerDescription.innerText =
-      "Your first consultation is completely free. Share your situation and receive practical guidance.";
-
-  }
-
-  if(paidPriceArea){
-
-    paidPriceArea.classList.add(
-      "hidden"
-    );
-
-  }
-
-  if(button){
-
-    button.innerText =
-      "Start Free Consultation";
+    }
 
   }
 
@@ -3525,7 +2895,30 @@ onAuthStateChanged(
 
   loadAccountMode(user);
   updateAccountModeUI(user);
-  
+
+      
+      /*
+        IMPORTANT:
+        First check whether this exact Firebase user
+        already has a previously verified Cashfree payment
+        saved on this device.
+      */
+
+      const paidKey =
+        getCashfreePaidKey(
+          user.uid
+        );
+
+      const previouslyPaid =
+        localStorage.getItem(
+          paidKey
+        ) === "true";
+
+      if(previouslyPaid){
+
+        unlockPaidContent(false);
+
+      }
 
       /*
         Restore a verified ₹499 payment from Firestore
@@ -3802,21 +3195,14 @@ async function startConsultationPayment(){
 
     if(orderId){
 
-  localStorage.setItem(
-    getCashfreeOrderKey(
-      user.uid
-    ),
-    String(orderId)
-  );
+      localStorage.setItem(
+        getCashfreeOrderKey(
+          user.uid
+        ),
+        String(orderId)
+      );
 
-  localStorage.setItem(
-    getCashfreeOrderCreatedKey(
-      user.uid
-    ),
-    new Date().toISOString()
-  );
-
-}
+    }
 
     if(status){
 
@@ -3884,61 +3270,16 @@ async function verifyReturnedCashfreePayment(){
       window.location.search
     );
 
-    const returnedOrderId =
+  const returnedOrderId =
     params.get("order_id") ||
     params.get("orderId");
 
-  const resetAt =
-    await getFactoryResetAt(user);
-
-  const pendingOrderCreatedAt =
+  const savedOrderId =
     localStorage.getItem(
-      getCashfreeOrderCreatedKey(
+      getCashfreeOrderKey(
         user.uid
       )
     );
-
-  const savedOrderId =
-    resetAt
-      ? null
-      : localStorage.getItem(
-          getCashfreeOrderKey(
-            user.uid
-          )
-        );
-
-  /*
-    A returned Cashfree order is accepted after
-    Factory Reset only when THIS DEVICE created
-    that order after the reset.
-
-    This prevents an old/stale payment return URL
-    from restoring access after a reset.
-  */
-
-  if(returnedOrderId && resetAt){
-
-    const orderCreatedTime =
-      pendingOrderCreatedAt
-        ? new Date(
-            pendingOrderCreatedAt
-          ).getTime()
-        : NaN;
-
-    const resetTime =
-      new Date(resetAt).getTime();
-
-    if(
-      !Number.isFinite(orderCreatedTime) ||
-      !Number.isFinite(resetTime) ||
-      orderCreatedTime <= resetTime
-    ){
-
-      return;
-
-    }
-
-  }
 
   const orderId =
     returnedOrderId ||
@@ -3946,25 +3287,34 @@ async function verifyReturnedCashfreePayment(){
 
   if(!orderId){
 
-  /*
-    No Cashfree return order is available.
-    Any valid paid state has already been handled
-    by restoreVerifiedPayment().
-  */
+    /*
+      No new Cashfree return order.
+      If this exact user was already paid,
+      restore the paid UI from the saved state.
+    */
 
-  if(consultationPaid === true){
+    if(
+      consultationPaid === true ||
+      localStorage.getItem(
+        getCashfreePaidKey(
+          user.uid
+        )
+      ) === "true"
+    ){
 
-    if(consultationStatusChecked){
+      unlockPaidContent(false);
 
-      updateConsultationUI();
+      if(consultationStatusChecked){
+
+        updateConsultationUI();
+
+      }
 
     }
 
+    return;
+
   }
-
-  return;
-
-}
 
   const status =
     document.getElementById(
@@ -4264,15 +3614,24 @@ async function verifyReturnedCashfreePayment(){
         as paid earlier, keep everything unlocked.
       */
 
-      if(consultationPaid === true){
+      if(
+        consultationPaid === true ||
+        localStorage.getItem(
+          getCashfreePaidKey(
+            user.uid
+          )
+        ) === "true"
+      ){
 
-  if(consultationStatusChecked){
+        unlockPaidContent(false);
 
-    updateConsultationUI();
+        if(consultationStatusChecked){
 
-  }
+          updateConsultationUI();
 
-}else{
+        }
+
+      }else{
 
         if(status){
 
@@ -4304,15 +3663,28 @@ async function verifyReturnedCashfreePayment(){
       because of a temporary verification error.
     */
 
-    if(consultationPaid === true){
+    const previouslyPaid =
+      localStorage.getItem(
+        getCashfreePaidKey(
+          user.uid
+        )
+      ) === "true";
 
-  if(consultationStatusChecked){
 
-    updateConsultationUI();
+    if(
+      consultationPaid === true ||
+      previouslyPaid
+    ){
 
-  }
+      unlockPaidContent(false);
 
-}else{
+      if(consultationStatusChecked){
+
+        updateConsultationUI();
+
+      }
+
+    }else{
 
       if(status){
 
@@ -4361,20 +3733,45 @@ async function verifyReturnedCashfreePayment(){
 function requireConsultationPayment(){
 
   /*
-    Paid access is granted only by the live state.
-    restoreVerifiedPayment() and successful Cashfree
-    verification are responsible for setting this state.
-
-    Do NOT restore access directly from localStorage.
-    Factory Reset intentionally removes customer-side
-    local access state.
+    First check the live state.
   */
 
-  if(consultationPaid === true){
+  if(
+    consultationPaid === true
+  ){
 
     return true;
 
   }
+
+
+  /*
+    Also check the saved verified state
+    for this exact Firebase user.
+  */
+
+  const user =
+    auth.currentUser;
+
+  if(user){
+
+    const previouslyPaid =
+      localStorage.getItem(
+        getCashfreePaidKey(
+          user.uid
+        )
+      ) === "true";
+
+    if(previouslyPaid){
+
+      unlockPaidContent(false);
+
+      return true;
+
+    }
+
+  }
+
 
   alert(
     "Please complete the ₹499 consultation payment first."
