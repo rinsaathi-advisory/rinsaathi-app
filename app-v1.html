@@ -2578,7 +2578,16 @@ const factoryResetId =
         .toString(36)
 
         .slice(2);
-    
+
+
+localStorage.setItem(
+  getFactoryResetIdKey(
+    user.uid
+  ),
+  factoryResetId
+);
+
+
 localStorage.setItem(
   getFactoryResetStateKey(
     user.uid
