@@ -866,13 +866,30 @@ body{
     This is the production account.
   </div>
 
-  <button
+    <button
     id="accountModeSwitchBtn"
     class="btn"
     type="button"
     onclick="window.toggleAccountMode()">
 
     Switch to Testing Account
+
+  </button>
+
+  <button
+    id="factoryResetBtn"
+    class="btn"
+    type="button"
+    onclick="window.factoryDataReset()"
+    style="
+      display:none;
+      margin-top:10px;
+      background:#fff;
+      color:#b3261e;
+      border:1px solid #e2b8b5;
+    ">
+
+    🔄 Factory Data Reset
 
   </button>
 
@@ -1485,6 +1502,19 @@ const verifyCashfreePayment =
     "verifyCashfreePayment"
   );
 
+
+  /* FACTORY DATA RESET */
+
+const factoryDataResetCallable =
+
+  httpsCallable(
+
+    functions,
+
+    "factoryDataReset"
+
+  );
+  
 const cashfree =
   Cashfree({
     mode:"production"
@@ -2260,6 +2290,11 @@ function updateAccountModeUI(user){
       "accountModeSwitchBtn"
     );
 
+  const factoryResetBtn =
+    document.getElementById(
+      "factoryResetBtn"
+    );
+
 
   if(!box){
     return;
@@ -2297,6 +2332,16 @@ function updateAccountModeUI(user){
     button.innerText =
       "Switch to Production Account";
 
+
+    /* Factory Reset ONLY in Testing Mode */
+
+    if(factoryResetBtn){
+
+      factoryResetBtn.style.display =
+        "block";
+
+    }
+
   }else{
 
     title.innerText =
@@ -2308,9 +2353,210 @@ function updateAccountModeUI(user){
     button.innerText =
       "Switch to Testing Account";
 
+
+    /* Factory Reset NEVER in Production */
+
+    if(factoryResetBtn){
+
+      factoryResetBtn.style.display =
+        "none";
+
+    }
+
   }
 
 }
+
+
+  /* FACTORY DATA RESET */
+
+window.factoryDataReset =
+async function(){
+
+  const user =
+    auth.currentUser;
+
+
+  if(!user){
+
+    alert(
+      "Please login first."
+    );
+
+    return;
+
+  }
+
+
+  /* Only authorized testing account */
+
+  if(!isTestingAccountAllowed(user)){
+
+    alert(
+      "Factory Data Reset is not available for this account."
+    );
+
+    return;
+
+  }
+
+
+  /* Reset is allowed ONLY in Testing Mode */
+
+  const mode =
+    getActiveAccountMode();
+
+
+  if(mode !== "testing"){
+
+    alert(
+      "Factory Data Reset is available only in Testing Mode."
+    );
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      "⚠️ Factory Data Reset\n\n" +
+
+      "This will reset the current Testing Account " +
+      "back to the First Consultation Free state.\n\n" +
+
+      "Only Testing environment state will be reset.\n" +
+
+      "Production environment will not be affected.\n\n" +
+
+      "Existing Admin data, Leads, Payments and Analytics " +
+      "will not be deleted.\n\n" +
+
+      "Do you want to continue?"
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  try{
+
+    /*
+      Secure backend reset.
+      Environment is explicitly Testing.
+    */
+
+    const result =
+      await factoryDataResetCallable({
+
+        environment:
+          "testing"
+
+      });
+
+
+    const data =
+      result?.data;
+
+
+    if(!data?.success){
+
+      throw new Error(
+        "Factory Reset was not completed by the server."
+      );
+
+    }
+
+
+    /*
+      Reset current app state only.
+      Firebase Auth session remains active.
+    */
+
+    consultationPaid =
+      false;
+
+    freeConsultationUsed =
+      false;
+
+    consultationStatusChecked =
+      false;
+
+    currentService =
+      "";
+
+    currentAdvisoryPlan =
+      "";
+
+
+    /*
+      Remove only this user's
+      customer-side local payment state.
+    */
+
+    localStorage.removeItem(
+      getCashfreePaidKey(
+        user.uid
+      )
+    );
+
+    localStorage.removeItem(
+      getCashfreeOrderKey(
+        user.uid
+      )
+    );
+
+
+    /*
+      Re-check Testing consultation state
+      from Firebase after reset.
+    */
+
+    await checkFreeConsultationStatus();
+
+
+    goHome();
+
+
+    alert(
+      "✅ Factory Data Reset Completed.\n\n" +
+
+      "Environment: Testing Server\n\n" +
+
+      "Your app has been reset to the " +
+      "\"First Consultation Free\" state.\n\n" +
+
+      "You are still logged in.\n" +
+
+      "No OTP or re-login is required.\n\n" +
+
+      "Production environment was not reset."
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "FACTORY RESET ERROR:",
+      error
+    );
+
+
+    alert(
+      "Factory Data Reset failed.\n\n" +
+      (
+        error?.message ||
+        "Please try again."
+      )
+    );
+
+  }
+
+};
 
   
 /* CHECK ONE-TIME FREE CONSULTATION */
