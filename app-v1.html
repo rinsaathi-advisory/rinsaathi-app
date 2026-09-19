@@ -4043,17 +4043,11 @@ if(
     */
 
     const isPaid =
-      (
-        hasSuccessfulStatus
-      ) ||
-      (
-        hasPaidFlag
-      ) ||
-      (
-        hasVerifiedFlag &&
-        hasPaidFlag
-      );
-
+  rawData.success === true &&
+  rawData.paid === true &&
+  String(
+    rawData.status || ""
+  ).toUpperCase() === "PAID";
 
     console.log(
       "CASHFREE STATUS VALUES:",
