@@ -1570,6 +1570,55 @@ function getFactoryResetStateKey(uid){
 
 }
 
+
+/* PERSISTENT TESTING STATE */
+
+async function getTestingState(user){
+
+  if(
+    !user ||
+    getActiveAccountMode() !== "testing"
+  ){
+
+    return null;
+
+  }
+
+  try{
+
+    const testingRef =
+      doc(
+        db,
+        "testingState",
+        user.uid
+      );
+
+    const snapshot =
+      await getDoc(
+        testingRef
+      );
+
+    if(!snapshot.exists()){
+
+      return null;
+
+    }
+
+    return snapshot.data();
+
+  }catch(error){
+
+    console.error(
+      "TESTING STATE READ ERROR:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
   
   /* TESTING ACCOUNT MODE */
 
@@ -2595,6 +2644,36 @@ localStorage.setItem(
   "fresh"
 );
 
+
+/* PERSIST TESTING RESET STATE */
+
+await setDoc(
+  doc(
+    db,
+    "testingState",
+    user.uid
+  ),
+  {
+    uid:
+      user.uid,
+
+    state:
+      "fresh",
+
+    resetId:
+      factoryResetId,
+
+    pendingOrderId:
+      "",
+
+    updatedAt:
+      serverTimestamp()
+  },
+  {
+    merge:true
+  }
+);
+
     
     /*
       Re-check Testing consultation state
@@ -3290,12 +3369,21 @@ onAuthStateChanged(
     user.uid
   );
 
+const testingState =
+  getActiveAccountMode() === "testing"
+    ? await getTestingState(user)
+    : null;
+
 const factoryResetState =
   getActiveAccountMode() === "testing"
-    ? localStorage.getItem(
-        getFactoryResetStateKey(
-          user.uid
-        )
+    ? (
+        testingState?.state ||
+        localStorage.getItem(
+          getFactoryResetStateKey(
+            user.uid
+          )
+        ) ||
+        ""
       )
     : "";
 
@@ -3666,17 +3754,48 @@ async function verifyReturnedCashfreePayment(){
     params.get("order_id") ||
     params.get("orderId");
 
-  const savedOrderId =
-    localStorage.getItem(
-      getCashfreeOrderKey(
-        user.uid
-      )
-    );
+  const testingState =
+  getActiveAccountMode() === "testing"
+    ? await getTestingState(user)
+    : null;
 
-  const orderId =
-    returnedOrderId ||
-    savedOrderId;
 
+/*
+  Testing mode NEVER uses the Production
+  Cashfree order saved in localStorage.
+*/
+
+const savedOrderId =
+  getActiveAccountMode() === "testing"
+    ? null
+    : localStorage.getItem(
+        getCashfreeOrderKey(
+          user.uid
+        )
+      );
+
+const orderId =
+  returnedOrderId ||
+  savedOrderId;
+
+  if(
+  getActiveAccountMode() === "testing" &&
+  testingState?.state === "fresh"
+){
+
+  return;
+
+}
+
+if(
+  getActiveAccountMode() === "testing" &&
+  testingState?.state === "free_used"
+){
+
+  return;
+
+}
+  
   if(!orderId){
 
     /*
@@ -5926,21 +6045,34 @@ async function saveFreeConsultationAndContinue(){
     );
 
 
-  const factoryResetState =
+  const testingState =
   getActiveAccountMode() === "testing"
-    ? localStorage.getItem(
-        getFactoryResetStateKey(
-          user.uid
-        )
+    ? await getTestingState(user)
+    : null;
+
+const factoryResetState =
+  getActiveAccountMode() === "testing"
+    ? (
+        testingState?.state ||
+        localStorage.getItem(
+          getFactoryResetStateKey(
+            user.uid
+          )
+        ) ||
+        ""
       )
     : "";
 
 const factoryResetId =
   getActiveAccountMode() === "testing"
-    ? localStorage.getItem(
-        getFactoryResetIdKey(
-          user.uid
-        )
+    ? (
+        testingState?.resetId ||
+        localStorage.getItem(
+          getFactoryResetIdKey(
+            user.uid
+          )
+        ) ||
+        ""
       )
     : "";
 
@@ -6046,17 +6178,7 @@ const freeRef =
 
 if(
 
-  getActiveAccountMode() === "testing" &&
-
-  localStorage.getItem(
-
-    getFactoryResetStateKey(
-
-      user.uid
-
-    )
-
-  ) === "fresh"
+  getActiveAccountMode() === "testing"
 
 ){
 
@@ -6069,6 +6191,39 @@ if(
     ),
 
     "free_used"
+
+  );
+
+
+  await setDoc(
+
+    doc(
+      db,
+      "testingState",
+      user.uid
+    ),
+
+    {
+      uid:
+        user.uid,
+
+      state:
+        "free_used",
+
+      resetId:
+        factoryResetId || "",
+
+      pendingOrderId:
+        "",
+
+      updatedAt:
+        serverTimestamp()
+
+    },
+
+    {
+      merge:true
+    }
 
   );
 
