@@ -3929,6 +3929,17 @@ async function verifyReturnedAdvisoryPayment(
       "true"
     );
 
+localStorage.removeItem(
+
+  getAdvisoryPendingKey(
+
+    user.uid
+
+  )
+
+);
+
+    
     /*
       Save the verified advisory order ID.
     */
@@ -3997,33 +4008,50 @@ async function verifyReturnedCashfreePayment(){
   */
 
   const savedAdvisoryOrderId =
-    localStorage.getItem(
-      getAdvisoryOrderKey(
-        user.uid
-      )
-    );
+  localStorage.getItem(
+    getAdvisoryOrderKey(
+      user.uid
+    )
+  );
 
-  if(
+const advisoryPending =
+  localStorage.getItem(
+    getAdvisoryPendingKey(
+      user.uid
+    )
+  ) === "true";
+
+const advisoryOrderToVerify =
+  (
     returnedOrderId &&
     savedAdvisoryOrderId &&
     String(returnedOrderId) ===
     String(savedAdvisoryOrderId)
-  ){
+  )
+    ? returnedOrderId
+    : (
+        advisoryPending &&
+        savedAdvisoryOrderId
+      )
+        ? savedAdvisoryOrderId
+        : null;
 
-    await verifyReturnedAdvisoryPayment(
-      returnedOrderId,
-      user
-    );
+if(advisoryOrderToVerify){
 
-    window.history.replaceState(
-      {},
-      document.title,
-      window.location.pathname
-    );
+  await verifyReturnedAdvisoryPayment(
+    advisoryOrderToVerify,
+    user
+  );
 
-    return;
+  window.history.replaceState(
+    {},
+    document.title,
+    window.location.pathname
+  );
 
-  }
+  return;
+
+}
 
   const testingState =
   getActiveAccountMode() === "testing"
@@ -4835,6 +4863,16 @@ function getAdvisoryOrderKey(uid){
 }
 
 
+  function getAdvisoryPendingKey(uid){
+
+  return "rinsaathi_advisory_pending_" +
+    getActiveAccountMode() +
+    "_" +
+    uid;
+
+}
+
+  
 function getAdvisoryPlanKey(uid){
 
   return "rinsaathi_advisory_plan_" +
@@ -5251,17 +5289,27 @@ async function(){
 
     if(orderId){
 
-      localStorage.setItem(
+  localStorage.setItem(
 
-        getAdvisoryOrderKey(
-          user.uid
-        ),
+    getAdvisoryOrderKey(
+      user.uid
+    ),
 
-        String(orderId)
+    String(orderId)
 
-      );
+  );
 
-    }
+  localStorage.setItem(
+
+    getAdvisoryPendingKey(
+      user.uid
+    ),
+
+    "true"
+
+  );
+
+}
 
 
     if(button){
