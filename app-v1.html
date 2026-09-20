@@ -1108,8 +1108,49 @@ body{
   id="paidContent"
   class="section">
 
-  <div class="unlockedTitle">
+    <div class="unlockedTitle">
     ✓ Consultation & Advisory Plans Unlocked
+  </div>
+
+  <div
+    id="advisoryEnrollmentStatus"
+    class="package"
+    style="
+      display:none;
+      margin-top:14px;
+      border:1px solid #d8b45f;
+      background:#fffaf0;
+    ">
+
+    <h3>
+      Advisory Plan Status
+    </h3>
+
+    <p
+      id="advisoryEnrollmentStatusText"
+      style="
+        margin-top:8px;
+        font-weight:700;
+        color:#16704f;
+      ">
+    </p>
+
+    <button
+      class="btn btnGold"
+      onclick="openRinSaathiChat()">
+
+      Click here to chat with us
+
+    </button>
+
+    <button
+      class="btn btnGreen"
+      onclick="window.location.href='tel:+919319301096'">
+
+      Click here to call us
+
+    </button>
+
   </div>
 
 
@@ -3802,6 +3843,132 @@ async function startConsultationPayment(){
 }
 
 
+async function verifyReturnedAdvisoryPayment(
+  orderId,
+  user
+){
+
+  if(!orderId || !user){
+
+    return;
+
+  }
+
+  try{
+
+    const result =
+      await verifyCashfreePayment({
+
+        orderId:
+          String(orderId)
+
+      });
+
+    const rawData =
+      result?.data || {};
+
+    console.log(
+      "ADVISORY CASHFREE VERIFICATION RESPONSE:",
+      rawData
+    );
+
+    /*
+      Advisory payment is accepted only when
+      the server confirms:
+      success === true
+      paid === true
+      status === PAID
+    */
+
+    const isPaid =
+      rawData.success === true &&
+      rawData.paid === true &&
+      String(
+        rawData.status || ""
+      ).toUpperCase() === "PAID";
+
+    if(!isPaid){
+
+      console.error(
+        "ADVISORY PAYMENT NOT CONFIRMED:",
+        rawData
+      );
+
+      return;
+
+    }
+
+    const planKey =
+      localStorage.getItem(
+        getAdvisoryPlanKey(
+          user.uid
+        )
+      );
+
+    if(
+      !planKey ||
+      !advisoryPlans[planKey]
+    ){
+
+      console.error(
+        "ADVISORY PLAN NOT FOUND FOR VERIFIED ORDER."
+      );
+
+      return;
+
+    }
+
+    /*
+      Save verified advisory enrollment.
+    */
+
+    localStorage.setItem(
+      getAdvisoryPaidKey(
+        user.uid
+      ),
+      "true"
+    );
+
+    /*
+      Save the verified advisory order ID.
+    */
+
+    localStorage.setItem(
+      getAdvisoryOrderKey(
+        user.uid
+      ),
+      String(orderId)
+    );
+
+    /*
+      Show the existing advisory
+      enrollment success screen.
+    */
+
+    showAdvisorySuccess(
+      planKey,
+      false
+    );
+
+    /*
+      Update Home status for this
+      exact account mode and user.
+    */
+
+    updateAdvisoryHomeStatus();
+
+  }catch(error){
+
+    console.error(
+      "ADVISORY PAYMENT VERIFICATION ERROR:",
+      error
+    );
+
+  }
+
+}
+
+  
 /* VERIFY CASHFREE RETURN PAYMENT */
 
 async function verifyReturnedCashfreePayment(){
@@ -3820,9 +3987,43 @@ async function verifyReturnedCashfreePayment(){
       window.location.search
     );
 
-  const returnedOrderId =
+    const returnedOrderId =
     params.get("order_id") ||
     params.get("orderId");
+
+  /*
+    Advisory payment return must be handled
+    separately from the ₹499 consultation payment.
+  */
+
+  const savedAdvisoryOrderId =
+    localStorage.getItem(
+      getAdvisoryOrderKey(
+        user.uid
+      )
+    );
+
+  if(
+    returnedOrderId &&
+    savedAdvisoryOrderId &&
+    String(returnedOrderId) ===
+    String(savedAdvisoryOrderId)
+  ){
+
+    await verifyReturnedAdvisoryPayment(
+      returnedOrderId,
+      user
+    );
+
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
+
+    return;
+
+  }
 
   const testingState =
   getActiveAccountMode() === "testing"
@@ -4739,7 +4940,65 @@ function showAdvisorySuccess(
 
 }
 
+function updateAdvisoryHomeStatus(){
 
+  const user =
+    auth.currentUser;
+
+  const box =
+    document.getElementById(
+      "advisoryEnrollmentStatus"
+    );
+
+  const text =
+    document.getElementById(
+      "advisoryEnrollmentStatusText"
+    );
+
+  if(!user || !box || !text){
+
+    return;
+
+  }
+
+  const paid =
+    localStorage.getItem(
+      getAdvisoryPaidKey(
+        user.uid
+      )
+    ) === "true";
+
+  const planKey =
+    localStorage.getItem(
+      getAdvisoryPlanKey(
+        user.uid
+      )
+    );
+
+  if(
+    paid &&
+    advisoryPlans[planKey]
+  ){
+
+    box.style.display =
+      "block";
+
+    text.innerText =
+      advisoryPlans[planKey].successTitle;
+
+  }else{
+
+    box.style.display =
+      "none";
+
+    text.innerText =
+      "";
+
+  }
+
+}
+
+  
 window.openAdvisoryDetails =
 function(plan){
 
@@ -5997,6 +6256,15 @@ function(){
 }
 
 
+/*
+
+    Refresh advisory enrollment status.
+
+  */
+
+  updateAdvisoryHomeStatus()
+
+  
   /*
     Scroll back to top.
   */
