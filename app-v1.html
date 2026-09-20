@@ -1122,9 +1122,9 @@ body{
       background:#fffaf0;
     ">
 
-    <h3>
-      Advisory Plan Status
-    </h3>
+    <h3 style="color:#063f32;">
+  Advisory Plan Status
+</h3>
 
     <p
       id="advisoryEnrollmentStatusText"
@@ -3558,7 +3558,9 @@ if(previouslyPaid){
 
       await verifyReturnedCashfreePayment();
 
-    }else{
+updateAdvisoryHomeStatus();
+
+}else{
 
       loginScreen.style.display =
         "flex";
