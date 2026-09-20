@@ -2651,7 +2651,37 @@ async function(){
       )
     );
 
+   localStorage.removeItem(
+  getAdvisoryPaidKey(
+    user.uid
+  )
+);
 
+localStorage.removeItem(
+  getAdvisoryOrderKey(
+    user.uid
+  )
+);
+
+localStorage.removeItem(
+  getAdvisoryPlanKey(
+    user.uid
+  )
+);
+
+localStorage.removeItem(
+  getAdvisoryPendingKey(
+    user.uid
+  )
+);
+
+localStorage.removeItem(
+  getAdvisoryStartKey(
+    user.uid
+  )
+);
+
+    
     /*
   TESTING FACTORY RESET STATE
 
@@ -3929,6 +3959,24 @@ async function verifyReturnedAdvisoryPayment(
       "true"
     );
 
+    const advisoryStartKey =
+  getAdvisoryStartKey(
+    user.uid
+  );
+
+if(
+  !localStorage.getItem(
+    advisoryStartKey
+  )
+){
+
+  localStorage.setItem(
+    advisoryStartKey,
+    new Date().toISOString()
+  );
+
+}
+    
 localStorage.removeItem(
 
   getAdvisoryPendingKey(
@@ -4758,9 +4806,12 @@ const advisoryPlans = {
       "₹1,999",
 
     save:
-      "You Save ₹500"
+  "You Save ₹500",
 
-  },
+durationDays:
+  30
+
+},
 
 
   "3_MONTH": {
@@ -4801,9 +4852,12 @@ const advisoryPlans = {
       "₹4,999",
 
     save:
-      "You Save ₹1,000"
+  "You Save ₹1,000",
 
-  },
+durationDays:
+  90
+
+},
 
 
   "6_MONTH": {
@@ -4846,9 +4900,12 @@ const advisoryPlans = {
       "₹7,999",
 
     save:
-      "You Save ₹2,000"
+  "You Save ₹2,000",
 
-  }
+durationDays:
+  180
+
+}
 
 };
 
@@ -4869,6 +4926,84 @@ function getAdvisoryOrderKey(uid){
     getActiveAccountMode() +
     "_" +
     uid;
+
+}
+
+  function getAdvisoryStartKey(uid){
+
+  return "rinsaathi_advisory_start_" +
+    getActiveAccountMode() +
+    "_" +
+    uid;
+
+}
+
+  function getAdvisoryDaysRemaining(
+  uid,
+  planKey
+){
+
+  const plan =
+    advisoryPlans[planKey];
+
+  if(
+    !plan ||
+    !plan.durationDays
+  ){
+
+    return null;
+
+  }
+
+  const start =
+    localStorage.getItem(
+      getAdvisoryStartKey(uid)
+    );
+
+  if(!start){
+
+    return null;
+
+  }
+
+  const startTime =
+    new Date(start).getTime();
+
+  if(Number.isNaN(startTime)){
+
+    return null;
+
+  }
+
+  const endTime =
+    startTime +
+    (
+      plan.durationDays *
+      24 *
+      60 *
+      60 *
+      1000
+    );
+
+  const remainingMs =
+    endTime -
+    Date.now();
+
+  if(remainingMs <= 0){
+
+    return 0;
+
+  }
+
+  return Math.ceil(
+    remainingMs /
+    (
+      24 *
+      60 *
+      60 *
+      1000
+    )
+  );
 
 }
 
@@ -4961,10 +5096,27 @@ function showAdvisorySuccess(
 
   if(text){
 
-    text.innerText =
-      "Your advisor is ready to work with you. You do not have to manage your financial situation alone. RinSaathi is here to support you with practical advisory guidance for your selected plan.";
+  const days =
+    auth.currentUser
+      ? getAdvisoryDaysRemaining(
+          auth.currentUser.uid,
+          planKey
+        )
+      : null;
 
-  }
+  text.innerText =
+    "Your advisor is ready to work with you. You do not have to manage your financial situation alone. RinSaathi is here to support you with practical advisory guidance for your selected plan." +
+    (
+      days !== null
+        ? (
+            days > 0
+              ? `\n\n${days} days remaining in your service.`
+              : "\n\nYour advisory service period has ended."
+          )
+        : ""
+    );
+
+}
 
 
   window.scrollTo(0,0);
@@ -5021,8 +5173,23 @@ function updateAdvisoryHomeStatus(){
     box.style.display =
       "block";
 
-    text.innerText =
-      advisoryPlans[planKey].successTitle;
+    const days =
+  getAdvisoryDaysRemaining(
+    user.uid,
+    planKey
+  );
+
+text.innerText =
+  advisoryPlans[planKey].successTitle +
+  (
+    days !== null
+      ? (
+          days > 0
+            ? `\n\n${days} days remaining in your service.`
+            : "\n\nYour advisory service period has ended."
+        )
+      : ""
+  );
 
   }else{
 
