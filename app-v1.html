@@ -1739,9 +1739,11 @@ function loadAccountMode(user){
 
 
 window.toggleAccountMode =
-function(){
+async function(){
 
-  if(!isTestingAccountAllowed()){
+  const user = auth.currentUser;
+
+  if(!isTestingAccountAllowed(user)){
 
     accountMode = "production";
 
@@ -1756,11 +1758,17 @@ function(){
 
   localStorage.setItem(
     "rinsaathi_account_mode_" +
-    auth.currentUser.uid,
+    user.uid,
     accountMode
   );
 
-  location.reload();
+  updateAccountModeUI(user);
+
+  await restoreVerifiedPayment();
+
+  await checkFreeConsultationStatus();
+
+  updateAdvisoryHomeStatus();
 
 };
 
