@@ -5244,16 +5244,60 @@ async function restoreAdvisoryEnrollment(){
 
         }
 
-        if(enrollment.startAt){
+        let restoredStartAt = "";
 
-          localStorage.setItem(
-            getAdvisoryStartKey(user.uid),
-            enrollment.startAt
-          );
+if(enrollment.startAt){
 
-        }
+  restoredStartAt =
+    enrollment.startAt?.toDate
+      ? enrollment.startAt.toDate().toISOString()
+      : String(enrollment.startAt);
 
-        return;
+}
+
+
+/*
+  If Firestore already has the advisory
+  start date, restore it on this device.
+*/
+
+if(restoredStartAt){
+
+  localStorage.setItem(
+    getAdvisoryStartKey(user.uid),
+    restoredStartAt
+  );
+
+}
+
+
+/*
+  If Firestore does not have startAt yet,
+  preserve the existing local start date
+  and migrate it to Firestore.
+*/
+
+if(!restoredStartAt){
+
+  const existingLocalStart =
+    localStorage.getItem(
+      getAdvisoryStartKey(user.uid)
+    );
+
+  if(existingLocalStart){
+
+    await saveAdvisoryEnrollmentToFirestore(
+      user,
+      enrollment.planKey,
+      enrollment.orderId || "",
+      existingLocalStart
+    );
+
+  }
+
+}
+
+return;
 
       }
 
