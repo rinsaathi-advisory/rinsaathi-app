@@ -1768,6 +1768,8 @@ async function(){
 
   await checkFreeConsultationStatus();
 
+  await restoreAdvisoryEnrollment();
+  
   updateAdvisoryHomeStatus();
 
 };
@@ -3555,16 +3557,31 @@ if(previouslyPaid){
 
       await restoreVerifiedPayment();
 
-      await checkFreeConsultationStatus();
+await checkFreeConsultationStatus();
 
 
-      /*
-        Even if a previous paid flag exists,
-        continue with server-side verification when
-        a Cashfree order ID is available.
-      */
+/*
+  Restore Advisory Enrollment from Firebase.
+  This makes Advisory access available
+  on every device for the same Firebase user.
+*/
 
-      await verifyReturnedCashfreePayment();
+await restoreAdvisoryEnrollment();
+
+
+/*
+  Even if a previous paid flag exists,
+  continue with server-side verification when
+  a Cashfree order ID is available.
+*/
+
+await verifyReturnedCashfreePayment();
+
+
+/*
+  Refresh Advisory Enrollment status
+  after Firebase/Cashfree restoration.
+*/
 
 updateAdvisoryHomeStatus();
 
@@ -3959,34 +3976,44 @@ async function verifyReturnedAdvisoryPayment(
     }
 
     /*
-      Save verified advisory enrollment.
-    */
+  Save verified advisory enrollment locally.
+*/
 
-    localStorage.setItem(
-      getAdvisoryPaidKey(
-        user.uid
-      ),
-      "true"
-    );
+localStorage.setItem(
+  getAdvisoryPaidKey(
+    user.uid
+  ),
+  "true"
+);
 
-    const advisoryStartKey =
+const advisoryStartKey =
   getAdvisoryStartKey(
     user.uid
   );
 
-if(
-  !localStorage.getItem(
+let advisoryStartAt =
+  localStorage.getItem(
     advisoryStartKey
-  )
-){
+  );
+
+if(!advisoryStartAt){
+
+  advisoryStartAt =
+    new Date().toISOString();
 
   localStorage.setItem(
     advisoryStartKey,
-    new Date().toISOString()
+    advisoryStartAt
   );
 
 }
-    
+
+
+/*
+  Remove pending state after
+  verified Cashfree payment.
+*/
+
 localStorage.removeItem(
 
   getAdvisoryPendingKey(
@@ -3997,18 +4024,58 @@ localStorage.removeItem(
 
 );
 
-    
-    /*
-      Save the verified advisory order ID.
-    */
 
-    localStorage.setItem(
-      getAdvisoryOrderKey(
-        user.uid
-      ),
-      String(orderId)
-    );
+/*
+  Save the verified advisory order ID.
+*/
 
+localStorage.setItem(
+
+  getAdvisoryOrderKey(
+    user.uid
+  ),
+
+  String(orderId)
+
+);
+
+
+/*
+  IMPORTANT:
+  Persist verified advisory enrollment
+  in Firebase so the same customer can
+  see it on another device.
+*/
+
+await saveAdvisoryEnrollmentToFirestore(
+
+  user,
+
+  planKey,
+
+  orderId,
+
+  advisoryStartAt
+
+);
+
+
+/*
+  Show the existing advisory
+  enrollment success screen.
+*/
+
+showAdvisorySuccess(
+  planKey,
+  false
+);
+
+
+/*
+  Update Home status.
+*/
+
+updateAdvisoryHomeStatus();
     /*
       Show the existing advisory
       enrollment success screen.
@@ -5038,7 +5105,217 @@ function getAdvisoryPaidKey(uid){
 }
 
 
-function showAdvisorySuccess(
+/* FIRESTORE ADVISORY ENROLLMENT */
+
+function getAdvisoryFirestoreField(){
+
+  return getActiveAccountMode() === "testing"
+    ? "advisoryTesting"
+    : "advisoryProduction";
+
+}
+
+
+async function saveAdvisoryEnrollmentToFirestore(
+  user,
+  planKey,
+  orderId,
+  startAt
+){
+
+  if(
+    !user ||
+    !planKey ||
+    !advisoryPlans[planKey]
+  ){
+
+    return;
+
+  }
+
+  try{
+
+    await setDoc(
+      doc(
+        db,
+        "users",
+        user.uid
+      ),
+      {
+
+        [getAdvisoryFirestoreField()] : {
+
+          paid:
+            true,
+
+          planKey:
+            planKey,
+
+          orderId:
+            String(orderId || ""),
+
+          startAt:
+            startAt || new Date().toISOString(),
+
+          updatedAt:
+            serverTimestamp()
+
+        }
+
+      },
+      {
+        merge:true
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "ADVISORY ENROLLMENT SAVE ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
+async function restoreAdvisoryEnrollment(){
+
+  const user =
+    auth.currentUser;
+
+  if(!user){
+
+    return;
+
+  }
+
+  try{
+
+    const userRef =
+      doc(
+        db,
+        "users",
+        user.uid
+      );
+
+    const snapshot =
+      await getDoc(
+        userRef
+      );
+
+    if(snapshot.exists()){
+
+      const data =
+        snapshot.data();
+
+      const enrollment =
+        data[
+          getAdvisoryFirestoreField()
+        ];
+
+      /*
+        FIRESTORE IS THE SOURCE OF TRUTH
+      */
+
+      if(
+        enrollment &&
+        enrollment.paid === true &&
+        advisoryPlans[enrollment.planKey]
+      ){
+
+        localStorage.setItem(
+          getAdvisoryPaidKey(user.uid),
+          "true"
+        );
+
+        localStorage.setItem(
+          getAdvisoryPlanKey(user.uid),
+          enrollment.planKey
+        );
+
+        if(enrollment.orderId){
+
+          localStorage.setItem(
+            getAdvisoryOrderKey(user.uid),
+            String(enrollment.orderId)
+          );
+
+        }
+
+        if(enrollment.startAt){
+
+          localStorage.setItem(
+            getAdvisoryStartKey(user.uid),
+            enrollment.startAt
+          );
+
+        }
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+      ONE-TIME MIGRATION:
+      If this device already has a verified
+      advisory enrollment in localStorage,
+      save it to Firestore so other devices
+      can restore it.
+    */
+
+    const localPaid =
+      localStorage.getItem(
+        getAdvisoryPaidKey(user.uid)
+      ) === "true";
+
+    const localPlan =
+      localStorage.getItem(
+        getAdvisoryPlanKey(user.uid)
+      );
+
+    if(
+      localPaid &&
+      advisoryPlans[localPlan]
+    ){
+
+      const localOrderId =
+        localStorage.getItem(
+          getAdvisoryOrderKey(user.uid)
+        ) || "";
+
+      const localStartAt =
+        localStorage.getItem(
+          getAdvisoryStartKey(user.uid)
+        ) ||
+        new Date().toISOString();
+
+      await saveAdvisoryEnrollmentToFirestore(
+        user,
+        localPlan,
+        localOrderId,
+        localStartAt
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "ADVISORY ENROLLMENT RESTORE ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
+function updateAdvisoryHomeStatus(){
   planKey,
   showAlert = false
 ){
