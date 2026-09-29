@@ -1131,6 +1131,7 @@ doc,
 updateDoc,
 setDoc,
 addDoc,
+deleteDoc,
 serverTimestamp
 }from"https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
@@ -1735,11 +1736,119 @@ async function loadInvoices(){
         collection(db,"invoices")
       );
 
-    invoices=
+    const allInvoices=
       snap.docs.map(d=>({
         id:d.id,
         ...d.data()
       }));
+
+
+    /*
+      REMOVE DUPLICATE INVOICES
+
+      Same Payment ID / Order ID /
+      Source Payment Document ID
+      = same payment invoice.
+
+      Keep the first invoice.
+      Delete only the duplicate records.
+    */
+
+    const seen=new Map();
+
+    const duplicateIds=[];
+
+
+    allInvoices.forEach(inv=>{
+
+      const key=
+        String(
+          inv.paymentId ||
+          inv.orderId ||
+          inv.sourcePaymentDocId ||
+          ""
+        ).trim();
+
+
+      /*
+        If there is no payment identifier,
+        do NOT treat it as duplicate.
+      */
+
+      if(!key){
+
+        return;
+
+      }
+
+
+      if(seen.has(key)){
+
+        duplicateIds.push(
+          inv.id
+        );
+
+      }
+      else{
+
+        seen.set(
+          key,
+          inv
+        );
+
+      }
+
+    });
+
+
+    /*
+      Delete duplicate Firestore records
+    */
+
+    for(
+      const duplicateId
+      of duplicateIds
+    ){
+
+      try{
+
+        await deleteDoc(
+          doc(
+            db,
+            "invoices",
+            duplicateId
+          )
+        );
+
+      }
+      catch(deleteError){
+
+        console.error(
+          "Duplicate invoice delete failed:",
+          deleteError
+        );
+
+      }
+
+    }
+
+
+    /*
+      Keep only unique invoices
+    */
+
+    invoices=
+      allInvoices.filter(
+        inv=>
+          !duplicateIds.includes(
+            inv.id
+          )
+      );
+
+
+    /*
+      Sort newest invoice first
+    */
 
     invoices.sort(
       (a,b)=>
@@ -1747,32 +1856,66 @@ async function loadInvoices(){
         invoiceDateMs(a)
     );
 
+
+    const countEl=
+      $("invoiceCount");
+
+
+    if(countEl){
+
+      countEl.textContent=
+        invoices.length;
+
+    }
+
+
+    /*
+      If duplicates were deleted,
+      refresh the invoice list immediately
+      if the modal is already open.
+    */
+
+    const invoiceList=
+      $("invoiceList");
+
+    if(
+      invoiceList &&
+      document
+        .getElementById("invoiceModal")
+        ?.classList
+        .contains("active")
+    ){
+
+      renderInvoiceList();
+
+    }
+
+  }
+  catch(e){
+
+    console.error(
+      "Invoice loading error:",
+      e
+    );
+
+    /*
+      IMPORTANT:
+      Do not erase the existing invoice
+      array on a temporary loading error.
+    */
+
     const countEl=
       $("invoiceCount");
 
     if(countEl){
+
       countEl.textContent=
         invoices.length;
+
     }
 
   }
- catch(e){
 
-  console.error(
-    "Invoice loading error:",
-    e
-  );
-
-  const countEl=
-    $("invoiceCount");
-
-  if(countEl){
-    countEl.textContent=
-      invoices.length;
-  }
-
-}
-   
 }
 
 
