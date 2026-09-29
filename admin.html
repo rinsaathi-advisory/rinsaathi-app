@@ -2512,14 +2512,41 @@ function buildInvoiceHTML(inv){
     "—";
 
   const amount=
-    Number(
-      inv.amount ||
-      inv.totalAmount ||
-      inv.paidAmount ||
-      499
-    );
+  Number(
+    inv.amount ||
+    inv.totalAmount ||
+    inv.paidAmount ||
+    499
+  );
 
-  const paymentDate=
+const taxableValue=
+  Number(
+    (amount / 1.18)
+      .toFixed(2)
+  );
+
+const gstAmount=
+  Number(
+    (amount - taxableValue)
+      .toFixed(2)
+  );
+
+const cgst=
+  Number(
+    (gstAmount / 2)
+      .toFixed(2)
+  );
+
+const sgst=
+  Number(
+    (gstAmount - cgst)
+      .toFixed(2)
+  );
+
+const sacCode=
+  "997156";
+
+const paymentDate=
     inv.paymentDate ||
     inv.paidAt ||
     inv.invoiceDate ||
@@ -2686,8 +2713,15 @@ function buildInvoiceHTML(inv){
               <td>1</td>
 
               <td>
-                Consultation Advisory Service
-              </td>
+             <b>
+             Consultation Advisory Service
+            </b>
+
+           <br>
+
+            SAC Code:
+            ${sacCode}
+             </td>
 
               <td>1</td>
 
@@ -2706,28 +2740,78 @@ function buildInvoiceHTML(inv){
 
           <div class="invoiceTotalRow">
 
-            <span>
-              Taxable Value
-            </span>
+  <span>
+    Taxable Value
+  </span>
 
-            <strong>
-              ₹${amount.toLocaleString("en-IN")}
-            </strong>
+  <strong>
+    ₹${taxableValue.toLocaleString(
+      "en-IN",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    )}
+  </strong>
 
-          </div>
+</div>
 
 
           <div class="invoiceTotalRow">
 
-            <span>
-              GST
-            </span>
+  <span>
+    GST @ 18%
+  </span>
 
-            <strong>
-              As applicable
-            </strong>
+  <strong>
+    ₹${gstAmount.toLocaleString(
+      "en-IN",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    )}
+  </strong>
 
-          </div>
+</div>
+
+
+<div class="invoiceTotalRow">
+
+  <span>
+    CGST @ 9%
+  </span>
+
+  <strong>
+    ₹${cgst.toLocaleString(
+      "en-IN",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    )}
+  </strong>
+
+</div>
+
+
+<div class="invoiceTotalRow">
+
+  <span>
+    SGST @ 9%
+  </span>
+
+  <strong>
+    ₹${sgst.toLocaleString(
+      "en-IN",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    )}
+  </strong>
+
+</div>
 
 
           <div class="invoiceTotalRow invoiceGrandTotal">
