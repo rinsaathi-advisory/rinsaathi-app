@@ -1756,24 +1756,23 @@ async function loadInvoices(){
     }
 
   }
-  catch(e){
+ catch(e){
 
-    console.error(
-      "Invoice loading error:",
-      e
-    );
+  console.error(
+    "Invoice loading error:",
+    e
+  );
 
-    invoices=[];
+  const countEl=
+    $("invoiceCount");
 
-    const countEl=
-      $("invoiceCount");
+  if(countEl){
+    countEl.textContent=
+      invoices.length;
+  }
 
-    if(countEl){
-      countEl.textContent="0";
-    }
-
-   }
-
+}
+   
 }
 
 
@@ -1864,12 +1863,19 @@ function invoiceTestFinancialYear(dateValue){
 }
 
 
-function invoiceTestNextNumber(fy){
+async function invoiceTestNextNumber(fy){
 
   let max=0;
 
-  invoices.forEach(
-    inv=>{
+  const snap=
+    await getDocsFromServer(
+      collection(db,"invoices")
+    );
+
+  snap.docs.forEach(
+    d=>{
+
+      const inv=d.data();
 
       const m=
         String(
@@ -2002,9 +2008,9 @@ async function(){
 
 
     const invoiceNumber=
-      invoiceTestNextNumber(
-        fy
-      );
+  await invoiceTestNextNumber(
+    fy
+  );
 
 
     const invoiceData={
@@ -6000,7 +6006,9 @@ $("dashboard")
 
 
 await loadLeads();
-  
+
+loadInvoices();
+   
 await loadAppAnalytics();
 
 }
