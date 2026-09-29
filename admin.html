@@ -7,6 +7,7 @@
 <title>RinSaathi Owner Dashboard</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -1012,15 +1013,23 @@ style="display:none">
 
     <div style="padding:18px">
 
-      <div
-        class="small"
-        style="margin-bottom:14px">
-        Verified ₹499 consultation invoices
-      </div>
+  <div
+    class="small"
+    style="margin-bottom:14px">
+    Verified ₹499 consultation invoices
+  </div>
 
-      <div id="invoiceList"></div>
+  <button
+    class="goldBtn"
+    type="button"
+    onclick="runInvoiceTestFromOldPayment()"
+    style="margin-bottom:16px">
+    🧪 Generate Test Invoice from Old Payment
+  </button>
 
-    </div>
+  <div id="invoiceList"></div>
+
+</div>
 
   </div>
 
@@ -1042,11 +1051,11 @@ style="display:none">
       <div class="invoiceTopActions">
 
         <button
-          class="secondary"
-          type="button"
-          onclick="downloadInvoicePDF()">
-          📄 PDF
-        </button>
+      class="secondary"
+      type="button"
+      onclick="openInvoicePDF()">
+     📄 PDF
+     </button>
 
         <button
           class="secondary"
@@ -1067,9 +1076,32 @@ style="display:none">
     </div>
 
     <div
-      class="invoicePreview"
-      id="invoicePreview">
-    </div>
+  class="invoicePreview"
+  id="invoicePreview">
+</div>
+
+<div
+  id="invoicePdfViewer"
+  style="display:none;padding:12px;background:#eef3f0">
+
+  <div
+    style="display:flex;justify-content:flex-end;margin-bottom:10px">
+
+    <button
+      class="secondary"
+      type="button"
+      onclick="closeInvoicePDF()">
+      ← Back to Invoice
+    </button>
+
+  </div>
+
+  <iframe
+    id="invoicePdfFrame"
+    style="width:100%;height:70vh;border:1px solid #d8e2dd;border-radius:14px;background:#fff">
+  </iframe>
+
+</div>
 
   </div>
 
@@ -1740,9 +1772,358 @@ async function loadInvoices(){
       countEl.textContent="0";
     }
 
-  }
+   }
 
 }
+
+
+/* =================================
+   GENERATE TEST INVOICE
+   FROM OLD VERIFIED PAYMENT
+   ================================= */
+
+function invoiceTestVerifiedPayment(p){
+
+  const amount=
+    paymentAmount(p);
+
+  const status=
+    String(
+      p?.status ||
+      p?.paymentStatus ||
+      p?.payment ||
+      ""
+    )
+    .trim()
+    .toUpperCase();
+
+  return(
+    amount===499 &&
+    status==="PAID" &&
+    p?.verified===true
+  );
+
+}
+
+
+function invoiceTestSourceId(p){
+
+  return String(
+    p?.paymentId ||
+    p?.transactionId ||
+    p?.orderId ||
+    p?.id ||
+    ""
+  ).trim();
+
+}
+
+
+function invoiceTestCustomer(p){
+
+  const x=
+    paymentDisplay(p);
+
+  return{
+    name:
+      x.name ||
+      "Customer",
+
+    mobile:
+      x.mobile ||
+      ""
+  };
+
+}
+
+
+function invoiceTestFinancialYear(dateValue){
+
+  const d=
+    invoiceDateValue(
+      dateValue
+    );
+
+  if(!d)
+    return "2026-27";
+
+  const y=
+    d.getFullYear();
+
+  const start=
+    d.getMonth()>=3
+      ?y
+      :y-1;
+
+  return(
+    start+
+    "-" +
+    String(start+1).slice(-2)
+  );
+
+}
+
+
+function invoiceTestNextNumber(fy){
+
+  let max=0;
+
+  invoices.forEach(
+    inv=>{
+
+      const m=
+        String(
+          inv.invoiceNumber ||
+          ""
+        )
+        .match(
+          new RegExp(
+            "^RSA/" +
+            fy.replace(
+              "-",
+              "\\-"
+            ) +
+            "/(\\d+)$"
+          )
+        );
+
+      if(m){
+
+        max=
+          Math.max(
+            max,
+            Number(m[1])
+          );
+
+      }
+
+    }
+  );
+
+  return(
+    "RSA/" +
+    fy +
+    "/" +
+    String(max+1)
+      .padStart(6,"0")
+  );
+
+}
+
+
+window.runInvoiceTestFromOldPayment=
+async function(){
+
+  try{
+
+    const candidates=
+      paymentEvents.filter(
+        invoiceTestVerifiedPayment
+      );
+
+    if(!candidates.length){
+
+      alert(
+        "No verified ₹499 old payment was found."
+      );
+
+      return;
+
+    }
+
+
+    let selectedPayment=null;
+
+
+    for(
+      const p of candidates
+    ){
+
+      const sourceId=
+        invoiceTestSourceId(p);
+
+      if(!sourceId)
+        continue;
+
+
+      const alreadyExists=
+        invoices.some(
+          inv=>
+            String(
+              inv.paymentId ||
+              inv.orderId ||
+              ""
+            )===sourceId
+        );
+
+      if(!alreadyExists){
+
+        selectedPayment=p;
+        break;
+
+      }
+
+    }
+
+
+    if(!selectedPayment){
+
+      alert(
+        "Eligible verified ₹499 payments were found, but invoices already exist for them."
+      );
+
+      return;
+
+    }
+
+
+    const sourceId=
+      invoiceTestSourceId(
+        selectedPayment
+      );
+
+
+    const customer=
+      invoiceTestCustomer(
+        selectedPayment
+      );
+
+
+   const selectedPaymentDate=
+  paymentDate(
+    selectedPayment
+  );
+
+
+    const fy=
+  invoiceTestFinancialYear(
+    selectedPaymentDate
+  );
+
+
+    const invoiceNumber=
+      invoiceTestNextNumber(
+        fy
+      );
+
+
+    const invoiceData={
+
+      invoiceNumber:
+
+        invoiceNumber,
+
+      invoiceDate:
+
+     selectedPaymentDate,
+      supplierName:
+        "RinSaathi Advisory Services",
+
+      gstin:
+        "06CVKPB0758D1ZW",
+
+      supplierAddress:
+        "House No. 463, Ward No. 6, Near Gurudwara Gali, Old Sabji Mandi, Tohana Rural, District Fatehabad, Haryana – 125120",
+
+      customerName:
+        customer.name,
+
+      mobile:
+        customer.mobile,
+
+      description:
+        "Consultation Advisory Service",
+
+      quantity:
+        1,
+
+      taxableValue:
+        499,
+
+      cgst:
+        0,
+
+      sgst:
+        0,
+
+      igst:
+        0,
+
+      totalPaid:
+        499,
+
+      amountInWords:
+        "Four Hundred Ninety-Nine Rupees Only",
+
+      status:
+        "PAID",
+
+      paymentMode:
+        "Online – Cashfree",
+
+      paymentId:
+        sourceId,
+
+      orderId:
+        selectedPayment.orderId ||
+        sourceId,
+
+      sourcePaymentDocId:
+        selectedPayment.id ||
+        "",
+
+      testMode:
+        true,
+
+      taxConfigurationStatus:
+        "PENDING_TAX_CONFIGURATION",
+
+      createdAt:
+        serverTimestamp()
+
+    };
+
+
+    const ref=
+      await addDoc(
+        collection(
+          db,
+          "invoices"
+        ),
+        invoiceData
+      );
+
+
+    await loadInvoices();
+
+
+    alert(
+      "Test invoice created successfully.\n\nInvoice No: "+
+      invoiceNumber
+    );
+
+
+    openInvoicePreview(
+      ref.id
+    );
+
+
+  }
+  catch(e){
+
+    console.error(
+      "Invoice test failed:",
+      e
+    );
+
+    alert(
+      "Invoice test failed.\n\n"+
+      (e?.message || String(e))
+    );
+
+  }
+
+};
 
 
 /* =================================
@@ -1951,10 +2332,11 @@ window.closeInvoicePreview=function(){
 
   modal.classList.remove("active");
 
+  closeInvoicePDF();
+
   selectedInvoice=null;
 
 };
-
 function buildInvoiceHTML(inv){
 
   const name=
@@ -2266,7 +2648,400 @@ function buildInvoiceHTML(inv){
 
   `;
 }
-  
+
+   }
+
+
+/* =================================
+   OPEN PDF INSIDE INVOICE WINDOW
+   ================================= */
+
+window.openInvoicePDF=
+async function(id){
+
+  try{
+
+    if(id){
+
+      const invoice=
+        invoices.find(
+          x=>
+            String(x.id)===
+            String(id)
+        );
+
+      if(!invoice)
+        return;
+
+      selectedInvoice=
+        invoice;
+
+      $("invoicePreview").innerHTML=
+        buildInvoiceHTML(
+          invoice
+        );
+
+    }
+
+    if(!selectedInvoice){
+
+      alert(
+        "Please open an invoice first."
+      );
+
+      return;
+
+    }
+
+
+    const preview=
+      $("invoicePreview");
+
+    const pdfViewer=
+      $("invoicePdfViewer");
+
+    const frame=
+      $("invoicePdfFrame");
+
+
+    if(!preview ||
+       !pdfViewer ||
+       !frame){
+
+      alert(
+        "PDF viewer could not be opened."
+      );
+
+      return;
+
+    }
+
+
+    pdfViewer.style.display=
+      "block";
+
+
+    preview.style.display=
+      "block";
+
+
+    const oldButton=
+      document.querySelector(
+        "#invoicePreviewModal .invoiceTopActions .secondary"
+      );
+
+
+    if(oldButton){
+
+      oldButton.disabled=
+        true;
+
+      oldButton.textContent=
+        "⏳ Creating PDF...";
+
+    }
+
+
+    const{
+      jsPDF
+    }=
+      window.jspdf;
+
+
+    const pdf=
+      new jsPDF({
+
+        orientation:
+          "portrait",
+
+        unit:
+          "mm",
+
+        format:
+          "a4"
+
+      });
+
+
+    await pdf.html(
+      preview,
+      {
+
+        x:10,
+
+        y:10,
+
+        width:190,
+
+        windowWidth:
+          preview.scrollWidth,
+
+        autoPaging:
+          "text",
+
+        margin:[
+          10,
+          10,
+          10,
+          10
+        ],
+
+        callback:
+          function(doc){
+
+            const blob=
+              doc.output(
+                "blob"
+              );
+
+            const url=
+              URL.createObjectURL(
+                blob
+              );
+
+            frame.src=
+              url;
+
+          }
+
+      }
+    );
+
+
+    if(oldButton){
+
+      oldButton.disabled=
+        false;
+
+      oldButton.textContent=
+        "📄 PDF";
+
+    }
+
+  }
+  catch(e){
+
+    console.error(
+      "PDF generation failed:",
+      e
+    );
+
+    alert(
+      "PDF could not be generated.\n\n"+
+      (e?.message || String(e))
+    );
+
+  }
+
+};
+
+
+window.closeInvoicePDF=
+function(){
+
+  const pdfViewer=
+    $("invoicePdfViewer");
+
+  const frame=
+    $("invoicePdfFrame");
+
+  if(pdfViewer)
+    pdfViewer.style.display=
+      "none";
+
+  if(frame)
+    frame.src="";
+
+};
+
+
+/* =================================
+   DOWNLOAD PDF
+   ================================= */
+
+window.downloadInvoicePDF=
+async function(){
+
+  if(!selectedInvoice){
+
+    alert(
+      "Please open an invoice first."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const preview=
+      $("invoicePreview");
+
+
+    const{
+      jsPDF
+    }=
+      window.jspdf;
+
+
+    const pdf=
+      new jsPDF({
+
+        orientation:
+          "portrait",
+
+        unit:
+          "mm",
+
+        format:
+          "a4"
+
+      });
+
+
+    await pdf.html(
+      preview,
+      {
+
+        x:10,
+
+        y:10,
+
+        width:190,
+
+        windowWidth:
+          preview.scrollWidth,
+
+        autoPaging:
+          "text",
+
+        margin:[
+          10,
+          10,
+          10,
+          10
+        ]
+
+      }
+    );
+
+
+    const invoiceNo=
+      selectedInvoice.invoiceNumber ||
+      selectedInvoice.id ||
+      "RinSaathi-Invoice";
+
+
+    pdf.save(
+      invoiceNo+
+      ".pdf"
+    );
+
+  }
+  catch(e){
+
+    console.error(e);
+
+    alert(
+      "PDF download failed.\n\n"+
+      (e?.message || String(e))
+    );
+
+  }
+
+};
+
+
+/* =================================
+   PRINT INVOICE
+   ================================= */
+
+window.printInvoice=
+function(){
+
+  if(!selectedInvoice){
+
+    alert(
+      "Please open an invoice first."
+    );
+
+    return;
+
+  }
+
+
+  const content=
+    buildInvoiceHTML(
+      selectedInvoice
+    );
+
+
+  const win=
+    window.open(
+      "",
+      "_blank",
+      "width=900,height=900"
+    );
+
+
+  if(!win){
+
+    alert(
+      "Please allow pop-ups to print the invoice."
+    );
+
+    return;
+
+  }
+
+
+  win.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>RinSaathi Invoice</title>
+
+      <style>
+
+        body{
+          margin:0;
+          background:#fff;
+          font-family:Arial,sans-serif;
+        }
+
+        *{
+          box-sizing:border-box;
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      ${content}
+
+    </body>
+
+    </html>
+  `);
+
+
+  win.document.close();
+
+  win.focus();
+
+  setTimeout(
+    ()=>{
+      win.print();
+    },
+    500
+  );
+
+};
+
+   
 function paymentDisplay(p){
 
 const l=paymentLead(p);
