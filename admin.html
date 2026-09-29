@@ -2934,22 +2934,24 @@ async function(id){
         ],
 
         callback:
-          function(doc){
+  function(doc){
 
-            const blob=
-              doc.output(
-                "blob"
-              );
+    const blob=
+      doc.output(
+        "blob"
+      );
 
-            const url=
-              URL.createObjectURL(
-                blob
-              );
+    const url=
+      URL.createObjectURL(
+        blob
+      );
 
-            frame.src=
-              url;
+    window.open(
+      url,
+      "_blank"
+    );
 
-          }
+  }
 
       }
     );
