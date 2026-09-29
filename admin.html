@@ -2806,6 +2806,8 @@ function buildInvoiceHTML(inv){
 window.openInvoicePDF=
 async function(id){
 
+  let pdfWindow=null;
+
   try{
 
     if(id){
@@ -2830,6 +2832,7 @@ async function(id){
 
     }
 
+
     if(!selectedInvoice){
 
       alert(
@@ -2844,19 +2847,11 @@ async function(id){
     const preview=
       $("invoicePreview");
 
-    const pdfViewer=
-      $("invoicePdfViewer");
 
-    const frame=
-      $("invoicePdfFrame");
-
-
-    if(!preview ||
-       !pdfViewer ||
-       !frame){
+    if(!preview){
 
       alert(
-        "PDF viewer could not be opened."
+        "Invoice preview could not be opened."
       );
 
       return;
@@ -2864,12 +2859,72 @@ async function(id){
     }
 
 
-    pdfViewer.style.display=
-      "block";
+    /*
+      Open PDF viewer immediately.
+      This avoids browser popup blocking
+      after the async PDF generation.
+    */
+
+    pdfWindow=
+      window.open(
+        "",
+        "_blank"
+      );
 
 
-    preview.style.display=
-      "block";
+    if(!pdfWindow){
+
+      alert(
+        "Please allow pop-ups for this website to open the PDF."
+      );
+
+      return;
+
+    }
+
+
+    pdfWindow.document.write(`
+      <html>
+        <head>
+          <title>RinSaathi Invoice PDF</title>
+        </head>
+        <body style="
+          margin:0;
+          background:#525659;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          height:100vh;
+          font-family:Arial,sans-serif;
+          color:white;
+        ">
+          <div>
+            Creating PDF...
+          </div>
+        </body>
+      </html>
+    `);
+
+    pdfWindow.document.close();
+
+
+    const paper=
+      preview.querySelector(
+        ".invoicePaper"
+      );
+
+
+    if(!paper){
+
+      pdfWindow.close();
+
+      alert(
+        "Invoice content could not be found."
+      );
+
+      return;
+
+    }
 
 
     const oldButton=
@@ -2889,6 +2944,24 @@ async function(id){
     }
 
 
+    /*
+      Capture ONLY the actual invoice paper.
+      Do not capture the surrounding modal.
+    */
+
+    const canvas=
+      await html2canvas(
+        paper,
+        {
+          scale:2,
+          useCORS:true,
+          allowTaint:false,
+          backgroundColor:"#ffffff",
+          logging:false
+        }
+      );
+
+
     const{
       jsPDF
     }=
@@ -2897,64 +2970,174 @@ async function(id){
 
     const pdf=
       new jsPDF({
-
-        orientation:
-          "portrait",
-
-        unit:
-          "mm",
-
-        format:
-          "a4"
-
+        orientation:"portrait",
+        unit:"mm",
+        format:"a4"
       });
 
 
-    await pdf.html(
-      preview,
-      {
+    const pageWidth=
+      210;
 
-        x:10,
+    const pageHeight=
+      297;
 
-        y:10,
+    const margin=
+      10;
 
-        width:190,
+    const contentWidth=
+      pageWidth -
+      (margin*2);
 
-        windowWidth:
-          preview.scrollWidth,
+    const contentHeight=
+      pageHeight -
+      (margin*2);
 
-        autoPaging:
-          "text",
 
-        margin:[
-          10,
-          10,
-          10,
-          10
-        ],
+    /*
+      Convert canvas pixels to
+      A4 PDF dimensions.
+    */
 
-        callback:
-  function(doc){
+    const fullImageHeight=
+      canvas.height *
+      contentWidth /
+      canvas.width;
+
+
+    /*
+      One PDF page can contain this
+      much of the source canvas.
+    */
+
+    const sourcePageHeight=
+      Math.floor(
+        canvas.width *
+        contentHeight /
+        contentWidth
+      );
+
+
+    let sourceY=0;
+
+    let pageNumber=0;
+
+
+    while(
+      sourceY<
+      canvas.height
+    ){
+
+      const sliceHeight=
+        Math.min(
+          sourcePageHeight,
+          canvas.height-sourceY
+        );
+
+
+      const pageCanvas=
+        document.createElement(
+          "canvas"
+        );
+
+
+      pageCanvas.width=
+        canvas.width;
+
+      pageCanvas.height=
+        sliceHeight;
+
+
+      const ctx=
+        pageCanvas.getContext(
+          "2d"
+        );
+
+
+      ctx.fillStyle=
+        "#ffffff";
+
+      ctx.fillRect(
+        0,
+        0,
+        pageCanvas.width,
+        pageCanvas.height
+      );
+
+
+      ctx.drawImage(
+        canvas,
+        0,
+        sourceY,
+        canvas.width,
+        sliceHeight,
+        0,
+        0,
+        canvas.width,
+        sliceHeight
+      );
+
+
+      const imageData=
+        pageCanvas.toDataURL(
+          "image/png"
+        );
+
+
+      if(pageNumber>0){
+
+        pdf.addPage();
+
+      }
+
+
+      const imageHeight=
+        sliceHeight *
+        contentWidth /
+        canvas.width;
+
+
+      pdf.addImage(
+        imageData,
+        "PNG",
+        margin,
+        margin,
+        contentWidth,
+        imageHeight
+      );
+
+
+      sourceY+=
+        sliceHeight;
+
+      pageNumber++;
+
+    }
+
+
+    /*
+      Convert generated PDF to Blob.
+    */
 
     const blob=
-      doc.output(
+      pdf.output(
         "blob"
       );
+
 
     const url=
       URL.createObjectURL(
         blob
       );
 
-    window.open(
-      url,
-      "_blank"
-    );
 
-  }
+    /*
+      Open the actual PDF in the
+      browser's native PDF viewer.
+    */
 
-      }
-    );
+    pdfWindow.location.href=
+      url;
 
 
     if(oldButton){
@@ -2967,6 +3150,7 @@ async function(id){
 
     }
 
+
   }
   catch(e){
 
@@ -2975,10 +3159,24 @@ async function(id){
       e
     );
 
+
+    if(pdfWindow){
+
+      try{
+
+        pdfWindow.close();
+
+      }
+      catch(_){}
+
+    }
+
+
     alert(
       "PDF could not be generated.\n\n"+
       (e?.message || String(e))
     );
+
 
   }
 
