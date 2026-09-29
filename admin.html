@@ -2808,7 +2808,14 @@ async function(id){
 
   let pdfWindow=null;
 
+  let tempWrapper=null;
+
   try{
+
+    /*
+      STEP 1
+      Invoice identify करो
+    */
 
     if(id){
 
@@ -2819,19 +2826,20 @@ async function(id){
             String(id)
         );
 
-      if(!invoice)
+      if(!invoice){
+
+        alert(
+          "Invoice could not be found."
+        );
+
         return;
+
+      }
 
       selectedInvoice=
         invoice;
 
-      $("invoicePreview").innerHTML=
-        buildInvoiceHTML(
-          invoice
-        );
-
     }
-
 
     if(!selectedInvoice){
 
@@ -2844,25 +2852,10 @@ async function(id){
     }
 
 
-    const preview=
-      $("invoicePreview");
-
-
-    if(!preview){
-
-      alert(
-        "Invoice preview could not be opened."
-      );
-
-      return;
-
-    }
-
-
     /*
-      Open PDF viewer immediately.
-      This avoids browser popup blocking
-      after the async PDF generation.
+      STEP 2
+      PDF viewer तुरंत खोलो
+      ताकि browser popup block न करे
     */
 
     pdfWindow=
@@ -2870,7 +2863,6 @@ async function(id){
         "",
         "_blank"
       );
-
 
     if(!pdfWindow){
 
@@ -2885,9 +2877,15 @@ async function(id){
 
     pdfWindow.document.write(`
       <html>
+
         <head>
-          <title>RinSaathi Invoice PDF</title>
+
+          <title>
+            RinSaathi Invoice PDF
+          </title>
+
         </head>
+
         <body style="
           margin:0;
           background:#525659;
@@ -2898,55 +2896,122 @@ async function(id){
           font-family:Arial,sans-serif;
           color:white;
         ">
+
           <div>
             Creating PDF...
           </div>
+
         </body>
+
       </html>
     `);
 
     pdfWindow.document.close();
 
 
+    /*
+      STEP 3
+      Temporary invoice container बनाओ
+
+      इससे PDF button चाहे
+      Invoice List से दबाया जाए
+      या Preview से,
+      दोनों जगह काम करेगा.
+    */
+
+    tempWrapper=
+      document.createElement(
+        "div"
+      );
+
+    tempWrapper.style.position=
+      "fixed";
+
+    tempWrapper.style.left=
+      "-10000px";
+
+    tempWrapper.style.top=
+      "0";
+
+    tempWrapper.style.width=
+      "820px";
+
+    tempWrapper.style.background=
+      "#ffffff";
+
+    tempWrapper.style.zIndex=
+      "-1";
+
+    tempWrapper.innerHTML=
+      buildInvoiceHTML(
+        selectedInvoice
+      );
+
+    document.body.appendChild(
+      tempWrapper
+    );
+
+
+    /*
+      STEP 4
+      Actual invoice paper
+    */
+
     const paper=
-      preview.querySelector(
+      tempWrapper.querySelector(
         ".invoicePaper"
       );
 
-
     if(!paper){
 
-      pdfWindow.close();
-
-      alert(
+      throw new Error(
         "Invoice content could not be found."
       );
-
-      return;
-
-    }
-
-
-    const oldButton=
-      document.querySelector(
-        "#invoicePreviewModal .invoiceTopActions .secondary"
-      );
-
-
-    if(oldButton){
-
-      oldButton.disabled=
-        true;
-
-      oldButton.textContent=
-        "⏳ Creating PDF...";
 
     }
 
 
     /*
-      Capture ONLY the actual invoice paper.
-      Do not capture the surrounding modal.
+      STEP 5
+      Images load होने दो
+    */
+
+    const images=
+      Array.from(
+        paper.querySelectorAll(
+          "img"
+        )
+      );
+
+    await Promise.all(
+      images.map(
+        img=>
+          new Promise(
+            resolve=>{
+
+              if(img.complete){
+
+                resolve();
+
+                return;
+
+              }
+
+              img.onload=
+                resolve;
+
+              img.onerror=
+                resolve;
+
+            }
+          )
+      )
+    );
+
+
+    /*
+      STEP 6
+      Invoice को image में convert करो
     */
 
     const canvas=
@@ -2962,11 +3027,15 @@ async function(id){
       );
 
 
+    /*
+      STEP 7
+      A4 PDF बनाओ
+    */
+
     const{
       jsPDF
     }=
       window.jspdf;
-
 
     const pdf=
       new jsPDF({
@@ -2976,6 +3045,10 @@ async function(id){
       });
 
 
+    /*
+      A4 dimensions
+    */
+
     const pageWidth=
       210;
 
@@ -2983,7 +3056,7 @@ async function(id){
       297;
 
     const margin=
-      10;
+      8;
 
     const contentWidth=
       pageWidth -
@@ -2995,135 +3068,92 @@ async function(id){
 
 
     /*
-      Convert canvas pixels to
-      A4 PDF dimensions.
+      IMPORTANT:
+      पूरी invoice को एक ही page
+      में proportionally fit करना है.
     */
 
-    const fullImageHeight=
+    const imageWidth=
+      contentWidth;
+
+    const imageHeight=
       canvas.height *
-      contentWidth /
+      imageWidth /
       canvas.width;
 
 
+    let finalWidth=
+      imageWidth;
+
+    let finalHeight=
+      imageHeight;
+
+
     /*
-      One PDF page can contain this
-      much of the source canvas.
+      अगर invoice height A4 से बड़ी है,
+      तो width और height दोनों को
+      proportionally छोटा करो.
     */
 
-    const sourcePageHeight=
-      Math.floor(
-        canvas.width *
+    if(finalHeight>
+       contentHeight){
+
+      const scale=
         contentHeight /
-        contentWidth
-      );
+        finalHeight;
 
+      finalWidth=
+        finalWidth *
+        scale;
 
-    let sourceY=0;
-
-    let pageNumber=0;
-
-
-    while(
-      sourceY<
-      canvas.height
-    ){
-
-      const sliceHeight=
-        Math.min(
-          sourcePageHeight,
-          canvas.height-sourceY
-        );
-
-
-      const pageCanvas=
-        document.createElement(
-          "canvas"
-        );
-
-
-      pageCanvas.width=
-        canvas.width;
-
-      pageCanvas.height=
-        sliceHeight;
-
-
-      const ctx=
-        pageCanvas.getContext(
-          "2d"
-        );
-
-
-      ctx.fillStyle=
-        "#ffffff";
-
-      ctx.fillRect(
-        0,
-        0,
-        pageCanvas.width,
-        pageCanvas.height
-      );
-
-
-      ctx.drawImage(
-        canvas,
-        0,
-        sourceY,
-        canvas.width,
-        sliceHeight,
-        0,
-        0,
-        canvas.width,
-        sliceHeight
-      );
-
-
-      const imageData=
-        pageCanvas.toDataURL(
-          "image/png"
-        );
-
-
-      if(pageNumber>0){
-
-        pdf.addPage();
-
-      }
-
-
-      const imageHeight=
-        sliceHeight *
-        contentWidth /
-        canvas.width;
-
-
-      pdf.addImage(
-        imageData,
-        "PNG",
-        margin,
-        margin,
-        contentWidth,
-        imageHeight
-      );
-
-
-      sourceY+=
-        sliceHeight;
-
-      pageNumber++;
+      finalHeight=
+        contentHeight;
 
     }
 
 
     /*
-      Convert generated PDF to Blob.
+      Page पर horizontally center
+    */
+
+    const x=
+      (
+        pageWidth-
+        finalWidth
+      )/2;
+
+    const y=
+      margin;
+
+
+    /*
+      पूरी invoice एक ही page पर
+    */
+
+    const imageData=
+      canvas.toDataURL(
+        "image/png"
+      );
+
+    pdf.addImage(
+      imageData,
+      "PNG",
+      x,
+      y,
+      finalWidth,
+      finalHeight
+    );
+
+
+    /*
+      STEP 8
+      PDF Blob बनाओ
     */
 
     const blob=
       pdf.output(
         "blob"
       );
-
 
     const url=
       URL.createObjectURL(
@@ -3132,23 +3162,28 @@ async function(id){
 
 
     /*
-      Open the actual PDF in the
-      browser's native PDF viewer.
+      STEP 9
+      Browser का native PDF viewer खोलो
     */
 
     pdfWindow.location.href=
       url;
 
 
-    if(oldButton){
+    /*
+      बाद में temporary URL release
+    */
 
-      oldButton.disabled=
-        false;
+    setTimeout(
+      function(){
 
-      oldButton.textContent=
-        "📄 PDF";
+        URL.revokeObjectURL(
+          url
+        );
 
-    }
+      },
+      60000
+    );
 
 
   }
@@ -3174,9 +3209,24 @@ async function(id){
 
     alert(
       "PDF could not be generated.\n\n"+
-      (e?.message || String(e))
+      (
+        e?.message ||
+        String(e)
+      )
     );
 
+  }
+  finally{
+
+    /*
+      Temporary invoice हटाओ
+    */
+
+    if(tempWrapper){
+
+      tempWrapper.remove();
+
+    }
 
   }
 
