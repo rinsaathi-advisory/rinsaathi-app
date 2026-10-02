@@ -734,7 +734,10 @@ All Time
 
   </div>
 
-   <div class="modal"
+</div>
+
+
+<div class="modal"
   id="consultationSubmittedAnalyticsContainer">
 
   <div class="modalBox">
@@ -756,12 +759,6 @@ All Time
     <div id="consultationSubmittedAnalyticsList"></div>
 
   </div>
-
-</div>
-      
-</div>
-   
-  <div id="loginAttemptAnalyticsList"></div>
 
 </div>
   
@@ -5622,28 +5619,52 @@ window.setAnalyticsFilter=function(filter,btn){
     btn.classList.add("selected");
   }
 
- renderAppAnalytics();
+  renderAppAnalytics();
 
-const loginDetails=
-  $("loginAttemptAnalyticsContainer");
 
-if(
-  loginDetails &&
-  loginDetails.style.display==="block"
-){
-  renderLoginAttemptDetails();
-}
+  const loginDetails =
+    $("loginAttemptAnalyticsContainer");
 
-  const loginSuccessDetails=
-  $("loginSuccessAnalyticsContainer");
+  if(
+    loginDetails &&
+    loginDetails.classList.contains("active")
+  ){
+    renderLoginAttemptDetails();
+  }
 
-if(
-  loginSuccessDetails &&
-  loginSuccessDetails.style.display==="block"
-){
-  renderLoginSuccessDetails();
-}
-  
+
+  const loginSuccessDetails =
+    $("loginSuccessAnalyticsContainer");
+
+  if(
+    loginSuccessDetails &&
+    loginSuccessDetails.classList.contains("active")
+  ){
+    renderLoginSuccessDetails();
+  }
+
+
+  const consultationOpenedDetails =
+    $("consultationOpenedAnalyticsContainer");
+
+  if(
+    consultationOpenedDetails &&
+    consultationOpenedDetails.classList.contains("active")
+  ){
+    renderConsultationOpenedDetails();
+  }
+
+
+  const consultationSubmittedDetails =
+    $("consultationSubmittedAnalyticsContainer");
+
+  if(
+    consultationSubmittedDetails &&
+    consultationSubmittedDetails.classList.contains("active")
+  ){
+    renderConsultationSubmittedDetails();
+  }
+
 };
 
   
