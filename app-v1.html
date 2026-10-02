@@ -39,7 +39,7 @@ body{
 
 #loginScreen{
   min-height:100vh;
-  display:flex;
+  display:none;
   align-items:center;
   justify-content:center;
   padding:20px;
@@ -150,7 +150,7 @@ body{
 /* MAIN APP */
 
 #mainApp{
-  display:none;
+  display:block;
 }
 
 .header{
@@ -4549,6 +4549,13 @@ onAuthStateChanged(
 
     if(user){
 
+  localStorage.setItem(
+
+    "rinsaathiExistingUser",
+
+    "true"
+    );
+      
   const userRef =
     doc(db,"users",user.uid);
 
@@ -4636,6 +4643,70 @@ if(previouslyPaid){
 await checkFreeConsultationStatus();
 
 
+const pendingFreeConsultation =
+  localStorage.getItem(
+    "rinsaathiPendingFreeConsultation"
+  );
+
+if(
+  pendingFreeConsultation
+){
+
+  try{
+
+    const pendingData =
+      JSON.parse(
+        pendingFreeConsultation
+      );
+
+    const nameInput =
+      document.getElementById(
+        "name"
+      );
+
+    const phoneInput =
+      document.getElementById(
+        "phone"
+      );
+
+    const messageInput =
+      document.getElementById(
+        "message"
+      );
+
+    if(nameInput){
+      nameInput.value =
+        pendingData.name || "";
+    }
+
+    if(phoneInput){
+      phoneInput.value =
+        pendingData.phone || "";
+    }
+
+    if(messageInput){
+      messageInput.value =
+        pendingData.message || "";
+    }
+
+    await saveFreeConsultationAndContinue();
+
+    localStorage.removeItem(
+      "rinsaathiPendingFreeConsultation"
+    );
+
+  }catch(error){
+
+    console.error(
+      "PENDING CONSULTATION ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
 /*
   Restore Advisory Enrollment from Firebase.
   This makes Advisory access available
@@ -4671,11 +4742,28 @@ updateAdvisoryHomeStatus();
 
 }else{
 
-      loginScreen.style.display =
-        "flex";
+      const existingUser =
+        localStorage.getItem(
+          "rinsaathiExistingUser"
+        ) === "true";
 
-      mainApp.style.display =
-        "none";
+      if(existingUser){
+
+        loginScreen.style.display =
+          "flex";
+
+        mainApp.style.display =
+          "none";
+
+      }else{
+
+        loginScreen.style.display =
+          "none";
+
+        mainApp.style.display =
+          "block";
+
+      }
       
       if(!localStorage.getItem("rinsaathiVisitorTracked")){
 
@@ -4689,6 +4777,7 @@ updateAdvisoryHomeStatus();
         );
 
       }
+
       freeConsultationUsed =
         false;
 
@@ -4698,7 +4787,7 @@ updateAdvisoryHomeStatus();
       consultationPaid =
         false;
 
-    }
+}
 
   }
 );
@@ -4731,6 +4820,19 @@ async function(){
 
 window.handleMainConsultationButton =
 function(){
+
+  /*
+    New visitor:
+    open the existing free consultation form first.
+  */
+
+  if(!auth.currentUser){
+
+    openFreeConsultationForm();
+
+    return;
+
+  }
 
   /*
     If this user has already completed and verified
@@ -4773,7 +4875,13 @@ function(){
 
 async function openFreeConsultationForm(){
 
-  if(!consultationStatusChecked){
+  const user =
+    auth.currentUser;
+
+  if(
+    user &&
+    !consultationStatusChecked
+  ){
 
     alert(
       "Please wait while we check your consultation status."
@@ -4783,7 +4891,10 @@ async function openFreeConsultationForm(){
 
   }
 
-  if(freeConsultationUsed){
+  if(
+    user &&
+    freeConsultationUsed
+  ){
 
     alert(
       "Your free consultation has already been used. Please use the paid consultation option."
@@ -8392,6 +8503,78 @@ async function(){
     currentService ===
     "Free Consultation"
   ){
+
+    if(!auth.currentUser){
+
+      const name =
+        document.getElementById(
+          "name"
+        )?.value.trim();
+
+      const phone =
+        document.getElementById(
+          "phone"
+        )?.value.trim();
+
+      const message =
+        document.getElementById(
+          "message"
+        )?.value.trim();
+
+      if(
+        !name ||
+        !phone
+      ){
+
+        alert(
+          "Please enter your name and mobile number."
+        );
+
+        return;
+
+      }
+
+      if(
+        !/^[6-9]\d{9}$/.test(
+          phone
+        )
+      ){
+
+        alert(
+          "Please enter a valid 10-digit Indian mobile number."
+        );
+
+        return;
+
+      }
+
+      localStorage.setItem(
+        "rinsaathiPendingFreeConsultation",
+        JSON.stringify({
+          name:name,
+          phone:phone,
+          message:message || ""
+        })
+      );
+
+      document.getElementById(
+        "loginScreen"
+      ).style.display =
+        "flex";
+
+      document.getElementById(
+        "mainApp"
+      ).style.display =
+        "none";
+
+      window.scrollTo(
+        0,
+        0
+      );
+
+      return;
+
+    }
 
     await saveFreeConsultationAndContinue();
 
