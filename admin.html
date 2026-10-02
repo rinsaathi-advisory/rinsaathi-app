@@ -4599,46 +4599,90 @@ function renderAppAnalytics(){
 
 
   const visitors=
-    Array.from(
-      visitorMap.entries()
-    )
-    .map(
-      ([visitorId,visit])=>{
+  Array.from(
+    visitorMap.entries()
+  )
+  .map(
+    ([visitorId,visit])=>{
 
-        const loginEvents=
-          events
-            .filter(
-              e=>
-                e.event==="login_success" &&
-                String(e.visitorId||"").trim()===
-                visitorId
-            )
-            .sort(
-              (a,b)=>
-                dateMs(a.createdAt)-
-                dateMs(b.createdAt)
-            );
-
-
-        const login=
-          loginEvents.length
-            ? loginEvents[0]
-            : null;
+      const loginEvents=
+        events
+          .filter(
+            e=>
+              e.event==="login_success" &&
+              String(e.visitorId||"").trim()===
+              visitorId
+          )
+          .sort(
+            (a,b)=>
+              dateMs(a.createdAt)-
+              dateMs(b.createdAt)
+          );
 
 
-        return{
-          visitorId,
-          visit,
-          login
-        };
+      const login=
+        loginEvents.length
+          ? loginEvents[0]
+          : null;
 
-      }
-    )
-    .sort(
-  (a,b)=>
-    dateMs(a.visit.createdAt)-
-    dateMs(b.visit.createdAt)
-);
+
+      const consultationOpenedEvents=
+        events
+          .filter(
+            e=>
+              e.event==="consultation_started" &&
+              String(e.visitorId||"").trim()===
+              visitorId
+          )
+          .sort(
+            (a,b)=>
+              dateMs(a.createdAt)-
+              dateMs(b.createdAt)
+          );
+
+
+      const consultationFilledEvents=
+        events
+          .filter(
+            e=>
+              e.event==="consultation_form_filled" &&
+              String(e.visitorId||"").trim()===
+              visitorId
+          )
+          .sort(
+            (a,b)=>
+              dateMs(a.createdAt)-
+              dateMs(b.createdAt)
+          );
+
+
+      const consultationOpened=
+        consultationOpenedEvents.length
+          ? consultationOpenedEvents[0]
+          : null;
+
+
+      const consultationFilled=
+        consultationFilledEvents.length
+          ? consultationFilledEvents[0]
+          : null;
+
+
+      return{
+        visitorId,
+        visit,
+        login,
+        consultationOpened,
+        consultationFilled
+      };
+
+    }
+  )
+  .sort(
+    (a,b)=>
+      dateMs(a.visit.createdAt)-
+      dateMs(b.visit.createdAt)
+  );
 
 
   const rows=
@@ -4646,15 +4690,46 @@ function renderAppAnalytics(){
       (v,index)=>{
 
         const loginText=
-          v.login
-            ? formatDate(v.login.createdAt)
-            : "Not logged in yet";
+  v.login
+    ? formatDate(v.login.createdAt)
+    : "Not logged in yet";
 
 
-        const loginStatus=
-          v.login
-            ? "LOGIN SUCCESS"
-            : "APP VISIT";
+const loginStatus=
+  v.login
+    ? "LOGIN SUCCESS"
+    : "APP VISIT";
+
+
+const consultationOpenedText=
+  v.consultationOpened
+    ? formatDate(
+        v.consultationOpened.createdAt
+      )
+    : "Not opened";
+
+
+const consultationFilledText=
+  v.consultationFilled
+    ? formatDate(
+        v.consultationFilled.createdAt
+      )
+    : "Not filled";
+
+
+const consultationName=
+  v.consultationFilled?.name ||
+  "";
+
+
+const consultationMobile=
+  v.consultationFilled?.phone ||
+  "";
+
+
+const consultationService=
+  v.consultationFilled?.service ||
+  "";
 
 
         return `
@@ -4670,25 +4745,68 @@ function renderAppAnalytics(){
                 </div>
 
                 <div class="listMeta">
-                  App Visit:
-                  ${esc(
-                    formatDate(
-                      v.visit.createdAt
-                    )
-                  )}
-                </div>
+  App Visit:
+  ${esc(
+    formatDate(
+      v.visit.createdAt
+    )
+  )}
+</div>
 
-                <div class="listMeta">
-                  Login Successful:
-                  ${esc(loginText)}
-                </div>
+<div class="listMeta">
+  Login Successful:
+  ${esc(loginText)}
+</div>
 
-                <div class="listMeta">
-                Source:
-                ${esc(
-               analyticsSource(v.visit)
-               )}
-              </div>
+<div class="listMeta">
+  Consultation Form Opened:
+  ${esc(consultationOpenedText)}
+</div>
+
+<div class="listMeta">
+  Consultation Form Filled:
+  ${esc(consultationFilledText)}
+</div>
+
+${
+  consultationName
+    ? `
+      <div class="listMeta">
+        Name:
+        ${esc(consultationName)}
+      </div>
+    `
+    : ""
+}
+
+${
+  consultationMobile
+    ? `
+      <div class="listMeta">
+        Mobile:
+        ${esc(consultationMobile)}
+      </div>
+    `
+    : ""
+}
+
+${
+  consultationService
+    ? `
+      <div class="listMeta">
+        Service:
+        ${esc(consultationService)}
+      </div>
+    `
+    : ""
+}
+
+<div class="listMeta">
+  Source:
+  ${esc(
+    analyticsSource(v.visit)
+  )}
+</div>
               
               </div>
 
