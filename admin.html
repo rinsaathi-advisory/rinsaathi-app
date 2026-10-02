@@ -4697,8 +4697,6 @@ $("analyticsConsultationSubmitted").textContent =
         visitorId,
         visit,
         login,
-        consultationOpened,
-        consultationFilled
       };
 
     }
@@ -4724,21 +4722,6 @@ const loginStatus=
   v.login
     ? "LOGIN SUCCESS"
     : "APP VISIT";
-
-
-const consultationName=
-  v.consultationFilled?.name ||
-  "";
-
-
-const consultationMobile=
-  v.consultationFilled?.phone ||
-  "";
-
-
-const consultationService=
-  v.consultationFilled?.service ||
-  "";
 
 
         return `
@@ -4767,39 +4750,6 @@ const consultationService=
   ${esc(loginText)}
 </div>
 
-
-${
-  consultationName
-    ? `
-      <div class="listMeta">
-        Name:
-        ${esc(consultationName)}
-      </div>
-    `
-    : ""
-}
-
-${
-  consultationMobile
-    ? `
-      <div class="listMeta">
-        Mobile:
-        ${esc(consultationMobile)}
-      </div>
-    `
-    : ""
-}
-
-${
-  consultationService
-    ? `
-      <div class="listMeta">
-        Service:
-        ${esc(consultationService)}
-      </div>
-    `
-    : ""
-}
 
 <div class="listMeta">
   Source:
