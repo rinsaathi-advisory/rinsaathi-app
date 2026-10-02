@@ -636,6 +636,19 @@ All Time
       <div class="statTitle">Traffic Sources</div>
     </div>
 
+   <div class="statCard" onclick="toggleConsultationOpenedDetails()">
+  <div class="statIcon">📝</div>
+  <div class="statNumber" id="analyticsConsultationOpened">0</div>
+  <div class="statTitle">Consultation Form Opened</div>
+</div>
+
+
+<div class="statCard" onclick="toggleConsultationSubmittedDetails()">
+  <div class="statIcon">📋</div>
+  <div class="statNumber" id="analyticsConsultationSubmitted">0</div>
+  <div class="statTitle">Consultation Form Submitted</div>
+</div>
+     
   </div>
 
   </div>
@@ -697,7 +710,57 @@ All Time
   </div>
 
 </div>
-    
+
+   <div class="modal"
+  id="consultationOpenedAnalyticsContainer">
+
+  <div class="modalBox">
+
+    <div class="sectionHeading">
+
+      <h3>📝 Consultation Form Opened Details</h3>
+
+      <button
+        type="button"
+        class="close"
+        onclick="closeConsultationOpenedDetails()"
+        style="float:none;">
+        ✕
+      </button>
+
+    </div>
+
+    <div id="consultationOpenedAnalyticsList"></div>
+
+  </div>
+
+   <div class="modal"
+  id="consultationSubmittedAnalyticsContainer">
+
+  <div class="modalBox">
+
+    <div class="sectionHeading">
+
+      <h3>📋 Consultation Form Submitted Details</h3>
+
+      <button
+        type="button"
+        class="close"
+        onclick="closeConsultationSubmittedDetails()"
+        style="float:none;">
+        ✕
+      </button>
+
+    </div>
+
+    <div id="consultationSubmittedAnalyticsList"></div>
+
+  </div>
+
+</div>
+      
+</div>
+   
   <div id="loginAttemptAnalyticsList"></div>
 
 </div>
@@ -4541,6 +4604,13 @@ function renderAppAnalytics(){
     ).length;
 
 
+   $("analyticsConsultationOpened").textContent =
+  consultationStarted;
+
+$("analyticsConsultationSubmitted").textContent =
+  consultationSubmitted;
+
+   
   /*
     UPDATE ANALYTICS CARDS
   */
@@ -4626,48 +4696,6 @@ function renderAppAnalytics(){
           : null;
 
 
-      const consultationOpenedEvents=
-        events
-          .filter(
-            e=>
-              e.event==="consultation_started" &&
-              String(e.visitorId||"").trim()===
-              visitorId
-          )
-          .sort(
-            (a,b)=>
-              dateMs(a.createdAt)-
-              dateMs(b.createdAt)
-          );
-
-
-      const consultationFilledEvents=
-        events
-          .filter(
-            e=>
-              e.event==="consultation_form_filled" &&
-              String(e.visitorId||"").trim()===
-              visitorId
-          )
-          .sort(
-            (a,b)=>
-              dateMs(a.createdAt)-
-              dateMs(b.createdAt)
-          );
-
-
-      const consultationOpened=
-        consultationOpenedEvents.length
-          ? consultationOpenedEvents[0]
-          : null;
-
-
-      const consultationFilled=
-        consultationFilledEvents.length
-          ? consultationFilledEvents[0]
-          : null;
-
-
       return{
         visitorId,
         visit,
@@ -4699,22 +4727,6 @@ const loginStatus=
   v.login
     ? "LOGIN SUCCESS"
     : "APP VISIT";
-
-
-const consultationOpenedText=
-  v.consultationOpened
-    ? formatDate(
-        v.consultationOpened.createdAt
-      )
-    : "Not opened";
-
-
-const consultationFilledText=
-  v.consultationFilled
-    ? formatDate(
-        v.consultationFilled.createdAt
-      )
-    : "Not filled";
 
 
 const consultationName=
@@ -4758,15 +4770,6 @@ const consultationService=
   ${esc(loginText)}
 </div>
 
-<div class="listMeta">
-  Consultation Form Opened:
-  ${esc(consultationOpenedText)}
-</div>
-
-<div class="listMeta">
-  Consultation Form Filled:
-  ${esc(consultationFilledText)}
-</div>
 
 ${
   consultationName
@@ -5233,7 +5236,376 @@ window.closeLoginSuccessDetails=function(){
 
 };
 
-  
+
+function renderConsultationOpenedDetails(){
+
+  const box =
+    $("consultationOpenedAnalyticsList");
+
+  if(!box)
+    return;
+
+
+  const range =
+    getAnalyticsDateRange(
+      analyticsDateFilter
+    );
+
+
+  const events =
+    (appAnalytics || [])
+      .filter(e => {
+
+        const t =
+          dateMs(e.createdAt);
+
+        return (
+          t >= range.start &&
+          t < range.end &&
+          e.event ===
+            "consultation_started"
+        );
+
+      })
+      .sort(
+        (a,b) =>
+          dateMs(a.createdAt) -
+          dateMs(b.createdAt)
+      );
+
+
+  if(!events.length){
+
+    box.innerHTML =
+      "<div class='empty'>" +
+      "No consultation form openings found for this period." +
+      "</div>";
+
+    return;
+
+  }
+
+
+  const rows =
+    events.map(
+      (e,index) => {
+
+        const visitorId =
+          String(
+            e.visitorId || ""
+          ).trim();
+
+
+        const formType =
+          String(
+            e.consultationType ||
+            e.formType ||
+            "Consultation"
+          ).trim();
+
+
+        return `
+
+          <div class="listItem">
+
+            <div class="listTop">
+
+              <div>
+
+                <div class="listName">
+                  Consultation Form Opened ${index+1}
+                </div>
+
+                <div class="listMeta">
+                  Form Type:
+                  ${esc(formType)}
+                </div>
+
+                <div class="listMeta">
+                  Date & Time:
+                  ${esc(
+                    formatDate(
+                      e.createdAt
+                    )
+                  )}
+                </div>
+
+                <div class="listMeta">
+                  Source:
+                  ${esc(
+                    analyticsSource(e)
+                  )}
+                </div>
+
+                ${
+                  visitorId
+                  ?
+                  `<div class="listMeta">
+                    Visitor:
+                    ${esc(
+                      visitorId.slice(0,8)
+                    )}
+                  </div>`
+                  :
+                  ""
+                }
+
+              </div>
+
+              <span class="status new">
+                FORM OPENED
+              </span>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
+
+
+  box.innerHTML =
+    rows;
+
+}
+
+
+window.toggleConsultationOpenedDetails =
+function(){
+
+  const section =
+    $("consultationOpenedAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  renderConsultationOpenedDetails();
+
+  section.classList.add("active");
+
+};
+
+
+window.closeConsultationOpenedDetails =
+function(){
+
+  const section =
+    $("consultationOpenedAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  section.classList.remove("active");
+
+};
+
+
+function renderConsultationSubmittedDetails(){
+
+  const box =
+    $("consultationSubmittedAnalyticsList");
+
+  if(!box)
+    return;
+
+
+  const range =
+    getAnalyticsDateRange(
+      analyticsDateFilter
+    );
+
+
+  const events =
+    (appAnalytics || [])
+      .filter(e => {
+
+        const t =
+          dateMs(e.createdAt);
+
+        return (
+          t >= range.start &&
+          t < range.end &&
+          e.event ===
+            "consultation_submitted"
+        );
+
+      })
+      .sort(
+        (a,b) =>
+          dateMs(a.createdAt) -
+          dateMs(b.createdAt)
+      );
+
+
+  if(!events.length){
+
+    box.innerHTML =
+      "<div class='empty'>" +
+      "No consultation form submissions found for this period." +
+      "</div>";
+
+    return;
+
+  }
+
+
+  const rows =
+    events.map(
+      (e,index) => {
+
+        const name =
+          String(
+            e.name || ""
+          ).trim();
+
+
+        const phone =
+          String(
+            e.phone ||
+            e.mobile ||
+            ""
+          ).trim();
+
+
+        const formType =
+          String(
+            e.formType ||
+            e.consultationType ||
+            e.service ||
+            "Consultation"
+          ).trim();
+
+
+        const visitorId =
+          String(
+            e.visitorId || ""
+          ).trim();
+
+
+        return `
+
+          <div class="listItem">
+
+            <div class="listTop">
+
+              <div>
+
+                <div class="listName">
+                  Consultation Form Submitted ${index+1}
+                </div>
+
+                ${
+                  name
+                  ?
+                  `<div class="listMeta">
+                    Name:
+                    ${esc(name)}
+                  </div>`
+                  :
+                  ""
+                }
+
+                ${
+                  phone
+                  ?
+                  `<div class="listMeta">
+                    Mobile:
+                    ${esc(phone)}
+                  </div>`
+                  :
+                  ""
+                }
+
+                <div class="listMeta">
+                  Form Type:
+                  ${esc(formType)}
+                </div>
+
+                <div class="listMeta">
+                  Source:
+                  ${esc(
+                    analyticsSource(e)
+                  )}
+                </div>
+
+                <div class="listMeta">
+                  Date & Time:
+                  ${esc(
+                    formatDate(
+                      e.createdAt
+                    )
+                  )}
+                </div>
+
+                ${
+                  visitorId
+                  ?
+                  `<div class="listMeta">
+                    Visitor:
+                    ${esc(
+                      visitorId.slice(0,8)
+                    )}
+                  </div>`
+                  :
+                  ""
+                }
+
+              </div>
+
+              <span class="status completed">
+                FORM SUBMITTED
+              </span>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
+
+
+  box.innerHTML =
+    rows;
+
+}
+
+
+window.toggleConsultationSubmittedDetails =
+function(){
+
+  const section =
+    $("consultationSubmittedAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  renderConsultationSubmittedDetails();
+
+  section.classList.add("active");
+
+};
+
+
+window.closeConsultationSubmittedDetails =
+function(){
+
+  const section =
+    $("consultationSubmittedAnalyticsContainer");
+
+  if(!section)
+    return;
+
+  section.classList.remove("active");
+
+};
+
+   
 window.setAnalyticsFilter=function(filter,btn){
 
   analyticsDateFilter=filter;
