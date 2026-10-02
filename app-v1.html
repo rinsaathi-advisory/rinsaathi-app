@@ -7580,6 +7580,22 @@ function(service){
   }
 
 
+  /* CONSULTATION FORM OPEN ANALYTICS */
+
+  trackAppEvent(
+
+    "consultation_started",
+
+    {
+
+      consultationType:
+
+        currentService
+
+    }
+
+  );
+  
   document.getElementById(
     "home"
   ).classList.add("hidden");
@@ -8371,7 +8387,22 @@ const freeRef =
 
     await batch.commit();
 
-    await trackAppEvent("consultation_submitted");
+await trackAppEvent(
+  "consultation_submitted",
+  {
+    name:
+      name,
+
+    phone:
+      phone,
+
+    formType:
+      "Free Consultation",
+
+    consultationType:
+      "Free Consultation"
+  }
+);
 
 
     /*
@@ -8638,6 +8669,24 @@ if(
   }
 
 
+  await trackAppEvent(
+  "consultation_submitted",
+  {
+    name:
+      name,
+
+    phone:
+      phone,
+
+    formType:
+      currentService,
+
+    consultationType:
+      currentService
+  }
+);
+
+  
   const text =
     buildWhatsAppText(
       currentService,
