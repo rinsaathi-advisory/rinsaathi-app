@@ -8497,7 +8497,72 @@ if(
 /* SEND WHATSAPP */
 
 window.sendWhatsApp =
+
 async function(){
+
+  const name =
+
+    document.getElementById(
+
+      "name"
+
+    )?.value.trim();
+
+  const phone =
+
+    document.getElementById(
+
+      "phone"
+
+    )?.value.trim();
+
+  /*
+
+    Track consultation form filled
+
+    for a visitor who is not logged in.
+
+  */
+
+  if(
+
+    !auth.currentUser &&
+
+    currentService ===
+
+    "Free Consultation" &&
+
+    name &&
+
+    phone &&
+
+    /^[6-9]\d{9}$/.test(phone)
+
+  ){
+
+    await trackAppEvent(
+
+      "consultation_form_filled",
+
+      {
+
+        name:
+
+          name,
+
+        phone:
+
+          phone,
+
+        service:
+
+          currentService
+
+      }
+
+    );
+
+  }
 
   if(
     currentService ===
