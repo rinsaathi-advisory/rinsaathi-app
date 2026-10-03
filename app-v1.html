@@ -8580,6 +8580,16 @@ if(
 
       }
 
+      await trackAppEvent(
+  "consultation_submitted",
+  {
+    name: name,
+    phone: phone,
+    formType: "Free Consultation",
+    consultationType: "Free Consultation"
+  }
+);
+      
       localStorage.setItem(
         "rinsaathiPendingFreeConsultation",
         JSON.stringify({
