@@ -7325,15 +7325,18 @@ function(title){
     Firebase consultation status has been checked.
   */
 
-  if(!consultationStatusChecked){
+  if(
+  auth.currentUser &&
+  !consultationStatusChecked
+){
 
-    alert(
-      "Please wait while we check your consultation status."
-    );
+  alert(
+    "Please wait while we check your consultation status."
+  );
 
-    return;
+  return;
 
-  }
+}
 
 
   /*
