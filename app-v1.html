@@ -4778,22 +4778,23 @@ updateAdvisoryHomeStatus();
 
       }
 
-        /*
+             /*
         NEW VISITOR:
         No Firebase user exists yet, so there is
         no consultation record to check.
         Start directly in the First Consultation Free state.
       */
-      
+
       freeConsultationUsed =
         false;
 
       consultationStatusChecked =
-        false;
+        true;
 
       consultationPaid =
         false;
 
+      updateConsultationUI();
 }
 
   }
