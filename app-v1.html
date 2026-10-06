@@ -4921,28 +4921,14 @@ updateAdvisoryHomeStatus();
 
 }else{
 
-      const existingUser =
-        localStorage.getItem(
-          "rinsaathiExistingUser"
-        ) === "true";
+      loginScreen.style.display =
+  "none";
 
-      if(existingUser){
+mainApp.style.display =
+  "block";
 
-        loginScreen.style.display =
-          "flex";
-
-        mainApp.style.display =
-          "none";
-
-      }else{
-
-        loginScreen.style.display =
-          "none";
-
-        mainApp.style.display =
-          "block";
-
-      }
+entryChoiceScreen.style.display =
+  "none";
       
       if(!localStorage.getItem("rinsaathiVisitorTracked")){
 
@@ -5031,6 +5017,23 @@ async function(){
 window.selectNewUser =
 async function(){
 
+  /*
+    IMPORTANT:
+    If an Existing User is already logged in,
+    completely logout that Firebase session
+    before entering New User registration.
+  */
+
+  if(auth.currentUser){
+
+    await signOut(auth);
+
+  }
+
+  localStorage.removeItem(
+    "rinsaathiExistingUser"
+  );
+
   entryMode = "new";
 
   const entryChoiceScreen =
@@ -5057,16 +5060,16 @@ async function(){
   mainApp.style.display =
     "block";
 
-freeConsultationUsed =
-  false;
+  freeConsultationUsed =
+    false;
 
-consultationStatusChecked =
-  true;
+  consultationStatusChecked =
+    true;
 
-consultationPaid =
-  false;
+  consultationPaid =
+    false;
 
-updateConsultationUI();
+  updateConsultationUI();
 
 };
 
