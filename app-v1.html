@@ -4737,8 +4737,7 @@ async function registerLoggedInUser(user){
 }
 
 
-let entryMode =
-  localStorage.getItem("rinsaathiEntryMode") || "";
+let entryMode = "";
   
 /* AUTH STATE */
 
@@ -4761,23 +4760,19 @@ const entryChoiceScreen =
     "entryChoiceScreen"
   );
 
-/* Restore the correct entry flow after refresh.
+/* AUTH ENTRY CONTROL */
 
-   A saved Existing User session reopens the main app; a saved New User
+if(!user){
 
-   flow is accepted only when its explicitly verified phone matches. */
+  entryMode = "";
 
-if(!entryMode && user){
+  localStorage.removeItem(
+    "rinsaathiEntryMode"
+  );
 
-  entryMode = "existing";
-
-  localStorage.setItem("rinsaathiEntryMode", "existing");
-
-  localStorage.removeItem("rinsaathiNewUserPhone");
-
-}
-
-if(!entryMode){
+  localStorage.removeItem(
+    "rinsaathiNewUserPhone"
+  );
 
   entryChoiceScreen.style.display =
     "flex";
@@ -4792,25 +4787,12 @@ if(!entryMode){
 
 }
 
-/* Hard safety guard for New User:
-   only the mobile number explicitly verified through the New User
-   OTP flow may continue as a New User. */
-if(user && entryMode === "new"){
+entryMode = "existing";
 
-  const expectedNewPhone =
-    localStorage.getItem("rinsaathiNewUserPhone") || "";
-
-  if(
-    !expectedNewPhone ||
-    user.phoneNumber !== expectedNewPhone
-  ){
-
-    await signOut(auth);
-    return;
-
-  }
-
-}
+localStorage.setItem(
+  "rinsaathiEntryMode",
+  "existing"
+);
     
   if(user){
 
@@ -5031,15 +5013,7 @@ updateAdvisoryHomeStatus();
 
   /* Existing User login without an authenticated user stays
      on the login screen, including after refresh. */
-  if(entryMode === "existing"){
-
-    loginScreen.style.display = "flex";
-    mainApp.style.display = "none";
-    entryChoiceScreen.style.display = "none";
-    return;
-
-  }
-
+  
   loginScreen.style.display =
     "none";
 
@@ -5090,17 +5064,12 @@ updateAdvisoryHomeStatus();
 window.selectExistingUser =
 async function(){
 
-  /* Never carry a previous authenticated session into a new login. */
-  if(auth.currentUser){
-
-    entryMode = "";
-    localStorage.removeItem("rinsaathiEntryMode");
-    await signOut(auth);
-
-  }
-
   entryMode = "existing";
-  localStorage.setItem("rinsaathiEntryMode", "existing");
+
+  localStorage.setItem(
+    "rinsaathiEntryMode",
+    "existing"
+  );
 
   const entryChoiceScreen =
     document.getElementById(
@@ -5160,17 +5129,24 @@ async function(){
 
   if(auth.currentUser){
 
-    await signOut(auth);
+  await signOut(auth);
 
-  }
+}
 
-  localStorage.removeItem(
-    "rinsaathiExistingUser"
-  );
+localStorage.removeItem(
+  "rinsaathiExistingUser"
+);
 
- entryMode = "new";
-localStorage.setItem("rinsaathiEntryMode", "new");
-localStorage.removeItem("rinsaathiNewUserPhone");
+entryMode = "new";
+
+localStorage.setItem(
+  "rinsaathiEntryMode",
+  "new"
+);
+
+localStorage.removeItem(
+  "rinsaathiNewUserPhone"
+);
 
   const entryChoiceScreen =
     document.getElementById(
