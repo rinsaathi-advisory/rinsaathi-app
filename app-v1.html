@@ -1654,7 +1654,11 @@ import {
   collection,
   addDoc,
   writeBatch,
-  serverTimestamp
+  serverTimestamp,
+  query,
+  where,
+  limit,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 import {
@@ -3004,6 +3008,60 @@ function setLoginMessage(message,type=""){
 }
 
 
+/* CHECK EXISTING MOBILE FOR NEW USER */
+
+async function checkExistingMobile(phone){
+
+  const normalizedPhone =
+    String(phone || "").trim();
+
+  if(
+    !/^[6-9]\d{9}$/.test(
+      normalizedPhone
+    )
+  ){
+
+    return false;
+
+  }
+
+  try{
+
+    const usersQuery =
+      query(
+        collection(
+          db,
+          "users"
+        ),
+        where(
+          "phone",
+          "==",
+          "+91" + normalizedPhone
+        ),
+        limit(1)
+      );
+
+    const snapshot =
+      await getDocs(
+        usersQuery
+      );
+
+    return !snapshot.empty;
+
+  }catch(error){
+
+    console.error(
+      "EXISTING MOBILE CHECK ERROR:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+  
 /* RECAPTCHA */
 
 async function createRecaptcha(){
@@ -7849,12 +7907,127 @@ function buildServiceForm(service){
       type="text"
       placeholder="Your Name">
 
-    <input
+        <input
       id="phone"
       type="tel"
       inputmode="numeric"
       maxlength="10"
-      placeholder="Mobile Number">
+      placeholder="Mobile Number"
+      onblur="checkNewUserMobile()">
+
+    <div
+      id="existingUserWarning"
+      style="
+        display:none;
+        margin-top:10px;
+        padding:12px;
+        border-radius:10px;
+        background:#fff4e5;
+        color:#8a4b00;
+        font-weight:700;
+        text-align:center;
+      ">
+
+      You are already registered with RinSaathi.
+      Please Login to continue.
+
+      <button
+        type="button"
+        class="btn btnGreen"
+        style="margin-top:10px;"
+        onclick="openInlineExistingLogin()">
+
+        Login for Existing User
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="inlineExistingLogin"
+      style="
+        display:none;
+        margin-top:14px;
+        padding:14px;
+        border:1px solid rgba(0,0,0,0.12);
+        border-radius:12px;
+        background:#ffffff;
+      ">
+
+      <div
+        style="
+          font-weight:800;
+          margin-bottom:10px;
+          color:#16704f;
+        ">
+
+        Login for Existing User
+
+      </div>
+
+
+      <input
+        id="inlineLoginPhone"
+        type="tel"
+        inputmode="numeric"
+        maxlength="10"
+        placeholder="Mobile Number"
+        readonly>
+
+
+      <div
+        id="inline-recaptcha-container"
+        style="margin:10px 0;">
+      </div>
+
+
+      <button
+        id="inlineSendOtpBtn"
+        type="button"
+        class="btn btnGreen"
+        onclick="sendInlineExistingOTP()">
+
+        Send OTP
+
+      </button>
+
+
+      <div
+        id="inlineOtpSection"
+        style="display:none; margin-top:10px;">
+
+        <input
+          id="inlineOtpCode"
+          type="tel"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          maxlength="6"
+          placeholder="Enter OTP">
+
+
+        <button
+          id="inlineVerifyOtpBtn"
+          type="button"
+          class="btn btnGreen"
+          onclick="verifyInlineExistingOTP()">
+
+          Verify OTP
+
+        </button>
+
+      </div>
+
+
+      <div
+        id="inlineLoginMessage"
+        style="
+          margin-top:10px;
+          font-weight:700;
+        ">
+      </div>
+
+    </div>
 
   `;
 
@@ -8139,6 +8312,596 @@ function buildServiceForm(service){
 
   `;
 
+  /* NEW USER MOBILE CHECK */
+
+window.checkNewUserMobile =
+async function(){
+
+  if(entryMode !== "new"){
+
+    return;
+
+  }
+
+  const phoneInput =
+    document.getElementById(
+      "phone"
+    );
+
+  const warning =
+    document.getElementById(
+      "existingUserWarning"
+    );
+
+  const inlineLogin =
+    document.getElementById(
+      "inlineExistingLogin"
+    );
+
+  const whatsappButton =
+    document.getElementById(
+      "whatsappButton"
+    );
+
+  if(
+    !phoneInput ||
+    !warning
+  ){
+
+    return;
+
+  }
+
+  const phone =
+    phoneInput.value.trim();
+
+  if(
+    !/^[6-9]\d{9}$/.test(
+      phone
+    )
+  ){
+
+    warning.style.display =
+      "none";
+
+    if(inlineLogin){
+
+      inlineLogin.style.display =
+        "none";
+
+    }
+
+    if(whatsappButton){
+
+      whatsappButton.disabled =
+        false;
+
+    }
+
+    return;
+
+  }
+
+
+  const existing =
+    await checkExistingMobile(
+      phone
+    );
+
+
+  if(existing){
+
+    warning.style.display =
+      "block";
+
+    if(whatsappButton){
+
+      whatsappButton.disabled =
+        true;
+
+      whatsappButton.style.opacity =
+        "0.5";
+
+    }
+
+  }else{
+
+    warning.style.display =
+      "none";
+
+    if(inlineLogin){
+
+      inlineLogin.style.display =
+        "none";
+
+    }
+
+    if(whatsappButton){
+
+      whatsappButton.disabled =
+        false;
+
+      whatsappButton.style.opacity =
+        "1";
+
+    }
+
+  }
+
+};
+
+/* OPEN INLINE EXISTING USER LOGIN */
+
+window.openInlineExistingLogin =
+async function(){
+
+  const phoneInput =
+    document.getElementById(
+      "phone"
+    );
+
+  const inlineLogin =
+    document.getElementById(
+      "inlineExistingLogin"
+    );
+
+  const inlinePhone =
+    document.getElementById(
+      "inlineLoginPhone"
+    );
+
+  if(
+    !phoneInput ||
+    !inlineLogin ||
+    !inlinePhone
+  ){
+
+    return;
+
+  }
+
+  const phone =
+    phoneInput.value.trim();
+
+  if(
+    !/^[6-9]\d{9}$/.test(
+      phone
+    )
+  ){
+
+    return;
+
+  }
+
+  inlinePhone.value =
+    phone;
+
+  inlineLogin.style.display =
+    "block";
+
+  await createInlineRecaptcha();
+
+};
+
+  /* INLINE RECAPTCHA */
+
+async function createInlineRecaptcha(){
+
+  const container =
+    document.getElementById(
+      "inline-recaptcha-container"
+    );
+
+  if(!container){
+
+    return false;
+
+  }
+
+  try{
+
+    container.innerHTML =
+      "";
+
+    window.inlineRecaptchaVerifier =
+      new RecaptchaVerifier(
+        auth,
+        "inline-recaptcha-container",
+        {
+
+          size:"normal",
+
+          callback:function(){
+
+            setInlineLoginMessage(
+              "Security verification completed.",
+              "success"
+            );
+
+          },
+
+          "expired-callback":function(){
+
+            setInlineLoginMessage(
+              "Security verification expired. Please verify again.",
+              "error"
+            );
+
+          }
+
+        }
+      );
+
+    window.inlineRecaptchaWidgetId =
+      await window.inlineRecaptchaVerifier.render();
+
+    return true;
+
+  }catch(error){
+
+    console.error(
+      "INLINE RECAPTCHA ERROR:",
+      error
+    );
+
+    setInlineLoginMessage(
+      "Security verification could not load. Please try again.",
+      "error"
+    );
+
+    return false;
+
+  }
+
+}
+
+ function setInlineLoginMessage(
+  message,
+  type=""
+){
+
+  const box =
+    document.getElementById(
+      "inlineLoginMessage"
+    );
+
+  if(!box){
+
+    return;
+
+  }
+
+  box.innerText =
+    message;
+
+  box.style.color =
+    type === "error"
+      ? "#b42318"
+      : type === "success"
+        ? "#16704f"
+        : "#53635e";
+
+}
+
+ /* INLINE EXISTING USER OTP */
+
+window.sendInlineExistingOTP =
+async function(){
+
+  const phoneInput =
+    document.getElementById(
+      "inlineLoginPhone"
+    );
+
+  const sendButton =
+    document.getElementById(
+      "inlineSendOtpBtn"
+    );
+
+  const otpSection =
+    document.getElementById(
+      "inlineOtpSection"
+    );
+
+  if(!phoneInput){
+
+    return;
+
+  }
+
+  const phone =
+    phoneInput.value.trim();
+
+  if(
+    !/^[6-9]\d{9}$/.test(
+      phone
+    )
+  ){
+
+    setInlineLoginMessage(
+      "Please enter a valid 10-digit Indian mobile number.",
+      "error"
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(sendButton){
+
+      sendButton.disabled =
+        true;
+
+      sendButton.innerText =
+        "Please wait...";
+
+    }
+
+    setInlineLoginMessage(
+      "Sending OTP..."
+    );
+
+    if(
+      !window.inlineRecaptchaVerifier
+    ){
+
+      const ready =
+        await createInlineRecaptcha();
+
+      if(!ready){
+
+        throw new Error(
+          "reCAPTCHA could not be loaded."
+        );
+
+      }
+
+    }
+
+    window.inlineConfirmationResult =
+      await signInWithPhoneNumber(
+        auth,
+        "+91" + phone,
+        window.inlineRecaptchaVerifier
+      );
+
+
+    if(otpSection){
+
+      otpSection.style.display =
+        "block";
+
+    }
+
+    setInlineLoginMessage(
+      "OTP sent successfully. Please check your SMS, including Spam/Blocked messages.",
+      "success"
+    );
+
+  }catch(error){
+
+    console.error(
+      "INLINE OTP ERROR:",
+      error
+    );
+
+    setInlineLoginMessage(
+      "Unable to send OTP. Please try again.",
+      "error"
+    );
+
+  }finally{
+
+    if(sendButton){
+
+      sendButton.disabled =
+        false;
+
+      sendButton.innerText =
+        "Send OTP";
+
+    }
+
+  }
+
+};
+
+ /* VERIFY INLINE EXISTING USER OTP */
+
+window.verifyInlineExistingOTP =
+async function(){
+
+  const otpInput =
+    document.getElementById(
+      "inlineOtpCode"
+    );
+
+  const verifyButton =
+    document.getElementById(
+      "inlineVerifyOtpBtn"
+    );
+
+  if(!otpInput){
+
+    return;
+
+  }
+
+  const otp =
+    otpInput.value.trim();
+
+  if(
+    !/^\d{6}$/.test(otp)
+  ){
+
+    setInlineLoginMessage(
+      "Please enter the 6-digit OTP.",
+      "error"
+    );
+
+    return;
+
+  }
+
+  if(
+    !window.inlineConfirmationResult
+  ){
+
+    setInlineLoginMessage(
+      "OTP session expired. Please request a new OTP.",
+      "error"
+    );
+
+    return;
+
+  }
+
+  try{
+
+    if(verifyButton){
+
+      verifyButton.disabled =
+        true;
+
+      verifyButton.innerText =
+        "Verifying...";
+
+    }
+
+    setInlineLoginMessage(
+      "Verifying OTP..."
+    );
+
+
+    const result =
+      await window.inlineConfirmationResult.confirm(
+        otp
+      );
+
+    const loggedInUser =
+      result.user;
+
+
+    const userRef =
+      doc(
+        db,
+        "users",
+        loggedInUser.uid
+      );
+
+    const userSnap =
+      await getDoc(
+        userRef
+      );
+
+
+    if(!userSnap.exists()){
+
+      await signOut(auth);
+
+      setInlineLoginMessage(
+        "This mobile number is not registered with RinSaathi.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    entryMode =
+      "existing";
+
+
+    await trackAppEvent(
+      "login_success"
+    );
+
+
+    setInlineLoginMessage(
+      "Login successful! Opening your RinSaathi account...",
+      "success"
+    );
+
+
+    setTimeout(
+      function(){
+
+        document.getElementById(
+          "formSection"
+        ).classList.add(
+          "hidden"
+        );
+
+        document.getElementById(
+          "home"
+        ).classList.remove(
+          "hidden"
+        );
+
+        window.scrollTo(
+          0,
+          0
+        );
+
+      },
+      500
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "INLINE OTP VERIFY ERROR:",
+      error
+    );
+
+    let message =
+      "OTP verification failed.";
+
+    if(
+      error?.code ===
+      "auth/invalid-verification-code"
+    ){
+
+      message =
+        "Incorrect OTP. Please check the OTP and try again.";
+
+    }
+
+    else if(
+      error?.code ===
+      "auth/code-expired"
+    ){
+
+      message =
+        "This OTP has expired. Please request a new OTP.";
+
+    }
+
+    setInlineLoginMessage(
+      message,
+      "error"
+    );
+
+  }finally{
+
+    if(verifyButton){
+
+      verifyButton.disabled =
+        false;
+
+      verifyButton.innerText =
+        "Verify OTP";
+
+    }
+
+  }
+
+};
+  
   container.innerHTML =
     html;
 
@@ -8731,6 +9494,50 @@ if(
     "Free Consultation"
   ){
 
+  if(
+    entryMode === "new"
+  ){
+
+    const phone =
+      document.getElementById(
+        "phone"
+      )?.value.trim();
+
+    if(
+      /^[6-9]\d{9}$/.test(phone)
+    ){
+
+      const existing =
+        await checkExistingMobile(
+          phone
+        );
+
+      if(existing){
+
+        const warning =
+          document.getElementById(
+            "existingUserWarning"
+          );
+
+        if(warning){
+
+          warning.style.display =
+            "block";
+
+        }
+
+        alert(
+          "You are already registered with RinSaathi. Please Login to continue."
+        );
+
+        return;
+
+      }
+
+    }
+
+  }
+  
     if(!auth.currentUser){
 
       const name =
