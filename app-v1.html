@@ -4939,13 +4939,19 @@ if(
     return;
   }
 
-  loginScreen.style.display =
-    "none";
+ /* Authenticated user:
+   Only the Main App should be visible. */
 
-  mainApp.style.display =
-    "block";
+entryChoiceScreen.style.display =
+  "none";
 
-  if(entryMode === "new"){
+loginScreen.style.display =
+  "none";
+
+mainApp.style.display =
+  "block";
+
+if(entryMode === "new"){
 
   /* This is a genuine New User OTP flow. Create/merge the user
      registry record, then continue the existing pending-consultation
