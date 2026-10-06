@@ -3361,6 +3361,74 @@ try{
 
   }
 
+    /*
+      NEW USER + PENDING CONSULTATION:
+      The OTP login number MUST be the same
+      number entered in the consultation form.
+    */
+
+    const pendingFreeConsultation =
+      localStorage.getItem(
+        "rinsaathiPendingFreeConsultation"
+      );
+
+    if(
+      pendingFreeConsultation
+    ){
+
+      try{
+
+        const pendingData =
+          JSON.parse(
+            pendingFreeConsultation
+          );
+
+        const pendingPhone =
+          String(
+            pendingData?.phone || ""
+          )
+            .replace(/\D/g,"")
+            .slice(-10);
+
+        const loginPhone =
+          String(
+            phone || ""
+          )
+            .replace(/\D/g,"")
+            .slice(-10);
+
+        if(
+          pendingPhone &&
+          pendingPhone !== loginPhone
+        ){
+
+          setLoginMessage(
+            "Please login with the same mobile number that you entered in the consultation form.",
+            "error"
+          );
+
+          return;
+
+        }
+
+      }catch(error){
+
+        console.error(
+          "PENDING CONSULTATION PHONE CHECK ERROR:",
+          error
+        );
+
+        setLoginMessage(
+          "We could not verify the consultation mobile number. Please try again.",
+          "error"
+        );
+
+        return;
+
+      }
+
+    }
+
 }catch(error){
 
   console.error(
@@ -9547,7 +9615,40 @@ async function saveFreeConsultationAndContinue(){
 
   }
 
+/* NEW USER FINAL PHONE SECURITY CHECK */
 
+if(entryMode === "new"){
+
+  const formPhone =
+    String(
+      phone || ""
+    )
+      .replace(/\D/g,"")
+      .slice(-10);
+
+  const authPhone =
+    String(
+      user.phoneNumber || ""
+    )
+      .replace(/\D/g,"")
+      .slice(-10);
+
+  if(
+    !formPhone ||
+    !authPhone ||
+    formPhone !== authPhone
+  ){
+
+    alert(
+      "Please use the same mobile number that you used to register this New User account."
+    );
+
+    return false;
+
+  }
+
+}
+  
   const whatsappText =
     buildWhatsAppText(
       "Free Consultation",
@@ -9847,59 +9948,7 @@ if(
     "Free Consultation"
   ){
 
-  /* NEW USER FORM SECURITY CHECK */
-
-if(entryMode === "new"){
-
-  const formPhone =
-    document.getElementById(
-      "phone"
-    )?.value.trim();
-
-  const authPhone =
-    auth.currentUser?.phoneNumber || "";
-
-  const normalizedFormPhone =
-    String(formPhone || "")
-      .replace(/\D/g,"")
-      .slice(-10);
-
-  const normalizedAuthPhone =
-    String(authPhone || "")
-      .replace(/\D/g,"")
-      .slice(-10);
-
-
-  if(
-    !/^[6-9]\d{9}$/.test(
-      normalizedFormPhone
-    )
-  ){
-
-    alert(
-      "Please enter a valid 10-digit Indian mobile number."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    normalizedFormPhone !==
-    normalizedAuthPhone
-  ){
-
-    alert(
-      "Please use the same mobile number that you used to register this New User account."
-    );
-
-    return;
-
-  }
-
-}
-  
+   
     if(!auth.currentUser){
 
       const name =
