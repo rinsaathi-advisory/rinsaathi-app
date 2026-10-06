@@ -848,7 +848,27 @@ body{
 
     <div id="loginMessage" class="loginMessage"></div>
 
-    <div class="notice">
+<button
+  id="loginExistingBtn"
+  class="loginBtn secondaryBtn"
+  style="display:none;"
+  onclick="selectExistingUser()">
+
+  Click here to Login for Existing User
+
+</button>
+
+<button
+  id="loginRegisterBtn"
+  class="loginBtn secondaryBtn"
+  style="display:none;"
+  onclick="selectNewUser()">
+
+  Click here to Register New User
+
+</button>
+
+<div class="notice">
 
       Your mobile number is used only for secure verification.
       Never share your OTP with anyone.
@@ -3302,47 +3322,85 @@ async function(){
 }
 
 
-/* New User registration: the number MUST NOT already be registered.
-   This prevents Firebase Phone Auth from signing the user into an
-   old customer account. */
-if(entryMode === "new"){
+/* ACCOUNT TYPE CHECK BEFORE OTP */
 
-  try{
+try{
 
-    const existingUser =
-      await checkExistingMobile(phone);
+  const existingUser =
+    await checkExistingMobile(phone);
 
-    if(existingUser){
+
+  /* EXISTING USER */
+
+  if(entryMode === "existing"){
+
+    if(!existingUser){
 
       setLoginMessage(
-        "This mobile number is already registered with RinSaathi. Please select Login for Existing User.",
+        "You are not registered with RinSaathi. Please Register New User.",
         "error"
       );
+
+      const registerBtn =
+        document.getElementById(
+          "loginRegisterBtn"
+        );
+
+      if(registerBtn){
+        registerBtn.style.display = "block";
+      }
 
       return;
 
     }
 
-  }catch(error){
+  }
 
-    console.error(
-      "NEW USER MOBILE CHECK ERROR:",
-      error
+
+  /* NEW USER */
+
+  if(entryMode === "new"){
+
+    if(existingUser){
+
+      setLoginMessage(
+        "You are already registered with RinSaathi. Please Login for Existing User.",
+        "error"
+      );
+
+      const loginBtn =
+        document.getElementById(
+          "loginExistingBtn"
+        );
+
+      if(loginBtn){
+        loginBtn.style.display = "block";
+      }
+
+      return;
+
+    }
+
+    localStorage.setItem(
+      "rinsaathiNewUserPhone",
+      "+91" + phone
     );
-
-    setLoginMessage(
-      "We could not verify this mobile number. Please try again.",
-      "error"
-    );
-
-    return;
 
   }
 
-  localStorage.setItem(
-    "rinsaathiNewUserPhone",
-    "+91" + phone
+}catch(error){
+
+  console.error(
+    "ACCOUNT TYPE CHECK ERROR:",
+    error
   );
+
+  setLoginMessage(
+    "We could not verify this mobile number. Please try again.",
+    "error"
+  );
+
+  return;
 
 }
 await trackAppEvent(
@@ -8661,10 +8719,54 @@ async function(){
   }
 
 
-  const existing =
-    await checkExistingMobile(
-      phone
-    );
+  /* If a New User is already authenticated,
+   allow the same verified mobile number.
+   Do not treat the user's own new account
+   as an old registered account. */
+
+if(auth.currentUser){
+
+  const formPhone =
+    String(phone || "")
+      .replace(/\D/g,"")
+      .slice(-10);
+
+  const authPhone =
+    String(
+      auth.currentUser.phoneNumber || ""
+    )
+      .replace(/\D/g,"")
+      .slice(-10);
+
+  if(
+    formPhone === authPhone
+  ){
+
+    warning.style.display =
+      "none";
+
+    if(inlineLogin){
+
+      inlineLogin.style.display =
+        "none";
+
+    }
+
+    if(whatsappButton){
+
+      whatsappButton.disabled =
+        false;
+
+      whatsappButton.style.opacity =
+        "1";
+
+    }
+
+    return;
+
+  }
+
+}
 
 
   if(existing){
@@ -9772,49 +9874,58 @@ if(
     "Free Consultation"
   ){
 
+  /* NEW USER FORM SECURITY CHECK */
+
+if(entryMode === "new"){
+
+  const formPhone =
+    document.getElementById(
+      "phone"
+    )?.value.trim();
+
+  const authPhone =
+    auth.currentUser?.phoneNumber || "";
+
+  const normalizedFormPhone =
+    String(formPhone || "")
+      .replace(/\D/g,"")
+      .slice(-10);
+
+  const normalizedAuthPhone =
+    String(authPhone || "")
+      .replace(/\D/g,"")
+      .slice(-10);
+
+
   if(
-    entryMode === "new"
+    !/^[6-9]\d{9}$/.test(
+      normalizedFormPhone
+    )
   ){
 
-    const phone =
-      document.getElementById(
-        "phone"
-      )?.value.trim();
+    alert(
+      "Please enter a valid 10-digit Indian mobile number."
+    );
 
-    if(
-      /^[6-9]\d{9}$/.test(phone)
-    ){
-
-      const existing =
-        await checkExistingMobile(
-          phone
-        );
-
-      if(existing){
-
-        const warning =
-          document.getElementById(
-            "existingUserWarning"
-          );
-
-        if(warning){
-
-          warning.style.display =
-            "block";
-
-        }
-
-        alert(
-          "You are already registered with RinSaathi. Please Login to continue."
-        );
-
-        return;
-
-      }
-
-    }
+    return;
 
   }
+
+
+  if(
+    normalizedFormPhone !==
+    normalizedAuthPhone
+  ){
+
+    alert(
+      "Please use the same mobile number that you used to register this New User account."
+    );
+
+    return;
+
+  }
+
+}
   
     if(!auth.currentUser){
 
