@@ -3268,8 +3268,25 @@ async function(){
 
   if(!/^[6-9]\d{9}$/.test(phone)){
 
+  setLoginMessage(
+    "Please enter a valid 10-digit Indian mobile number.",
+    "error"
+  );
+
+  return;
+
+}
+
+/* Existing User login: the number MUST already be registered. */
+if(entryMode === "existing"){
+
+  const existingUser =
+    await checkExistingMobile(phone);
+
+  if(!existingUser){
+
     setLoginMessage(
-      "Please enter a valid 10-digit Indian mobile number.",
+      "This mobile number is not registered with RinSaathi. Please select Register New User.",
       "error"
     );
 
@@ -3277,11 +3294,39 @@ async function(){
 
   }
 
-  await trackAppEvent(
-  "login_attempt",
-  {
-    phone: "+91" + phone
+}
+
+/* New User registration: the number MUST NOT already be registered.
+   This prevents Firebase Phone Auth from signing the user into an
+   old customer account. */
+if(entryMode === "new"){
+
+  const existingUser =
+    await checkExistingMobile(phone);
+
+  if(existingUser){
+
+    setLoginMessage(
+      "This mobile number is already registered with RinSaathi. Please select Login for Existing User.",
+      "error"
+    );
+
+    return;
+
   }
+
+  localStorage.setItem(
+    "rinsaathiNewUserPhone",
+    "+91" + phone
+  );
+
+}
+
+await trackAppEvent(
+"login_attempt",
+{
+  phone: "+91" + phone
+}
 );
   
   try{
@@ -3522,10 +3567,14 @@ if(entryMode === "existing"){
 
 }
 
-    await trackAppEvent(
-  "login_success"
+    localStorage.setItem(
+  "rinsaathiEntryMode",
+  entryMode === "new" ? "new" : "existing"
 );
-    
+
+await trackAppEvent(
+  "login_success"
+);    
     setLoginMessage(
       "Login successful!",
       "success"
@@ -3620,7 +3669,11 @@ async function(){
 
   setLoginMessage("");
 
-  await createRecaptcha();
+if(recaptchaVerifier){
+  try{ recaptchaVerifier.clear(); }catch(e){}
+  recaptchaVerifier = null;
+  recaptchaWidgetId = null;
+}
 
 };
 
@@ -4684,7 +4737,8 @@ async function registerLoggedInUser(user){
 }
 
 
-let entryMode = "";
+let entryMode =
+  localStorage.getItem("rinsaathiEntryMode") || "";
   
 /* AUTH STATE */
 
@@ -4707,6 +4761,22 @@ const entryChoiceScreen =
     "entryChoiceScreen"
   );
 
+/* Restore the correct entry flow after refresh.
+
+   A saved Existing User session reopens the main app; a saved New User
+
+   flow is accepted only when its explicitly verified phone matches. */
+
+if(!entryMode && user){
+
+  entryMode = "existing";
+
+  localStorage.setItem("rinsaathiEntryMode", "existing");
+
+  localStorage.removeItem("rinsaathiNewUserPhone");
+
+}
+
 if(!entryMode){
 
   entryChoiceScreen.style.display =
@@ -4722,7 +4792,27 @@ if(!entryMode){
 
 }
 
-if(user){
+/* Hard safety guard for New User:
+   only the mobile number explicitly verified through the New User
+   OTP flow may continue as a New User. */
+if(user && entryMode === "new"){
+
+  const expectedNewPhone =
+    localStorage.getItem("rinsaathiNewUserPhone") || "";
+
+  if(
+    !expectedNewPhone ||
+    user.phoneNumber !== expectedNewPhone
+  ){
+
+    await signOut(auth);
+    return;
+
+  }
+
+}
+    
+  if(user){
 
   localStorage.setItem(
 
@@ -4737,6 +4827,21 @@ if(user){
   const userSnap =
     await getDoc(userRef);
 
+  /* Existing User sessions must have a corresponding RinSaathi
+   customer record. New User registration creates this record below. */
+if(
+  entryMode === "existing" &&
+  !userSnap.exists()
+){
+
+  localStorage.removeItem("rinsaathiEntryMode");
+  localStorage.removeItem("rinsaathiExistingUser");
+  localStorage.removeItem("rinsaathiNewUserPhone");
+  await signOut(auth);
+  return;
+
+}
+    
   if(
     userSnap.exists() &&
     userSnap.data()?.blocked === true
@@ -4759,6 +4864,9 @@ if(user){
 
   if(entryMode === "new"){
 
+  /* This is a genuine New User OTP flow. Create/merge the user
+     registry record, then continue the existing pending-consultation
+     flow below. */
   await registerLoggedInUser(user);
 
 }
@@ -4921,16 +5029,27 @@ updateAdvisoryHomeStatus();
 
 }else{
 
-      loginScreen.style.display =
-  "none";
+  /* Existing User login without an authenticated user stays
+     on the login screen, including after refresh. */
+  if(entryMode === "existing"){
 
-mainApp.style.display =
-  "block";
+    loginScreen.style.display = "flex";
+    mainApp.style.display = "none";
+    entryChoiceScreen.style.display = "none";
+    return;
 
-entryChoiceScreen.style.display =
-  "none";
-      
-      if(!localStorage.getItem("rinsaathiVisitorTracked")){
+  }
+
+  loginScreen.style.display =
+    "none";
+
+  mainApp.style.display =
+    "block";
+
+  entryChoiceScreen.style.display =
+    "none";
+
+  if(!localStorage.getItem("rinsaathiVisitorTracked")){
 
         await trackAppEvent(
           "app_visitor"
@@ -4971,7 +5090,17 @@ entryChoiceScreen.style.display =
 window.selectExistingUser =
 async function(){
 
+  /* Never carry a previous authenticated session into a new login. */
+  if(auth.currentUser){
+
+    entryMode = "";
+    localStorage.removeItem("rinsaathiEntryMode");
+    await signOut(auth);
+
+  }
+
   entryMode = "existing";
+  localStorage.setItem("rinsaathiEntryMode", "existing");
 
   const entryChoiceScreen =
     document.getElementById(
@@ -5009,7 +5138,12 @@ async function(){
 
   setLoginMessage("");
 
-  await createRecaptcha();
+/* Create reCAPTCHA only when Send OTP is pressed. */
+if(recaptchaVerifier){
+  try{ recaptchaVerifier.clear(); }catch(e){}
+  recaptchaVerifier = null;
+  recaptchaWidgetId = null;
+}
 
 };
 
@@ -5034,7 +5168,9 @@ async function(){
     "rinsaathiExistingUser"
   );
 
-  entryMode = "new";
+ entryMode = "new";
+localStorage.setItem("rinsaathiEntryMode", "new");
+localStorage.removeItem("rinsaathiNewUserPhone");
 
   const entryChoiceScreen =
     document.getElementById(
@@ -5081,9 +5217,13 @@ async function(){
 
   try{
 
-    await signOut(auth);
+  localStorage.removeItem("rinsaathiEntryMode");
+  localStorage.removeItem("rinsaathiExistingUser");
+  localStorage.removeItem("rinsaathiNewUserPhone");
 
-    location.reload();
+  await signOut(auth);
+
+  location.reload();
 
   }catch(error){
 
