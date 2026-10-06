@@ -4037,12 +4037,29 @@ async function checkFreeConsultationStatus(){
 
   if(!user){
 
-    return;
+  return;
 
-  }
+}
+
+if(entryMode === "new"){
+
+  freeConsultationUsed =
+    false;
 
   consultationStatusChecked =
+    true;
+
+  consultationPaid =
     false;
+
+  updateConsultationUI();
+
+  return;
+
+}
+
+consultationStatusChecked =
+  false;
 
   const title =
     document.getElementById(
