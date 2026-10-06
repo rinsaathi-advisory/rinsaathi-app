@@ -3013,7 +3013,10 @@ function setLoginMessage(message,type=""){
 async function checkExistingMobile(phone){
 
   const normalizedPhone =
-    String(phone || "").trim();
+    String(phone || "")
+      .trim()
+      .replace(/\D/g,"")
+      .slice(-10);
 
   if(
     !/^[6-9]\d{9}$/.test(
@@ -3027,26 +3030,43 @@ async function checkExistingMobile(phone){
 
   try{
 
-    const usersQuery =
-      query(
-        collection(
-          db,
-          "users"
-        ),
-        where(
-          "phone",
-          "==",
-          "+91" + normalizedPhone
-        ),
-        limit(1)
-      );
+    const phoneFormats = [
+      "+91" + normalizedPhone,
+      normalizedPhone
+    ];
 
-    const snapshot =
-      await getDocs(
-        usersQuery
-      );
+    for(
+      const phoneValue of phoneFormats
+    ){
 
-    return !snapshot.empty;
+      const usersQuery =
+        query(
+          collection(
+            db,
+            "users"
+          ),
+          where(
+            "phone",
+            "==",
+            phoneValue
+          ),
+          limit(1)
+        );
+
+      const snapshot =
+        await getDocs(
+          usersQuery
+        );
+
+      if(!snapshot.empty){
+
+        return true;
+
+      }
+
+    }
+
+    return false;
 
   }catch(error){
 
@@ -3055,7 +3075,11 @@ async function checkExistingMobile(phone){
       error
     );
 
-    return false;
+    /* FAIL CLOSED:
+       Never allow New User registration
+       when the existing-user check fails. */
+
+    throw error;
 
   }
 
@@ -3277,37 +3301,37 @@ async function(){
 
 }
 
-/* Existing User login: the number MUST already be registered. */
-if(entryMode === "existing"){
-
-  const existingUser =
-    await checkExistingMobile(phone);
-
-  if(!existingUser){
-
-    setLoginMessage(
-      "This mobile number is not registered with RinSaathi. Please select Register New User.",
-      "error"
-    );
-
-    return;
-
-  }
-
-}
 
 /* New User registration: the number MUST NOT already be registered.
    This prevents Firebase Phone Auth from signing the user into an
    old customer account. */
 if(entryMode === "new"){
 
-  const existingUser =
-    await checkExistingMobile(phone);
+  try{
 
-  if(existingUser){
+    const existingUser =
+      await checkExistingMobile(phone);
+
+    if(existingUser){
+
+      setLoginMessage(
+        "This mobile number is already registered with RinSaathi. Please select Login for Existing User.",
+        "error"
+      );
+
+      return;
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "NEW USER MOBILE CHECK ERROR:",
+      error
+    );
 
     setLoginMessage(
-      "This mobile number is already registered with RinSaathi. Please select Login for Existing User.",
+      "We could not verify this mobile number. Please try again.",
       "error"
     );
 
@@ -3321,7 +3345,6 @@ if(entryMode === "new"){
   );
 
 }
-
 await trackAppEvent(
 "login_attempt",
 {
@@ -3541,17 +3564,23 @@ async function(){
 const loggedInUser =
   result.user;
 
+/* FINAL ACCOUNT TYPE CHECK */
+
+const userRef =
+  doc(
+    db,
+    "users",
+    loggedInUser.uid
+  );
+
+const userSnap =
+  await getDoc(userRef);
+
+
+/* EXISTING USER:
+   Account record MUST already exist. */
+
 if(entryMode === "existing"){
-
-  const userRef =
-    doc(
-      db,
-      "users",
-      loggedInUser.uid
-    );
-
-  const userSnap =
-    await getDoc(userRef);
 
   if(!userSnap.exists()){
 
@@ -3563,6 +3592,28 @@ if(entryMode === "existing"){
     );
 
     return;
+
+  }
+
+}
+
+
+/* NEW USER:
+   Account record MUST NOT already exist. */
+
+if(entryMode === "new"){
+
+  if(userSnap.exists()){
+
+    await signOut(auth);
+
+    setLoginMessage(
+      "This mobile number is already registered with RinSaathi. Please select Login for Existing User.",
+      "error"
+    );
+
+    return;
+
   }
 
 }
@@ -4787,12 +4838,11 @@ if(!user){
 
 }
 
-entryMode = "existing";
+if(!entryMode){
 
-localStorage.setItem(
-  "rinsaathiEntryMode",
-  "existing"
-);
+  entryMode = "existing";
+
+}
     
   if(user){
 
@@ -4811,15 +4861,66 @@ localStorage.setItem(
 
   /* Existing User sessions must have a corresponding RinSaathi
    customer record. New User registration creates this record below. */
+/* EXISTING USER:
+   Firebase user MUST already have a RinSaathi record. */
+
 if(
   entryMode === "existing" &&
   !userSnap.exists()
 ){
 
-  localStorage.removeItem("rinsaathiEntryMode");
-  localStorage.removeItem("rinsaathiExistingUser");
-  localStorage.removeItem("rinsaathiNewUserPhone");
+  localStorage.removeItem(
+    "rinsaathiEntryMode"
+  );
+
+  localStorage.removeItem(
+    "rinsaathiExistingUser"
+  );
+
+  localStorage.removeItem(
+    "rinsaathiNewUserPhone"
+  );
+
   await signOut(auth);
+
+  setLoginMessage(
+    "This mobile number is not registered with RinSaathi. Please select Register New User.",
+    "error"
+  );
+
+  return;
+
+}
+
+
+/* NEW USER:
+   Firebase user MUST NOT already have a RinSaathi record.
+   This prevents an old customer account from being reused. */
+
+if(
+  entryMode === "new" &&
+  userSnap.exists()
+){
+
+  localStorage.removeItem(
+    "rinsaathiEntryMode"
+  );
+
+  localStorage.removeItem(
+    "rinsaathiExistingUser"
+  );
+
+  localStorage.removeItem(
+    "rinsaathiNewUserPhone"
+  );
+
+  await signOut(auth);
+
+  setLoginMessage(
+    "This mobile number is already registered with RinSaathi. Please select Login for Existing User.",
+    "error"
+  );
+
   return;
 
 }
@@ -5107,12 +5208,20 @@ async function(){
 
   setLoginMessage("");
 
-/* Create reCAPTCHA only when Send OTP is pressed. */
+/* Show reCAPTCHA immediately for Existing User login. */
+
 if(recaptchaVerifier){
-  try{ recaptchaVerifier.clear(); }catch(e){}
+
+  try{
+    recaptchaVerifier.clear();
+  }catch(e){}
+
   recaptchaVerifier = null;
   recaptchaWidgetId = null;
+
 }
+
+await createRecaptcha();
 
 };
 
@@ -5183,6 +5292,21 @@ localStorage.removeItem(
 
   updateConsultationUI();
 
+  /* Show reCAPTCHA immediately for New User */
+
+if(recaptchaVerifier){
+
+  try{
+    recaptchaVerifier.clear();
+  }catch(e){}
+
+  recaptchaVerifier = null;
+  recaptchaWidgetId = null;
+
+}
+
+await createRecaptcha();
+  
 };
 
   
