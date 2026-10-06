@@ -35,6 +35,17 @@ body{
   background:#fff;
 }
 
+/* ENTRY CHOICE */
+
+#entryChoiceScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:linear-gradient(145deg,#063f32,#0b5b48);
+}
+  
 /* LOGIN */
 
 #loginScreen{
@@ -685,6 +696,43 @@ body{
 
 <body>
 
+<div id="entryChoiceScreen">
+
+  <div class="loginBox">
+
+    <img
+      class="loginLogo"
+      src="./logo.png"
+      alt="RinSaathi Advisory Services">
+
+    <div class="loginTitle">
+      Welcome to RinSaathi
+    </div>
+
+    <div class="loginSub">
+      Please select how you want to continue
+    </div>
+
+    <button
+      class="loginBtn"
+      onclick="selectExistingUser()">
+
+      Login for Existing User
+
+    </button>
+
+    <button
+      class="loginBtn secondaryBtn"
+      onclick="selectNewUser()">
+
+      Register New User
+
+    </button>
+
+  </div>
+
+</div>
+  
 <div id="loginScreen">
 
   <div class="loginBox">
@@ -3382,9 +3430,39 @@ async function(){
       "Verifying OTP..."
     );
 
-    await confirmationResult.confirm(
-      otp
+    const result =
+  await confirmationResult.confirm(
+    otp
+  );
+
+const loggedInUser =
+  result.user;
+
+if(entryMode === "existing"){
+
+  const userRef =
+    doc(
+      db,
+      "users",
+      loggedInUser.uid
     );
+
+  const userSnap =
+    await getDoc(userRef);
+
+  if(!userSnap.exists()){
+
+    await signOut(auth);
+
+    setLoginMessage(
+      "This mobile number is not registered with RinSaathi. Please select Register New User.",
+      "error"
+    );
+
+    return;
+  }
+
+}
 
     await trackAppEvent(
   "login_success"
@@ -4531,6 +4609,8 @@ async function registerLoggedInUser(user){
 }
 
 
+let entryMode = "";
+  
 /* AUTH STATE */
 
 onAuthStateChanged(
@@ -4538,16 +4618,36 @@ onAuthStateChanged(
   async function(user){
 
     const loginScreen =
-      document.getElementById(
-        "loginScreen"
-      );
+  document.getElementById(
+    "loginScreen"
+  );
 
-    const mainApp =
-      document.getElementById(
-        "mainApp"
-      );
+const mainApp =
+  document.getElementById(
+    "mainApp"
+  );
 
-    if(user){
+const entryChoiceScreen =
+  document.getElementById(
+    "entryChoiceScreen"
+  );
+
+if(!entryMode){
+
+  entryChoiceScreen.style.display =
+    "flex";
+
+  loginScreen.style.display =
+    "none";
+
+  mainApp.style.display =
+    "none";
+
+  return;
+
+}
+
+if(user){
 
   localStorage.setItem(
 
@@ -4582,7 +4682,11 @@ onAuthStateChanged(
   mainApp.style.display =
     "block";
 
+  if(entryMode === "new"){
+
   await registerLoggedInUser(user);
+
+}
 
   loadAccountMode(user);
   updateAccountModeUI(user);
@@ -4801,6 +4905,86 @@ updateAdvisoryHomeStatus();
 );
 
 
+/* ENTRY SCREEN */
+
+window.selectExistingUser =
+async function(){
+
+  entryMode = "existing";
+
+  const entryChoiceScreen =
+    document.getElementById(
+      "entryChoiceScreen"
+    );
+
+  const loginScreen =
+    document.getElementById(
+      "loginScreen"
+    );
+
+  const mainApp =
+    document.getElementById(
+      "mainApp"
+    );
+
+  entryChoiceScreen.style.display =
+    "none";
+
+  mainApp.style.display =
+    "none";
+
+  loginScreen.style.display =
+    "flex";
+
+  document.getElementById(
+    "phoneSection"
+  ).style.display =
+    "block";
+
+  document.getElementById(
+    "otpSection"
+  ).style.display =
+    "none";
+
+  setLoginMessage("");
+
+  await createRecaptcha();
+
+};
+
+
+window.selectNewUser =
+async function(){
+
+  entryMode = "new";
+
+  const entryChoiceScreen =
+    document.getElementById(
+      "entryChoiceScreen"
+    );
+
+  const loginScreen =
+    document.getElementById(
+      "loginScreen"
+    );
+
+  const mainApp =
+    document.getElementById(
+      "mainApp"
+    );
+
+  entryChoiceScreen.style.display =
+    "none";
+
+  loginScreen.style.display =
+    "none";
+
+  mainApp.style.display =
+    "block";
+
+};
+
+  
 /* LOGOUT */
 
 window.logoutUser =
