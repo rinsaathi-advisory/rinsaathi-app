@@ -1744,6 +1744,11 @@ const verifyCashfreePayment =
     "verifyCashfreePayment"
   );
 
+  const checkMobileRegistrationCallable =
+  httpsCallable(
+    functions,
+    "checkMobileRegistration"
+  );
 
   /* FACTORY DATA RESET */
 
@@ -3027,10 +3032,9 @@ function setLoginMessage(message,type=""){
 
 }
 
+/* SECURE MOBILE REGISTRATION CHECK */
 
-/* CHECK EXISTING MOBILE FOR NEW USER */
-
-async function checkExistingMobile(phone){
+async function checkMobileRegistration(phone){
 
   const normalizedPhone =
     String(phone || "")
@@ -3050,61 +3054,30 @@ async function checkExistingMobile(phone){
 
   try{
 
-    const phoneFormats = [
-      "+91" + normalizedPhone,
-      normalizedPhone
-    ];
+    const result =
+      await checkMobileRegistrationCallable({
 
-    for(
-      const phoneValue of phoneFormats
-    ){
+        phone:
+          "+91" + normalizedPhone
 
-      const usersQuery =
-        query(
-          collection(
-            db,
-            "users"
-          ),
-          where(
-            "phone",
-            "==",
-            phoneValue
-          ),
-          limit(1)
-        );
+      });
 
-      const snapshot =
-        await getDocs(
-          usersQuery
-        );
-
-      if(!snapshot.empty){
-
-        return true;
-
-      }
-
-    }
-
-    return false;
+    return (
+      result?.data?.registered === true
+    );
 
   }catch(error){
 
     console.error(
-      "EXISTING MOBILE CHECK ERROR:",
+      "SECURE MOBILE CHECK ERROR:",
       error
     );
-
-    /* FAIL CLOSED:
-       Never allow New User registration
-       when the existing-user check fails. */
 
     throw error;
 
   }
 
 }
-
   
 /* RECAPTCHA */
 
@@ -3327,7 +3300,7 @@ async function(){
 try{
 
   const existingUser =
-    await checkExistingMobile(phone);
+  await checkMobileRegistration(phone);
 
 
   /* EXISTING USER */
